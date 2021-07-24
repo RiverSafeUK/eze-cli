@@ -1,0 +1,107 @@
+short_description:
+======================
+quality gate check reporter
+
+config_help:
+======================
+[quality]
+# VULNERABILITY_COUNT_THRESHOLD int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity exceeding VULNERABILITY_SEVERITY_THRESHOLD exceeds VULNERABILITY_COUNT_THRESHOLD
+# 
+VULNERABILITY_COUNT_THRESHOLD = ...
+
+
+# VULNERABILITY_SEVERITY_THRESHOLD str [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity exceeding VULNERABILITY_SEVERITY_THRESHOLD exceeds VULNERABILITY_COUNT_THRESHOLD
+# default value: 
+#   VULNERABILITY_SEVERITY_THRESHOLD = "medium"
+# 
+VULNERABILITY_SEVERITY_THRESHOLD = "..."
+
+
+# VULNERABILITY_CRITICAL_SEVERITY_LIMIT int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity CRITICAL exceeds VULNERABILITY_CRITICAL_SEVERITY_LIMIT
+# 
+VULNERABILITY_CRITICAL_SEVERITY_LIMIT = ...
+
+
+# VULNERABILITY_HIGH_SEVERITY_LIMIT int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity HIGH exceeds VULNERABILITY_HIGH_SEVERITY_LIMIT
+# 
+VULNERABILITY_HIGH_SEVERITY_LIMIT = ...
+
+
+# VULNERABILITY_MEDIUM_SEVERITY_LIMIT int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity MEDIUM exceeds VULNERABILITY_MEDIUM_SEVERITY_LIMIT
+# 
+VULNERABILITY_MEDIUM_SEVERITY_LIMIT = ...
+
+
+# VULNERABILITY_LOW_SEVERITY_LIMIT int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity LOW exceeds VULNERABILITY_LOW_SEVERITY_LIMIT
+# 
+VULNERABILITY_LOW_SEVERITY_LIMIT = ...
+
+
+# VULNERABILITY_NONE_SEVERITY_LIMIT int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity NONE exceeds VULNERABILITY_NONE_SEVERITY_LIMIT
+# 
+VULNERABILITY_NONE_SEVERITY_LIMIT = ...
+
+
+# VULNERABILITY_NA_SEVERITY_LIMIT int [OPTIONAL]
+# Eze exit when total number of vulnerabilities in all tools
+# of severity NA exceeds VULNERABILITY_NA_SEVERITY_LIMIT
+# 
+VULNERABILITY_NA_SEVERITY_LIMIT = ...
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+Note: this reporter is used to "threshold" the results, and throw a Application error
+when a said threshold is exceeded (aka ala unit test suite)
+
+This reporter is extremely versatile and designed to allow developers to set custom
+threshold to match their environment needs
+
+#
+# Use case 1
+# =====================
+# Will exit when total number of vulnerabilities in all tools over VULNERABILITY_SEVERITY_THRESHOLD exceeds VULNERABILITY_COUNT_THRESHOLD
+
+# [Optional] defaults to 0
+VULNERABILITY_COUNT_THRESHOLD = 0
+
+# [Optional] defaults to "medium"
+VULNERABILITY_SEVERITY_THRESHOLD = "xxx"
+
+#
+# Use case 2
+# =====================
+# Set Explicit limits for each type of vulnerability
+
+# [Optional] Will when errors of type over limit, not set by default
+VULNERABILITY_CRITICAL_SEVERITY_LIMIT = xxx
+VULNERABILITY_HIGH_SEVERITY_LIMIT = xxx
+VULNERABILITY_MEDIUM_SEVERITY_LIMIT = xxx
+VULNERABILITY_LOW_SEVERITY_LIMIT = xxx
+VULNERABILITY_NONE_SEVERITY_LIMIT = xxx
+VULNERABILITY_NA_SEVERITY_LIMIT = xxx
+

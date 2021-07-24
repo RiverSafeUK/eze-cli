@@ -1,0 +1,13 @@
+{
+  "name": "eze-node-goat",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Eze Node Goat",
+  "main": "src/main.js",
+  "dependencies": {
+    "helmet": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}

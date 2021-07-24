@@ -1,0 +1,9 @@
+Iam = "json"
+someInt = 1
+someArray = []
+
+[someObject]
+helloworld = 1
+
+[someObject.nested]
+helloworld_nested = 1

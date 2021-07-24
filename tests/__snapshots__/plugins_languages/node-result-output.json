@@ -1,0 +1,42 @@
+
+[node]
+# Node codebase
+tools = ['semgrep', 'trufflehog', 'node-npmaudit', 'node-npmoutdated', 'node-cyclonedx']
+    [node.semgrep]
+    REPORT_FILE = "reports/semgrep-node-report.json"
+    PRINT_TIMING_INFO = true
+    CONFIGS = [
+        "p/ci",
+        "r/node",
+        "p/node",
+    ]
+    EXCLUDE = [
+        "tests"
+    ]
+    [node.trufflehog]
+    REPORT_FILE = "reports/truffleHog-node-report.json"
+    SOURCE = "."
+    IGNORED_FILES = [
+        "node_modules/",
+        "target/",
+        "build/",
+        "dist/",
+        ".gradle",
+        ".aws",
+        ".idea",
+        ".pytest_cache"
+    ]
+    [node.node-npmaudit]
+    REPORT_FILE = "reports/npmaudit-node-report.json"
+    
+    [node.node-npmoutdated]
+    REPORT_FILE = "reports/npmoutdated-node-report.json"
+    
+    [node.node-cyclonedx]
+    REPORT_FILE = "reports/cyclonedx-node-bom.json"
+
+
+========
+
+node will require "npm install" ran before running security tools,
+tools are expecting package.json at root level

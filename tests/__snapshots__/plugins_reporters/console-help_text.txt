@@ -1,0 +1,34 @@
+short_description:
+======================
+standard command line reporter
+
+config_help:
+======================
+[console]
+# PRINT_SUMMARY_ONLY bool [OPTIONAL]
+# Whether or not to only print the summary (not bom or vulnerabilities)
+# defaults to false
+# 
+PRINT_SUMMARY_ONLY = true / false
+
+
+# PRINT_IGNORED bool [OPTIONAL]
+# Whether or not to print out ignored vulnerablities
+# defaults to false
+# 
+PRINT_IGNORED = true / false
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+inbuilt

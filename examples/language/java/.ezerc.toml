@@ -1,0 +1,54 @@
+ # ========================================
+# EXAMPLE JAVA TOOL CONFIG
+# ========================================
+
+[semgrep]
+PRINT_TIMING_INFO = true
+REPORT_FILE = "../reports/java/semgrep-report.json"
+CONFIGS = [
+    "p/ci",
+    "r/java",
+    "p/java",
+]
+
+[trufflehog]
+SOURCE = "."
+EXCLUDE = [
+]
+INCLUDE_FULL_REASON = true
+REPORT_FILE = "../reports/java/trufflehog-report.json"
+
+[trufflehog.ci]
+INCLUDE_FULL_REASON = false
+
+[java-cyclonedx]
+REPORT_FILE = "../reports/java/java-cyclonedx-bom.json"
+
+[java-dependencycheck]
+REPORT_FILE = "../reports/java/java-dependencycheck.json"
+
+[java-spotbugs]
+INCLUDE_FULL_REASON = true
+REPORT_FILE = "../reports/java/java-spotbugs.json"
+
+# ========================================
+# REPORT CONFIG
+# ========================================
+[bom]
+REPORT_FILE = "../reports/java/report-spdx-sbom.json"
+
+[console]
+PRINT_SUMMARY_ONLY = true
+
+[json]
+REPORT_FILE = "../reports/java/eze_report.json"
+
+# ========================================
+# SCAN CONFIG
+# ========================================
+[scan]
+tools = ["trufflehog", "java-cyclonedx", "java-dependencycheck", "java-spotbugs"]
+reporters = ["json", "console", "bom"]
+
+[scan.linux]
+tools = ["semgrep", "java-cyclonedx", "trufflehog"]

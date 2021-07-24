@@ -1,0 +1,12 @@
+Usage: tools [OPTIONS] COMMAND [ARGS]...
+
+  container for tool commands
+
+Options:
+  --debug / --no-debug  Enables or disables debug mode
+  --help                Show this message and exit.
+
+Commands:
+  help  List the help for a given tool
+  list  List the available tools
+  run   Manually run a given tool

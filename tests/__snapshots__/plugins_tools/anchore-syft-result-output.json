@@ -1,0 +1,42 @@
+{
+  "bom": {
+    "bomFormat": "CycloneDX",
+    "components": [
+      {
+        "licenses": [],
+        "name": "adduser",
+        "purl": "pkg:deb/debian/adduser@3.118?arch=all",
+        "type": "library",
+        "version": "3.118"
+      }
+    ],
+    "metadata": {
+      "component": {
+        "components": [],
+        "externalReferences": [],
+        "hashes": [],
+        "licenses": [],
+        "name": "python:3.8-slim",
+        "type": "container",
+        "version": "sha256:0ffccea3f91806abb0a76eced3da5db52f77fd52aa926a3abd1a6bd275ec334c"
+      },
+      "timestamp": "2021-06-11T08:18:43Z",
+      "tools": [
+        {
+          "hashes": [],
+          "name": "syft",
+          "vendor": "anchore",
+          "version": "0.17.0"
+        }
+      ]
+    },
+    "serialNumber": "urn:uuid:71572cf7-578a-48b4-a490-982c4d1a2034",
+    "specVersion": "1.3",
+    "version": 1
+  },
+  "run_details": {},
+  "summary": {},
+  "tool": "anchore-syft",
+  "vulnerabilities": [],
+  "warnings": []
+}

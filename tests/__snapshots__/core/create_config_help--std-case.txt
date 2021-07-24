@@ -1,0 +1,41 @@
+[mctool/jimmy-the-plugin]
+# SOME_KEY str [OPTIONAL]
+# 
+SOME_KEY = "..."
+
+
+# SOME_LIST list [OPTIONAL]
+# 
+SOME_LIST = ["..."]
+
+
+# SOME_DICT dict [OPTIONAL]
+# 
+SOME_DICT = ...
+
+
+# SOME_MISSING_KEY str [OPTIONAL]
+# default value: 
+#   SOME_MISSING_KEY = "DEFAULT IF MISSING"
+# 
+SOME_MISSING_KEY = "..."
+
+
+# HELP_TEST str [OPTIONAL]
+# some misc help text
+# 
+HELP_TEST = "..."
+
+
+# HELP_EXAMPLE str [OPTIONAL]
+# 
+HELP_EXAMPLE = "some-value"
+
+# HELP_EXAMPLE_BOOL bool [OPTIONAL]
+# 
+HELP_EXAMPLE_BOOL = true
+
+# HELP_EXAMPLE_LIST list [OPTIONAL]
+# 
+HELP_EXAMPLE_LIST = ["something"]
+

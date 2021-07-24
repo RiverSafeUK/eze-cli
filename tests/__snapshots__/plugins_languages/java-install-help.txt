@@ -1,0 +1,10 @@
+Java Runner
+=================================
+Scan maven pom for sbom and sca analysis
+and running secret and semgrep sast on raw Java files
+lastly generate SBOM using cyclonedx
+
+Tips and Tricks
+=================================
+requires "mvn install" ran before running maven tools,
+tools are expecting pom.xml at root level

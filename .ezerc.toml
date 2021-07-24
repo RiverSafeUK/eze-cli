@@ -1,0 +1,94 @@
+# ========================================
+# TOOL CONFIG
+# ========================================
+[python-bandit]
+SOURCE = "eze"
+REPORT_FILE = "reports/bandit-report.json"
+
+[python-piprot]
+REQUIREMENTS_FILES = [
+    "requirements.txt",
+    "requirements-dev.txt"
+]
+NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
+NEWER_MINOR_SEMVERSION_SEVERITY = "none"
+NEWER_PATCH_SEMVERSION_SEVERITY = "none"
+IGNORE_BELOW_SEVERITY = "low"
+REPORT_FILE = "reports/piprot-report.json"
+
+[python-safety]
+REQUIREMENTS_FILES = [
+    "requirements.txt",
+    "requirements-dev.txt"
+]
+IGNORE_BELOW_SEVERITY = "medium"
+REPORT_FILE = "reports/safety-report.json"
+
+[semgrep]
+PRINT_TIMING_INFO = true
+EXCLUDE = [
+    "tests",
+    "tests-integration"
+]
+
+[semgrep.python]
+REPORT_FILE = "reports/semgrep-python-report.json"
+CONFIGS = [
+    "p/ci",
+    "p/python"
+]
+[semgrep.python_slow]
+REPORT_FILE = "reports/semgrep-python-full-report.json"
+CONFIGS = [
+    "p/ci",
+    "p/python",
+    "r/python"
+]
+
+[trufflehog]
+SOURCE = "eze/ tests/"
+IGNORED_FILES = [
+    "__fixtures__/",
+    "__snapshots__/"
+]
+REPORT_FILE = "reports/truffleHog-report.json"
+
+[trufflehog.ci]
+INCLUDE_FULL_REASON = false
+
+[python-cyclonedx]
+REPORT_FILE = "reports/cyclonedx-bom.json"
+REQUIREMENTS_FILE = "requirements.txt"
+
+
+[semgrep.docker]
+SOURCE = "Dockerfile"
+CONFIGS = [
+    "p/dockerfile",
+    "r/dockerfile"
+]
+REPORT_FILE = "reports/semgrep-docker-report.json"
+
+
+
+# ========================================
+# REPORT CONFIG
+# ========================================
+[eze]
+CONSOLE_ENDPOINT = "https://lff3adj48f.execute-api.eu-west-2.amazonaws.com/staging"
+CODEBASE_ID = "5b5b342f-f120-4dae-b5cb-7be99c7ecbf6"
+
+# ========================================
+# SCAN CONFIG
+# ========================================
+[scan]
+tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "trufflehog"]
+reporters = ["json", "console"]
+
+[scan.linux]
+tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog"]
+reporters = ["json", "console"]
+
+[scan.ci]
+tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog:ci"]
+reporters = ["console", "json", "eze"]

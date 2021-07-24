@@ -1,0 +1,29 @@
+short_description:
+======================
+json dx bill of materials reporter
+
+config_help:
+======================
+[bom]
+# REPORT_FILE str [OPTIONAL]
+# report file location
+# By default set to eze_bom.json
+# default value: 
+#   REPORT_FILE = "eze_bom.json"
+# 
+REPORT_FILE = "..."
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+

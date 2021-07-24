@@ -1,0 +1,130 @@
+{
+  "bomFormat" : "CycloneDX",
+  "specVersion" : "1.3",
+  "serialNumber" : "urn:uuid:4d8d0f98-d500-4427-b956-57f2e8a5b42c",
+  "version" : 1,
+  "metadata" : {
+    "timestamp" : "2021-06-23T09:46:13Z",
+    "tools" : [
+      {
+        "vendor" : "CycloneDX",
+        "name" : "CycloneDX Maven plugin",
+        "version" : "2.5.1",
+        "hashes" : [
+          {
+            "alg" : "MD5",
+            "content" : "1a5528adfeb75e1fef6264a90a0de94b"
+          },
+          {
+            "alg" : "SHA-1",
+            "content" : "bcbf4d76880f8b7b9008bd08fb72454e7f666957"
+          },
+          {
+            "alg" : "SHA-256",
+            "content" : "42fc254f37585624de9ed2dd9e1701d44e34cb5856433075afc851f4ae37857e"
+          },
+          {
+            "alg" : "SHA-384",
+            "content" : "6dc2adf4e002def6c49f1593f3d490c8ef5de6df77b390f0177ee84637fa9263e6948c0bb8daaef6f352a2f5f06714b6"
+          },
+          {
+            "alg" : "SHA-512",
+            "content" : "d456791aeac58ab6ec7e28312d0f57c7307cfd63542358e63a145260b82d60ce5a17a950a5808563f0f72d95e431ac83eb14fd245ad9b68b81a63286503c8368"
+          },
+          {
+            "alg" : "SHA3-256",
+            "content" : "2cd83caa210df2e05c1560e4671c3cb26ccf6f3ad0fa1054d62e51eb3c3282e6"
+          },
+          {
+            "alg" : "SHA3-384",
+            "content" : "92c8805b0b4c66e209a5f47691cfea5b49f0cfbdcd536827b57f255d92ccdf763fb14dd723669fba552154f16ec7d4b1"
+          },
+          {
+            "alg" : "SHA3-512",
+            "content" : "fe1c7af380f17ad3fc8d6cb129c65c454f3eeac49a7d279c3b419888a381793e31c49d282381738ab050f87123ea788de4f8e48de9dc04bf2c79aee41fe94fe2"
+          }
+        ]
+      }
+    ],
+    "component" : {
+      "group" : "com.riversafe.ezejavagoat",
+      "name" : "ezejavagoat",
+      "version" : "1.0-SNAPSHOT",
+      "licenses" : [ ],
+      "purl" : "pkg:maven/com.riversafe.ezejavagoat/ezejavagoat@1.0-SNAPSHOT?type=jar",
+      "type" : "library",
+      "bom-ref" : "pkg:maven/com.riversafe.ezejavagoat/ezejavagoat@1.0-SNAPSHOT?type=jar"
+    }
+  },
+  "components" : [
+    {
+      "group" : "com.github.pwittchen.kirai",
+      "name" : "library",
+      "version" : "1.4.1",
+      "description" : "Kirai is flavored string formatting library",
+      "scope" : "required",
+      "hashes" : [
+        {
+          "alg" : "MD5",
+          "content" : "d82a9f249f26bbcbd0c232171c1a7e18"
+        },
+        {
+          "alg" : "SHA-1",
+          "content" : "9749c38a85517177fe600ac1572e8944bf3844f3"
+        },
+        {
+          "alg" : "SHA-256",
+          "content" : "9c04dcd3281055f5423f9eff2fbe96d124633350f855b2b461d72a3e912fb707"
+        },
+        {
+          "alg" : "SHA-384",
+          "content" : "1c3222b05ad15ec85c29238e8eaa1c7c02eb2c99d056547cc6df4d123ba1e05f45b561bbd13d8ef5596cd4c98219dee9"
+        },
+        {
+          "alg" : "SHA-512",
+          "content" : "8a05d808515a98d6d03a9f306667a37396fffd4cdadcc43393bdfa33c5c8e86f802b0d048f47543ef1cdf598a40fa614d636948cdcc67261fe7adf472ded8a4f"
+        },
+        {
+          "alg" : "SHA3-256",
+          "content" : "2dcd6ce4d3a459bea98dedd8cd2cc082ae3bf2428f3b55eac6650a8a045d0eff"
+        },
+        {
+          "alg" : "SHA3-384",
+          "content" : "3ffbdb1b165e1c44fead0ecc7a1e04b075eec6246a5a879f0bb8c26e50e9596dd74a80dcaa0502083c68e549078dd7eb"
+        },
+        {
+          "alg" : "SHA3-512",
+          "content" : "acdf16678ba51eafa030d373ebb8b10d4d094d38f37fb148005da2693d92e80675118d499babb026674ff4702c47d2b205da4efd36fc930dae0f8c1a3d1fe09b"
+        }
+      ],
+      "licenses" : [
+        {
+          "license" : {
+            "id" : "Apache-2.0"
+          }
+        }
+      ],
+      "purl" : "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar",
+      "externalReferences" : [
+        {
+          "type" : "vcs",
+          "url" : "https://github.com/pwittchen/kirai"
+        }
+      ],
+      "type" : "library",
+      "bom-ref" : "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar"
+    }
+  ],
+  "dependencies" : [
+    {
+      "ref" : "pkg:maven/com.riversafe.ezejavagoat/ezejavagoat@1.0-SNAPSHOT?type=jar",
+      "dependsOn" : [
+        "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar"
+      ]
+    },
+    {
+      "ref" : "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar",
+      "dependsOn" : [ ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+include CONTRIBUTING.md
+include LICENSE.md
+include README.md
+include README-DEVELOPMENT.md
+include Dockerfile
+include requirements.txt

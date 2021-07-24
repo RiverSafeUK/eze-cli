@@ -1,0 +1,646 @@
+{
+    "reportSchema": "1.1",
+    "scanInfo": {
+        "engineVersion": "6.2.2",
+        "dataSource": [
+            {
+                "name": "NVD CVE Checked",
+                "timestamp": "2021-06-29T20:22:18"
+            },
+            {
+                "name": "NVD CVE Modified",
+                "timestamp": "2021-06-29T19:00:01"
+            },
+            {
+                "name": "VersionCheckOn",
+                "timestamp": "2021-06-28T12:08:41"
+            }
+        ]
+    },
+    "projectInfo": {
+        "name": "goat-java",
+        "groupID": "com.mycompany.app",
+        "artifactID": "goat-java",
+        "version": "1.0-SNAPSHOT",
+        "reportDate": "2021-06-29T19:23:42.947974600Z",
+        "credits": {
+            "NVD": "This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov",
+            "NPM": "This report may contain data retrieved from the NPM Public Advisories: https://www.npmjs.com/advisories",
+            "RETIREJS": "This report may contain data retrieved from the RetireJS community: https://retirejs.github.io/retire.js/",
+            "OSSINDEX": "This report may contain data retrieved from the Sonatype OSS Index: https://ossindex.sonatype.org"
+        }
+    },
+    "dependencies": [
+        {
+            "isVirtual": false,
+            "fileName": "daytrader-wsappclient-2.1.7.jar",
+            "filePath": "C:\\Users\\Riversafe\\.m2\\repository\\org\\apache\\geronimo\\daytrader\\daytrader-wsappclient\\2.1.7\\daytrader-wsappclient-2.1.7.jar",
+            "md5": "c343646c162fdd19156400fe83f41ce2",
+            "sha1": "ece01974be048ba75e2b344c39efb176915a1c16",
+            "sha256": "765597d4ee55626f405fc4d4b1309afe3e18a7fe7e7d33be8d7ae47b17f6be2a",
+            "description": "Client demonstrating Web Services",
+            "projectReferences": [
+                "goat-java:compile"
+            ],
+            "evidenceCollected": {
+                "vendorEvidence": [
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGH",
+                        "source": "file",
+                        "name": "name",
+                        "value": "daytrader-wsappclient"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "jar",
+                        "name": "package name",
+                        "value": "apache"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "jar",
+                        "name": "package name",
+                        "value": "daytrader"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "jar",
+                        "name": "package name",
+                        "value": "geronimo"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGH",
+                        "source": "Manifest",
+                        "name": "Implementation-Vendor",
+                        "value": "Apache Software Foundation"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "MEDIUM",
+                        "source": "Manifest",
+                        "name": "Implementation-Vendor-Id",
+                        "value": "org.apache.geronimo.daytrader"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "LOW",
+                        "source": "Manifest",
+                        "name": "specification-vendor",
+                        "value": "Apache Software Foundation"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "LOW",
+                        "source": "pom",
+                        "name": "artifactid",
+                        "value": "daytrader-wsappclient"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "groupid",
+                        "value": "apache.geronimo.daytrader"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "groupid",
+                        "value": "org.apache.geronimo.daytrader"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGH",
+                        "source": "pom",
+                        "name": "name",
+                        "value": "DayTrader :: Modules :: WS Application Client"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "LOW",
+                        "source": "pom",
+                        "name": "parent-artifactid",
+                        "value": "modules"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "MEDIUM",
+                        "source": "pom",
+                        "name": "parent-groupid",
+                        "value": "org.apache.geronimo.daytrader"
+                    }
+                ],
+                "productEvidence": [
+                    {
+                        "type": "product",
+                        "confidence": "HIGH",
+                        "source": "file",
+                        "name": "name",
+                        "value": "daytrader-wsappclient"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "jar",
+                        "name": "package name",
+                        "value": "apache"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "jar",
+                        "name": "package name",
+                        "value": "daytrader"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "jar",
+                        "name": "package name",
+                        "value": "geronimo"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGH",
+                        "source": "Manifest",
+                        "name": "Implementation-Title",
+                        "value": "DayTrader :: Modules :: WS Application Client"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "Manifest",
+                        "name": "specification-title",
+                        "value": "DayTrader :: Modules :: WS Application Client"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "artifactid",
+                        "value": "daytrader-wsappclient"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "groupid",
+                        "value": "apache.geronimo.daytrader"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGH",
+                        "source": "pom",
+                        "name": "name",
+                        "value": "DayTrader :: Modules :: WS Application Client"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "pom",
+                        "name": "parent-artifactid",
+                        "value": "modules"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "pom",
+                        "name": "parent-groupid",
+                        "value": "org.apache.geronimo.daytrader"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGH",
+                        "source": "file",
+                        "name": "version",
+                        "value": "2.1.7"
+                    },
+                    {
+                        "type": "version",
+                        "confidence": "HIGH",
+                        "source": "Manifest",
+                        "name": "Implementation-Version",
+                        "value": "2.1.7"
+                    },
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "version",
+                        "value": "2.1.7"
+                    }
+                ]
+            },
+            "packages": [
+                {
+                    "id": "pkg:maven\/org.apache.geronimo.daytrader\/daytrader-wsappclient@2.1.7",
+                    "confidence": "HIGH",
+                    "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:maven\/org.apache.geronimo.daytrader\/daytrader-wsappclient@2.1.7?utm_source=dependency-check&utm_medium=integration&utm_content=6.2.2"
+                }
+            ],
+            "vulnerabilityIds": [
+                {
+                    "id": "cpe:2.3:a:apache:geronimo:2.1.7:*:*:*:*:*:*:*",
+                    "confidence": "HIGHEST",
+                    "url": "https:\/\/nvd.nist.gov\/vuln\/search\/results?form_type=Advanced&results_type=overview&search_type=all&cpe_vendor=cpe%3A%2F%3Aapache&cpe_product=cpe%3A%2F%3Aapache%3Ageronimo&cpe_version=cpe%3A%2F%3Aapache%3Ageronimo%3A2.1.7"
+                }
+            ],
+            "vulnerabilities": [
+                {
+                    "source": "NVD",
+                    "name": "CVE-2008-0732",
+                    "severity": "LOW",
+                    "cvssv2": {
+                        "score": 2.1,
+                        "accessVector": "LOCAL",
+                        "accessComplexity": "LOW",
+                        "authenticationr": "NONE",
+                        "confidentialImpact": "PARTIAL",
+                        "integrityImpact": "NONE",
+                        "availabilityImpact": "NONE",
+                        "severity": "LOW",
+                        "version": "2.0",
+                        "exploitabilityScore": "3.9",
+                        "impactScore": "2.9"
+                    },
+                    "cwes": [
+                        "CWE-59"
+                    ],
+                    "description": "The init script for Apache Geronimo on SUSE Linux follows symlinks when performing a chown operation, which might allow local users to obtain access to unspecified files or directories.",
+                    "notes": "",
+                    "references": [
+                        {
+                            "source": "SUSE",
+                            "url": "http:\/\/lists.opensuse.org\/opensuse-security-announce\/2008-02\/msg00003.html",
+                            "name": "SUSE-SR:2008:003"
+                        },
+                        {
+                            "source": "SECUNIA",
+                            "url": "http:\/\/secunia.com\/advisories\/28838",
+                            "name": "28838"
+                        }
+                    ],
+                    "vulnerableSoftware": [
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:*:*:*:*:*:*:*:*",
+                                "vulnerabilityIdMatched": "true"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "NVD",
+                    "name": "CVE-2011-5034",
+                    "severity": "HIGH",
+                    "cvssv2": {
+                        "score": 7.8,
+                        "accessVector": "NETWORK",
+                        "accessComplexity": "LOW",
+                        "authenticationr": "NONE",
+                        "confidentialImpact": "NONE",
+                        "integrityImpact": "NONE",
+                        "availabilityImpact": "COMPLETE",
+                        "severity": "HIGH",
+                        "version": "2.0",
+                        "exploitabilityScore": "10.0",
+                        "impactScore": "6.9"
+                    },
+                    "cwes": [
+                        "CWE-20"
+                    ],
+                    "description": "Apache Geronimo 2.2.1 and earlier computes hash values for form parameters without restricting the ability to trigger hash collisions predictably, which allows remote attackers to cause a denial of service (CPU consumption) by sending many crafted parameters.  NOTE: this might overlap CVE-2011-4461.",
+                    "notes": "",
+                    "references": [
+                        {
+                            "source": "CERT-VN",
+                            "url": "http:\/\/www.kb.cert.org\/vuls\/id\/903934",
+                            "name": "VU#903934"
+                        },
+                        {
+                            "source": "MISC",
+                            "url": "https:\/\/github.com\/FireFart\/HashCollision-DOS-POC\/blob\/master\/HashtablePOC.py",
+                            "name": "https:\/\/github.com\/FireFart\/HashCollision-DOS-POC\/blob\/master\/HashtablePOC.py"
+                        },
+                        {
+                            "source": "MISC",
+                            "url": "http:\/\/www.nruns.com\/_downloads\/advisory28122011.pdf",
+                            "name": "http:\/\/www.nruns.com\/_downloads\/advisory28122011.pdf"
+                        },
+                        {
+                            "source": "MLIST",
+                            "url": "https:\/\/lists.apache.org\/thread.html\/r20957aa5962a48328f199e2373f408aeeae601a45dd5275a195e2b6e@%3Cjava-dev.axis.apache.org%3E",
+                            "name": "[axis-java-dev] 20210622 [jira] [Created] (AXIS2-6004) AXIS 2 1.7.9 geronimo jars with vulnerability CVE-2011-5034"
+                        },
+                        {
+                            "source": "BUGTRAQ",
+                            "url": "http:\/\/archives.neohapsis.com\/archives\/bugtraq\/2011-12\/0181.html",
+                            "name": "20111228 n.runs-SA-2011.004 - web programming languages and platforms - DoS through hash table"
+                        },
+                        {
+                            "source": "MLIST",
+                            "url": "https:\/\/lists.apache.org\/thread.html\/r8dc1a0ae0e0cf9d2494b8cbd66562f99331c4cf635e7781850a9b9ba@%3Cjava-dev.axis.apache.org%3E",
+                            "name": "[axis-java-dev] 20210622 [jira] [Updated] (AXIS2-6004) AXIS 2 1.7.9 geronimo jars with vulnerability CVE-2011-5034"
+                        },
+                        {
+                            "source": "MISC",
+                            "url": "http:\/\/www.ocert.org\/advisories\/ocert-2011-003.html",
+                            "name": "http:\/\/www.ocert.org\/advisories\/ocert-2011-003.html"
+                        },
+                        {
+                            "source": "SECUNIA",
+                            "url": "http:\/\/secunia.com\/advisories\/47412",
+                            "name": "47412"
+                        }
+                    ],
+                    "vulnerableSoftware": [
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:*:*:*:*:*:*:*:*",
+                                "versionEndIncluding": "2.2.1"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:1.0:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:1.1:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:1.1.1:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:1.2:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.0.1:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.0.2:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.1:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.2:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.3:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.4:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.5:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.6:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.7:*:*:*:*:*:*:*",
+                                "vulnerabilityIdMatched": "true"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.1.8:*:*:*:*:*:*:*"
+                            }
+                        },
+                        {
+                            "software": {
+                                "id": "cpe:2.3:a:apache:geronimo:2.2:*:*:*:*:*:*:*"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "isVirtual": false,
+            "fileName": "geronimo-jaxrpc_1.1_spec-2.0.0.jar",
+            "filePath": "C:\\Users\\Riversafe\\.m2\\repository\\org\\apache\\geronimo\\specs\\geronimo-jaxrpc_1.1_spec\\2.0.0\\geronimo-jaxrpc_1.1_spec-2.0.0.jar",
+            "md5": "89b6273486a7c78353d919941f9f843c",
+            "sha1": "4fad4b521e38ef8d9a2434a2421a9a1dc7910285",
+            "sha256": "589510c977be96fcb2cab411d67996ad1a2bbb8e6e7382e6a43faa1914ff683c",
+            "description": "Provides open-source implementations of Sun specifications.",
+            "license": "http:\/\/www.apache.org\/licenses\/LICENSE-2.0.txt",
+            "projectReferences": [
+                "goat-java:compile"
+            ],
+            "evidenceCollected": {
+                "vendorEvidence": [
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGH",
+                        "source": "file",
+                        "name": "name",
+                        "value": "geronimo-jaxrpc_1.1_spec-2.0.0"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "LOW",
+                        "source": "Manifest",
+                        "name": "bundle-docurl",
+                        "value": "http:\/\/www.apache.org"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "MEDIUM",
+                        "source": "Manifest",
+                        "name": "bundle-symbolicname",
+                        "value": "org.apache.geronimo.specs.geronimo-jaxrpc_1.1_spec"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "LOW",
+                        "source": "pom",
+                        "name": "artifactid",
+                        "value": "geronimo-jaxrpc_1.1_spec"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "groupid",
+                        "value": "apache.geronimo.specs"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "groupid",
+                        "value": "org.apache.geronimo.specs"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "HIGH",
+                        "source": "pom",
+                        "name": "name",
+                        "value": "JAXRPC 1.1"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "LOW",
+                        "source": "pom",
+                        "name": "parent-artifactid",
+                        "value": "specs"
+                    },
+                    {
+                        "type": "vendor",
+                        "confidence": "MEDIUM",
+                        "source": "pom",
+                        "name": "parent-groupid",
+                        "value": "org.apache.geronimo.specs"
+                    }
+                ],
+                "productEvidence": [
+                    {
+                        "type": "product",
+                        "confidence": "HIGH",
+                        "source": "file",
+                        "name": "name",
+                        "value": "geronimo-jaxrpc_1.1_spec-2.0.0"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "LOW",
+                        "source": "Manifest",
+                        "name": "bundle-docurl",
+                        "value": "http:\/\/www.apache.org"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "Manifest",
+                        "name": "Bundle-Name",
+                        "value": "geronimo-jaxrpc_1.1_spec"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "Manifest",
+                        "name": "bundle-symbolicname",
+                        "value": "org.apache.geronimo.specs.geronimo-jaxrpc_1.1_spec"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGH",
+                        "source": "Manifest",
+                        "name": "Implementation-Title",
+                        "value": "Apache Geronimo"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "artifactid",
+                        "value": "geronimo-jaxrpc_1.1_spec"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "groupid",
+                        "value": "apache.geronimo.specs"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "HIGH",
+                        "source": "pom",
+                        "name": "name",
+                        "value": "JAXRPC 1.1"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "pom",
+                        "name": "parent-artifactid",
+                        "value": "specs"
+                    },
+                    {
+                        "type": "product",
+                        "confidence": "MEDIUM",
+                        "source": "pom",
+                        "name": "parent-groupid",
+                        "value": "org.apache.geronimo.specs"
+                    }
+                ],
+                "versionEvidence": [
+                    {
+                        "type": "version",
+                        "confidence": "HIGH",
+                        "source": "Manifest",
+                        "name": "Bundle-Version",
+                        "value": "2.0.0"
+                    },
+                    {
+                        "type": "version",
+                        "confidence": "HIGH",
+                        "source": "Manifest",
+                        "name": "Implementation-Version",
+                        "value": "2.0.0"
+                    },
+                    {
+                        "type": "version",
+                        "confidence": "LOW",
+                        "source": "pom",
+                        "name": "parent-version",
+                        "value": "2.0.0"
+                    },
+                    {
+                        "type": "version",
+                        "confidence": "HIGHEST",
+                        "source": "pom",
+                        "name": "version",
+                        "value": "2.0.0"
+                    }
+                ]
+            },
+            "packages": [
+                {
+                    "id": "pkg:maven\/org.apache.geronimo.specs\/geronimo-jaxrpc_1.1_spec@2.0.0",
+                    "confidence": "HIGH",
+                    "url": "https:\/\/ossindex.sonatype.org\/component\/pkg:maven\/org.apache.geronimo.specs\/geronimo-jaxrpc_1.1_spec@2.0.0?utm_source=dependency-check&utm_medium=integration&utm_content=6.2.2"
+                }
+            ]
+        }
+    ]
+}

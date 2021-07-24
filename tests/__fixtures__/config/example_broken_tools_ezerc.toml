@@ -1,0 +1,2 @@
+[scan]
+reporters = ["console", "json", "junit", "quality"]

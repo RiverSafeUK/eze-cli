@@ -1,0 +1,42 @@
+
+[java]
+# Java codebase
+tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java-cyclonedx']
+    [java.semgrep]
+    REPORT_FILE = "reports/semgrep-java-report.json"
+    PRINT_TIMING_INFO = true
+    CONFIGS = [
+        "p/ci",
+        "r/java",
+        "p/java",
+    ]
+    EXCLUDE = [
+        "tests"
+    ]
+    [java.trufflehog]
+    REPORT_FILE = "reports/truffleHog-java-report.json"
+    SOURCE = "."
+    IGNORED_FILES = [
+        "node_modules/",
+        "target/",
+        "build/",
+        "dist/",
+        ".gradle",
+        ".aws",
+        ".idea",
+        ".pytest_cache"
+    ]
+    [java.java-dependencycheck]
+    REPORT_FILE = "reports/dependencycheck-java-report.json"
+    
+    [java.java-spotbugs]
+    REPORT_FILE = "reports/spotbugs-java-report.json"
+    
+    [java.java-cyclonedx]
+    REPORT_FILE = "reports/cyclonedx-java-bom.json"
+
+
+========
+
+requires "mvn install" ran before running maven tools,
+tools are expecting pom.xml at root level

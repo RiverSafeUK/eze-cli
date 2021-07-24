@@ -1,0 +1,25 @@
+# https://pre-commit.com/#usage
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0  # Use the ref you want to point at
+    hooks:
+      - id: requirements-txt-fixer
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+      - id: debug-statements
+      - id: check-case-conflict
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: system
+        require_serial: true
+        types: [python]
+        always_run: true
+      - id: pytest-check
+        name: pytest-check
+        entry: "pytest tests"
+        language: system
+        pass_filenames: false
+        always_run: true

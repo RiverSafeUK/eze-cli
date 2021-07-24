@@ -1,0 +1,145 @@
+short_description:
+======================
+opensource python outdated dependency scanner
+
+config_help:
+======================
+[python-piprot]
+# REQUIREMENTS_FILES list [OPTIONAL]
+# Optional python requirements files to check
+# 
+REQUIREMENTS_FILES = ["..."]
+
+
+# HIGH_SEVERITY_AGE_THRESHOLD int [OPTIONAL]
+# number of days before a out of date dependency is moved to High Risk
+# default 1095 (three years)
+# default value: 
+#   HIGH_SEVERITY_AGE_THRESHOLD = 1095
+# 
+HIGH_SEVERITY_AGE_THRESHOLD = ...
+
+
+# MEDIUM_SEVERITY_AGE_THRESHOLD int [OPTIONAL]
+# number of days before a out of date dependency is moved to Medium Risk
+# default 730 (two years)
+# default value: 
+#   MEDIUM_SEVERITY_AGE_THRESHOLD = 730
+# 
+MEDIUM_SEVERITY_AGE_THRESHOLD = ...
+
+
+# LOW_SEVERITY_AGE_THRESHOLD int [OPTIONAL]
+# number of days before a out of date dependency is moved to Low Risk
+# default is 182 (half a year)
+# default value: 
+#   LOW_SEVERITY_AGE_THRESHOLD = 182
+# 
+LOW_SEVERITY_AGE_THRESHOLD = ...
+
+
+# NEWER_MAJOR_SEMVERSION_SEVERITY str [OPTIONAL]
+# severity if major version available, default to high
+# default value: 
+#   NEWER_MAJOR_SEMVERSION_SEVERITY = "high"
+# 
+NEWER_MAJOR_SEMVERSION_SEVERITY = "..."
+
+
+# NEWER_MINOR_SEMVERSION_SEVERITY str [OPTIONAL]
+# severity if minor version available, default to medium
+# default value: 
+#   NEWER_MINOR_SEMVERSION_SEVERITY = "medium"
+# 
+NEWER_MINOR_SEMVERSION_SEVERITY = "..."
+
+
+# NEWER_PATCH_SEMVERSION_SEVERITY str [OPTIONAL]
+# severity if patch version available, default to low
+# default value: 
+#   NEWER_PATCH_SEMVERSION_SEVERITY = "low"
+# 
+NEWER_PATCH_SEMVERSION_SEVERITY = "..."
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-piprot-report.json"
+# 
+REPORT_FILE = "..."
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VUNERABLITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_VUNERABLITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required to install piprot is python and pip install
+
+pip install piprot
+piprot -h
+
+more_info:
+======================
+https://github.com/sesh/piprot
+
+Piprot is a tool to ensure your dependencies aren't old and out of date
+this is important as old dependencies won't necessarily be actively supported
+and can contain hidden vulnerablities 
+
+There are two types of operation for this plugin
+- severity by age
+- severity by semver
+
+Ps though piprot is technicially no longer supported by it's developer but it's still an useful excellent tool
+until "pip list --outdated" takes a requirements file as a input
+https://github.com/pypa/pip/issues/3314
+
+Common Gotchas
+===========================
+Pip Freezing
+
+A Piprot expects exact version numbers. Therefore requirements.txt must be frozen. 
+
+This can be accomplished via:
+
+$ pip freeze > requirements.txt
+

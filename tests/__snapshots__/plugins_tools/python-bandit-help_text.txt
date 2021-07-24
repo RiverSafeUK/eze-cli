@@ -1,0 +1,108 @@
+short_description:
+======================
+opensource python SAST scanner
+
+config_help:
+======================
+[python-bandit]
+# SOURCE str
+# bandit source folder to scan for python files
+# 
+SOURCE = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# array of list of paths (glob patterns supported) to exclude from scan (note that these are in addition to 
+# the excluded paths provided in the config file)
+# (default: .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg)
+# 
+EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"]
+
+# INI_PATH str [OPTIONAL]
+# .bandit config file to use
+# path to a .bandit file that supplies command line arguments
+# maps to "--ini INI_PATH
+# 
+INI_PATH = "XXX-XXX/.bandit"
+
+# CONFIG_FILE str [OPTIONAL]
+# optional config file to use for selecting plugins and overriding defaults
+# maps to -c CONFIG_FILE
+# 
+CONFIG_FILE = "..."
+
+
+# INCLUDE_FULL_REASON bool [OPTIONAL]
+# Optional include the full reason in report
+# Warning: on production might want to set this to False to prevent found Secrets appearing in reports
+# default value: 
+#   INCLUDE_FULL_REASON = true
+# 
+INCLUDE_FULL_REASON = true / false
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-bandit-report.json"
+# 
+REPORT_FILE = "..."
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VUNERABLITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_VUNERABLITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required to install bandit is python and pip install
+pip install bandit
+bandit --version
+
+more_info:
+======================
+https://pypi.org/project/bandit/
+https://bandit.readthedocs.io/en/latest/
+
+Tips and Tricks
+===============================
+- exclude tests file as these use non-production functions like assert
+  this will avoid lots of False positives
+- use IGNORED_FILES to ignore false positives
+

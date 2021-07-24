@@ -1,0 +1,261 @@
+{
+  "vulnerabilities": [
+    {
+      "title": "Improper Verification of Cryptographic Signature",
+      "credit": [
+        ""
+      ],
+      "packageName": "apt",
+      "language": "linux",
+      "packageManager": "debian:10",
+      "description": "## Overview\nIt was found that apt-key in apt, all versions, do not correctly validate gpg keys with the master keyring, leading to a potential man-in-the-middle attack.\n\n## References\n- [Debian Bug Report](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=642480)\n- [Debian Security Tracker](https://security-tracker.debian.org/tracker/CVE-2011-3374)\n- [MISC](https://people.canonical.com/~ubuntu-security/cve/2011/CVE-2011-3374.html)\n- [MISC](https://seclists.org/fulldisclosure/2011/Sep/221)\n- [MISC](https://snyk.io/vuln/SNYK-LINUX-APT-116518)\n- [MISC](https://ubuntu.com/security/CVE-2011-3374)\n- [RedHat CVE Database](https://access.redhat.com/security/cve/cve-2011-3374)\n",
+      "identifiers": {
+        "ALTERNATIVE": [],
+        "CVE": [
+          "CVE-2011-3374"
+        ],
+        "CWE": [
+          "CWE-347"
+        ]
+      },
+      "severity": "low",
+      "severityWithCritical": "low",
+      "cvssScore": 3.7,
+      "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+      "patches": [],
+      "references": [
+        {
+          "title": "Debian Bug Report",
+          "url": "https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=642480"
+        },
+        {
+          "title": "Debian Security Tracker",
+          "url": "https://security-tracker.debian.org/tracker/CVE-2011-3374"
+        },
+        {
+          "title": "MISC",
+          "url": "https://people.canonical.com/~ubuntu-security/cve/2011/CVE-2011-3374.html"
+        },
+        {
+          "title": "MISC",
+          "url": "https://seclists.org/fulldisclosure/2011/Sep/221"
+        },
+        {
+          "title": "MISC",
+          "url": "https://snyk.io/vuln/SNYK-LINUX-APT-116518"
+        },
+        {
+          "title": "MISC",
+          "url": "https://ubuntu.com/security/CVE-2011-3374"
+        },
+        {
+          "title": "RedHat CVE Database",
+          "url": "https://access.redhat.com/security/cve/cve-2011-3374"
+        }
+      ],
+      "creationTime": "2020-08-19T09:26:56.580359Z",
+      "modificationTime": "2021-03-16T03:13:34.662289Z",
+      "publicationTime": "2018-06-27T16:20:45.037549Z",
+      "disclosureTime": "2019-11-26T00:15:00Z",
+      "id": "SNYK-DEBIAN10-APT-407502",
+      "nvdSeverity": "low",
+      "relativeImportance": "unimportant",
+      "semver": {
+        "vulnerable": [
+          "*"
+        ]
+      },
+      "exploit": "Not Defined",
+      "from": [
+        "docker-image|debian@latest",
+        "apt/libapt-pkg5.0@1.8.2.2"
+      ],
+      "upgradePath": [],
+      "isUpgradable": false,
+      "isPatchable": false,
+      "name": "apt/libapt-pkg5.0",
+      "version": "1.8.2.2"
+    },
+    {
+      "title": "Incorrect Privilege Assignment",
+      "credit": [
+        ""
+      ],
+      "packageName": "systemd",
+      "language": "linux",
+      "packageManager": "debian:10",
+      "description": "## Overview\nIt was discovered that a systemd service that uses DynamicUser property can create a SUID/SGID binary that would be allowed to run as the transient service UID/GID even after the service is terminated. A local attacker may use this flaw to access resources that will be owned by a potentially different service in the future, when the UID/GID will be recycled.\n\n## References\n- [Debian Security Tracker](https://security-tracker.debian.org/tracker/CVE-2019-3843)\n- [Fedora Security Update](https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/5JXQAKSTMABZ46EVCRMW62DHWYHTTFES/)\n- [Netapp Security Advisory](https://security.netapp.com/advisory/ntap-20190619-0002/)\n- [RedHat Bugzilla Bug](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-3843)\n- [Security Focus](http://www.securityfocus.com/bid/108116)\n- [UBUNTU](https://usn.ubuntu.com/4269-1/)\n- [Ubuntu CVE Tracker](http://people.ubuntu.com/~ubuntu-security/cve/CVE-2019-3843)\n",
+      "identifiers": {
+        "ALTERNATIVE": [],
+        "CVE": [
+          "CVE-2019-3843"
+        ],
+        "CWE": [
+          "CWE-266"
+        ]
+      },
+      "severity": "high",
+      "severityWithCritical": "high",
+      "cvssScore": 7.8,
+      "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "patches": [],
+      "references": [
+        {
+          "title": "Debian Security Tracker",
+          "url": "https://security-tracker.debian.org/tracker/CVE-2019-3843"
+        },
+        {
+          "title": "Fedora Security Update",
+          "url": "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/5JXQAKSTMABZ46EVCRMW62DHWYHTTFES/"
+        },
+        {
+          "title": "Netapp Security Advisory",
+          "url": "https://security.netapp.com/advisory/ntap-20190619-0002/"
+        },
+        {
+          "title": "RedHat Bugzilla Bug",
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-3843"
+        },
+        {
+          "title": "Security Focus",
+          "url": "http://www.securityfocus.com/bid/108116"
+        },
+        {
+          "title": "UBUNTU",
+          "url": "https://usn.ubuntu.com/4269-1/"
+        },
+        {
+          "title": "Ubuntu CVE Tracker",
+          "url": "http://people.ubuntu.com/~ubuntu-security/cve/CVE-2019-3843"
+        }
+      ],
+      "creationTime": "2020-08-19T09:35:08.543771Z",
+      "modificationTime": "2021-03-28T03:17:35.543976Z",
+      "publicationTime": "2019-04-26T21:29:00Z",
+      "disclosureTime": "2019-04-26T21:29:00Z",
+      "id": "SNYK-DEBIAN10-SYSTEMD-345391",
+      "nvdSeverity": "high",
+      "relativeImportance": "not yet assigned",
+      "semver": {
+        "vulnerable": [
+          "*"
+        ]
+      },
+      "exploit": "Not Defined",
+      "from": [
+        "docker-image|debian@latest",
+        "util-linux/mount@2.33.1-0.1",
+        "util-linux@2.33.1-0.1",
+        "systemd/libudev1@241-7~deb10u7"
+      ],
+      "upgradePath": [],
+      "isUpgradable": false,
+      "isPatchable": false,
+      "name": "systemd/libudev1",
+      "version": "241-7~deb10u7"
+    }
+  ],
+  "ok": false,
+  "dependencyCount": 92,
+  "org": "anthony.mckaleriversafe.co.uk",
+  "policy": "# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.\nversion: v1.19.0\nignore: {}\npatch: {}\n",
+  "isPrivate": true,
+  "licensesPolicy": {
+    "severities": {},
+    "orgLicenseRules": {
+      "AGPL-1.0": {
+        "licenseType": "AGPL-1.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "AGPL-3.0": {
+        "licenseType": "AGPL-3.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "Artistic-1.0": {
+        "licenseType": "Artistic-1.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "Artistic-2.0": {
+        "licenseType": "Artistic-2.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "CDDL-1.0": {
+        "licenseType": "CDDL-1.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "CPOL-1.02": {
+        "licenseType": "CPOL-1.02",
+        "severity": "high",
+        "instructions": ""
+      },
+      "EPL-1.0": {
+        "licenseType": "EPL-1.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "GPL-2.0": {
+        "licenseType": "GPL-2.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "GPL-3.0": {
+        "licenseType": "GPL-3.0",
+        "severity": "high",
+        "instructions": ""
+      },
+      "LGPL-2.0": {
+        "licenseType": "LGPL-2.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "LGPL-2.1": {
+        "licenseType": "LGPL-2.1",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "LGPL-3.0": {
+        "licenseType": "LGPL-3.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "MPL-1.1": {
+        "licenseType": "MPL-1.1",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "MPL-2.0": {
+        "licenseType": "MPL-2.0",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "MS-RL": {
+        "licenseType": "MS-RL",
+        "severity": "medium",
+        "instructions": ""
+      },
+      "SimPL-2.0": {
+        "licenseType": "SimPL-2.0",
+        "severity": "high",
+        "instructions": ""
+      }
+    }
+  },
+  "packageManager": "deb",
+  "ignoreSettings": null,
+  "docker": {},
+  "summary": "148 vulnerable dependency paths",
+  "filesystemPolicy": false,
+  "filtered": {
+    "ignore": [],
+    "patch": []
+  },
+  "uniqueCount": 59,
+  "projectName": "docker-image|debian",
+  "platform": "linux/amd64",
+  "path": "debian"
+}

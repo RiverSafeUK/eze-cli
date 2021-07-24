@@ -1,0 +1,49 @@
+short_description:
+======================
+eze management console reporter
+
+config_help:
+======================
+[eze]
+# APIKEY str
+# WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
+# it can also be specifed as the environment variable EZE_APIKEY
+# get EZE_APIKEY from eze console profile page
+# default value: 
+#   APIKEY = "ENVIRONMENT VARIABLE <EZE_APIKEY>"
+# 
+APIKEY = "..."
+
+
+# CONSOLE_ENDPOINT str
+# Management console url as specified by eze management console /profile page
+# 
+CONSOLE_ENDPOINT = "..."
+
+
+# CODEBASE_ID str
+# Management console codebase ID as specified by eze management console codebase page
+# 
+CODEBASE_ID = "..."
+
+
+# CODEBRANCH_NAME str [OPTIONAL]
+# Optional code branch name,
+# if not set, will be automatically determined via local git info
+# 
+CODEBRANCH_NAME = "..."
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+inbuilt

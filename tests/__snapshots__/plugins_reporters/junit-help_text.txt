@@ -1,0 +1,29 @@
+short_description:
+======================
+junit output file reporter
+
+config_help:
+======================
+[junit]
+# REPORT_FILE str [OPTIONAL]
+# report file location
+# By default set to eze_junit_report.xml
+# default value: 
+#   REPORT_FILE = "eze_junit_report.xml"
+# 
+REPORT_FILE = "..."
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+inbuilt

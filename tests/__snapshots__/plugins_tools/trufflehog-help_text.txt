@@ -1,0 +1,109 @@
+short_description:
+======================
+opensource secret scanner
+
+config_help:
+======================
+[trufflehog]
+# SOURCE str
+# TruffleHog3 source folder to scan for secrets
+# can be space seperated list
+# 
+SOURCE = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# array of regex str of folders/files to exclude from scan for secrets
+# eze will automatically normalise folder seperator "/" to os specific versions, "/" for unix, "\\" for windows
+# 
+EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"]
+
+# CONFIG_FILE str [OPTIONAL]
+# TruffleHog3 config file to use
+# see https://github.com/feeltheajf/trufflehog3
+# see https://github.com/feeltheajf/truffleHog3/blob/master/examples/trufflehog.yaml
+# 
+CONFIG_FILE = "..."
+
+
+# INCLUDE_FULL_REASON bool [OPTIONAL]
+# Optional include the full reason in report
+# Warning: on production might want to set this to False to prevent found Secrets appearing in reports
+# default value: 
+#   INCLUDE_FULL_REASON = true
+# 
+INCLUDE_FULL_REASON = true / false
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-truffleHog-report.json"
+# 
+REPORT_FILE = "..."
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VUNERABLITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_VUNERABLITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required to install truffleHog3 is python and pip install
+pip install truffleHog3
+trufflehog3 --help
+pip show truffleHog3
+
+more_info:
+======================
+https://pypi.org/project/truffleHog3/
+
+Org Truffle Hog
+===============================
+https://pypi.org/project/truffleHog/
+https://github.com/dxa4481/truffleHog
+
+Tips and Tricks
+===============================
+- exclude compiled and dependency folders to gain a big speed increases
+  aka node_modules
+- scan tests as well as source
+- use IGNORED_FILES to ignore false positives
+  aka high enthropy ids, or mock passwords in unit test fixtures, (or package-lock.json)
+

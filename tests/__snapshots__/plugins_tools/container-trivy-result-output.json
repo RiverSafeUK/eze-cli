@@ -1,0 +1,60 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "container-trivy",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2020-8169",
+        "cwe": "CWE-200"
+      },
+      "is_ignored": false,
+      "language": "container",
+      "metadata": null,
+      "name": "libcurl: partial password leak over DNS on HTTP redirect",
+      "overview": "curl 7.62.0 through 7.70.0 is vulnerable to an information disclosure vulnerability that can lead to a partial password being leaked over the network and to the DNS server(s).",
+      "recommendation": "Update curl (7.64.0-r3) to a non vulnerable version, issue fixed in 7.64.0-r4",
+      "references": [
+        "https://avd.aquasec.com/nvd/cve-2020-8169",
+        "https://curl.haxx.se/docs/CVE-2020-8169.html",
+        "https://curl.se/docs/CVE-2020-8169.html",
+        "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8169",
+        "https://hackerone.com/reports/874778",
+        "https://usn.ubuntu.com/usn/usn-4402-1",
+        "https://www.debian.org/security/2021/dsa-4881"
+      ],
+      "severity": "high",
+      "version": "7.64.0-r3",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2019-19242",
+        "cwe": "CWE-476"
+      },
+      "is_ignored": false,
+      "language": "container",
+      "metadata": null,
+      "name": "sqlite: SQL injection in sqlite3ExprCodeTarget in expr.c",
+      "overview": "SQLite 3.30.1 mishandles pExpr->y.pTab, as demonstrated by the TK_COLUMN case in sqlite3ExprCodeTarget in expr.c.",
+      "recommendation": "Update sqlite-libs (3.28.0-r1) to a non vulnerable version, issue fixed in 3.28.0-r2",
+      "references": [
+        "https://avd.aquasec.com/nvd/cve-2019-19242",
+        "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19242",
+        "https://github.com/sqlite/sqlite/commit/57f7ece78410a8aae86aa4625fb7556897db384c",
+        "https://usn.ubuntu.com/4205-1/",
+        "https://usn.ubuntu.com/usn/usn-4205-1",
+        "https://www.oracle.com/security-alerts/cpuapr2020.html"
+      ],
+      "severity": "medium",
+      "version": "3.28.0-r1",
+      "vulnerability_type": "dependancy"
+    }
+  ],
+  "warnings": []
+}

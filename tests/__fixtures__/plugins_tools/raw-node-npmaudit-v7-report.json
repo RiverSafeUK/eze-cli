@@ -1,0 +1,287 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "connect": {
+      "name": "connect",
+      "severity": "low",
+      "via": [
+        "debug",
+        "finalhandler"
+      ],
+      "effects": [
+        "helmet"
+      ],
+      "range": "2.11.1 - 3.6.4",
+      "nodes": [
+        "node_modules/connect"
+      ],
+      "fixAvailable": true
+    },
+    "debug": {
+      "name": "debug",
+      "severity": "low",
+      "via": [
+        {
+          "source": 534,
+          "name": "debug",
+          "dependency": "debug",
+          "title": "Regular Expression Denial of Service",
+          "url": "https://npmjs.com/advisories/534",
+          "severity": "low",
+          "range": "<= 2.6.8 || >= 3.0.0 <= 3.0.1"
+        }
+      ],
+      "effects": [
+        "connect",
+        "finalhandler",
+        "mocha"
+      ],
+      "range": "<=2.6.8 || 3.0.0 - 3.0.1",
+      "nodes": [
+        "node_modules/debug"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "diff": {
+      "name": "diff",
+      "severity": "high",
+      "via": [
+        {
+          "source": 1631,
+          "name": "diff",
+          "dependency": "diff",
+          "title": "Regular Expression Denial of Service",
+          "url": "https://npmjs.com/advisories/1631",
+          "severity": "high",
+          "range": "<3.5.0"
+        }
+      ],
+      "effects": [
+        "mocha"
+      ],
+      "range": "<3.5.0",
+      "nodes": [
+        "node_modules/diff"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "finalhandler": {
+      "name": "finalhandler",
+      "severity": "low",
+      "via": [
+        "debug"
+      ],
+      "effects": [
+        "connect"
+      ],
+      "range": "<=1.0.5",
+      "nodes": [
+        "node_modules/finalhandler"
+      ],
+      "fixAvailable": true
+    },
+    "glob": {
+      "name": "glob",
+      "severity": "high",
+      "via": [
+        "minimatch"
+      ],
+      "effects": [
+        "mocha"
+      ],
+      "range": "3.0.0 - 5.0.14",
+      "nodes": [
+        "node_modules/glob"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "growl": {
+      "name": "growl",
+      "severity": "critical",
+      "via": [
+        {
+          "source": 146,
+          "name": "growl",
+          "dependency": "growl",
+          "title": "Command Injection",
+          "url": "https://npmjs.com/advisories/146",
+          "severity": "critical",
+          "range": "<1.10.2"
+        }
+      ],
+      "effects": [
+        "mocha"
+      ],
+      "range": "<1.10.2",
+      "nodes": [
+        "node_modules/growl"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "helmet": {
+      "name": "helmet",
+      "severity": "moderate",
+      "via": [
+        "connect",
+        "helmet-csp"
+      ],
+      "effects": [],
+      "range": "0.3.0 - 3.20.1",
+      "nodes": [
+        "node_modules/helmet"
+      ],
+      "fixAvailable": true
+    },
+    "helmet-csp": {
+      "name": "helmet-csp",
+      "severity": "moderate",
+      "via": [
+        {
+          "source": 1176,
+          "name": "helmet-csp",
+          "dependency": "helmet-csp",
+          "title": "Configuration Override",
+          "url": "https://npmjs.com/advisories/1176",
+          "severity": "moderate",
+          "range": ">=1.2.2 <2.9.1"
+        }
+      ],
+      "effects": [
+        "helmet"
+      ],
+      "range": "1.2.2 - 2.9.0",
+      "nodes": [
+        "node_modules/helmet-csp"
+      ],
+      "fixAvailable": true
+    },
+    "minimatch": {
+      "name": "minimatch",
+      "severity": "high",
+      "via": [
+        {
+          "source": 118,
+          "name": "minimatch",
+          "dependency": "minimatch",
+          "title": "Regular Expression Denial of Service",
+          "url": "https://npmjs.com/advisories/118",
+          "severity": "high",
+          "range": "<=3.0.1"
+        }
+      ],
+      "effects": [
+        "glob"
+      ],
+      "range": "<=3.0.1",
+      "nodes": [
+        "node_modules/minimatch"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "minimist": {
+      "name": "minimist",
+      "severity": "low",
+      "via": [
+        {
+          "source": 1179,
+          "name": "minimist",
+          "dependency": "minimist",
+          "title": "Prototype Pollution",
+          "url": "https://npmjs.com/advisories/1179",
+          "severity": "low",
+          "range": "<0.2.1 || >=1.0.0 <1.2.3"
+        }
+      ],
+      "effects": [
+        "mkdirp"
+      ],
+      "range": "<0.2.1 || >=1.0.0 <1.2.3",
+      "nodes": [
+        "node_modules/minimist"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "mkdirp": {
+      "name": "mkdirp",
+      "severity": "low",
+      "via": [
+        "minimist"
+      ],
+      "effects": [
+        "mocha"
+      ],
+      "range": "0.4.1 - 0.5.1",
+      "nodes": [
+        "node_modules/mkdirp"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    },
+    "mocha": {
+      "name": "mocha",
+      "severity": "critical",
+      "via": [
+        "debug",
+        "diff",
+        "glob",
+        "growl",
+        "mkdirp"
+      ],
+      "effects": [],
+      "range": "0.6.0 - 6.2.2 || 7.0.0-esm1 - 7.1.0",
+      "nodes": [
+        "node_modules/mocha"
+      ],
+      "fixAvailable": {
+        "name": "mocha",
+        "version": "8.4.0",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 5,
+      "moderate": 2,
+      "high": 3,
+      "critical": 2,
+      "total": 12
+    },
+    "dependencies": {
+      "prod": 30,
+      "dev": 17,
+      "optional": 0,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 46
+    }
+  }
+}

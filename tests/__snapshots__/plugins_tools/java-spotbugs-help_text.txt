@@ -1,0 +1,95 @@
+short_description:
+======================
+opensource java SAST tool class
+
+config_help:
+======================
+[java-spotbugs]
+# INCLUDE_FULL_REASON bool [OPTIONAL]
+# Optional include the full reason in report
+# Warning: on production might want to set this to False to prevent found Secrets appearing in reports
+# default value: 
+#   INCLUDE_FULL_REASON = true
+# 
+INCLUDE_FULL_REASON = true / false
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-java-spotbugs.json"
+# 
+REPORT_FILE = "..."
+
+
+# MVN_REPORT_FILE str [OPTIONAL]
+# maven output spotbugsXml.xml location, will be loaded, parsed and copied to <REPORT_FILE>
+# default value: 
+#   MVN_REPORT_FILE = "target/spotbugsXml.xml"
+# 
+MVN_REPORT_FILE = "..."
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VUNERABLITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_VUNERABLITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required is java and mvn installed
+
+https://maven.apache.org/download.cgi
+
+test if installed with
+
+mvn --version
+
+
+more_info:
+======================
+
+https://spotbugs.github.io/
+https://github.com/spotbugs/spotbugs
+https://spotbugs.readthedocs.io/en/latest/maven.html
+
+Tips and Tricks
+===========================
+You can add files to include or exclude to customise your output
+https://spotbugs.readthedocs.io/en/latest/filter.html
+

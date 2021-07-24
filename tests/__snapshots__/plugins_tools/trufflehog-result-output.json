@@ -1,0 +1,45 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "trufflehog",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": "2",
+        "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py"
+      },
+      "identifiers": {},
+      "is_ignored": false,
+      "language": "file",
+      "metadata": null,
+      "name": "Found Hardcoded 'High entropy' Pattern",
+      "overview": "Found Hardcoded 'High entropy' Pattern in __fixture__\\secrets\\all_the_hard_coded_secrets.py",
+      "recommendation": "Investigate '__fixture__\\secrets\\all_the_hard_coded_secrets.py' Line 2 for 'High entropy' strings Full Match: 2 JWT_TOKEN = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\"",
+      "references": [],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "secret"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": "1",
+        "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py"
+      },
+      "identifiers": {},
+      "is_ignored": false,
+      "language": "file",
+      "metadata": null,
+      "name": "Found Hardcoded 'Password in URL' Pattern",
+      "overview": "Found Hardcoded 'Password in URL' Pattern in __fixture__\\secrets\\all_the_hard_coded_secrets.py",
+      "recommendation": "Investigate '__fixture__\\secrets\\all_the_hard_coded_secrets.py' Line 1 for 'Password in URL' strings Full Match: 1 SERVER_LOCATION = \"https://username:password@localhost:1234\"",
+      "references": [],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "secret"
+    }
+  ],
+  "warnings": []
+}

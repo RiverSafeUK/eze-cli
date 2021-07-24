@@ -1,0 +1,185 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "semgrep",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 111,
+        "path": "eze/utils/cli.py"
+      },
+      "identifiers": {
+        "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "owasp": "A1: Injection"
+      },
+      "is_ignored": false,
+      "language": "file",
+      "metadata": {
+        "asvs": {
+          "control_id": "5.3.8 OS Command Injection",
+          "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v53-output-encoding-and-injection-prevention-requirements",
+          "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+          "version": "4"
+        },
+        "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "owasp": "A1: Injection"
+      },
+      "name": "eze/utils/cli.py: python.lang.security.audit.dangerous-subprocess-use.dangerous-subprocess-use",
+      "overview": "Detected subprocess function '$FUNC' without a static string. If this data can be\ncontrolled by a malicious actor, it may be an instance of command injection.\nAudit the use of this call to ensure it is not controllable by an external resource.\nYou may consider using 'shlex.escape()'.\n",
+      "recommendation": "Investigate 'eze/utils/cli.py' Line 111 for 'python.lang.security.audit.dangerous-subprocess-use.dangerous-subprocess-use' strings, use '# nosemgrep' if false positive",
+      "references": [
+        "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+        "https://docs.python.org/3/library/subprocess.html",
+        "https://docs.python.org/3/library/shlex.html"
+      ],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 10,
+        "path": "eze/utils/io.py"
+      },
+      "identifiers": {
+        "cwe": "CWE-611: Improper Restriction of XML External Entity Reference",
+        "owasp": "A4: XML External Entities (XXE)"
+      },
+      "is_ignored": false,
+      "language": "file",
+      "metadata": {
+        "cwe": "CWE-611: Improper Restriction of XML External Entity Reference",
+        "owasp": "A4: XML External Entities (XXE)"
+      },
+      "name": "eze/utils/io.py: python.lang.security.use-defused-xml.use-defused-xml",
+      "overview": "Found use of the native Python XML libraries, which is vulnerable to XML external entity (XXE)\nattacks. The Python documentation recommends the 'defusedxml' library instead. Use 'defusedxml'.\nSee https://github.com/tiran/defusedxml for more information.\n",
+      "recommendation": "Investigate 'eze/utils/io.py' Line 10 for 'python.lang.security.use-defused-xml.use-defused-xml' strings",
+      "references": [
+        "https://docs.python.org/3/library/xml.html",
+        "https://github.com/tiran/defusedxml"
+      ],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 25,
+        "path": "tests/utils/test_cve.py"
+      },
+      "identifiers": {},
+      "is_ignored": false,
+      "language": "file",
+      "metadata": {},
+      "name": "tests/utils/test_cve.py: python.lang.best-practice.open-never-closed.open-never-closed",
+      "overview": "file object opened without corresponding close",
+      "recommendation": "Investigate 'tests/utils/test_cve.py' Line 25 for 'python.lang.best-practice.open-never-closed.open-never-closed' strings",
+      "references": [],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 111,
+        "path": "eze/utils/cli.py"
+      },
+      "identifiers": {
+        "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "owasp": "A1: Injection"
+      },
+      "is_ignored": false,
+      "language": "file",
+      "metadata": {
+        "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
+        "owasp": "A1: Injection"
+      },
+      "name": "eze/utils/cli.py: python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "overview": "Found 'subprocess' function '$FUNC' with 'shell=True'. This is dangerous because this call will spawn\nthe command using a shell process. Doing so propagates current shell settings and variables, which\nmakes it much easier for a malicious actor to execute commands. Use 'shell=False' instead.\n",
+      "recommendation": "Investigate 'eze/utils/cli.py' Line 111 for 'python.lang.security.audit.subprocess-shell-true.subprocess-shell-true' strings",
+      "references": [
+        "https://stackoverflow.com/questions/3172470/actual-meaning-of-shell-true-in-subprocess",
+        "https://docs.python.org/3/library/subprocess.html"
+      ],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 110,
+        "path": "eze/plugins/reporters/eze.py"
+      },
+      "identifiers": {
+        "bandit-code": "B310",
+        "cwe": "CWE-939: Improper Authorization in Handler for Custom URL Scheme",
+        "owasp": "A1: Injection"
+      },
+      "is_ignored": false,
+      "language": "file",
+      "metadata": {
+        "asvs": {
+          "control_id": "5.2.4 Dyanmic Code Execution Features",
+          "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+          "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+          "version": "4"
+        },
+        "bandit-code": "B310",
+        "cwe": "CWE-939: Improper Authorization in Handler for Custom URL Scheme",
+        "owasp": "A1: Injection",
+        "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163"
+      },
+      "name": "eze/plugins/reporters/eze.py: python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "overview": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+      "recommendation": "Investigate 'eze/plugins/reporters/eze.py' Line 110 for 'python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected' strings, use '# nosemgrep' if false positive",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 43,
+        "path": "eze/utils/cve.py"
+      },
+      "identifiers": {
+        "bandit-code": "B310",
+        "cwe": "CWE-939: Improper Authorization in Handler for Custom URL Scheme",
+        "owasp": "A1: Injection"
+      },
+      "is_ignored": false,
+      "language": "file",
+      "metadata": {
+        "asvs": {
+          "control_id": "5.2.4 Dyanmic Code Execution Features",
+          "control_url": "https://github.com/OWASP/ASVS/blob/master/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md#v52-sanitization-and-sandboxing-requirements",
+          "section": "V5: Validation, Sanitization and Encoding Verification Requirements",
+          "version": "4"
+        },
+        "bandit-code": "B310",
+        "cwe": "CWE-939: Improper Authorization in Handler for Custom URL Scheme",
+        "owasp": "A1: Injection",
+        "source-rule-url": "https://github.com/PyCQA/bandit/blob/b1411bfb43795d3ffd268bef17a839dee954c2b1/bandit/blacklists/calls.py#L163"
+      },
+      "name": "eze/utils/cve.py: python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "overview": "Detected a dynamic value being used with urllib. urllib supports 'file://' schemes, so a dynamic value controlled by a malicious actor may allow them to read arbitrary files. Audit uses of urllib calls to ensure user data cannot control the URLs, or consider using the 'requests' library instead.",
+      "recommendation": "Investigate 'eze/utils/cve.py' Line 43 for 'python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected' strings, use '# nosemgrep' if false positive",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "code"
+    }
+  ],
+  "warnings": [
+    "error:SemgrepError: Failed to download config from https://semgrep.dev/p/node: bad status code: 404 returned by config url: https://semgrep.dev/p/node",
+    "warn:SourceParseError: Could not parse reporter_commands.py as python, If the code appears to be valid, this may be a semgrep bug.",
+    "warn:SourceParseError: Could not parse tool_commands.py as python, If the code appears to be valid, this may be a semgrep bug."
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "python-bandit",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 40,
+        "path": "eze\\core\\tool.py"
+      },
+      "identifiers": {
+        "bandit-code": "B105:hardcoded_password_string"
+      },
+      "is_ignored": false,
+      "language": "python",
+      "metadata": null,
+      "name": "Possible hardcoded password: 'SECRET VULNERABILITY'",
+      "overview": "'Possible hardcoded password: 'SECRET VULNERABILITY'', in eze\\core\\tool.py",
+      "recommendation": "Investigate 'eze\\core\\tool.py' Line 40 for 'Possible hardcoded password: 'SECRET VULNERABILITY'' strings Full Match: 39     infrastructure = \"INFRASTRUCTURE VULNERABILITY\"\n40     secret = \"SECRET VULNERABILITY\"\n41 \n42     @staticmethod\n43     def normalise_name(value: str, default=\"generic\") -> str:\n",
+      "references": [],
+      "severity": "low",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 99,
+        "path": "eze\\plugins\\reporters\\eze.py"
+      },
+      "identifiers": {
+        "bandit-code": "B310:blacklist"
+      },
+      "is_ignored": false,
+      "language": "python",
+      "metadata": null,
+      "name": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+      "overview": "'Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.', in eze\\plugins\\reporters\\eze.py",
+      "recommendation": "Investigate 'eze\\plugins\\reporters\\eze.py' Line 99 for 'Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.' strings Full Match: 98             )\n99             with urllib.request.urlopen(req) as stream:\n100                 contents = stream.read()\n",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 6,
+        "path": "eze\\utils\\cli.py"
+      },
+      "identifiers": {
+        "bandit-code": "B404:blacklist"
+      },
+      "is_ignored": false,
+      "language": "python",
+      "metadata": null,
+      "name": "Consider possible security implications associated with subprocess module.",
+      "overview": "'Consider possible security implications associated with subprocess module.', in eze\\utils\\cli.py",
+      "recommendation": "Investigate 'eze\\utils\\cli.py' Line 6 for 'Consider possible security implications associated with subprocess module.' strings Full Match: 5 import shutil\n6 import subprocess\n7 \n8 import click\n",
+      "references": [],
+      "severity": "low",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 92,
+        "path": "eze\\utils\\cli.py"
+      },
+      "identifiers": {
+        "bandit-code": "B602:subprocess_popen_with_shell_equals_true"
+      },
+      "is_ignored": false,
+      "language": "python",
+      "metadata": null,
+      "name": "subprocess call with shell=True identified, security issue.",
+      "overview": "'subprocess call with shell=True identified, security issue.', in eze\\utils\\cli.py",
+      "recommendation": "Investigate 'eze\\utils\\cli.py' Line 92 for 'subprocess call with shell=True identified, security issue.' strings Full Match: 91 \n92     proc = subprocess.run(cmd, capture_output=True, universal_newlines=True, shell=True)\n93     if error_on_missing_executable and check_output_corrupt(proc.stderr):\n",
+      "references": [],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "code"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 41,
+        "path": "eze\\utils\\cve.py"
+      },
+      "identifiers": {
+        "bandit-code": "B310:blacklist"
+      },
+      "is_ignored": false,
+      "language": "python",
+      "metadata": null,
+      "name": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+      "overview": "'Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.', in eze\\utils\\cve.py",
+      "recommendation": "Investigate 'eze\\utils\\cve.py' Line 41 for 'Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.' strings Full Match: 40             req = urllib.request.Request(api_url)\n41             with urllib.request.urlopen(req) as stream:\n42                 contents = stream.read()\n",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "code"
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,40 @@
+{
+  "bom": {
+    "bomFormat": "CycloneDX",
+    "components": [
+      {
+        "description": "Python HTTP for Humans.",
+        "hashes": [
+          {
+            "alg": "MD5",
+            "content": "47948d2fb3f2aa04235e6f637814b226"
+          },
+          {
+            "alg": "SHA-256",
+            "content": "8b2cc9e334b3e66aa5df15f2e4967f2c95b5164a4e6df7e92dd70ca67400912a"
+          }
+        ],
+        "licenses": [
+          {
+            "license": {
+              "name": "Apache 2.0"
+            }
+          }
+        ],
+        "modified": false,
+        "name": "requests",
+        "publisher": "Kenneth Reitz",
+        "purl": "pkg:pypi/requests@2.4.0",
+        "type": "library",
+        "version": "2.4.0"
+      }
+    ],
+    "specVersion": "1.2",
+    "version": 1
+  },
+  "run_details": {},
+  "summary": {},
+  "tool": "python-cyclonedx",
+  "vulnerabilities": [],
+  "warnings": []
+}

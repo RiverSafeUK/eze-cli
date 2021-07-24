@@ -1,0 +1,60 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "python-safety",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {},
+      "is_ignored": false,
+      "language": "python",
+      "metadata": {
+        "safety": {
+          "id": "25959"
+        }
+      },
+      "name": "dependancy-without-cve",
+      "overview": "pip 1.4 includes a security patch to pip's ssl support related to certificate DNS wildcard matching.",
+      "recommendation": "Update dependancy-without-cve (1.3.0) to a non vulnerable version, vulnerable versions: <1.4",
+      "references": [],
+      "severity": "",
+      "version": "1.3.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2013-5123"
+      },
+      "is_ignored": false,
+      "language": "python",
+      "metadata": {
+        "cves": [
+          {
+            "advisitory_created": "2014-11-24T15:59:00",
+            "advisitory_modified": "2021-03-15T16:17:00",
+            "id": "CVE-2013-5123",
+            "rating": 2.1,
+            "severity": "LOW",
+            "summary": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-5123"
+          }
+        ],
+        "safety": {
+          "id": "37752"
+        }
+      },
+      "name": "dependancy-with-cve",
+      "overview": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
+      "recommendation": "Update dependancy-with-cve (1.3.0) to a non vulnerable version, vulnerable versions: <1.5",
+      "references": [],
+      "severity": "low",
+      "version": "1.3.0",
+      "vulnerability_type": "dependancy"
+    }
+  ],
+  "warnings": []
+}

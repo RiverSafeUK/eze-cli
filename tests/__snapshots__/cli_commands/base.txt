@@ -1,0 +1,14 @@
+Usage: cli [OPTIONS] COMMAND [ARGS]...
+
+  Eze Command line interface
+
+Options:
+  --version   Show the version and exit.
+  -h, --help  Show this message and exit.
+
+Commands:
+  housekeeping  container for miscellaneous house keeping commands
+  languages     container for language commands
+  reporters     container for reporter commands
+  test          Eze run scan
+  tools         container for tool commands

@@ -1,0 +1,22 @@
+Eze report results:
+
+TOOL REPORT: python-cyclonedx (scan duration: xxx seconds)
+    components: 11 (BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
+
+
+Bill of Materials
+_________________________________
+
+    [python-cyclonedx] SBOM
+    _________________________________
+    library      click                  8.0.1        BSD-3-Clause     Composable command line interface toolkit
+    library      colorama               0.4.4        BSD              Cross-platform colored terminal text.
+    library      GitPython              3.1.17       BSD              Python Git Library
+    library      pydash                 5.0.0        MIT License      The kitchen sink of Python utility libraries for doing "stuff" in a functional way. Based on the Lo-Dash Javascript library.
+    library      requests               2.25.0       Apache 2.0       Python HTTP for Humans.
+    library      semantic_version       2.8.5        BSD              A library implementing the 'SemVer' scheme.
+    library      toml                   0.10.2       MIT              Python Library for Tom's Obvious, Minimal Language
+    library      gpgv:example-from-syft 2.2.12-1+deb10u1 BSD-3-clause                       
+    library      ms:example-from-node-cyclonedx 0.7.1        unknown          Tiny ms conversion utility
+    library      helmet:example-from-node-cyclonedx 2.3.0        MIT              help secure Express/Connect apps with various HTTP headers
+    library      com.github.pwittchen.kirai.library 1.4.1        Apache-2.0       EXAMPLE FROM java-cyclonedx, Kirai is flavored string formatting library

@@ -1,0 +1,20 @@
+short_description:
+======================
+Example short description
+
+config_help:
+======================
+[dummy]
+
+
+install_help:
+======================
+Example install help string
+
+license:
+======================
+LICENSE X
+
+more_info:
+======================
+Example Config help string

@@ -1,0 +1,3614 @@
+{
+ "matches": [
+  {
+   "vulnerability": {
+    "id": "CVE-2013-4691",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2013-4691",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "http://github.com/senchalabs/connect/issues/831"
+    ],
+    "description": "Sencha Labs Connect has XSS with connect.methodOverride()",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "none (unknown)",
+      "cpes": [
+       "cpe:2.3:a:sencha:connect:-:*:*:*:*:node.js:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2015-0343",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2015-0343",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/adobe-connect/release-note/connect-94-release-notes.html#Issues%20Resolved",
+     "http://seclists.org/bugtraq/2015/Jun/61",
+     "http://www.securitytracker.com/id/1032567",
+     "http://seclists.org/fulldisclosure/2015/Jun/35",
+     "http://packetstormsecurity.com/files/132269/Adobe-Connect-9.3-Cross-Site-Scripting.html"
+    ],
+    "description": "Cross-site scripting (XSS) vulnerability in admin/home/homepage/search in the web app in Adobe Connect before 9.4 allows remote attackers to inject arbitrary web script or HTML via the query parameter.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.3 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2015-0344",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2015-0344",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/adobe-connect/release-note/connect-94-release-notes.html#Issues%20Resolved",
+     "http://www.securitytracker.com/id/1032567"
+    ],
+    "description": "Cross-site scripting (XSS) vulnerability in the web app in Adobe Connect before 9.4 allows remote attackers to inject arbitrary web script or HTML via unspecified vectors.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.3 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2016-0948",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-0948",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb16-07.html",
+     "http://www.securitytracker.com/id/1034978"
+    ],
+    "description": "Cross-site request forgery (CSRF) vulnerability in Adobe Connect before 9.5.2 allows remote attackers to hijack the authentication of unspecified victims via unknown vectors.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 6.8,
+       "exploitabilityScore": 8.6,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 8.8,
+       "exploitabilityScore": 2.8,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.5 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2016-0949",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-0949",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb16-07.html",
+     "http://www.securitytracker.com/id/1034978"
+    ],
+    "description": "Adobe Connect before 9.5.2 allows remote attackers to have an unspecified impact via a crafted parameter in a URL.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:C/I:C/A:C",
+      "metrics": {
+       "baseScore": 10,
+       "exploitabilityScore": 10,
+       "impactScore": 10
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 9.8,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.5.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2016-0950",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-0950",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb16-07.html",
+     "http://www.securitytracker.com/id/1034978"
+    ],
+    "description": "Adobe Connect before 9.5.2 allows remote attackers to spoof the user interface via unspecified vectors.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 5,
+       "exploitabilityScore": 10,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+      "metrics": {
+       "baseScore": 5.3,
+       "exploitabilityScore": 3.9,
+       "impactScore": 1.4
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.5.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2016-10540",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-10540",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://nodesecurity.io/advisories/118"
+    ],
+    "description": "Minimatch is a minimal matching utility that works by converting glob expressions into JavaScript `RegExp` objects. The primary function, `minimatch(path, pattern)` in Minimatch 3.0.1 and earlier is vulnerable to ReDoS in the `pattern` parameter.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+      "metrics": {
+       "baseScore": 5,
+       "exploitabilityScore": 10,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 3.9,
+       "impactScore": 3.6
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:node.js:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 3.0.1 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:minimatch_project:minimatch:*:*:*:*:*:node.js:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "minimatch",
+    "version": "0.3.0",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:minimatch:minimatch:0.3.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:minimatch:minimatch:0.3.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:minimatch:minimatch:0.3.0:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/minimatch@0.3.0",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2016-4118",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-4118",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb16-17.html",
+     "http://www.securityfocus.com/bid/90815",
+     "http://www.securitytracker.com/id/1035958"
+    ],
+    "description": "Untrusted search path vulnerability in the installer in Adobe Connect Add-In before 11.9.976.291 on Windows allows local users to gain privileges via unspecified vectors.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:L/AC:L/Au:N/C:C/I:C/A:C",
+      "metrics": {
+       "baseScore": 7.2,
+       "exploitabilityScore": 3.9,
+       "impactScore": 10
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 7.8,
+       "exploitabilityScore": 1.8,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.5.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2016-7851",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-7851",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb16-35.html",
+     "http://www.securityfocus.com/bid/94152",
+     "http://www.securitytracker.com/id/1037239",
+     "https://www.exploit-db.com/exploits/40742/"
+    ],
+    "description": "Adobe Connect version 9.5.6 and earlier does not adequately validate input in the events registration module. This vulnerability could be exploited in cross-site scripting attacks.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.5.6 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-11287",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-11287",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-35.html",
+     "http://www.securitytracker.com/id/1039799",
+     "http://www.securityfocus.com/bid/101838"
+    ],
+    "description": "An issue was discovered in Adobe Connect 9.6.2 and earlier versions. A reflected cross-site scripting vulnerability exists that can result in information disclosure.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-11288",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-11288",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-35.html",
+     "http://www.securitytracker.com/id/1039799",
+     "http://www.securityfocus.com/bid/101838"
+    ],
+    "description": "An issue was discovered in Adobe Connect 9.6.2 and earlier versions. A reflected cross-site scripting vulnerability exists that can result in information disclosure.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-11289",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-11289",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-35.html",
+     "http://www.securitytracker.com/id/1039799",
+     "http://www.securityfocus.com/bid/101838"
+    ],
+    "description": "An issue was discovered in Adobe Connect 9.6.2 and earlier versions. A reflected cross-site scripting vulnerability exists that can result in information disclosure.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-11290",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-11290",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-35.html",
+     "http://www.securitytracker.com/id/1039799",
+     "http://www.securityfocus.com/bid/101838"
+    ],
+    "description": "An issue was discovered in Adobe Connect 9.6.2 and earlier versions. A UI Redress (or Clickjacking) vulnerability exists. This issue has been resolved by adding a feature that enables Connect administrators to protect users from UI redressing (or clickjacking) attacks.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-11291",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-11291",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-35.html",
+     "http://www.securitytracker.com/id/1039799",
+     "http://www.securityfocus.com/bid/101838"
+    ],
+    "description": "An issue was discovered in Adobe Connect 9.6.2 and earlier versions. A Server-Side Request Forgery (SSRF) vulnerability exists that could be abused to bypass network access controls.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:N",
+      "metrics": {
+       "baseScore": 6.4,
+       "exploitabilityScore": 10,
+       "impactScore": 4.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N",
+      "metrics": {
+       "baseScore": 10,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.8
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-16042",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-16042",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://nodesecurity.io/advisories/146",
+     "https://github.com/tj/node-growl/pull/61",
+     "https://github.com/tj/node-growl/issues/60"
+    ],
+    "description": "Growl adds growl notification support to nodejs. Growl before 1.10.2 does not properly sanitize input before passing it to exec, allowing for arbitrary command execution.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 10,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 9.8,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:node.js:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "< 1.10.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:growl_project:growl:*:*:*:*:*:node.js:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "growl",
+    "version": "1.9.2",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:growl:growl:1.9.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:growl:growl:1.9.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:growl:growl:1.9.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/growl@1.9.2",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-16137",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-16137",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://nodesecurity.io/advisories/534",
+     "https://github.com/visionmedia/debug/pull/504",
+     "https://github.com/visionmedia/debug/issues/501",
+     "https://lists.apache.org/thread.html/r8ba4c628fba7181af58817d452119481adce4ba92e889c643e4c7dd3@%3Ccommits.netbeans.apache.org%3E",
+     "https://lists.apache.org/thread.html/rb5ac16fad337d1f3bb7079549f97d8166d0ef3082629417c39f12d63@%3Cnotifications.netbeans.apache.org%3E"
+    ],
+    "description": "The debug module is vulnerable to regular expression denial of service when untrusted user input is passed into the o formatter. It takes around 50k characters to block for 2 seconds making this a low severity issue.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+      "metrics": {
+       "baseScore": 5,
+       "exploitabilityScore": 10,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+      "metrics": {
+       "baseScore": 5.3,
+       "exploitabilityScore": 3.9,
+       "impactScore": 1.4
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:node.js:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": ">= 3.0.0, < 3.1.0 || >= 2.0.0, < 2.6.9 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:debug_project:debug:*:*:*:*:*:node.js:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "debug",
+    "version": "2.2.0",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:debug:debug:2.2.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:debug:debug:2.2.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:debug:debug:2.2.0:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/debug@2.2.0",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-3101",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-3101",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-22.html",
+     "http://www.securitytracker.com/id/1038846",
+     "http://www.securityfocus.com/bid/99521"
+    ],
+    "description": "Adobe Connect versions 9.6.1 and earlier have a clickjacking vulnerability. Successful exploitation could lead to a clickjacking attack.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 5,
+       "exploitabilityScore": 10,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 3.9,
+       "impactScore": 3.6
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.1 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-3102",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-3102",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-22.html",
+     "http://www.securitytracker.com/id/1038846",
+     "http://www.securityfocus.com/bid/99517"
+    ],
+    "description": "Adobe Connect versions 9.6.1 and earlier have a reflected cross-site scripting vulnerability. Successful exploitation could lead to a reflected cross-site scripting attack.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.1 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2017-3103",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-3103",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb17-22.html",
+     "http://www.securitytracker.com/id/1038846",
+     "http://www.securityfocus.com/bid/99518"
+    ],
+    "description": "Adobe Connect versions 9.6.1 and earlier have a stored cross-site scripting vulnerability. Successful exploitation could lead to a stored cross-site scripting attack.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.6.1 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2018-12804",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2018-12804",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb18-22.html",
+     "http://www.securitytracker.com/id/1041264",
+     "http://www.securityfocus.com/bid/104697"
+    ],
+    "description": "Adobe Connect versions 9.7.5 and earlier have an Authentication Bypass vulnerability. Successful exploitation could lead to session hijacking.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 10,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 9.8,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.7.5 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2018-12805",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2018-12805",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb18-22.html",
+     "http://www.securityfocus.com/bid/104696"
+    ],
+    "description": "Adobe Connect versions 9.7.5 and earlier have an Insecure Library Loading vulnerability. Successful exploitation could lead to privilege escalation.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 10,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 9.8,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.7.5 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2018-19718",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2018-19718",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb19-05.html",
+     "http://www.securityfocus.com/bid/106469"
+    ],
+    "description": "Adobe Connect versions 9.8.1 and earlier have a session token exposure vulnerability. Successful exploitation could lead to exposure of the privileges granted to a session.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+      "metrics": {
+       "baseScore": 5,
+       "exploitabilityScore": 10,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "metrics": {
+       "baseScore": 5.3,
+       "exploitabilityScore": 3.9,
+       "impactScore": 1.4
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.8.1 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2018-4921",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2018-4921",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb18-06.html",
+     "http://www.securitytracker.com/id/1040523",
+     "http://www.securityfocus.com/bid/103393"
+    ],
+    "description": "Adobe Connect versions 9.7 and earlier have an exploitable unrestricted SWF file upload vulnerability. Successful exploitation could lead to information disclosure.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.7 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2018-4923",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2018-4923",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb18-06.html",
+     "http://www.securitytracker.com/id/1040523",
+     "http://www.securityfocus.com/bid/103391"
+    ],
+    "description": "Adobe Connect versions 9.7 and earlier have an exploitable OS Command Injection. Successful exploitation could lead to arbitrary file deletion.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:N/I:P/A:P",
+      "metrics": {
+       "baseScore": 6.4,
+       "exploitabilityScore": 10,
+       "impactScore": 4.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H",
+      "metrics": {
+       "baseScore": 9.1,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.2
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.7 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2018-4994",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2018-4994",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb18-18.html",
+     "http://www.securitytracker.com/id/1040845",
+     "http://www.securityfocus.com/bid/104102",
+     "http://www.securitytracker.com/id/1041264"
+    ],
+    "description": "Adobe Connect versions 9.7.5 and earlier have an exploitable Authentication Bypass vulnerability. Successful exploitation could lead to sensitive information disclosure.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+      "metrics": {
+       "baseScore": 5,
+       "exploitabilityScore": 10,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.0",
+      "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 3.9,
+       "impactScore": 3.6
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 9.7.5 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2019-16374",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2019-16374",
+    "namespace": "nvd",
+    "severity": "Critical",
+    "urls": [
+     "https://gist.github.com/IAG0110/0205823570ba04ec12e656f7f4602877",
+     "https://community.pega.com/upgrade"
+    ],
+    "description": "Pega Platform 8.2.1 allows LDAP injection because a username can contain a * character and can be of unlimited length. An attacker can specify four characters of a username, followed by the * character, to bypass access control.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 7.5,
+       "exploitabilityScore": 10,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 9.8,
+       "exploitabilityScore": 3.9,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 8.2.1 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:pega:platform:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "platform",
+    "version": "1.3.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/platform@1.3.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-24442",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-24442",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb20-69.html"
+    ],
+    "description": "Adobe Connect version 11.0 (and earlier) is affected by a reflected Cross-Site Scripting (XSS) vulnerability. If an attacker is able to convince a victim to visit a URL referencing a vulnerable page, malicious JavaScript content may be executed within the context of the victim's browser.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 11.0 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-24443",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-24443",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb20-69.html"
+    ],
+    "description": "Adobe Connect version 11.0 (and earlier) is affected by a reflected Cross-Site Scripting (XSS) vulnerability. If an attacker is able to convince a victim to visit a URL referencing a vulnerable page, malicious JavaScript content may be executed within the context of the victim's browser.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 11.0 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-27225",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-27225",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://bugs.eclipse.org/bugs/show_bug.cgi?id=569855"
+    ],
+    "description": "In versions 4.18 and earlier of the Eclipse Platform, the Help Subsystem does not authenticate active help requests to the local help web server, allowing an unauthenticated local attacker to issue active help commands to the associated Eclipse Platform process or Eclipse Rich Client Platform process.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:L/AC:L/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 4.6,
+       "exploitabilityScore": 3.9,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 7.8,
+       "exploitabilityScore": 1.8,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 4.18 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:eclipse:platform:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "platform",
+    "version": "1.3.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/platform@1.3.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-5674",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-5674",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://jvn.jp/en/jp/JVN26835001/index.html",
+     "https://www.epson.jp/support/misc_t/201119_oshirase.htm",
+     "https://www.epson.jp/support/pdf/fy20-001_softwareList_20201106_b.pdf"
+    ],
+    "description": "Untrusted search path vulnerability in the installers of multiple SEIKO EPSON products allows an attacker to gain privileges via a Trojan horse DLL in an unspecified directory.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:L/AC:M/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 4.4,
+       "exploitabilityScore": 3.4,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 7.8,
+       "exploitabilityScore": 1.8,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "none (unknown)",
+      "cpes": [
+       "cpe:2.3:a:epson:connect:-:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-7598",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-7598",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+     "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html"
+    ],
+    "description": "minimist before 1.2.2 could be tricked into adding or modifying properties of Object.prototype using a \"constructor\" or \"__proto__\" payload.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 6.8,
+       "exploitabilityScore": 8.6,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+      "metrics": {
+       "baseScore": 5.6,
+       "exploitabilityScore": 2.2,
+       "impactScore": 3.4
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:node.js:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "< 1.2.2 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:substack:minimist:*:*:*:*:*:node.js:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "minimist",
+    "version": "0.0.8",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/minimist@0.0.8",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-8773",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-8773",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://community.pega.com/knowledgebase/products/platform/resolved-issues?q=issue%20529706&f%5B0%5D=version%3A32536"
+    ],
+    "description": "The Richtext Editor in Pega Platform before 8.2.6 is affected by a Stored Cross-Site Scripting (XSS) vulnerability.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:S/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 6,
+       "exploitabilityScore": 6.8,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:L",
+      "metrics": {
+       "baseScore": 8.9,
+       "exploitabilityScore": 2.3,
+       "impactScore": 6
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "< 8.2.6 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:pega:platform:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "platform",
+    "version": "1.3.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/platform@1.3.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2020-8775",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-8775",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://community.pega.com/knowledgebase/products/platform/resolved-issues?q=issue%20529706&f%5B0%5D=version%3A32536",
+     "https://www.pega.com/products/pega-platform"
+    ],
+    "description": "Pega Platform before version 8.2.6 is affected by a Stored Cross-Site Scripting (XSS) vulnerability in the comment tags.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:S/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 6,
+       "exploitabilityScore": 6.8,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:L",
+      "metrics": {
+       "baseScore": 8.9,
+       "exploitabilityScore": 2.3,
+       "impactScore": 6
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "< 8.2.6 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:pega:platform:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "platform",
+    "version": "1.3.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:platform:platform:1.3.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:platform:1.3.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/platform@1.3.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2021-21079",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2021-21079",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb21-19.html"
+    ],
+    "description": "Adobe Connect version 11.0.7 (and earlier) is affected by a reflected Cross-Site Scripting (XSS) vulnerability. An attacker could exploit this vulnerability to inject malicious JavaScript content that may be executed within the context of the victim's browser when they browse to the page containing the vulnerable field.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 11.0.7 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2021-21080",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2021-21080",
+    "namespace": "nvd",
+    "severity": "Medium",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb21-19.html"
+    ],
+    "description": "Adobe Connect version 11.0.7 (and earlier) is affected by a reflected Cross-Site Scripting (XSS) vulnerability. An attacker could exploit this vulnerability to inject malicious JavaScript content that may be executed within the context of the victim's browser when they browse to the page containing the vulnerable field.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:N",
+      "metrics": {
+       "baseScore": 4.3,
+       "exploitabilityScore": 8.6,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "metrics": {
+       "baseScore": 6.1,
+       "exploitabilityScore": 2.8,
+       "impactScore": 2.7
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 11.0.7 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2021-21085",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2021-21085",
+    "namespace": "nvd",
+    "severity": "High",
+    "urls": [
+     "https://helpx.adobe.com/security/products/connect/apsb21-19.html"
+    ],
+    "description": "Adobe Connect version 11.0.7 (and earlier) is affected by an Input Validation vulnerability in the export feature. An attacker could exploit this vulnerability by injecting a payload into an online event form and achieve code execution if the victim exports and opens the data on their local machine.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+      "metrics": {
+       "baseScore": 6.8,
+       "exploitabilityScore": 8.6,
+       "impactScore": 6.4
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+      "metrics": {
+       "baseScore": 7.8,
+       "exploitabilityScore": 1.8,
+       "impactScore": 5.9
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "<= 11.0.7 (unknown)",
+      "cpes": [
+       "cpe:2.3:a:adobe:connect:*:*:*:*:*:*:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "CVE-2021-23331",
+    "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2021-23331",
+    "namespace": "nvd",
+    "severity": "Low",
+    "urls": [
+     "https://github.com/square/connect-java-sdk/blob/master/src/main/java/com/squareup/connect/ApiClient.java%23L613",
+     "https://snyk.io/vuln/SNYK-JAVA-COMSQUAREUP-1065988"
+    ],
+    "description": "This affects all versions of package com.squareup:connect. The method prepareDownloadFilecreates creates a temporary file with the permissions bits of -rw-r--r-- on unix-like systems. On unix-like systems, the system temporary directory is shared between users. As such, the contents of the file downloaded by downloadFileFromResponse will be visible to all other users on the local system. A workaround fix for this issue is to set the system property java.io.tmpdir to a safe directory as remediation. Note: This version of the SDK is end of life and no longer maintained, please upgrade to the latest version.",
+    "cvss": [
+     {
+      "version": "2.0",
+      "vector": "AV:L/AC:L/Au:N/C:P/I:N/A:N",
+      "metrics": {
+       "baseScore": 2.1,
+       "exploitabilityScore": 3.9,
+       "impactScore": 2.9
+      },
+      "vendorMetadata": {}
+     },
+     {
+      "version": "3.1",
+      "vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N",
+      "metrics": {
+       "baseScore": 3.3,
+       "exploitabilityScore": 1.8,
+       "impactScore": 1.4
+      },
+      "vendorMetadata": {}
+     }
+    ],
+    "fix": {
+     "versions": [],
+     "state": "unknown"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "namespace": "nvd",
+      "cpes": [
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*",
+       "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*"
+      ]
+     },
+     "found": {
+      "versionConstraint": "none (unknown)",
+      "cpes": [
+       "cpe:2.3:a:sencha:connect:*:*:*:*:*:node.js:*:*"
+      ]
+     }
+    }
+   ],
+   "artifact": {
+    "name": "connect",
+    "version": "3.4.1",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:connect:connect:3.4.1:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:connect:3.4.1:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/connect@3.4.1",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-7fhm-mqm4-2wp7",
+    "dataSource": "https://github.com/advisories/GHSA-7fhm-mqm4-2wp7",
+    "namespace": "github:npm",
+    "severity": "Medium",
+    "urls": [
+     "https://github.com/advisories/GHSA-7fhm-mqm4-2wp7"
+    ],
+    "description": "Moderate severity vulnerability that affects minimist",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "0.2.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": "<0.2.1 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "minimist",
+    "version": "0.0.8",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/minimist@0.0.8",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-c3m8-x3cg-qm2c",
+    "dataSource": "https://github.com/advisories/GHSA-c3m8-x3cg-qm2c",
+    "namespace": "github:npm",
+    "severity": "Medium",
+    "urls": [
+     "https://github.com/advisories/GHSA-c3m8-x3cg-qm2c"
+    ],
+    "description": "Configuration Override in helmet-csp",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "2.9.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": ">=1.2.2,<2.9.1 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "helmet-csp",
+    "version": "1.2.2",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:helmet_csp:helmet-csp:1.2.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:helmet-csp:helmet_csp:1.2.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:helmet-csp:helmet_csp:1.2.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:helmet_csp:helmet_csp:1.2.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:helmet-csp:helmet-csp:1.2.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:helmet-csp:helmet-csp:1.2.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:helmet_csp:helmet-csp:1.2.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:helmet_csp:helmet_csp:1.2.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:helmet_csp:helmet-csp:1.2.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:helmet-csp:helmet-csp:1.2.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:helmet_csp:1.2.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:helmet_csp:1.2.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:helmet-csp:helmet_csp:1.2.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:helmet-csp:1.2.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:helmet-csp:1.2.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:helmet_csp:helmet_csp:1.2.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:helmet_csp:1.2.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:helmet-csp:1.2.2:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/helmet-csp@1.2.2",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-gxpj-cx7g-858c",
+    "dataSource": "https://github.com/advisories/GHSA-gxpj-cx7g-858c",
+    "namespace": "github:npm",
+    "severity": "Low",
+    "urls": [
+     "https://github.com/advisories/GHSA-gxpj-cx7g-858c"
+    ],
+    "description": "Regular Expression Denial of Service in debug",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "2.6.9"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2017-16137",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-16137",
+     "namespace": "nvd",
+     "severity": "Medium",
+     "urls": [
+      "https://nodesecurity.io/advisories/534",
+      "https://github.com/visionmedia/debug/pull/504",
+      "https://github.com/visionmedia/debug/issues/501",
+      "https://lists.apache.org/thread.html/r8ba4c628fba7181af58817d452119481adce4ba92e889c643e4c7dd3@%3Ccommits.netbeans.apache.org%3E",
+      "https://lists.apache.org/thread.html/rb5ac16fad337d1f3bb7079549f97d8166d0ef3082629417c39f12d63@%3Cnotifications.netbeans.apache.org%3E"
+     ],
+     "description": "The debug module is vulnerable to regular expression denial of service when untrusted user input is passed into the o formatter. It takes around 50k characters to block for 2 seconds making this a low severity issue.",
+     "cvss": [
+      {
+       "version": "2.0",
+       "vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+       "metrics": {
+        "baseScore": 5,
+        "exploitabilityScore": 10,
+        "impactScore": 2.9
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "version": "3.0",
+       "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+       "metrics": {
+        "baseScore": 5.3,
+        "exploitabilityScore": 3.9,
+        "impactScore": 1.4
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": "<2.6.9 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "debug",
+    "version": "2.2.0",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:debug:debug:2.2.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:debug:debug:2.2.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:debug:debug:2.2.0:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:debug:2.2.0:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/debug@2.2.0",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-h6ch-v84p-w6p9",
+    "dataSource": "https://github.com/advisories/GHSA-h6ch-v84p-w6p9",
+    "namespace": "github:npm",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-h6ch-v84p-w6p9"
+    ],
+    "description": "Regular Expression Denial of Service (ReDoS)",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "3.5.0"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": "<3.5.0 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "diff",
+    "version": "1.4.0",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:diff:diff:1.4.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:diff:diff:1.4.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:diff:1.4.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:diff:1.4.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:diff:diff:1.4.0:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:diff:1.4.0:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/diff@1.4.0",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-hxm2-r34f-qmc5",
+    "dataSource": "https://github.com/advisories/GHSA-hxm2-r34f-qmc5",
+    "namespace": "github:npm",
+    "severity": "High",
+    "urls": [
+     "https://github.com/advisories/GHSA-hxm2-r34f-qmc5"
+    ],
+    "description": "Regular Expression Denial of Service in minimatch",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "3.0.2"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2016-10540",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2016-10540",
+     "namespace": "nvd",
+     "severity": "High",
+     "urls": [
+      "https://nodesecurity.io/advisories/118"
+     ],
+     "description": "Minimatch is a minimal matching utility that works by converting glob expressions into JavaScript `RegExp` objects. The primary function, `minimatch(path, pattern)` in Minimatch 3.0.1 and earlier is vulnerable to ReDoS in the `pattern` parameter.",
+     "cvss": [
+      {
+       "version": "2.0",
+       "vector": "AV:N/AC:L/Au:N/C:N/I:N/A:P",
+       "metrics": {
+        "baseScore": 5,
+        "exploitabilityScore": 10,
+        "impactScore": 2.9
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "version": "3.0",
+       "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+       "metrics": {
+        "baseScore": 7.5,
+        "exploitabilityScore": 3.9,
+        "impactScore": 3.6
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": "<3.0.2 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "minimatch",
+    "version": "0.3.0",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:minimatch:minimatch:0.3.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:minimatch:minimatch:0.3.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:minimatch:minimatch:0.3.0:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:minimatch:0.3.0:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/minimatch@0.3.0",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-qh2h-chj9-jffq",
+    "dataSource": "https://github.com/advisories/GHSA-qh2h-chj9-jffq",
+    "namespace": "github:npm",
+    "severity": "Critical",
+    "urls": [
+     "https://github.com/advisories/GHSA-qh2h-chj9-jffq"
+    ],
+    "description": "Command Injection in growl",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "1.10.0"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2017-16042",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2017-16042",
+     "namespace": "nvd",
+     "severity": "Critical",
+     "urls": [
+      "https://nodesecurity.io/advisories/146",
+      "https://github.com/tj/node-growl/pull/61",
+      "https://github.com/tj/node-growl/issues/60"
+     ],
+     "description": "Growl adds growl notification support to nodejs. Growl before 1.10.2 does not properly sanitize input before passing it to exec, allowing for arbitrary command execution.",
+     "cvss": [
+      {
+       "version": "2.0",
+       "vector": "AV:N/AC:L/Au:N/C:P/I:P/A:P",
+       "metrics": {
+        "baseScore": 7.5,
+        "exploitabilityScore": 10,
+        "impactScore": 6.4
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "version": "3.0",
+       "vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+       "metrics": {
+        "baseScore": 9.8,
+        "exploitabilityScore": 3.9,
+        "impactScore": 5.9
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": "<1.10.0 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "growl",
+    "version": "1.9.2",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:growl:growl:1.9.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:growl:growl:1.9.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:growl:growl:1.9.2:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:growl:1.9.2:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/growl@1.9.2",
+    "metadata": null
+   }
+  },
+  {
+   "vulnerability": {
+    "id": "GHSA-vh95-rmgr-6w4m",
+    "dataSource": "https://github.com/advisories/GHSA-vh95-rmgr-6w4m",
+    "namespace": "github:npm",
+    "severity": "Low",
+    "urls": [
+     "https://github.com/advisories/GHSA-vh95-rmgr-6w4m"
+    ],
+    "description": "Prototype Pollution in minimist",
+    "cvss": [],
+    "fix": {
+     "versions": [
+      "0.2.1"
+     ],
+     "state": "fixed"
+    },
+    "advisories": []
+   },
+   "relatedVulnerabilities": [
+    {
+     "id": "CVE-2020-7598",
+     "dataSource": "https://nvd.nist.gov/vuln/detail/CVE-2020-7598",
+     "namespace": "nvd",
+     "severity": "Medium",
+     "urls": [
+      "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+      "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html"
+     ],
+     "description": "minimist before 1.2.2 could be tricked into adding or modifying properties of Object.prototype using a \"constructor\" or \"__proto__\" payload.",
+     "cvss": [
+      {
+       "version": "2.0",
+       "vector": "AV:N/AC:M/Au:N/C:P/I:P/A:P",
+       "metrics": {
+        "baseScore": 6.8,
+        "exploitabilityScore": 8.6,
+        "impactScore": 6.4
+       },
+       "vendorMetadata": {}
+      },
+      {
+       "version": "3.1",
+       "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+       "metrics": {
+        "baseScore": 5.6,
+        "exploitabilityScore": 2.2,
+        "impactScore": 3.4
+       },
+       "vendorMetadata": {}
+      }
+     ]
+    }
+   ],
+   "matchDetails": [
+    {
+     "matcher": "javascript-matcher",
+     "searchedBy": {
+      "language": "javascript",
+      "namespace": "github:npm"
+     },
+     "found": {
+      "versionConstraint": "<0.2.1 (unknown)"
+     }
+    }
+   ],
+   "artifact": {
+    "name": "minimist",
+    "version": "0.0.8",
+    "type": "npm",
+    "locations": [
+     {
+      "path": "package-lock.json"
+     }
+    ],
+    "language": "javascript",
+    "licenses": [],
+    "cpes": [
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:node.js:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:nodejs:*:*",
+     "cpe:2.3:a:minimist:minimist:0.0.8:*:*:*:*:*:*:*",
+     "cpe:2.3:a:*:minimist:0.0.8:*:*:*:*:*:*:*"
+    ],
+    "purl": "pkg:npm/minimist@0.0.8",
+    "metadata": null
+   }
+  }
+ ],
+ "source": {
+  "type": "directory",
+  "target": "."
+ },
+ "distro": {
+  "name": "",
+  "version": "",
+  "idLike": ""
+ },
+ "descriptor": {
+  "name": "grype",
+  "version": "0.13.0",
+  "configuration": {
+   "ConfigPath": "",
+   "Output": "json",
+   "OutputTemplateFile": "",
+   "Scope": "Squashed",
+   "Quiet": false,
+   "Log": {
+    "Structured": false,
+    "Level": "",
+    "FileLocation": ""
+   },
+   "CliOptions": {
+    "ConfigPath": "",
+    "Verbosity": 0
+   },
+   "Db": {
+    "Dir": "/home/local/.cache/grype/db",
+    "UpdateURL": "https://toolbox-data.anchore.io/grype/databases/listing.json",
+    "AutoUpdate": true,
+    "ValidateByHashOnStart": false
+   },
+   "Dev": {
+    "ProfileCPU": false
+   },
+   "CheckForAppUpdate": true,
+   "FailOn": "",
+   "registry": {
+    "insecure-skip-tls-verify": false,
+    "auth": []
+   }
+  },
+  "db": {
+   "built": "2021-06-07T09:03:30Z",
+   "schemaVersion": 3,
+   "location": "/home/local/.cache/grype/db/3",
+   "checksum": "sha256:8d8ef9db6b76e4a49cfbd6a8e2e0077aecfbd940b7ecc00b11ebd6608b2bd36b",
+   "error": null
+  }
+ }
+}

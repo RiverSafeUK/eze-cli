@@ -1,0 +1,60 @@
+# Python: Eze Coe Compile
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+#
+# Pipeline Link:
+# see https://dev.azure.com/riversafe/DevSecOps/_build?definitionId=12
+
+trigger:
+  - main
+  - develop
+
+pool:
+  vmImage: ubuntu-latest
+strategy:
+  matrix:
+    Python38:
+      python.version: '3.8'
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: 'Install Dependencies'
+
+  # See https://pypi.org/project/pytest-azurepipelines/
+  - script: |
+      pip install -r requirements-dev.txt
+      pytest tests -vv --cov=eze --cov-branch --cov-report=term-missing --cov-report=xml:reports/coverage/coverage.xml --junitxml=reports/xunit/test-results.xml -o junit_family=xunit1 || true
+    displayName: 'Run Tests'
+
+  # https://docs.microsoft.com/azure/devops/pipelines/tasks/test/publish-test-results
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'reports/xunit/test-results.xml'
+      failTaskOnFailedTests: true
+
+  # See https://pypi.org/project/pytest-azurepipelines/
+  - script: |
+      pip install semgrep truffleHog3 bandit piprot safety cyclonedx-bom
+      chmod +x ./scripts/install-eze.sh
+      ./scripts/install-eze.sh
+
+      eze test -s ci --debug
+    env:
+      EZE_APIKEY: $(EZE_APIKEY)
+    displayName: 'Run Eze Security Tests'
+
+  # https://docs.microsoft.com/en-gb/azure/devops/pipelines/tasks/test/publish-code-coverage-results
+  # WARNING: ado help page for version 1 which is not installed https://dev.azure.com/riversafe/DevSecOps/
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: 'reports/coverage/coverage.xml'
+      pathToSources: 'eze'

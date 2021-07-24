@@ -1,0 +1,81 @@
+short_description:
+======================
+proprietary infrastructure scanner
+
+config_help:
+======================
+[snyk-iac]
+# SOURCE str
+# Required iac setup to scan
+# 
+# For detailed details
+# See https://support.snyk.io/hc/en-us/articles/360012429477-Test-your-Kubernetes-files-with-our-CLI-tool
+# 
+# 
+SOURCE = "..."
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-snyk-iac-report.json"
+# 
+REPORT_FILE = "..."
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VUNERABLITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_VUNERABLITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required to install snyk is node and npm install
+npm install snyk -g
+snyk --version
+
+Then ensure your snyk instance is configured
+snyk auth
+
+more_info:
+======================
+https://support.snyk.io/hc/en-us
+https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+note a root level .snyk should be created to configure synk
+see https://support.snyk.io/hc/en-us/articles/360007487097-The-snyk-file

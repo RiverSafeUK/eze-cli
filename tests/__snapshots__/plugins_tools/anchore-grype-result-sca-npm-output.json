@@ -1,0 +1,296 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "anchore-grype",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2013-4691"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "connect",
+      "overview": "Sencha Labs Connect has XSS with connect.methodOverride()",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2013-4691",
+        "http://github.com/senchalabs/connect/issues/831"
+      ],
+      "severity": "medium",
+      "version": "3.4.1",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2016-0948"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "connect",
+      "overview": "Cross-site request forgery (CSRF) vulnerability in Adobe Connect before 9.5.2 allows remote attackers to hijack the authentication of unspecified victims via unknown vectors.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2016-0948",
+        "https://helpx.adobe.com/security/products/connect/apsb16-07.html",
+        "http://www.securitytracker.com/id/1034978"
+      ],
+      "severity": "high",
+      "version": "3.4.1",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2016-0949"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "connect",
+      "overview": "Adobe Connect before 9.5.2 allows remote attackers to have an unspecified impact via a crafted parameter in a URL.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2016-0949",
+        "https://helpx.adobe.com/security/products/connect/apsb16-07.html",
+        "http://www.securitytracker.com/id/1034978"
+      ],
+      "severity": "critical",
+      "version": "3.4.1",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2016-10540"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "minimatch",
+      "overview": "Minimatch is a minimal matching utility that works by converting glob expressions into JavaScript `RegExp` objects. The primary function, `minimatch(path, pattern)` in Minimatch 3.0.1 and earlier is vulnerable to ReDoS in the `pattern` parameter.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2016-10540",
+        "https://nodesecurity.io/advisories/118"
+      ],
+      "severity": "high",
+      "version": "0.3.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2017-16042"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "growl",
+      "overview": "Growl adds growl notification support to nodejs. Growl before 1.10.2 does not properly sanitize input before passing it to exec, allowing for arbitrary command execution.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2017-16042",
+        "https://nodesecurity.io/advisories/146",
+        "https://github.com/tj/node-growl/pull/61",
+        "https://github.com/tj/node-growl/issues/60"
+      ],
+      "severity": "critical",
+      "version": "1.9.2",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2017-16137"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "debug",
+      "overview": "The debug module is vulnerable to regular expression denial of service when untrusted user input is passed into the o formatter. It takes around 50k characters to block for 2 seconds making this a low severity issue.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2017-16137",
+        "https://nodesecurity.io/advisories/534",
+        "https://github.com/visionmedia/debug/pull/504",
+        "https://github.com/visionmedia/debug/issues/501",
+        "https://lists.apache.org/thread.html/r8ba4c628fba7181af58817d452119481adce4ba92e889c643e4c7dd3@%3Ccommits.netbeans.apache.org%3E",
+        "https://lists.apache.org/thread.html/rb5ac16fad337d1f3bb7079549f97d8166d0ef3082629417c39f12d63@%3Cnotifications.netbeans.apache.org%3E"
+      ],
+      "severity": "medium",
+      "version": "2.2.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2019-16374"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "platform",
+      "overview": "Pega Platform 8.2.1 allows LDAP injection because a username can contain a * character and can be of unlimited length. An attacker can specify four characters of a username, followed by the * character, to bypass access control.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2019-16374",
+        "https://gist.github.com/IAG0110/0205823570ba04ec12e656f7f4602877",
+        "https://community.pega.com/upgrade"
+      ],
+      "severity": "critical",
+      "version": "1.3.1",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2020-27225"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "platform",
+      "overview": "In versions 4.18 and earlier of the Eclipse Platform, the Help Subsystem does not authenticate active help requests to the local help web server, allowing an unauthenticated local attacker to issue active help commands to the associated Eclipse Platform process or Eclipse Rich Client Platform process.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2020-27225",
+        "https://bugs.eclipse.org/bugs/show_bug.cgi?id=569855"
+      ],
+      "severity": "high",
+      "version": "1.3.1",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2020-7598"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "minimist",
+      "overview": "minimist before 1.2.2 could be tricked into adding or modifying properties of Object.prototype using a \"constructor\" or \"__proto__\" payload.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2020-7598",
+        "https://snyk.io/vuln/SNYK-JS-MINIMIST-559764",
+        "http://lists.opensuse.org/opensuse-security-announce/2020-06/msg00024.html"
+      ],
+      "severity": "medium",
+      "version": "0.0.8",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2021-23331"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "connect",
+      "overview": "This affects all versions of package com.squareup:connect. The method prepareDownloadFilecreates creates a temporary file with the permissions bits of -rw-r--r-- on unix-like systems. On unix-like systems, the system temporary directory is shared between users. As such, the contents of the file downloaded by downloadFileFromResponse will be visible to all other users on the local system. A workaround fix for this issue is to set the system property java.io.tmpdir to a safe directory as remediation. Note: This version of the SDK is end of life and no longer maintained, please upgrade to the latest version.",
+      "recommendation": "",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2021-23331",
+        "https://github.com/square/connect-java-sdk/blob/master/src/main/java/com/squareup/connect/ApiClient.java%23L613",
+        "https://snyk.io/vuln/SNYK-JAVA-COMSQUAREUP-1065988"
+      ],
+      "severity": "low",
+      "version": "3.4.1",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "ghsa": "GHSA-c3m8-x3cg-qm2c"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "helmet-csp",
+      "overview": "Configuration Override in helmet-csp",
+      "recommendation": "Update helmet-csp (1.2.2) to a non vulnerable version, fix version: 2.9.1",
+      "references": [
+        "https://github.com/advisories/GHSA-c3m8-x3cg-qm2c"
+      ],
+      "severity": "medium",
+      "version": "1.2.2",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "ghsa": "GHSA-gxpj-cx7g-858c"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "debug",
+      "overview": "Regular Expression Denial of Service in debug",
+      "recommendation": "Update debug (2.2.0) to a non vulnerable version, fix version: 2.6.9",
+      "references": [
+        "https://github.com/advisories/GHSA-gxpj-cx7g-858c"
+      ],
+      "severity": "low",
+      "version": "2.2.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "ghsa": "GHSA-h6ch-v84p-w6p9"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "diff",
+      "overview": "Regular Expression Denial of Service (ReDoS)",
+      "recommendation": "Update diff (1.4.0) to a non vulnerable version, fix version: 3.5.0",
+      "references": [
+        "https://github.com/advisories/GHSA-h6ch-v84p-w6p9"
+      ],
+      "severity": "high",
+      "version": "1.4.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "ghsa": "GHSA-vh95-rmgr-6w4m"
+      },
+      "is_ignored": false,
+      "language": "javascript",
+      "metadata": null,
+      "name": "minimist",
+      "overview": "Prototype Pollution in minimist",
+      "recommendation": "Update minimist (0.0.8) to a non vulnerable version, fix version: 0.2.1",
+      "references": [
+        "https://github.com/advisories/GHSA-vh95-rmgr-6w4m"
+      ],
+      "severity": "low",
+      "version": "0.0.8",
+      "vulnerability_type": "dependancy"
+    }
+  ],
+  "warnings": []
+}

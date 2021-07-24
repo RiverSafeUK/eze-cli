@@ -1,0 +1,24 @@
+[
+  {
+    "date": "2021-04-12 11:50:07",
+    "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py",
+    "branch": null,
+    "commit": null,
+    "commitHash": null,
+    "reason": "High entropy",
+    "stringsFound": [
+      "2 JWT_TOKEN = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\""
+    ]
+  },
+  {
+    "date": "2021-04-12 11:50:07",
+    "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py",
+    "branch": null,
+    "commit": null,
+    "commitHash": null,
+    "reason": "Password in URL",
+    "stringsFound": [
+      "1 SERVER_LOCATION = \"https://username:password@localhost:1234\""
+    ]
+  }
+]

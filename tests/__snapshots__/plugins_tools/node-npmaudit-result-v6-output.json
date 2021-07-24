@@ -1,0 +1,126 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "node-npmaudit",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2016-10540",
+        "cwe": "CWE-400"
+      },
+      "is_ignored": false,
+      "language": "node",
+      "metadata": null,
+      "name": "mocha>glob>minimatch(0.3.0): Regular Expression Denial of Service",
+      "overview": "Affected versions of `minimatch` are vulnerable to regular expression denial of service attacks when user input is passed into the `pattern` argument of `minimatch(path, pattern)`.\n\n\n## Proof of Concept\n```\nvar minimatch = require(\u201cminimatch\u201d);\n\n// utility function for generating long strings\nvar genstr = function (len, chr) {\n  var result = \u201c\u201d;\n  for (i=0; i<=len; i++) {\n    result = result + chr;\n  }\n  return result;\n}\n\nvar exploit = \u201c[!\u201d + genstr(1000000, \u201c\\\\\u201d) + \u201cA\u201d;\n\n// minimatch exploit.\nconsole.log(\u201cstarting minimatch\u201d);\nminimatch(\u201cfoo\u201d, exploit);\nconsole.log(\u201cfinishing minimatch\u201d);\n```",
+      "recommendation": "Update to version 3.0.2 or later.",
+      "references": [
+        "https://npmjs.com/advisories/118"
+      ],
+      "severity": "high",
+      "version": "0.3.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2017-16042",
+        "cwe": "CWE-94"
+      },
+      "is_ignored": false,
+      "language": "node",
+      "metadata": null,
+      "name": "mocha>growl(1.9.2): Command Injection",
+      "overview": "Affected versions of `growl` do not properly sanitize input prior to passing it into a shell command, allowing for arbitrary command execution.",
+      "recommendation": "Update to version 1.10.2 or later.",
+      "references": [
+        "https://npmjs.com/advisories/146"
+      ],
+      "severity": "critical",
+      "version": "1.9.2",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2017-16137",
+        "cwe": "CWE-400"
+      },
+      "is_ignored": false,
+      "language": "node",
+      "metadata": null,
+      "name": "helmet>connect>debug(2.2.0): Regular Expression Denial of Service",
+      "overview": "Affected versions of `debug` are vulnerable to regular expression denial of service when untrusted user input is passed into the `o` formatter. \n\nAs it takes 50,000 characters to block the event loop for 2 seconds, this issue is a low severity issue.",
+      "recommendation": "Version 2.x.x: Update to version 2.6.9 or later.\nVersion 3.x.x: Update to version 3.1.0 or later.\n",
+      "references": [
+        "https://npmjs.com/advisories/534"
+      ],
+      "severity": "low",
+      "version": "2.2.0",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cwe": "CWE-16"
+      },
+      "is_ignored": false,
+      "language": "node",
+      "metadata": null,
+      "name": "helmet>helmet-csp(1.2.2): Configuration Override",
+      "overview": "Versions of `helmet-csp` before to 2.9.1 are vulnerable to a Configuration Override affecting the application's Content Security Policy (CSP). The package's browser sniffing for Firefox deletes the `default-src` CSP policy, which is the fallback policy. This allows an attacker to remove an application's default CSP, possibly rendering the application vulnerable to Cross-Site Scripting.",
+      "recommendation": "Upgrade to version 2.9.1 or later. Setting the `browserSniff` configuration to `false` in vulnerable versions also mitigates the issue.",
+      "references": [
+        "https://npmjs.com/advisories/1176"
+      ],
+      "severity": "moderate",
+      "version": "1.2.2",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cwe": "CWE-471"
+      },
+      "is_ignored": false,
+      "language": "node",
+      "metadata": null,
+      "name": "mocha>mkdirp>minimist(0.0.8): Prototype Pollution",
+      "overview": "Affected versions of `minimist` are vulnerable to prototype pollution. Arguments are not properly sanitized, allowing an attacker to modify the prototype of `Object`, causing the addition or modification of an existing property that will exist on all objects.  \nParsing the argument `--__proto__.y=Polluted` adds a `y` property with value `Polluted` to all objects. The argument `--__proto__=Polluted` raises and uncaught error and crashes the application.  \nThis is exploitable if attackers have control over the arguments being passed to `minimist`.\n",
+      "recommendation": "Upgrade to versions 0.2.1, 1.2.3 or later.",
+      "references": [
+        "https://npmjs.com/advisories/1179"
+      ],
+      "severity": "low",
+      "version": "0.0.8",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cwe": "CWE-400"
+      },
+      "is_ignored": false,
+      "language": "node",
+      "metadata": null,
+      "name": "mocha>diff(1.4.0): Regular Expression Denial of Service",
+      "overview": "Affected versions of `diff` are vulnerable to Regular Expression Denial of Service (ReDoS). This can cause an impact of about 10 seconds matching time for data 48K characters long.\n\n",
+      "recommendation": "Upgrade to 3.5.0 or later.",
+      "references": [
+        "https://npmjs.com/advisories/1631"
+      ],
+      "severity": "high",
+      "version": "1.4.0",
+      "vulnerability_type": "dependancy"
+    }
+  ],
+  "warnings": []
+}

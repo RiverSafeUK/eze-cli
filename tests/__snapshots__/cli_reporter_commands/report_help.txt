@@ -1,0 +1,13 @@
+=================================
+Reporter 'testee-reporter' Help
+Example short description
+=================================
+Version: version string Installed
+
+Reporter Configuration Instructions:
+---------------------------------
+[dummy]
+
+Reporter More Info:
+---------------------------------
+Example Config help string

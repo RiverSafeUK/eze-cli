@@ -1,0 +1,5 @@
+high-GitPython (3.1.0) is 1099 days out of date. Latest is 3.1.17
+medium-click (7.1.2) is 740 days out of date. Latest is 8.0.1
+low-requests (2.24.0) is 182 days out of date. Latest is 2.25.1
+requests (2.24.0) is 100 days out of date. Latest is 2.25.1
+Your requirements are 1013 days out of date

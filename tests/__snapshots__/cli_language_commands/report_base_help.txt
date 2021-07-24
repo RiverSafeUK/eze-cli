@@ -1,0 +1,11 @@
+Usage: languages [OPTIONS] COMMAND [ARGS]...
+
+  container for language commands
+
+Options:
+  --debug / --no-debug  Enables or disables debug mode
+  --help                Show this message and exit.
+
+Commands:
+  help  List the help for a given language
+  list  List the available languages

@@ -1,0 +1,251 @@
+{
+    "BugCollection": {
+        "@sequence": "0",
+        "@release": "",
+        "@analysisTimestamp": "1625665470929",
+        "@version": "4.2.3",
+        "@timestamp": "1625665463410",
+        "Project": {
+            "@projectName": "goat-java",
+            "Jar": "C:\\dev\\repos\\eze-goat\\goat-java\\target\\classes",
+            "AuxClasspathEntry": [
+                "C:\\Users\\Riversafe\\.m2\\repository\\org\\springframework\\spring-instrument\\5.3.6\\spring-instrument-5.3.6.jar",
+                "C:\\Users\\Riversafe\\.m2\\repository\\org\\apache\\geronimo\\daytrader\\daytrader-wsappclient\\2.1.7\\daytrader-wsappclient-2.1.7.jar",
+                "C:\\Users\\Riversafe\\.m2\\repository\\org\\apache\\geronimo\\specs\\geronimo-jaxrpc_1.1_spec\\2.0.0\\geronimo-jaxrpc_1.1_spec-2.0.0.jar"
+            ],
+            "SrcDir": [
+                "C:\\dev\\repos\\eze-goat\\goat-java\\src\\main\\java",
+                "C:\\dev\\repos\\eze-goat\\goat-java\\target\\generated-sources\\annotations"
+            ],
+            "WrkDir": "C:\\dev\\repos\\eze-goat\\goat-java\\target"
+        },
+        "BugInstance": [
+            {
+                "@instanceOccurrenceNum": "0",
+                "@instanceHash": "dc48b16927918d10fd2828c00f825741",
+                "@rank": "8",
+                "@abbrev": "IL",
+                "@category": "CORRECTNESS",
+                "@priority": "1",
+                "@type": "IL_INFINITE_LOOP",
+                "@instanceOccurrenceMax": "0",
+                "ShortMessage": "An apparent infinite loop",
+                "LongMessage": "There is an apparent infinite loop in com.mycompany.app.FindBugsOne.main(String[])",
+                "Class": {
+                    "@classname": "com.mycompany.app.FindBugsOne",
+                    "@primary": "true",
+                    "SourceLine": {
+                        "@classname": "com.mycompany.app.FindBugsOne",
+                        "@start": "3",
+                        "@end": "9",
+                        "@sourcepath": "com/mycompany/app/FindBugsOne.java",
+                        "@sourcefile": "FindBugsOne.java",
+                        "Message": "At FindBugsOne.java:[lines 3-9]"
+                    },
+                    "Message": "In class com.mycompany.app.FindBugsOne"
+                },
+                "Method": {
+                    "@isStatic": "true",
+                    "@classname": "com.mycompany.app.FindBugsOne",
+                    "@signature": "([Ljava/lang/String;)V",
+                    "@name": "main",
+                    "@primary": "true",
+                    "SourceLine": {
+                        "@endBytecode": "94",
+                        "@classname": "com.mycompany.app.FindBugsOne",
+                        "@start": "5",
+                        "@end": "9",
+                        "@sourcepath": "com/mycompany/app/FindBugsOne.java",
+                        "@sourcefile": "FindBugsOne.java",
+                        "@startBytecode": "0"
+                    },
+                    "Message": "In method com.mycompany.app.FindBugsOne.main(String[])"
+                },
+                "SourceLine": [
+                    {
+                        "@endBytecode": "3",
+                        "@classname": "com.mycompany.app.FindBugsOne",
+                        "@start": "6",
+                        "@end": "6",
+                        "@sourcepath": "com/mycompany/app/FindBugsOne.java",
+                        "@sourcefile": "FindBugsOne.java",
+                        "@startBytecode": "3",
+                        "@primary": "true",
+                        "Message": "At FindBugsOne.java:[line 6]"
+                    },
+                    {
+                        "@role": "SOURCE_LINE_LOOP_BOTTOM",
+                        "@endBytecode": "14",
+                        "@classname": "com.mycompany.app.FindBugsOne",
+                        "@start": "7",
+                        "@end": "7",
+                        "@sourcepath": "com/mycompany/app/FindBugsOne.java",
+                        "@sourcefile": "FindBugsOne.java",
+                        "@startBytecode": "14",
+                        "Message": "Loop bottom at FindBugsOne.java:[line 7]"
+                    }
+                ]
+            }
+        ],
+        "BugCategory": {
+            "@category": "CORRECTNESS",
+            "Description": "Correctness"
+        },
+        "BugPattern": [
+            {
+                "@abbrev": "IL",
+                "@category": "CORRECTNESS",
+                "@type": "IL_INFINITE_LOOP",
+                "ShortDescription": "An apparent infinite loop",
+                "Details": "<p>This loop doesn't seem to have a way to terminate (other than by perhaps\nthrowing an exception).</p>"
+            }
+        ],
+        "BugCode": {
+            "@abbrev": "IL",
+            "Description": "Infinite Loop"
+        },
+        "Errors": {
+            "@missingClasses": "0",
+            "@errors": "0"
+        },
+        "FindBugsSummary": {
+            "@num_packages": "1",
+            "@total_classes": "2",
+            "@priority_1": "1",
+            "@total_size": "22",
+            "@clock_seconds": "1.77",
+            "@referenced_classes": "15",
+            "@vm_version": "11.0.11+9-LTS",
+            "@total_bugs": "1",
+            "@java_version": "11.0.11",
+            "@gc_seconds": "0.03",
+            "@alloc_mbytes": "512.00",
+            "@cpu_seconds": "7.86",
+            "@peak_mbytes": "225.18",
+            "@timestamp": "Wed, 7 Jul 2021 14:44:23 +0100",
+            "FileStats": [
+                {
+                    "@path": "com/mycompany/app/App.java",
+                    "@size": "14",
+                    "@bugCount": "0"
+                },
+                {
+                    "@path": "com/mycompany/app/FindBugsOne.java",
+                    "@size": "8",
+                    "@bugHash": "4ea6d570fa03ce9bfe4fef1aeec69fe7",
+                    "@bugCount": "1"
+                }
+            ],
+            "PackageStats": {
+                "@package": "com.mycompany.app",
+                "@priority_1": "1",
+                "@total_bugs": "1",
+                "@total_size": "22",
+                "@total_types": "2",
+                "ClassStats": [
+                    {
+                        "@bugs": "0",
+                        "@size": "14",
+                        "@interface": "false",
+                        "@sourceFile": "App.java",
+                        "@class": "com.mycompany.app.App"
+                    },
+                    {
+                        "@bugs": "1",
+                        "@size": "8",
+                        "@priority_1": "1",
+                        "@interface": "false",
+                        "@sourceFile": "FindBugsOne.java",
+                        "@class": "com.mycompany.app.FindBugsOne"
+                    }
+                ]
+            },
+            "FindBugsProfile": {
+                "ClassProfile": [
+                    {
+                        "@avgMicrosecondsPerInvocation": "1091",
+                        "@totalMilliseconds": "395",
+                        "@name": "edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine",
+                        "@maxMicrosecondsPerInvocation": "23574",
+                        "@standardDeviationMicrosecondsPerInvocation": "2307",
+                        "@invocations": "362"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "357",
+                        "@totalMilliseconds": "130",
+                        "@name": "edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine",
+                        "@maxMicrosecondsPerInvocation": "5452",
+                        "@standardDeviationMicrosecondsPerInvocation": "386",
+                        "@invocations": "364"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "4499",
+                        "@totalMilliseconds": "67",
+                        "@name": "edu.umd.cs.findbugs.detect.FieldItemSummary",
+                        "@maxMicrosecondsPerInvocation": "16239",
+                        "@standardDeviationMicrosecondsPerInvocation": "5607",
+                        "@invocations": "15"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "14937",
+                        "@totalMilliseconds": "59",
+                        "@name": "edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory",
+                        "@maxMicrosecondsPerInvocation": "58431",
+                        "@standardDeviationMicrosecondsPerInvocation": "25111",
+                        "@invocations": "4"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "941",
+                        "@totalMilliseconds": "50",
+                        "@name": "edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory",
+                        "@maxMicrosecondsPerInvocation": "8027",
+                        "@standardDeviationMicrosecondsPerInvocation": "1513",
+                        "@invocations": "54"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "135",
+                        "@totalMilliseconds": "44",
+                        "@name": "edu.umd.cs.findbugs.util.TopologicalSort",
+                        "@maxMicrosecondsPerInvocation": "1908",
+                        "@standardDeviationMicrosecondsPerInvocation": "249",
+                        "@invocations": "329"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "2753",
+                        "@totalMilliseconds": "41",
+                        "@name": "edu.umd.cs.findbugs.detect.FindNoSideEffectMethods",
+                        "@maxMicrosecondsPerInvocation": "13231",
+                        "@standardDeviationMicrosecondsPerInvocation": "3717",
+                        "@invocations": "15"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "1075",
+                        "@totalMilliseconds": "34",
+                        "@name": "edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine",
+                        "@maxMicrosecondsPerInvocation": "18300",
+                        "@standardDeviationMicrosecondsPerInvocation": "3228",
+                        "@invocations": "32"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "1978",
+                        "@totalMilliseconds": "29",
+                        "@name": "edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical",
+                        "@maxMicrosecondsPerInvocation": "20844",
+                        "@standardDeviationMicrosecondsPerInvocation": "5097",
+                        "@invocations": "15"
+                    },
+                    {
+                        "@avgMicrosecondsPerInvocation": "1776",
+                        "@totalMilliseconds": "26",
+                        "@name": "edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers",
+                        "@maxMicrosecondsPerInvocation": "8145",
+                        "@standardDeviationMicrosecondsPerInvocation": "2200",
+                        "@invocations": "15"
+                    }
+                ]
+            }
+        },
+        "ClassFeatures": null,
+        "History": null
+    }
+}

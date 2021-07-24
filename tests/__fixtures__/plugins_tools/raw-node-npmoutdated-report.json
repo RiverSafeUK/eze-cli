@@ -1,0 +1,22 @@
+{
+  "helmet-example-when-not-npm-installed": {
+    "wanted": "2.3.0",
+    "latest": "4.6.0",
+    "dependent": "goat-node",
+    "location": "C:\\dev\\repos\\eze-goat\\goat-node\\node_modules\\helmet"
+  },
+  "helmet": {
+    "current": "2.3.0",
+    "wanted": "2.3.0",
+    "latest": "4.6.0",
+    "dependent": "goat-node",
+    "location": "C:\\dev\\repos\\eze-goat\\goat-node\\node_modules\\helmet"
+  },
+  "mocha": {
+    "current": "2.5.3",
+    "wanted": "2.5.3",
+    "latest": "8.4.0",
+    "dependent": "goat-node",
+    "location": "C:\\dev\\repos\\eze-goat\\goat-node\\node_modules\\mocha"
+  }
+}

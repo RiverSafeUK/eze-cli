@@ -1,0 +1,57 @@
+short_description:
+======================
+bill of materials multiformat reporter
+
+config_help:
+======================
+[bom-formatted]
+# OUTPUT_FORMAT str [OPTIONAL]
+# defaults to json, options are csv|json|json_v1_2|spdxtag|spdxtag_v2_1|spdxtag_v2_2|xml|xml_v1_0|xml_v1_1|xml_v1_2
+# from https://github.com/CycloneDX/cyclonedx-cli Convert Command
+# default value: 
+#   OUTPUT_FORMAT = "json"
+# 
+OUTPUT_FORMAT = "json"
+
+# INTERMEDIATE_FILE str [OPTIONAL]
+# file used to store json cyclonedx for conversion into final format
+# By default set to temp file tmp-eze_bom.json
+# default value: 
+#   INTERMEDIATE_FILE = "<tempdir>/.eze-temp/tmp-eze_bom.json"
+# 
+INTERMEDIATE_FILE = "..."
+
+
+# REPORT_FILE str [OPTIONAL]
+# report file location
+# By default set to eze_bom.json
+# default value: 
+#   REPORT_FILE = "eze_bom.json"
+# 
+REPORT_FILE = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required to install the cyclonedx-cli binary on path
+
+This is used to convert the raw Cylcone DX JSON into other formats
+
+https://github.com/CycloneDX/cyclonedx-cli/releases
+
+license:
+======================
+Apache 2.0
+
+more_info:
+======================
+https://github.com/CycloneDX/cyclonedx-cli
+https://owasp.org/www-project-cyclonedx/
+https://cyclonedx.org/
+
+Gotchas
+===========================
+Executable will need to be renamed after being downloaded
+

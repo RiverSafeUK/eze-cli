@@ -1,0 +1,6 @@
+Eze report results:
+
+TOOL REPORT: safety (scan duration: xxx seconds)
+    total: 3 (medium:1, low:1, na:1, warnings:true)
+    ignored: 1 (medium:1, warnings:true)
+

@@ -1,0 +1,333 @@
+{
+  "actions": [
+    {
+      "isMajor": true,
+      "action": "install",
+      "resolves": [
+        {
+          "id": 118,
+          "path": "mocha>glob>minimatch",
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 146,
+          "path": "mocha>growl",
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 534,
+          "path": "mocha>debug",
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1179,
+          "path": "mocha>mkdirp>minimist",
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1631,
+          "path": "mocha>diff",
+          "dev": true,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "module": "mocha",
+      "target": "8.4.0"
+    },
+    {
+      "isMajor": true,
+      "action": "install",
+      "resolves": [
+        {
+          "id": 534,
+          "path": "helmet>connect>debug",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 534,
+          "path": "helmet>connect>finalhandler>debug",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        },
+        {
+          "id": 1176,
+          "path": "helmet>helmet-csp",
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "module": "helmet",
+      "target": "4.6.0"
+    }
+  ],
+  "advisories": {
+    "118": {
+      "findings": [
+        {
+          "version": "0.3.0",
+          "paths": [
+            "mocha>glob>minimatch"
+          ]
+        }
+      ],
+      "id": 118,
+      "created": "2016-05-25T16:37:20.000Z",
+      "updated": "2018-03-01T21:58:01.072Z",
+      "deleted": null,
+      "title": "Regular Expression Denial of Service",
+      "found_by": {
+        "name": "Nick Starke"
+      },
+      "reported_by": {
+        "name": "Nick Starke"
+      },
+      "module_name": "minimatch",
+      "cves": [
+        "CVE-2016-10540"
+      ],
+      "vulnerable_versions": "<=3.0.1",
+      "patched_versions": ">=3.0.2",
+      "overview": "Affected versions of `minimatch` are vulnerable to regular expression denial of service attacks when user input is passed into the `pattern` argument of `minimatch(path, pattern)`.\n\n\n## Proof of Concept\n```\nvar minimatch = require(“minimatch”);\n\n// utility function for generating long strings\nvar genstr = function (len, chr) {\n  var result = “”;\n  for (i=0; i<=len; i++) {\n    result = result + chr;\n  }\n  return result;\n}\n\nvar exploit = “[!” + genstr(1000000, “\\\\”) + “A”;\n\n// minimatch exploit.\nconsole.log(“starting minimatch”);\nminimatch(“foo”, exploit);\nconsole.log(“finishing minimatch”);\n```",
+      "recommendation": "Update to version 3.0.2 or later.",
+      "references": "",
+      "access": "public",
+      "severity": "high",
+      "cwe": "CWE-400",
+      "metadata": {
+        "module_type": "Multi.Library",
+        "exploitability": 4,
+        "affected_components": "Internal::Code::Function::minimatch({type:'args', key:0, vector:{type:'string'}})"
+      },
+      "url": "https://npmjs.com/advisories/118"
+    },
+    "146": {
+      "findings": [
+        {
+          "version": "1.9.2",
+          "paths": [
+            "mocha>growl"
+          ]
+        }
+      ],
+      "id": 146,
+      "created": "2016-09-06T12:49:40.000Z",
+      "updated": "2019-06-24T14:53:20.802Z",
+      "deleted": null,
+      "title": "Command Injection",
+      "found_by": {
+        "name": "Cristian-Alexandru Staicu"
+      },
+      "reported_by": {
+        "name": "Cristian-Alexandru Staicu"
+      },
+      "module_name": "growl",
+      "cves": [
+        "CVE-2017-16042"
+      ],
+      "vulnerable_versions": "<1.10.2",
+      "patched_versions": ">=1.10.2",
+      "overview": "Affected versions of `growl` do not properly sanitize input prior to passing it into a shell command, allowing for arbitrary command execution.",
+      "recommendation": "Update to version 1.10.2 or later.",
+      "references": "- [Issue #60](https://github.com/tj/node-growl/issues/60)\n- [PR #61](https://github.com/tj/node-growl/pull/61)",
+      "access": "public",
+      "severity": "critical",
+      "cwe": "CWE-94",
+      "metadata": {
+        "module_type": "CLI.Library",
+        "exploitability": 5,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/146"
+    },
+    "534": {
+      "findings": [
+        {
+          "version": "2.2.0",
+          "paths": [
+            "helmet>connect>debug",
+            "helmet>connect>finalhandler>debug",
+            "mocha>debug"
+          ]
+        }
+      ],
+      "id": 534,
+      "created": "2017-09-25T18:55:55.956Z",
+      "updated": "2018-05-16T19:37:43.686Z",
+      "deleted": null,
+      "title": "Regular Expression Denial of Service",
+      "found_by": {
+        "name": "Cristian-Alexandru Staicu"
+      },
+      "reported_by": {
+        "name": "Cristian-Alexandru Staicu"
+      },
+      "module_name": "debug",
+      "cves": [
+        "CVE-2017-16137"
+      ],
+      "vulnerable_versions": "<= 2.6.8 || >= 3.0.0 <= 3.0.1",
+      "patched_versions": ">= 2.6.9 < 3.0.0 || >= 3.1.0",
+      "overview": "Affected versions of `debug` are vulnerable to regular expression denial of service when untrusted user input is passed into the `o` formatter. \n\nAs it takes 50,000 characters to block the event loop for 2 seconds, this issue is a low severity issue.",
+      "recommendation": "Version 2.x.x: Update to version 2.6.9 or later.\nVersion 3.x.x: Update to version 3.1.0 or later.\n",
+      "references": "- [Issue #501](https://github.com/visionmedia/debug/issues/501)\n- [PR #504](https://github.com/visionmedia/debug/pull/504)",
+      "access": "public",
+      "severity": "low",
+      "cwe": "CWE-400",
+      "metadata": {
+        "module_type": "",
+        "exploitability": 5,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/534"
+    },
+    "1176": {
+      "findings": [
+        {
+          "version": "1.2.2",
+          "paths": [
+            "helmet>helmet-csp"
+          ]
+        }
+      ],
+      "id": 1176,
+      "created": "2019-09-20T23:03:16.232Z",
+      "updated": "2019-09-27T19:28:16.869Z",
+      "deleted": null,
+      "title": "Configuration Override",
+      "found_by": {
+        "link": "",
+        "name": "William Durand"
+      },
+      "reported_by": {
+        "link": "",
+        "name": "William Durand"
+      },
+      "module_name": "helmet-csp",
+      "cves": [],
+      "vulnerable_versions": ">=1.2.2 <2.9.1",
+      "patched_versions": ">=2.9.1",
+      "overview": "Versions of `helmet-csp` before to 2.9.1 are vulnerable to a Configuration Override affecting the application's Content Security Policy (CSP). The package's browser sniffing for Firefox deletes the `default-src` CSP policy, which is the fallback policy. This allows an attacker to remove an application's default CSP, possibly rendering the application vulnerable to Cross-Site Scripting.",
+      "recommendation": "Upgrade to version 2.9.1 or later. Setting the `browserSniff` configuration to `false` in vulnerable versions also mitigates the issue.",
+      "references": "",
+      "access": "public",
+      "severity": "moderate",
+      "cwe": "CWE-16",
+      "metadata": {
+        "module_type": "",
+        "exploitability": 6,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/1176"
+    },
+    "1179": {
+      "findings": [
+        {
+          "version": "0.0.8",
+          "paths": [
+            "mocha>mkdirp>minimist"
+          ]
+        }
+      ],
+      "id": 1179,
+      "created": "2019-09-23T15:01:43.049Z",
+      "updated": "2020-03-18T19:41:45.921Z",
+      "deleted": null,
+      "title": "Prototype Pollution",
+      "found_by": {
+        "link": "https://www.checkmarx.com/resources/blog/",
+        "name": "Checkmarx Research Team",
+        "email": ""
+      },
+      "reported_by": {
+        "link": "https://www.checkmarx.com/resources/blog/",
+        "name": "Checkmarx Research Team",
+        "email": ""
+      },
+      "module_name": "minimist",
+      "cves": [],
+      "vulnerable_versions": "<0.2.1 || >=1.0.0 <1.2.3",
+      "patched_versions": ">=0.2.1 <1.0.0 || >=1.2.3",
+      "overview": "Affected versions of `minimist` are vulnerable to prototype pollution. Arguments are not properly sanitized, allowing an attacker to modify the prototype of `Object`, causing the addition or modification of an existing property that will exist on all objects.  \nParsing the argument `--__proto__.y=Polluted` adds a `y` property with value `Polluted` to all objects. The argument `--__proto__=Polluted` raises and uncaught error and crashes the application.  \nThis is exploitable if attackers have control over the arguments being passed to `minimist`.\n",
+      "recommendation": "Upgrade to versions 0.2.1, 1.2.3 or later.",
+      "references": "- [GitHub commit 1](https://github.com/substack/minimist/commit/4cf1354839cb972e38496d35e12f806eea92c11f#diff-a1e0ee62c91705696ddb71aa30ad4f95)\n- [GitHub commit 2](https://github.com/substack/minimist/commit/63e7ed05aa4b1889ec2f3b196426db4500cbda94)",
+      "access": "public",
+      "severity": "low",
+      "cwe": "CWE-471",
+      "metadata": {
+        "module_type": "",
+        "exploitability": 1,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/1179"
+    },
+    "1631": {
+      "findings": [
+        {
+          "version": "1.4.0",
+          "paths": [
+            "mocha>diff"
+          ]
+        }
+      ],
+      "id": 1631,
+      "created": "2021-02-24T19:23:34.305Z",
+      "updated": "2021-02-24T19:23:34.305Z",
+      "deleted": null,
+      "title": "Regular Expression Denial of Service",
+      "found_by": {
+        "link": "",
+        "name": "Anonymous",
+        "email": ""
+      },
+      "reported_by": {
+        "link": "",
+        "name": "Anonymous",
+        "email": ""
+      },
+      "module_name": "diff",
+      "cves": [],
+      "vulnerable_versions": "<3.5.0",
+      "patched_versions": ">= 3.5.0",
+      "overview": "Affected versions of `diff` are vulnerable to Regular Expression Denial of Service (ReDoS). This can cause an impact of about 10 seconds matching time for data 48K characters long.\n\n",
+      "recommendation": "Upgrade to 3.5.0 or later.",
+      "references": "- [WhiteSource Advisory](https://www.whitesourcesoftware.com/vulnerability-database/WS-2018-0590)\n- [Snyk Advisory](https://snyk.io/vuln/npm:diff:20180305)\n- [GitHub Advisory](https://github.com/advisories/GHSA-h6ch-v84p-w6p9)",
+      "access": "public",
+      "severity": "high",
+      "cwe": "CWE-400",
+      "metadata": {
+        "module_type": "",
+        "exploitability": 7,
+        "affected_components": ""
+      },
+      "url": "https://npmjs.com/advisories/1631"
+    }
+  },
+  "muted": [],
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 4,
+      "moderate": 1,
+      "high": 2,
+      "critical": 1
+    },
+    "dependencies": 29,
+    "devDependencies": 17,
+    "optionalDependencies": 0,
+    "totalDependencies": 46
+  },
+  "runId": "47b67496-8bb4-435b-8967-9245f8aa4227"
+}

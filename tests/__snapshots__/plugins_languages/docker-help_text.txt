@@ -1,0 +1,23 @@
+short_description:
+======================
+Docker (Dockerfile)
+
+install_help:
+======================
+
+
+more_info:
+======================
+Docker Runner
+=================================
+Scan docker image for sbom and sca analysis
+and running secret and semgrep sast on raw Dockerfile
+
+Tips and Tricks
+=================================
+Once you've built your docker images and have them locally available
+
+Populate DOCKER_TAR_FILE / DOCKER_TAG with your pre-built version
+
+https://docs.docker.com/engine/reference/builder/
+

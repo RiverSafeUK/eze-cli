@@ -1,0 +1,133 @@
+short_description:
+======================
+opensource multi language SAST scanner
+
+config_help:
+======================
+[semgrep]
+# SOURCE str [OPTIONAL]
+# Optional SOURCE, space seperated files and directorys
+# defaults to cwd eze is running in
+# maps to target
+# Search these files or directories. Defaults to entire
+# current working directory. Implied argument if piping
+# to semgrep.
+# 
+SOURCE = "..."
+
+
+# CONFIGS list [OPTIONAL]
+# SemGrep config file to use. path to YAML configuration file, directory of YAML files
+# ending in .yml|.yaml, URL of a configuration file, or semgrep registry entry name.
+# 
+# See https://semgrep.dev/docs/writing-rules/rule-syntax for
+# information on configuration file format.
+# 
+# maps to --config
+# default value: 
+#   CONFIGS = ["p/ci"]
+# 
+CONFIGS = ["p/ci", "p/python"]
+
+# INCLUDE list [OPTIONAL]
+# array of list of paths (glob patterns supported) to include from scan
+# 
+# Filter files or directories by path. The argument is a glob-style pattern such as 'foo.*' that must match the path. This is an extra filter in
+# addition to other applicable filters. For example, specifying the language with '-l javascript' might preselect files 'src/foo.jsx' and
+# 'lib/bar.js'. Specifying one of '--include=src', '--include=*.jsx', or '--include=src/foo.*' will restrict the selection to the single file
+# 'src/foo.jsx'. A choice of multiple '--include' patterns can be specified. For example, '--include=foo.* --include=bar.*' will select both
+# 'src/foo.jsx' and 'lib/bar.js'. Glob-style patterns follow the syntax supported by python, which is documented at
+# https://docs.python.org/3/library/glob.html
+# 
+# maps to semgrep flag
+# --include INCLUDE
+# 
+INCLUDE = ["PATH-TO-INCLUDE-FOLDER/.*", "PATH-TO-INCLUDE-FILE.js"]
+
+# EXCLUDE list [OPTIONAL]
+# Skip any file or directory that matches this pattern; --exclude='*.py' will ignore the following = foo.py, src/foo.py, foo.py/bar.sh.
+# --exclude='tests' will ignore tests/foo.py as well as a/b/tests/c/foo.py. Can add multiple times. Overrides includes.
+# 
+# maps to semgrep flag --exclude
+# 
+EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"]
+
+# PRINT_TIMING_INFO bool [OPTIONAL]
+# can be difficult to find which rules are running slowly, this outputs a small timing report
+# default value: 
+#   PRINT_TIMING_INFO = true
+# 
+PRINT_TIMING_INFO = true / false
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-semgrep-report.json"
+# 
+REPORT_FILE = "..."
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VUNERABLITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_VUNERABLITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vunerablity mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+
+
+install_help:
+======================
+In most cases all that is required to install semgrep is python and pip install*
+pip install semgrep
+semgrep --version
+
+* currently running semgrep in windows outside of wsl2 is difficult
+
+more_info:
+======================
+https://github.com/returntocorp/semgrep
+https://github.com/returntocorp/semgrep-rules
+https://semgrep.dev/explore
+
+Tips and Tricks
+===============================
+- As of 2021 windows support is limited, use eze inside wsl2 or linux to run semgrep, until support added
+  https://github.com/returntocorp/semgrep/issues/1330
+- tailor your configs to your products
+- use PRINT_TIMING_INFO eze config flag to detect poor performing unnecessarily rules  
+- only scan your source code, as test code can often use asserts or cli tools which can cause false positive security risks
+- use "# nosemgrep" comments to ignore False positives
+

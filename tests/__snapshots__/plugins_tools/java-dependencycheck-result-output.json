@@ -1,0 +1,73 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "java-dependencycheck",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2008-0732"
+      },
+      "is_ignored": false,
+      "language": "java",
+      "metadata": {
+        "cves": [
+          {
+            "advisitory_created": "2014-11-24T15:59:00",
+            "advisitory_modified": "2021-03-15T16:17:00",
+            "id": "CVE-2008-0732",
+            "rating": 2.1,
+            "severity": "LOW",
+            "summary": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2008-0732"
+          }
+        ],
+        "vulnerability": {
+          "id": "CVE-2008-0732"
+        }
+      },
+      "name": "maven/org.apache.geronimo.daytrader/daytrader-wsappclient",
+      "overview": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
+      "recommendation": "Update maven/org.apache.geronimo.daytrader/daytrader-wsappclient (2.1.7) to a non vulnerable version, vulnerable versions: ['*']",
+      "references": [],
+      "severity": "low",
+      "version": "2.1.7",
+      "vulnerability_type": "dependancy"
+    },
+    {
+      "confidence": "",
+      "file_location": null,
+      "identifiers": {
+        "cve": "CVE-2011-5034"
+      },
+      "is_ignored": false,
+      "language": "java",
+      "metadata": {
+        "cves": [
+          {
+            "advisitory_created": "2014-11-24T15:59:00",
+            "advisitory_modified": "2021-03-15T16:17:00",
+            "id": "CVE-2011-5034",
+            "rating": 2.1,
+            "severity": "LOW",
+            "summary": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-5034"
+          }
+        ],
+        "vulnerability": {
+          "id": "CVE-2011-5034"
+        }
+      },
+      "name": "maven/org.apache.geronimo.daytrader/daytrader-wsappclient",
+      "overview": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
+      "recommendation": "Update maven/org.apache.geronimo.daytrader/daytrader-wsappclient (2.1.7) to a non vulnerable version, vulnerable versions: ['*', '1.0', '1.1', '1.1.1', '1.2', '2.0.1', '2.0.2', '2.1', '2.1.1', '2.1.2', '2.1.3', '2.1.4', '2.1.5', '2.1.6', '2.1.7', '2.1.8', '2.2']",
+      "references": [],
+      "severity": "low",
+      "version": "2.1.7",
+      "vulnerability_type": "dependancy"
+    }
+  ],
+  "warnings": []
+}

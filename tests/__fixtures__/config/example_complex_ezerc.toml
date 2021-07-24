@@ -1,0 +1,26 @@
+# SAMPLE EZERC TOML
+[safety]
+REQUIREMENTS_FILES = ["default-requirements.txt"]
+[safety_quick]
+REQUIREMENTS_FILES = ["small-requirements.txt"]
+[safety_slow]
+REQUIREMENTS_FILES = ["big-requirements.txt"]
+
+[scan]
+tools = ["safety"]
+reporters = ["console", "json", "junit", "quality"]
+
+[scan.dev]
+tools = ["safety:fast"]
+reporters = ["console"]
+
+[scan.ci]
+tools = ["safety:slow"]
+reporters = ["console"]
+
+[scan.ci-prod]
+tools = ["safety:slow"]
+reporters = ["console"]
+
+[scan.ci-prod.safety_slow]
+REQUIREMENTS_FILES = ["prod-big-requirements.txt"]

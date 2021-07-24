@@ -1,0 +1,19 @@
+[
+    {
+        "line": "-----BEGIN RSA PRIVATE KEY-----",
+        "lineNumber": 1,
+        "offender": "-----BEGIN RSA PRIVATE KEY-----",
+        "offenderEntropy": -1,
+        "commit": "",
+        "repo": "",
+        "repoURL": "",
+        "leakURL": "",
+        "rule": "Asymmetric Private Key",
+        "commitMessage": "",
+        "author": "",
+        "email": "",
+        "file": "goat-owasp-node\\artifacts\\cert\\server.key",
+        "date": "0001-01-01T00:00:00Z",
+        "tags": "key, AsymmetricPrivateKey"
+    }
+]

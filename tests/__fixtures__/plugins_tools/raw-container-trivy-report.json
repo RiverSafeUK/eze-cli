@@ -1,0 +1,87 @@
+[
+  {
+    "Target": "sitapati/docker-alpine-python-node (alpine 3.9.4)",
+    "Type": "alpine",
+    "Vulnerabilities": [
+      {
+        "VulnerabilityID": "CVE-2020-8169",
+        "PkgName": "curl",
+        "InstalledVersion": "7.64.0-r3",
+        "FixedVersion": "7.64.0-r4",
+        "Layer": {
+          "Digest": "sha256:92f45782fb880e7067689eaf8d0a036c76d0bd014f06af76f025186159f9723c",
+          "DiffID": "sha256:10531283de6b0e6adcea54f0b346592c80692697833efcd728c4c8e3e2ca3897"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2020-8169",
+        "Title": "libcurl: partial password leak over DNS on HTTP redirect",
+        "Description": "curl 7.62.0 through 7.70.0 is vulnerable to an information disclosure vulnerability that can lead to a partial password being leaked over the network and to the DNS server(s).",
+        "Severity": "HIGH",
+        "CweIDs": [
+          "CWE-200"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V2Vector": "AV:N/AC:L/Au:N/C:P/I:N/A:N",
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "V2Score": 5,
+            "V3Score": 7.5
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "V3Score": 5.9
+          }
+        },
+        "References": [
+          "https://curl.haxx.se/docs/CVE-2020-8169.html",
+          "https://curl.se/docs/CVE-2020-8169.html",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8169",
+          "https://hackerone.com/reports/874778",
+          "https://usn.ubuntu.com/usn/usn-4402-1",
+          "https://www.debian.org/security/2021/dsa-4881"
+        ],
+        "PublishedDate": "2020-12-14T20:15:00Z",
+        "LastModifiedDate": "2021-04-01T00:15:00Z"
+      },
+      {
+        "VulnerabilityID": "CVE-2019-19242",
+        "PkgName": "sqlite-libs",
+        "InstalledVersion": "3.28.0-r1",
+        "FixedVersion": "3.28.0-r2",
+        "Layer": {
+          "Digest": "sha256:92f45782fb880e7067689eaf8d0a036c76d0bd014f06af76f025186159f9723c",
+          "DiffID": "sha256:10531283de6b0e6adcea54f0b346592c80692697833efcd728c4c8e3e2ca3897"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2019-19242",
+        "Title": "sqlite: SQL injection in sqlite3ExprCodeTarget in expr.c",
+        "Description": "SQLite 3.30.1 mishandles pExpr-\u003ey.pTab, as demonstrated by the TK_COLUMN case in sqlite3ExprCodeTarget in expr.c.",
+        "Severity": "MEDIUM",
+        "CweIDs": [
+          "CWE-476"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V2Vector": "AV:N/AC:M/Au:N/C:N/I:N/A:P",
+            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "V2Score": 4.3,
+            "V3Score": 5.9
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "V3Score": 5.9
+          }
+        },
+        "References": [
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-19242",
+          "https://github.com/sqlite/sqlite/commit/57f7ece78410a8aae86aa4625fb7556897db384c",
+          "https://usn.ubuntu.com/4205-1/",
+          "https://usn.ubuntu.com/usn/usn-4205-1",
+          "https://www.oracle.com/security-alerts/cpuapr2020.html"
+        ],
+        "PublishedDate": "2019-11-27T17:15:00Z",
+        "LastModifiedDate": "2020-04-15T21:15:00Z"
+      }
+    ]
+  }
+]

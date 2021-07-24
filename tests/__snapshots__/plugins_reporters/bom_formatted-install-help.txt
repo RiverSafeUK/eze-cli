@@ -1,0 +1,5 @@
+In most cases all that is required to install the cyclonedx-cli binary on path
+
+This is used to convert the raw Cylcone DX JSON into other formats
+
+https://github.com/CycloneDX/cyclonedx-cli/releases

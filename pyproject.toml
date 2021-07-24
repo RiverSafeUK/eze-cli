@@ -1,0 +1,18 @@
+# TOML spec
+# https://en.wikipedia.org/wiki/TOML
+# https://www.python.org/dev/peps/pep-0518/
+
+title = "Eze Core"
+
+[build-system]
+requires = ["setuptools", "wheel"]  # PEP 508 specifications.
+
+# https://black.readthedocs.io/en/stable/pyproject_toml.html
+[tool.black]
+line-length = 120
+target_version = ['py37', 'py38']
+include = '\.pyi?$'
+exclude = ''
+
+# https://github.com/PyCQA/pylint/issues/3181
+[tool.pylint]

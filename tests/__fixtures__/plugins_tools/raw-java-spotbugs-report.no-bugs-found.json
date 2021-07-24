@@ -1,0 +1,70 @@
+{
+  "BugCollection": {
+    "@analysisTimestamp": "1626252057010",
+    "@release": "",
+    "@sequence": "0",
+    "@timestamp": "1626252035685",
+    "@version": "4.3.0",
+    "ClassFeatures": null,
+    "Errors": {
+      "@errors": "0",
+      "@missingClasses": "0"
+    },
+    "FindBugsSummary": {
+      "@alloc_mbytes": "512.00",
+      "@clock_seconds": "5.10",
+      "@cpu_seconds": "20.66",
+      "@gc_seconds": "0.07",
+      "@java_version": "11.0.11",
+      "@num_packages": "1",
+      "@peak_mbytes": "161.91",
+      "@referenced_classes": "16",
+      "@timestamp": "Wed, 14 Jul 2021 08:40:35 +0000",
+      "@total_bugs": "0",
+      "@total_classes": "1",
+      "@total_size": "11",
+      "@vm_version": "11.0.11+9-post-Debian-1deb10u1",
+      "FileStats": {
+        "@bugCount": "0",
+        "@path": "com/riversafe/ezejavagoat/App.java",
+        "@size": "11"
+      },
+      "FindBugsProfile": {
+        "ClassProfile": [
+          {
+            "@avgMicrosecondsPerInvocation": "4735",
+            "@invocations": "375",
+            "@maxMicrosecondsPerInvocation": "120661",
+            "@name": "edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine",
+            "@standardDeviationMicrosecondsPerInvocation": "8174",
+            "@totalMilliseconds": "1775"
+          }
+        ]
+      },
+      "PackageStats": {
+        "@package": "com.riversafe.ezejavagoat",
+        "@total_bugs": "0",
+        "@total_size": "11",
+        "@total_types": "1",
+        "ClassStats": {
+          "@bugs": "0",
+          "@class": "com.riversafe.ezejavagoat.App",
+          "@interface": "false",
+          "@size": "11",
+          "@sourceFile": "App.java"
+        }
+      }
+    },
+    "History": null,
+    "Project": {
+      "@projectName": "ezejavagoat",
+      "AuxClasspathEntry": "/home/ezeuser/.m2/repository/com/github/pwittchen/kirai/library/1.4.1/library-1.4.1.jar",
+      "Jar": "/data/target/classes",
+      "SrcDir": [
+        "/data/src/main/java",
+        "/data/target/generated-sources/annotations"
+      ],
+      "WrkDir": "/data/target"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "gitleaks",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 1,
+        "path": "goat-owasp-node\\artifacts\\cert\\server.key"
+      },
+      "identifiers": {},
+      "is_ignored": false,
+      "language": "file",
+      "metadata": null,
+      "name": "Found Secret 'Asymmetric Private Key'",
+      "overview": "Found Secret 'Asymmetric Private Key' in goat-owasp-node\\artifacts\\cert\\server.key",
+      "recommendation": "Investigate 'goat-owasp-node\\artifacts\\cert\\server.key' Line 1 for 'Asymmetric Private Key' strings Full Match: -----BEGIN RSA PRIVATE KEY-----",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "secret"
+    }
+  ],
+  "warnings": []
+}

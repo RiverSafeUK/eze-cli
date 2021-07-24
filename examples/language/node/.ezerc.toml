@@ -1,0 +1,58 @@
+# ========================================
+# EXAMPLE NODE TOOL CONFIG
+# ========================================
+
+[node-npmaudit]
+REPORT_FILE = "../reports/node/node-npmaudit-report.json"
+
+[node-cyclonedx]
+REPORT_FILE = "../reports/node/node-cyclonedx-bom.json"
+
+[node-npmoutdated]
+REPORT_FILE = "../reports/node/node-npmoutdated-report.json"
+
+[semgrep]
+PRINT_TIMING_INFO = true
+REPORT_FILE = "../reports/node/semgrep-report.json"
+EXCLUDE = [
+    "node_module/.*"
+]
+CONFIGS = [
+    "p/ci",
+    "r/node",
+    "p/node",
+]
+
+[trufflehog]
+SOURCE = "."
+EXCLUDE = [
+    "node_modules/.*"
+]
+INCLUDE_FULL_REASON = true
+REPORT_FILE = "../reports/node/trufflehog-report.json"
+
+[trufflehog.ci]
+INCLUDE_FULL_REASON = false
+
+# ========================================
+# REPORT CONFIG
+# ========================================
+[bom]
+REPORT_FILE = "../reports/node/report-cyclonedx-sbom.json"
+
+[console]
+PRINT_SUMMARY_ONLY = true
+
+[json]
+REPORT_FILE = "../reports/node/eze_report.json"
+
+# ========================================
+# SCAN CONFIG
+# ========================================
+[scan]
+tools = ["node-npmaudit", "node-npmoutdated", "node-cyclonedx", "trufflehog"]
+reporters = ["json", "console", "bom"]
+
+[scan.linux]
+tools = ["node-npmaudit", "node-npmoutdated", "semgrep", "node-cyclonedx", "trufflehog"]
+reporters = ["console", "json", "bom"]

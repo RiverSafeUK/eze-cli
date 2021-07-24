@@ -1,0 +1,42 @@
+
+[docker]
+# Eze Dockerfile codebase
+#
+# To enable SCA and SBOM, the docker image must be built first
+# uncomment DOCKER_TAG and populate image tag
+tools = ['semgrep', 'trufflehog']
+
+# DOCKER_TAG: <docker-image-tag>
+# tools = ['semgrep', 'trufflehog', 'anchore-grype', 'anchore-syft']
+#    [docker.anchore-grype]
+#    REPORT_FILE = "reports/grype-docker-report.json"
+#    [docker.anchore-syft]
+#    REPORT_FILE = "reports/syft-docker-report.json"
+    [docker.semgrep]
+    REPORT_FILE = "reports/semgrep-docker-report.json"
+    CONFIGS = [
+        "p/dockerfile"
+    ]
+    [docker.trufflehog]
+    REPORT_FILE = "reports/truffleHog-docker-report.json"
+    SOURCE = "Dockerfile"
+    IGNORED_FILES = [
+        "node_modules/",
+        "target/",
+        "build/",
+        "dist/",
+        ".gradle",
+        ".aws",
+        ".idea",
+        ".pytest_cache"
+    ]
+
+
+
+========
+
+To enable SCA and SBOM against Dockerfile, the docker image must be built first
+
+uncomment DOCKER_TAG and populate image tag
+DOCKER_TAG: <docker-image-tag>
+then uncomment out the Syft (SBOM) and Grype (SCA) Tools

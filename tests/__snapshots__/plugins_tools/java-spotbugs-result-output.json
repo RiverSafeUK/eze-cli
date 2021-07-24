@@ -1,0 +1,29 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "java-spotbugs",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "lines": "3",
+        "path": "com/mycompany/app/FindBugsOne.java"
+      },
+      "identifiers": {
+        "spotbugs-code": "IL_INFINITE_LOOP:An apparent infinite loop (CORRECTNESS)"
+      },
+      "is_ignored": false,
+      "language": "java",
+      "metadata": null,
+      "name": "An apparent infinite loop",
+      "overview": "'An apparent infinite loop', in com/mycompany/app/FindBugsOne.java",
+      "recommendation": "Investigate 'com/mycompany/app/FindBugsOne.java' Lines 3-9 for 'An apparent infinite loop' \n  This loop doesn't seem to have a way to terminate (other than by perhaps\nthrowing an exception). Full Match: There is an apparent infinite loop in com.mycompany.app.FindBugsOne.main(String[])",
+      "references": [],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "code"
+    }
+  ],
+  "warnings": []
+}

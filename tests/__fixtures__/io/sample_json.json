@@ -1,0 +1,7 @@
+{
+  "Iam": "json",
+  "someNull": null,
+  "someInt": 1,
+  "someArray": [],
+  "someObject": {}
+}

@@ -1,0 +1,11 @@
+Usage: reporters [OPTIONS] COMMAND [ARGS]...
+
+  container for reporter commands
+
+Options:
+  --debug / --no-debug  Enables or disables debug mode
+  --help                Show this message and exit.
+
+Commands:
+  help  List the help for a given reporter
+  list  List the available reporters
