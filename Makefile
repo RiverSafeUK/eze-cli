@@ -46,12 +46,18 @@ docker: cli-build cli-install
 	docker build --tag eze-cli .
 
 # release to test pip
-release-pypi-test: plugin-build
+release-pypi-test: cli-build
 	twine upload --repository testpypi dist/*
 
 # release to test pip
-release-pypi: plugin-build
+release-pypi: cli-build
 	twine upload dist/*
+
+# release docker image
+release-docker: cli-build
+	docker build . -t riversafe/eze-cli:`python eze/version.py` -t riversafe/eze-cli:latest
+	docker push riversafe/eze-cli:`python eze/version.py`
+	docker push riversafe/eze-cli:latest
 
 ##############################################
 # BUILD SYSTEM COMMANDS
