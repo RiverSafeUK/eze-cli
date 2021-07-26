@@ -22,7 +22,7 @@ db.sqlite3
 reports
 
 # Code Build: Compiled eze source
-scripts/eze-cli-*.tar.gs
+scripts/eze-cli-*.tar.gz
 
 # setup.py exe
 dist
@@ -276,3 +276,4 @@ $RECYCLE.BIN/
 */build/*
 
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode
+
