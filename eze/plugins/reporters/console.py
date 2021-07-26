@@ -1,5 +1,5 @@
 """Console reporter class implementation"""
-
+import click
 from pydash import py_
 
 from eze import __version__
@@ -12,6 +12,7 @@ from eze.utils.scan_result import (
     name_and_time_summary,
     get_bom_license,
 )
+from eze.utils.print import pretty_print_table
 
 
 class ConsoleReporter(ReporterMeta):
@@ -42,14 +43,9 @@ defaults to false""",
         """Method for detecting if reporter installed and ready to run report, returns version installed"""
         return __version__
 
-    def print_to_console(self, text):
-        """Wrapper around printing to console"""
-        # TODO: plumb colourisation as optional arg
-        print(text)
-
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        self.print_to_console("Eze report results:\n")
+        click.echo("Eze report results:\n")
         scan_results_with_vulnerabilities = []
         scan_results_with_sboms = []
         scan_results_with_warnings = []
@@ -81,7 +77,7 @@ defaults to false""",
         # if bom only scan, do not print vulnerability count
         if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
             scan_summary += vulnerabilities_short_summary(scan_result)
-        self.print_to_console(scan_summary)
+        click.echo(scan_summary)
 
     def _has_printable_vulnerabilities(self, scan_result: ScanResult) -> bool:
         """Method for taking scan vulnerabilities return True if anything to print"""
@@ -96,7 +92,7 @@ defaults to false""",
 
         if len(scan_results_with_vulnerabilities) <= 0:
             return
-        self.print_to_console(
+        click.echo(
             f"""
 Vulnerabilities
 ================================="""
@@ -106,7 +102,7 @@ Vulnerabilities
             tool_name = py_.get(run_details, "tool_name", "unknown")
             small_indent = "    "
             indent = "        "
-            self.print_to_console(
+            click.echo(
                 f"""
 {small_indent}[{tool_name}] Vulnerabilities
 {small_indent}================================="""
@@ -116,7 +112,7 @@ Vulnerabilities
                 if vulnerability.is_ignored:
                     # INFO: By Default ignore "ignored vulnerabilities"
                     if self.config["PRINT_IGNORED"]:
-                        self.print_to_console(f"""{indent}(ignored)""")
+                        click.echo(f"""{indent}(ignored)""")
                     else:
                         continue
 
@@ -125,26 +121,26 @@ Vulnerabilities
                 first_line = f"""{indent}[{severity} {vulnerability_type}] : {vulnerability.name}"""
                 if vulnerability.version:
                     first_line += f" ({vulnerability.version})"
-                self.print_to_console(first_line)
-                self.print_to_console(f"""{indent}overview: {vulnerability.overview}""")
+                click.echo(first_line)
+                click.echo(f"""{indent}overview: {vulnerability.overview}""")
                 for identifer_key in vulnerability.identifiers:
                     identifer_value = vulnerability.identifiers[identifer_key]
-                    self.print_to_console(f"""{indent}{identifer_key}: {identifer_value}""")
+                    click.echo(f"""{indent}{identifer_key}: {identifer_value}""")
 
                 if vulnerability.recommendation:
-                    self.print_to_console(f"""{indent}recommendation: {vulnerability.recommendation}""")
+                    click.echo(f"""{indent}recommendation: {vulnerability.recommendation}""")
 
                 if vulnerability.file_location:
-                    self.print_to_console(
+                    click.echo(
                         f"""{indent}file: {vulnerability.file_location.get('path')} (line {vulnerability.file_location.get('line')})"""
                     )
-                self.print_to_console("")
+                click.echo("")
 
     def _print_scan_report_sbom(self, scan_results_with_sboms: list):
         """print scan sbom"""
         if len(scan_results_with_sboms) <= 0:
             return
-        self.print_to_console(
+        click.echo(
             f"""
 Bill of Materials
 ================================="""
@@ -153,11 +149,12 @@ Bill of Materials
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
             small_indent = "    "
-            self.print_to_console(
+            click.echo(
                 f"""
-{small_indent}[{tool_name}] SBOM
-{small_indent}================================="""
+[{tool_name}] SBOM
+================================="""
             )
+            sboms = []
             for component in scan_result.bom["components"]:
                 licenses = component.get("licenses", [])
 
@@ -176,16 +173,22 @@ Bill of Materials
                 if component_group:
                     component_name = f"{component_group}.{component_name}"
 
-                self.print_to_console(
-                    f"""{small_indent}{component["type"].ljust(12)} {component_name.ljust(22)} {component["version"].ljust(12)} {license_txt.ljust(16)} {component.get("description", "").ljust(18)}"""
-                )
+                sboms.append({
+                    "type": component["type"],
+                    "name": component_name,
+                    "version": component["version"],
+                    "license": license_txt,
+                    "description": component.get("description", ""),
+                })
+            pretty_print_table(sboms)
+
 
     def _print_scan_report_warnings(self, scan_results_with_warnings: list):
         """print scan warnings"""
         if len(scan_results_with_warnings) <= 0:
             return
 
-        self.print_to_console(
+        click.echo(
             f"""
 Warnings
 ================================="""
@@ -195,10 +198,10 @@ Warnings
             tool_name = py_.get(run_details, "tool_name", "unknown")
             small_indent = "    "
             indent = "        "
-            self.print_to_console(
+            click.echo(
                 f"""
 {small_indent}[{tool_name}] Warnings
 {small_indent}================================="""
             )
             for warning in scan_result.warnings:
-                self.print_to_console(f"""{indent}{warning}""")
+                click.echo(f"""{indent}{warning}""")

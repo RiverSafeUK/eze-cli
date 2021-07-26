@@ -1,6 +1,7 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
 
+import os
 import time
 from abc import ABC, abstractmethod
 from typing import Callable
@@ -8,6 +9,7 @@ from typing import Callable
 import click
 from pydash import py_
 
+from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.core.config import (
     EzeConfig,
     get_config_key,
@@ -257,11 +259,17 @@ class ToolManager:
             # annonation raw scan result
             if not scan_result.tool:
                 scan_result.tool = tool_instance.TOOL_NAME
+
+            git_dir = os.getcwd()
+            git_repo = get_active_branch_uri(git_dir)
+            git_branch = get_active_branch_name(git_dir)
             scan_result.run_details = {
                 "tool_name": tool_name,
                 "scan_type": scan_type,
                 "run_type": run_type,
                 "duration_sec": toc - tic,
+                "git_repo": git_repo,
+                "git_branch": git_branch
             }
             # get tool config for ignore list
             tool_config = self.get_tool_config(tool_name, scan_type, run_type, parent_language_name)

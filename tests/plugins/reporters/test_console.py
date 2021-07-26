@@ -11,6 +11,7 @@ import pytest
 from eze.core.tool import ScanResult
 from eze.plugins.reporters.console import ConsoleReporter
 from tests.__fixtures__.fixture_helper import load_json_fixture, get_snapshot_directory
+from tests.__test_helpers__.mock_helper import mock_print, unmock_print
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 
 TestCase.maxDiff = None
@@ -46,7 +47,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     maxDiff = None
 
     @pytest.mark.asyncio
-    async def test_run_report__snapshot(self, monkeypatch, snapshot):
+    async def test_run_report__snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": False}
         expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False}
@@ -57,11 +58,11 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
         # Then
         await self.assert_run_report_snapshot(
-            monkeypatch, snapshot, input_config, expected_config, input_scan_result, snapshot_location
+            snapshot, input_config, expected_config, input_scan_result, snapshot_location
         )
 
     @pytest.mark.asyncio
-    async def test_run_report__print_ignored_snapshot(self, monkeypatch, snapshot):
+    async def test_run_report__print_ignored_snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": True}
         expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False}
@@ -72,11 +73,11 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
         # Then
         await self.assert_run_report_snapshot(
-            monkeypatch, snapshot, input_config, expected_config, input_scan_result, snapshot_location
+            snapshot, input_config, expected_config, input_scan_result, snapshot_location
         )
 
     @pytest.mark.asyncio
-    async def test_run_report__print_summary_only_snapshot(self, monkeypatch, snapshot):
+    async def test_run_report__print_summary_only_snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_SUMMARY_ONLY": True}
         expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": True}
@@ -87,11 +88,11 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
         # Then
         await self.assert_run_report_snapshot(
-            monkeypatch, snapshot, input_config, expected_config, input_scan_result, snapshot_location
+            snapshot, input_config, expected_config, input_scan_result, snapshot_location
         )
 
     @pytest.mark.asyncio
-    async def test_run_report__print_sbom(self, monkeypatch, snapshot):
+    async def test_run_report__print_sbom(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": True}
         expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False}
@@ -100,12 +101,11 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
         # Then
         await self.assert_run_report_snapshot(
-            monkeypatch, snapshot, input_config, expected_config, input_scan_result, snapshot_location
+            snapshot, input_config, expected_config, input_scan_result, snapshot_location
         )
 
     async def assert_run_report_snapshot(
         self,
-        monkeypatch,
         snapshot,
         input_config: dict,
         expected_config: dict,
@@ -114,14 +114,14 @@ class TestConsoleReporter(ReporterMetaTestBase):
     ):
         self.maxDiff = None
         # Given
-        self.console_output = ""
+        mocked_print_output = mock_print()
 
         # When
         testee = ConsoleReporter(input_config)
         # hijack print command to test output
-        monkeypatch.setattr(testee, "print_to_console", self.append_console_output)
         await testee.run_report([input_scan_result])
-        output = self.console_output
+        output = mocked_print_output.getvalue()
+        unmock_print()
 
         # Then
         assert testee.config == expected_config
