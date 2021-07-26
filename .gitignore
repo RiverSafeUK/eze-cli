@@ -21,6 +21,9 @@ db.sqlite3
 # Code Reports: Unit Tests and Coverage
 reports
 
+# Code Build: Compiled eze source
+scripts/eze-cli-*.tar.gs
+
 # setup.py exe
 dist
 *.egg-info
