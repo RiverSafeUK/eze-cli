@@ -1,0 +1,7 @@
+DummyReporter received 1 scans
+[success-tool (scan duration: 0.0 seconds)]
+
+    total: 3 (high:1, medium:1, na:1, warnings:true)
+    ignored: 1 (medium:1, warnings:true)
+
+Report 'testee-reporter' took xxx seconds

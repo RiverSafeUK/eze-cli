@@ -155,7 +155,7 @@ available levels: critical, high, medium, low, none, na""",
     # Then
     # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
     snapshot.snapshot_dir = get_snapshot_directory()
-    snapshot.assert_match(output, "core/create_config_help--real-case.txt")
+    snapshot.assert_match(output, "core/config__create_config_help--real-case.txt")
 
 
 def test_create_config_help__std_case_snapshot(snapshot):
@@ -175,7 +175,7 @@ def test_create_config_help__std_case_snapshot(snapshot):
     # Then
     # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
     snapshot.snapshot_dir = get_snapshot_directory()
-    snapshot.assert_match(output, "core/create_config_help--std-case.txt")
+    snapshot.assert_match(output, "core/config__create_config_help--std-case.txt")
 
 
 class TestEzeConfig(TestCase):

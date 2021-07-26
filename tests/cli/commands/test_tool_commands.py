@@ -1,5 +1,7 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
+import re
 
+import pytest
 from click.testing import CliRunner
 
 from eze.cli.commands.tool_commands import tools_group
@@ -30,7 +32,7 @@ class TestToolCommand:
         snapshot.assert_match(result.output, "cli_tool_commands/tool_list.txt")
         assert result.exit_code == 0
 
-    def test_tool_list__invalid_tool_type(self, snapshot):
+    def test_tool_list__invalid_tool_type(self):
         runner = CliRunner()
         result = runner.invoke(tools_group, ["list", "-t", "NOT_SCA"])
         assert (
@@ -41,7 +43,7 @@ Available tool types are (SBOM,SCA,SAST,SECRET,MISC)
         )
         assert result.exit_code == 1
 
-    def test_tool_list__invalid_source_type(self, snapshot):
+    def test_tool_list__invalid_source_type(self):
         runner = CliRunner()
         result = runner.invoke(tools_group, ["list", "-s", "NOT_PYTHON"])
         assert (
@@ -57,4 +59,16 @@ Available source types are (ALL,PYTHON,NODE,JAVA,GRADLE,SBT,RUBY,GO,PHP,CONTAINE
         result = runner.invoke(tools_group, ["help", "success-tool"])
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_tool_commands/tool_help.txt")
+        assert result.exit_code == 0
+
+    @pytest.mark.asyncio
+    def test_tool_run(self, snapshot):
+        # Given
+        # When
+        runner = CliRunner()
+        result = runner.invoke(tools_group, ["run", "success-tool", "-r", "testee-reporter"])
+        # Then
+        output = re.sub('took [0-9.]+ seconds', 'took xxx seconds', result.output)
+        snapshot.snapshot_dir = get_snapshot_directory()
+        snapshot.assert_match(output, "cli_tool_commands/tool_run.txt")
         assert result.exit_code == 0

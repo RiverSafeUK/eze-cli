@@ -78,7 +78,12 @@ semgrep               0.53.0            opensource multi language SAST scanner
 ...
 ```
 
-## Get Tool Help
+# Configuring Eze
+Eze runs off a local **.ezerc.toml** file, for customising your scans please edit this
+
+When this config is not present, a sample config will be build automatically by scanning the codebase.
+
+## Get Tool Configuration Help
 
 What version if any is installed, and instructions howto install and configure said tool
 

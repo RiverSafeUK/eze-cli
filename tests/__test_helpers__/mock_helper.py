@@ -2,12 +2,15 @@
 import sys
 from io import StringIO
 
+from eze.utils.scan_result import name_and_time_summary, vulnerabilities_short_summary, bom_short_summary
+
 from eze.core.config import EzeConfig
 from eze.core.engine import EzeCore
 from eze.core.language import LanguageManager
 from eze.core.reporter import ReporterManager, ReporterMeta
 from eze.core.tool import ToolManager, ToolMeta, ScanResult, ToolType
 from eze.plugins.languages.python import PythonRunner
+from tests.__fixtures__.fixture_helper import load_json_fixture
 
 
 class DummyFailureTool(ToolMeta):
@@ -59,7 +62,9 @@ class DummySuccessTool(ToolMeta):
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-        return ScanResult()
+        scan_result_fixture = load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")
+        output_scan_result: ScanResult = ScanResult(scan_result_fixture[0])
+        return output_scan_result
 
 
 class DummyReporter(ReporterMeta):
@@ -83,8 +88,11 @@ class DummyReporter(ReporterMeta):
 
     async def run_report(self, scan_results: list):
         """Method for taking scan results and turning then into report output"""
-
-        return {"title": "test report wip"}
+        print(f"DummyReporter received {len(scan_results)} scans")
+        for scan_result in scan_results:
+            print(f"""[{name_and_time_summary(scan_result, "")}]""")
+            print(f"""{bom_short_summary(scan_result)}""")
+            print(f"""{vulnerabilities_short_summary(scan_result)}""")
 
 
 DEFAULT_MOCK_TOOLS = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
