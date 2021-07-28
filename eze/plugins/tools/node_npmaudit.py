@@ -70,7 +70,8 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        completed_process = run_cmd(command_str, True, self.config["SOURCE"])
+        # completed_process = run_cmd(command_str, True, self.config["SOURCE"])
+        completed_process = run_cmd(command_str, True)
 
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
