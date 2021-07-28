@@ -54,7 +54,7 @@ release-pypi: cli-build
 	twine upload dist/*
 
 # release docker image
-release-docker: cli-build
+release-docker: cli
 	docker build . -t riversafe/eze-cli:`python eze/version.py` -t riversafe/eze-cli:latest
 	docker push riversafe/eze-cli:`python eze/version.py`
 	docker push riversafe/eze-cli:latest
