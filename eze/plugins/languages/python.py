@@ -100,10 +100,10 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{BanditTool.T
     # By default it uses the open Python vulnerability database Safety DB, 
     # but can be upgraded to use pyup.io's Safety API using the APIKEY option
     # see https://github.com/pyupio/safety/blob/master/docs/api_key.md
-    REPORT_FILE = "../reports/safety-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = "reports/safety-{self.LANGUAGE_NAME}-report.json"
     
     [{self.LANGUAGE_NAME}.{PythonCyclonedxTool.TOOL_NAME}]
-    REPORT_FILE = "../reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
+    REPORT_FILE = "reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
     REQUIREMENTS_FILE = {requirement_txt_file}
 """,
             "message": f"""Saftey and Piprot work best when running against pip frozen requirements""",

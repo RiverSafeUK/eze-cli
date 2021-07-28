@@ -55,14 +55,9 @@ if not set, will be automatically determined via local git info""",
         """Method for detecting if reporter installed and ready to run report, returns version installed"""
         return __version__
 
-    def print_to_console(self, text):
-        """Wrapper around printing to console"""
-        # TODO: plumb colourisation as optional arg
-        print(text)
-
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        self.print_to_console("Sending Eze scans to management console:\n")
+        click.echo("Sending Eze scans to management console:\n")
         self.send_results(scan_results)
 
     def send_results(self, scan_results: ScanResult) -> str:
@@ -90,9 +85,7 @@ if not set, will be automatically determined via local git info""",
             # hence no risk of unexpected scheme
             with urllib.request.urlopen(req) as stream:  # nosec # nosemgrep
                 contents = stream.read()
-
-            # TODO: AB-536: optimise lambda response + make responsive in UI
-            self.print_to_console(contents)
+            click.echo(contents)
         except HTTPError as err:
             error_text = err.read().decode()
             raise click.ClickException(

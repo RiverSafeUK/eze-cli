@@ -1,6 +1,7 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
 
+import os
 import time
 from abc import ABC, abstractmethod
 from typing import Callable
@@ -8,6 +9,7 @@ from typing import Callable
 import click
 from pydash import py_
 
+from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.core.config import (
     EzeConfig,
     get_config_key,
@@ -254,21 +256,27 @@ class ToolManager:
             # get raw scan result
             scan_result: ScanResult = await tool_instance.run_scan()
             toc = time.perf_counter()
-            # annonation raw scan result
+            # annotation raw scan result
             if not scan_result.tool:
                 scan_result.tool = tool_instance.TOOL_NAME
+
+            git_dir = os.getcwd()
+            git_repo = get_active_branch_uri(git_dir)
+            git_branch = get_active_branch_name(git_dir)
             scan_result.run_details = {
                 "tool_name": tool_name,
                 "scan_type": scan_type,
                 "run_type": run_type,
                 "duration_sec": toc - tic,
+                "git_repo": git_repo,
+                "git_branch": git_branch
             }
             # get tool config for ignore list
-            tool_config = self.get_tool_config(tool_name, scan_type, run_type, parent_language_name)
+            tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
             # normalise vulnerabilities list
-            scan_result.vulnerabilities = self.normalise_vulnerabilities(scan_result.vulnerabilities, tool_config)
+            scan_result.vulnerabilities = self._normalise_vulnerabilities(scan_result.vulnerabilities, tool_config)
             # create counts of vulnerabilities
-            scan_result.summary = self.create_summary(scan_result.vulnerabilities, tool_config)
+            scan_result.summary = self._create_summary(scan_result.vulnerabilities, tool_config)
             return scan_result
         except ExecutableNotFoundException as err:
             tool_class = self.tools[tool_name]
@@ -287,18 +295,134 @@ Looks like {tool_name} is not installed
 """
             )
 
-    def normalise_vulnerabilities(self, vulnerabilities: list, tool_config: dict) -> list:
+    def get_tool(
+            self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
+    ) -> ToolMeta:
+        """Gets a instance of a tool, populated with it's configuration"""
+
+        [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
+
+        try:
+            tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
+            tool_class = self.tools[tool_name]
+            tool_instance = tool_class(tool_config)
+        except ConfigException as err:
+            raise click.ClickException(f"[{tool_name}] {err.message}")
+        return tool_instance
+
+    def print_tools_list(
+            self,
+            tool_type: str = None,
+            source_type: str = None,
+            include_source_type: bool = None,
+            include_version: bool = None,
+    ):
+        """list available tools"""
+        click.echo(
+            """Available Tools are:
+======================="""
+        )
+        tools = []
+        for current_tool_name in self.tools:
+            current_tool_class = self.tools[current_tool_name]
+            current_tool_type = current_tool_class.tool_type().name
+            current_source_support = current_tool_class.source_support()
+            current_source_support_strs = list(map(lambda source: source.name, current_source_support))
+            current_source_support_str = ",".join(current_source_support_strs)
+            current_tool_license = current_tool_class.license()
+            current_tool_description = current_tool_class.short_description()
+            if tool_type and tool_type != current_tool_type:
+                continue
+            if (
+                    source_type
+                    and source_type not in current_source_support_strs
+                    and "ALL" not in current_source_support_strs
+            ):
+                continue
+            tool_entry = {}
+            tool_entry["Type"] = current_tool_type
+            tool_entry["Name"] = current_tool_name
+            if include_version:
+                current_tool_version = current_tool_class.check_installed() or "Not Installed"
+                tool_entry["Version"] = current_tool_version
+            tool_entry["License"] = current_tool_license
+            if include_source_type:
+                tool_entry["Sources"] = current_source_support_str
+            tool_entry["Description"] = current_tool_description
+            tools.append(tool_entry)
+
+        pretty_print_table(tools)
+
+    def print_tools_help(self, tool_type: str = None, source_type: str = None, include_source_type: bool = None):
+        """print help for all tools"""
+        click.echo(
+            """Available Tools Help:
+======================="""
+        )
+        for current_tool_name in self.tools:
+            current_tool_class = self.tools[current_tool_name]
+            current_tool_type = current_tool_class.tool_type().name
+            current_source_support = current_tool_class.source_support()
+            current_source_support_strs = list(map(lambda source: source.name, current_source_support))
+            if tool_type and tool_type != current_tool_type:
+                continue
+            if (
+                    source_type
+                    and source_type not in current_source_support_strs
+                    and "ALL" not in current_source_support_strs
+            ):
+                continue
+            self.print_tool_help(current_tool_name)
+
+
+    def print_tool_help(self, tool: str):
+        """print out tool help"""
+        tool_class:ToolMeta = self.tools[tool]
+        tool_description = tool_class.short_description()
+        click.echo(
+            f"""
+=================================
+Tool '{tool}' Help
+{tool_description}
+================================="""
+        )
+        tool_license = tool_class.license()
+        click.echo(f"License: {tool_license}")
+        tool_version = tool_class.check_installed()
+        if tool_version:
+            click.echo(f"Version: {tool_version} Installed")
+            click.echo(f"""""")
+        else:
+            click.echo(
+                f"""Tool Install Instructions:
+---------------------------------"""
+            )
+            click.echo(tool_class.install_help())
+            click.echo(f"""""")
+        click.echo(
+            f"""Tool Configuration Instructions:
+---------------------------------"""
+        )
+        click.echo(tool_class.config_help())
+
+        click.echo(
+            f"""Tool More Info:
+---------------------------------"""
+        )
+        click.echo(tool_class.more_info())
+
+    def _normalise_vulnerabilities(self, vulnerabilities: list, tool_config: dict) -> list:
         """sort and normalise any corrupted values in vulnerabilities"""
         # normalise any corrupted values
         for vulnerability in vulnerabilities:
-            vulnerability.severity = self.get_severity(vulnerability, tool_config)
+            vulnerability.severity = self._get_severity(vulnerability, tool_config)
             vulnerability.update_ignored(tool_config)
         # sort by severity and ignored status
-        vulnerabilities = self.sort_vulnerabilities(vulnerabilities)
+        vulnerabilities = self._sort_vulnerabilities(vulnerabilities)
         return vulnerabilities
 
-    def create_summary(self, vulnerabilities: list, tool_config: dict) -> list:
-        """count vulnerabilties and create summary"""
+    def _create_summary(self, vulnerabilities: list, tool_config: dict) -> list:
+        """count vulnerabilities and create summary"""
         summary = {
             "ignored": {"total": 0, "critical": 0, "high": 0, "medium": 0, "low": 0, "none": 0, "na": 0},
             "totals": {"total": 0, "critical": 0, "high": 0, "medium": 0, "low": 0, "none": 0, "na": 0},
@@ -313,8 +437,8 @@ Looks like {tool_name} is not installed
                 summary["totals"][vulnerability.severity] += 1
         return summary
 
-    def sort_vulnerabilities(self, vulnerabilities: list) -> list:
-        """sort vulnerabilties by ignored, severity, title"""
+    def _sort_vulnerabilities(self, vulnerabilities: list) -> list:
+        """sort vulnerabilities by ignored, severity, title"""
 
         def sort_heuristic(vulnerability: Vulnerability):
             """sort heuristic function"""
@@ -325,27 +449,12 @@ Looks like {tool_name} is not installed
 
         return sorted(vulnerabilities, key=sort_heuristic)
 
-    def get_severity(self, vulnerability: Vulnerability, tool_config: dict) -> str:
+    def _get_severity(self, vulnerability: Vulnerability, tool_config: dict) -> str:
         """detect severity of vulnerability"""
         severity = (vulnerability.severity or "").lower()
         if hasattr(VulnerabilitySeverityEnum, severity):
             return severity
         return tool_config["DEFAULT_SEVERITY"]
-
-    def get_tool(
-        self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
-    ) -> ToolMeta:
-        """Gets a instance of a tool, populated with it's configuration"""
-
-        [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
-
-        try:
-            tool_config = self.get_tool_config(tool_name, scan_type, run_type, parent_language_name)
-            tool_class = self.tools[tool_name]
-            tool_instance = tool_class(tool_config)
-        except ConfigException as err:
-            raise click.ClickException(f"[{tool_name}] {err.message}")
-        return tool_instance
 
     def _add_tools(self, tools: dict):
         """adds new tools to tools registry"""
@@ -366,7 +475,7 @@ Looks like {tool_name} is not installed
                     print(f"-- skipping invalid tool '{tool_name}'")
                 continue
 
-    def get_tool_config(
+    def _get_tool_config(
         self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ):
         """Get Tool Config, handle default config parameters"""
@@ -402,162 +511,3 @@ Looks like {tool_name} is not installed
             ignore_below_severity_name = VulnerabilitySeverityEnum.na.name
         tool_config["IGNORE_BELOW_SEVERITY_INT"] = VulnerabilitySeverityEnum[ignore_below_severity_name].value
         return tool_config
-
-    def print_tools_list(
-        self,
-        tool_type: str = None,
-        source_type: str = None,
-        include_source_type: bool = None,
-        include_version: bool = None,
-    ):
-        """list available tools"""
-        click.echo(
-            """Available Tools are:
-======================="""
-        )
-        tools = []
-        for current_tool_name in self.tools:
-            current_tool_class = self.tools[current_tool_name]
-            current_tool_type = current_tool_class.tool_type().name
-            current_source_support = current_tool_class.source_support()
-            current_source_support_strs = list(map(lambda source: source.name, current_source_support))
-            current_source_support_str = ",".join(current_source_support_strs)
-            current_tool_license = current_tool_class.license()
-            current_tool_description = current_tool_class.short_description()
-            if tool_type and tool_type != current_tool_type:
-                continue
-            if (
-                source_type
-                and source_type not in current_source_support_strs
-                and "ALL" not in current_source_support_strs
-            ):
-                continue
-            tool_entry = {}
-            tool_entry["Type"] = current_tool_type
-            tool_entry["Name"] = current_tool_name
-            if include_version:
-                current_tool_version = current_tool_class.check_installed() or "Not Installed"
-                tool_entry["Version"] = current_tool_version
-            tool_entry["License"] = current_tool_license
-            if include_source_type:
-                tool_entry["Sources"] = current_source_support_str
-            tool_entry["Description"] = current_tool_description
-            tools.append(tool_entry)
-
-        pretty_print_table(tools)
-
-    def print_tools_help(
-        self,
-        tool_type: str = None,
-        source_type: str = None,
-        include_source_type: bool = None,
-        include_version: bool = None,
-    ):
-        """print help for all tools"""
-        click.echo(
-            """Available Tools Help:
-======================="""
-        )
-        for current_tool_name in self.tools:
-            current_tool_class = self.tools[current_tool_name]
-            current_tool_type = current_tool_class.tool_type().name
-            current_source_support = current_tool_class.source_support()
-            current_source_support_strs = list(map(lambda source: source.name, current_source_support))
-            if tool_type and tool_type != current_tool_type:
-                continue
-            if (
-                source_type
-                and source_type not in current_source_support_strs
-                and "ALL" not in current_source_support_strs
-            ):
-                continue
-            self.print_tool_help(current_tool_name)
-
-    def print_tool_help(self, tool: str):
-        """print out tool help"""
-        tool_class = self.tools[tool]
-        tool_description = tool_class.short_description()
-        click.echo(
-            f"""
-=================================
-Tool '{tool}' Help
-{tool_description}
-================================="""
-        )
-        tool_version = tool_class.check_installed()
-        if tool_version:
-            click.echo(f"Version: {tool_version} Installed")
-            click.echo(f"""""")
-        else:
-            click.echo(
-                f"""Tool Install Instructions:
----------------------------------"""
-            )
-            click.echo(tool_class.install_help())
-            click.echo(f"""""")
-        click.echo(
-            f"""Tool Configuration Instructions:
----------------------------------"""
-        )
-        click.echo(tool_class.config_help())
-
-        click.echo(
-            f"""Tool More Info:
----------------------------------"""
-        )
-        click.echo(tool_class.more_info())
-
-    def print_tools_help(self, tool_type: str = None, source_type: str = None, include_source_type: bool = None):
-        """print help for all tools"""
-        click.echo(
-            """Available Tools Help:
-======================="""
-        )
-        for current_tool_name in self.tools:
-            current_tool_class = self.tools[current_tool_name]
-            current_tool_type = current_tool_class.tool_type().name
-            current_source_support = current_tool_class.source_support()
-            current_source_support_strs = list(map(lambda source: source.name, current_source_support))
-            if tool_type and tool_type != current_tool_type:
-                continue
-            if (
-                source_type
-                and source_type not in current_source_support_strs
-                and "ALL" not in current_source_support_strs
-            ):
-                continue
-            self.print_tool_help(current_tool_name)
-
-    def print_tool_help(self, tool: str):
-        """print out tool help"""
-        tool_class = self.tools[tool]
-        tool_description = tool_class.short_description()
-        click.echo(
-            f"""
-=================================
-Tool '{tool}' Help
-{tool_description}
-================================="""
-        )
-        tool_version = tool_class.check_installed()
-        if tool_version:
-            click.echo(f"Version: {tool_version} Installed")
-            click.echo(f"""""")
-        else:
-            click.echo(
-                f"""Tool Install Instructions:
----------------------------------"""
-            )
-            click.echo(tool_class.install_help())
-            click.echo(f"""""")
-        click.echo(
-            f"""Tool Configuration Instructions:
----------------------------------"""
-        )
-        click.echo(tool_class.config_help())
-
-        click.echo(
-            f"""Tool More Info:
----------------------------------"""
-        )
-        click.echo(tool_class.more_info())

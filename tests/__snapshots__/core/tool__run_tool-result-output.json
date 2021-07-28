@@ -1,0 +1,38 @@
+{
+  "bom": null,
+  "run_details": {
+    "duration_sec": [
+      "NOT UNDER TEST (TIME IS DYNAMIC)"
+    ],
+    "run_type": null,
+    "scan_type": null,
+    "tool_name": "success-tool"
+  },
+  "summary": {
+    "ignored": {
+      "critical": 0,
+      "high": 0,
+      "low": 0,
+      "medium": 1,
+      "na": 0,
+      "none": 0,
+      "total": 1
+    },
+    "totals": {
+      "critical": 0,
+      "high": 1,
+      "low": 0,
+      "medium": 1,
+      "na": 1,
+      "none": 0,
+      "total": 3
+    }
+  },
+  "tool": "Safety",
+  "vulnerabilities": [
+    "NOT UNDER TEST (FROM FIXTURE)"
+  ],
+  "warnings": [
+    "Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.\nWarning: unpinned requirement 'click' found in tests-integration/__fixture__/python/requirements.txt, unable to check.\n"
+  ]
+}

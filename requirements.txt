@@ -1,8 +1,8 @@
 click==8.0.1
 colorama==0.4.4
-GitPython==3.1.17
+GitPython==3.1.18
 pydash==5.0.0
-requests==2.25.0
+requests==2.26.0
 semantic_version==2.8.5
 toml==0.10.2
 xmltodict==0.12.0

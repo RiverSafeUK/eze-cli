@@ -4,6 +4,9 @@
 [python-bandit]
 SOURCE = "eze"
 REPORT_FILE = "reports/bandit-report.json"
+IGNORED_FILES = [
+    "eze/core/enums.py"
+]
 
 [python-piprot]
 REQUIREMENTS_FILES = [
@@ -49,7 +52,8 @@ CONFIGS = [
 SOURCE = "eze/ tests/"
 IGNORED_FILES = [
     "__fixtures__/",
-    "__snapshots__/"
+    "__snapshots__/",
+    "utils/test_git.py"
 ]
 REPORT_FILE = "reports/truffleHog-report.json"
 

@@ -1,4 +1,5 @@
 """Bill of Materials reporter class implementation"""
+import click
 from pydash import py_
 
 from eze import __version__
@@ -22,11 +23,6 @@ By default set to eze_bom.json""",
         },
     }
 
-    def print_to_console(self, text):
-        """Wrapper around printing to console"""
-        # TODO: plumb colourisation as optional arg
-        print(text)
-
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if reporter installed and ready to run report, returns version installed"""
@@ -46,14 +42,13 @@ By default set to eze_bom.json""",
         """convert scan sboms into bom files"""
         small_indent = "    "
         if len(scan_results_with_sboms) <= 0:
-            self.print_to_console(
+            click.echo(
                 f"""{small_indent}Reporter couldn't find any input sboms to convert into report files"""
             )
             return
         for scan_result in scan_results_with_sboms:
-            output_format = self.config["OUTPUT_FORMAT"]
             report_file = self.config["REPORT_FILE"]
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            self.print_to_console(f"""{small_indent}Writing [{tool_name}] json dx SBOM to {report_file}""")
+            click.echo(f"""{small_indent}Writing [{tool_name}] json dx SBOM to {report_file}""")
             write_json(report_file, scan_result.bom)

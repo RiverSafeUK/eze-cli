@@ -46,10 +46,10 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
     # By default it uses the open Python vulnerability database Safety DB, 
     # but can be upgraded to use pyup.io's Safety API using the APIKEY option
     # see https://github.com/pyupio/safety/blob/master/docs/api_key.md
-    REPORT_FILE = "../reports/safety-python-report.json"
+    REPORT_FILE = "reports/safety-python-report.json"
     
     [python.python-cyclonedx]
-    REPORT_FILE = "../reports/cyclonedx-python-bom.json"
+    REPORT_FILE = "reports/cyclonedx-python-bom.json"
     REQUIREMENTS_FILE = "requirements.txt"
 
 
