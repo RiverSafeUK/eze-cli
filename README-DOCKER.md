@@ -18,6 +18,9 @@ docker run --rm -v ${PWD}:/data riversafe/eze-cli test
 
 # 2) [in git bash] Run pulled image in docker
 docker run --rm -v $(pwd -W):/data riversafe/eze-cli test
+
+# 2) [in linux/mac os bash] Run pulled image in docker
+docker run --rm -v "$(pwd)":/data riversafe/eze-cli test
 ```
 
 # Configuring Eze
