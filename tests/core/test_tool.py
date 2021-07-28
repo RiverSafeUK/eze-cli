@@ -227,7 +227,7 @@ class TestToolManager():
         expected_output_object = json.loads(json.dumps(expected_output, default=vars))
         assert output_object == expected_output_object
 
-    def test_test_private__sort_vulnerabilities(self):
+    def test_private__sort_vulnerabilities(self):
         # Given
         low_vulnerability = Vulnerability({"severity": "low", "is_ignored": False, "name": "foo"})
         med_vulnerability = Vulnerability({"severity": "medium", "is_ignored": False, "name": "foo"})
