@@ -51,7 +51,6 @@ By default set to eze_bom.json""",
             )
             return
         for scan_result in scan_results_with_sboms:
-            output_format = self.config["OUTPUT_FORMAT"]
             report_file = self.config["REPORT_FILE"]
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")

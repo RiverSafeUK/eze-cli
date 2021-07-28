@@ -4,17 +4,24 @@ from click import ClickException
 
 from eze.core.config import EzeConfig
 from eze.core.reporter import ReporterManager
-from tests.__test_helpers__.mock_helper import get_dummy_plugin, DummyReporter
+from tests.__test_helpers__.mock_helper import get_dummy_plugin, DummyReporter, mock_print, unmock_print
 
 
 class TestReport:
     @pytest.mark.asyncio
     async def test_create_report_basic(self):
-        expected_output = {"title": "test report wip"}
+        # Given
+        mocked_print_output = mock_print()
+        expected_output = """DummyReporter received 0 scans
+"""
         input_scan_results = []
         testee = DummyReporter()
-        result = await testee.run_report(input_scan_results)
-        assert result == expected_output
+        # When
+        await testee.run_report(input_scan_results)
+        # Then
+        unmock_print()
+        output = mocked_print_output.getvalue()
+        assert output == expected_output
 
 
 class TestReporterManager:

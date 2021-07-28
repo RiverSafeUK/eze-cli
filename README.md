@@ -33,14 +33,20 @@ It's recommended to tailor this Dockerfile, download it and add/remove tools as 
 # Pull docker image
 docker pull riversafe/eze-cli:latest
 
+# Test docker running ok
+docker run riversafe/eze-cli --version
+
 # Run pulled image in docker (cmd)
-docker run --rm -v %cd%:/data riversafe/eze-cli --version
+docker run --rm -v %cd%:/data riversafe/eze-cli test
 
 # Run pulled image in (powershell)
-docker run --rm -v ${PWD}:/data riversafe/eze-cli --version
+docker run --rm -v ${PWD}:/data riversafe/eze-cli test
 
 # Run pulled image in (git bash)
-docker run --rm -v $(pwd -W):/data riversafe/eze-cli --version
+docker run --rm -v $(pwd -W):/data riversafe/eze-cli test
+
+# Run pulled image in (linux/mac os bash)
+docker run --rm -v "$(pwd)":/data riversafe/eze-cli test
 ```
 
 # Usage
@@ -78,7 +84,12 @@ semgrep               0.53.0            opensource multi language SAST scanner
 ...
 ```
 
-## Get Tool Help
+# Configuring Eze
+Eze runs off a local **.ezerc.toml** file, for customising your scans please edit this
+
+When this config is not present, a sample config will be build automatically by scanning the codebase.
+
+## Get Tool Configuration Help
 
 What version if any is installed, and instructions howto install and configure said tool
 

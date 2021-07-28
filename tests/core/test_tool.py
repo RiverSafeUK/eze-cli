@@ -1,14 +1,15 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 import json
-from unittest import TestCase
 
 import pytest
 from click import ClickException
+from eze.utils.io import pretty_print_json
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
-from eze.core.tool import ToolManager, Vulnerability
-from tests.__fixtures__.fixture_helper import assert_deep_equal
-from tests.__test_helpers__.mock_helper import setup_mock, teardown_mock, DummySuccessTool, DummyFailureTool
+from eze.core.tool import ToolManager, Vulnerability, ScanResult
+from tests.__fixtures__.fixture_helper import assert_deep_equal, get_snapshot_directory
+from tests.__test_helpers__.mock_helper import setup_mock, teardown_mock, DummySuccessTool, DummyFailureTool, \
+    unmock_print, mock_print
 
 
 class DummyPlugin1:
@@ -21,7 +22,7 @@ class DummyPlugin2:
         return {"failure-tool": DummyFailureTool}
 
 
-class TestToolManager(TestCase):
+class TestToolManager():
     def setUp(self) -> None:
         """Pre-Test Setup func"""
         teardown_mock()
@@ -29,6 +30,7 @@ class TestToolManager(TestCase):
     def tearDown(self) -> None:
         """Post-Test Tear Down func"""
         teardown_mock()
+        unmock_print()
 
     def test_plugin_inject(self):
         # Given
@@ -64,7 +66,7 @@ class TestToolManager(TestCase):
         # When
         tool_instance = tool_manager_instance.get_tool("success-tool")
         # Then
-        self.assertIsInstance(tool_instance, DummySuccessTool)
+        assert type(tool_instance) is DummySuccessTool
         assert tool_instance.config == expected_tool_config
 
     def test_get_tool__with_nested_run_type(self):
@@ -91,7 +93,7 @@ class TestToolManager(TestCase):
         # When
         tool_instance = tool_manager_instance.get_tool("success-tool:dev-mode")
         # Then
-        self.assertIsInstance(tool_instance, DummySuccessTool)
+        assert type(tool_instance) is DummySuccessTool
         assert tool_instance.config == expected_tool_config
 
     def test_get_tool__failure_invalid_reporter(self):
@@ -110,7 +112,71 @@ class TestToolManager(TestCase):
         # Then
         assert thrown_exception.value.message == expected_error_message
 
-    def test_normalise_vulnerabilities(self):
+    @pytest.mark.asyncio
+    async def test_run_tool__simple(self, snapshot):
+        # Given
+        eze_config = {"success-tool": {"some-thing-for-tool": 123}}
+        setup_mock(eze_config)
+        expected_tool_config = {
+            "some-thing-for-tool": 123,
+            "DEFAULT_SEVERITY": "na",
+            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_FILES": [],
+            "IGNORE_BELOW_SEVERITY_INT": 5,
+        }
+        expected_tools = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
+        input_plugin = {
+            "broken_plugin_with_no_get_tools": {},
+            "test_plugin_1": DummyPlugin1(),
+            "test_plugin_2": DummyPlugin2(),
+        }
+        tool_manager_instance = ToolManager(input_plugin)
+        # When
+        output:ScanResult = await tool_manager_instance.run_tool("success-tool")
+        # Then
+        output.run_details["duration_sec"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
+        output.vulnerabilities = ["NOT UNDER TEST (FROM FIXTURE)"]
+        output_snapshot = pretty_print_json(output)
+        # Then
+        # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
+        snapshot.snapshot_dir = get_snapshot_directory()
+        snapshot.assert_match(output_snapshot, f"core/tool__run_tool-result-output.json")
+
+    def test_print_tool_help__simple(self, snapshot):
+        # Given
+        mocked_print_output = mock_print()
+        input_plugin = {
+            "broken_plugin_with_no_get_tools": {},
+            "test_plugin_1": DummyPlugin1(),
+            "test_plugin_2": DummyPlugin2(),
+        }
+        tool_manager_instance = ToolManager(input_plugin)
+        # When
+        tool_manager_instance.print_tool_help("success-tool")
+        # Then
+        unmock_print()
+        output = mocked_print_output.getvalue()
+        snapshot.snapshot_dir = get_snapshot_directory()
+        snapshot.assert_match(output, "core/tool__print_tool_help.txt")
+
+    def test_print_tools_help__simple(self, snapshot):
+        # Given
+        mocked_print_output = mock_print()
+        input_plugin = {
+            "broken_plugin_with_no_get_tools": {},
+            "test_plugin_1": DummyPlugin1(),
+            "test_plugin_2": DummyPlugin2(),
+        }
+        tool_manager_instance = ToolManager(input_plugin)
+        # When
+        tool_manager_instance.print_tools_help()
+        # Then
+        unmock_print()
+        output = mocked_print_output.getvalue()
+        snapshot.snapshot_dir = get_snapshot_directory()
+        snapshot.assert_match(output, "core/tool__print_tools_help.txt")
+
+    def test_private__normalise_vulnerabilities(self):
         # Given
         fixed_low_vulnerability = Vulnerability(
             {"severity": "low", "is_ignored": False, "name": "corrupted_low_vulnerability"}
@@ -155,13 +221,13 @@ class TestToolManager(TestCase):
         # When
         tool_manager_instance = ToolManager()
         # Then
-        output = tool_manager_instance.normalise_vulnerabilities(input_vulnerabilities, input_config)
+        output = tool_manager_instance._normalise_vulnerabilities(input_vulnerabilities, input_config)
 
         output_object = json.loads(json.dumps(output, default=vars))
         expected_output_object = json.loads(json.dumps(expected_output, default=vars))
         assert output_object == expected_output_object
 
-    def test_sort_vulnerabilities(self):
+    def test_private__sort_vulnerabilities(self):
         # Given
         low_vulnerability = Vulnerability({"severity": "low", "is_ignored": False, "name": "foo"})
         med_vulnerability = Vulnerability({"severity": "medium", "is_ignored": False, "name": "foo"})
@@ -173,11 +239,11 @@ class TestToolManager(TestCase):
         # When
         tool_manager_instance = ToolManager()
         # Then
-        output = tool_manager_instance.sort_vulnerabilities(input)
+        output = tool_manager_instance._sort_vulnerabilities(input)
         assert output == expected_output
 
 
-class TestVulnerability(TestCase):
+class TestVulnerability():
     def test_seralisation_test(self):
         old_vulnerability = Vulnerability(
             {
