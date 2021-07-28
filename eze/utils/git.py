@@ -86,7 +86,7 @@ def get_active_branch_uri(git_dir: str) -> str:
         # https://docs.github.com/en/actions/reference/environment-variables
         or (
             os.environ.get("GITHUB_SERVER_URL")
-            and (os.environ.get("GITHUB_SERVER_URL") + '/' + os.environ.get("GITHUB_REPOSITORY"))
+            and (os.environ.get("GITHUB_SERVER_URL") + "/" + os.environ.get("GITHUB_REPOSITORY"))
         )
     )
     if ci_uri:

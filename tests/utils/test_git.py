@@ -81,28 +81,17 @@ def test_get_active_branch_name__success_with_no_git_installed(mock_repo):
 branch_test_data = [
     (
         "ado",
-        {
-            "BUILD_SOURCEBRANCHNAME": "main_ado_thing",
-            "BUILD_REPOSITORY_URI": "https://ado-repo.com"
-        },
+        {"BUILD_SOURCEBRANCHNAME": "main_ado_thing", "BUILD_REPOSITORY_URI": "https://ado-repo.com"},
         "https://ado-repo.com",
-        "main_ado_thing"
+        "main_ado_thing",
     ),
     (
         "AWS_CASE",
-        {
-            "AWS_BRANCH": "main_aws_thing",
-            "AWS_CLONE_URL": "https://aws-repo.com"
-        },
+        {"AWS_BRANCH": "main_aws_thing", "AWS_CLONE_URL": "https://aws-repo.com"},
         "https://aws-repo.com",
-        "main_aws_thing"
+        "main_aws_thing",
     ),
-    (
-        "No git repo or ci checkout present",
-        {},
-        None,
-        None
-    ),
+    ("No git repo or ci checkout present", {}, None, None),
     (
         "Jenkins",
         {
@@ -111,7 +100,7 @@ branch_test_data = [
             "GIT_BRANCH": "/o/origin/main_Jenkins_thing",
         },
         "https://Jenkins-repo.com",
-        "main_Jenkins_thing"
+        "main_Jenkins_thing",
     ),
     (
         "IBMCLOUD",
@@ -120,7 +109,7 @@ branch_test_data = [
             "GIT_BRANCH": "main_IBMCLOUD_thing",
         },
         "https://IBMCLOUD-repo.com",
-        "main_IBMCLOUD_thing"
+        "main_IBMCLOUD_thing",
     ),
     (
         "GCP",
@@ -129,7 +118,7 @@ branch_test_data = [
             "BRANCH_NAME": "main_GCP_thing",
         },
         "https://GCP-repo.com",
-        "main_GCP_thing"
+        "main_GCP_thing",
     ),
     (
         "Gitlab_with_credentials",
@@ -149,7 +138,7 @@ branch_test_data = [
         },
         "https://Gitlab-repo.com/zapper/eze.git",
         "main_Github_thing",
-    )
+    ),
 ]
 
 EMPTY_HASH = {
@@ -160,16 +149,12 @@ EMPTY_HASH = {
     "GIT_URL": "",
     "GIT_LOCAL_BRANCH": "",
     "GIT_BRANCH": "",
-
     "_REPO_URL": "",
     "BRANCH_NAME": "",
-
-    "CI_REPOSITORY_URL"
-    "CI_COMMIT_BRANCH": "",
+    "CI_REPOSITORY_URL" "CI_COMMIT_BRANCH": "",
     "CI_MERGE_REQUEST_TARGET_BRANCH_NAME": "",
     "CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME": "",
     "CI_DEFAULT_BRANCH": "",
-
     "GITHUB_SERVER_URL": "",
     "GITHUB_REPOSITORY": "",
     "GITHUB_REF": "",
@@ -205,15 +190,11 @@ def test_get_active_branch_name(mock_repo, title, input_os_environ, expected_rep
 
 
 url_test_data = [
-    (
-        "Do Nothing",
-        "https://clean.already.com/repo",
-        "https://clean.already.com/repo"
-    ),
+    ("Do Nothing", "https://clean.already.com/repo", "https://clean.already.com/repo"),
     (
         "Remove Credentials",
         "https://gitlab-ci-token:[MASKED]@gitlab.com/gitlab-examples/ci-debug-trace.git",
-        "https://gitlab.com/gitlab-examples/ci-debug-trace.git"
+        "https://gitlab.com/gitlab-examples/ci-debug-trace.git",
     ),
 ]
 

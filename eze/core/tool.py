@@ -269,7 +269,7 @@ class ToolManager:
                 "run_type": run_type,
                 "duration_sec": toc - tic,
                 "git_repo": git_repo,
-                "git_branch": git_branch
+                "git_branch": git_branch,
             }
             # get tool config for ignore list
             tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
@@ -296,7 +296,7 @@ Looks like {tool_name} is not installed
             )
 
     def get_tool(
-            self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
+        self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ) -> ToolMeta:
         """Gets a instance of a tool, populated with it's configuration"""
 
@@ -311,11 +311,11 @@ Looks like {tool_name} is not installed
         return tool_instance
 
     def print_tools_list(
-            self,
-            tool_type: str = None,
-            source_type: str = None,
-            include_source_type: bool = None,
-            include_version: bool = None,
+        self,
+        tool_type: str = None,
+        source_type: str = None,
+        include_source_type: bool = None,
+        include_version: bool = None,
     ):
         """list available tools"""
         click.echo(
@@ -334,9 +334,9 @@ Looks like {tool_name} is not installed
             if tool_type and tool_type != current_tool_type:
                 continue
             if (
-                    source_type
-                    and source_type not in current_source_support_strs
-                    and "ALL" not in current_source_support_strs
+                source_type
+                and source_type not in current_source_support_strs
+                and "ALL" not in current_source_support_strs
             ):
                 continue
             tool_entry = {}
@@ -367,17 +367,16 @@ Looks like {tool_name} is not installed
             if tool_type and tool_type != current_tool_type:
                 continue
             if (
-                    source_type
-                    and source_type not in current_source_support_strs
-                    and "ALL" not in current_source_support_strs
+                source_type
+                and source_type not in current_source_support_strs
+                and "ALL" not in current_source_support_strs
             ):
                 continue
             self.print_tool_help(current_tool_name)
 
-
     def print_tool_help(self, tool: str):
         """print out tool help"""
-        tool_class:ToolMeta = self.tools[tool]
+        tool_class: ToolMeta = self.tools[tool]
         tool_description = tool_class.short_description()
         click.echo(
             f"""

@@ -19,7 +19,7 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
     """convert bom into one line summary"""
     bom = scan_result.bom
     if not bom:
-        return ''
+        return ""
     license_counts = {}
     component_count = len(bom["components"])
     totals_txt = f"""{indent}components: {component_count}"""

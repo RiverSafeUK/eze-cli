@@ -68,7 +68,7 @@ Available source types are (ALL,PYTHON,NODE,JAVA,GRADLE,SBT,RUBY,GO,PHP,CONTAINE
         runner = CliRunner()
         result = runner.invoke(tools_group, ["run", "success-tool", "-r", "testee-reporter"])
         # Then
-        output = re.sub('took [0-9.]+ seconds', 'took xxx seconds', result.output)
+        output = re.sub("took [0-9.]+ seconds", "took xxx seconds", result.output)
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(output, "cli_tool_commands/tool_run.txt")
         assert result.exit_code == 0

@@ -42,9 +42,7 @@ By default set to eze_bom.json""",
         """convert scan sboms into bom files"""
         small_indent = "    "
         if len(scan_results_with_sboms) <= 0:
-            click.echo(
-                f"""{small_indent}Reporter couldn't find any input sboms to convert into report files"""
-            )
+            click.echo(f"""{small_indent}Reporter couldn't find any input sboms to convert into report files""")
             return
         for scan_result in scan_results_with_sboms:
             report_file = self.config["REPORT_FILE"]

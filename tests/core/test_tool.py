@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 import json
 
+from unittest.mock import patch
 import pytest
 from click import ClickException
 from eze.utils.io import pretty_print_json
@@ -8,8 +9,14 @@ from eze.utils.io import pretty_print_json
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
 from eze.core.tool import ToolManager, Vulnerability, ScanResult
 from tests.__fixtures__.fixture_helper import assert_deep_equal, get_snapshot_directory
-from tests.__test_helpers__.mock_helper import setup_mock, teardown_mock, DummySuccessTool, DummyFailureTool, \
-    unmock_print, mock_print
+from tests.__test_helpers__.mock_helper import (
+    setup_mock,
+    teardown_mock,
+    DummySuccessTool,
+    DummyFailureTool,
+    unmock_print,
+    mock_print,
+)
 
 
 class DummyPlugin1:
@@ -22,7 +29,18 @@ class DummyPlugin2:
         return {"failure-tool": DummyFailureTool}
 
 
-class TestToolManager():
+class MockGitBranch:
+    def __init__(self):
+        self.name = "feature/helloworld"
+        self.repo = {"remotes": {"origin": {"url": "https://some-repo.some-domain.com"}}}
+
+
+class MockSuccessGitRepo:
+    def __init__(self):
+        self.active_branch = MockGitBranch()
+
+
+class TestToolManager:
     def setUp(self) -> None:
         """Pre-Test Setup func"""
         teardown_mock()
@@ -112,9 +130,11 @@ class TestToolManager():
         # Then
         assert thrown_exception.value.message == expected_error_message
 
+    @patch("git.Repo")
     @pytest.mark.asyncio
-    async def test_run_tool__simple(self, snapshot):
+    async def test_run_tool__simple(self, mock_repo, snapshot):
         # Given
+        mock_repo.return_value = MockSuccessGitRepo()
         eze_config = {"success-tool": {"some-thing-for-tool": 123}}
         setup_mock(eze_config)
         expected_tool_config = {
@@ -132,7 +152,7 @@ class TestToolManager():
         }
         tool_manager_instance = ToolManager(input_plugin)
         # When
-        output:ScanResult = await tool_manager_instance.run_tool("success-tool")
+        output: ScanResult = await tool_manager_instance.run_tool("success-tool")
         # Then
         output.run_details["duration_sec"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
         output.vulnerabilities = ["NOT UNDER TEST (FROM FIXTURE)"]
@@ -243,7 +263,7 @@ class TestToolManager():
         assert output == expected_output
 
 
-class TestVulnerability():
+class TestVulnerability:
     def test_seralisation_test(self):
         old_vulnerability = Vulnerability(
             {

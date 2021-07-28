@@ -173,15 +173,16 @@ Bill of Materials
                 if component_group:
                     component_name = f"{component_group}.{component_name}"
 
-                sboms.append({
-                    "type": component["type"],
-                    "name": component_name,
-                    "version": component["version"],
-                    "license": license_txt,
-                    "description": component.get("description", ""),
-                })
+                sboms.append(
+                    {
+                        "type": component["type"],
+                        "name": component_name,
+                        "version": component["version"],
+                        "license": license_txt,
+                        "description": component.get("description", ""),
+                    }
+                )
             pretty_print_table(sboms)
-
 
     def _print_scan_report_warnings(self, scan_results_with_warnings: list):
         """print scan warnings"""
