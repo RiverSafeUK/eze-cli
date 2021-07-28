@@ -21,6 +21,9 @@ db.sqlite3
 # Code Reports: Unit Tests and Coverage
 reports
 
+# Code Build: Compiled eze source
+scripts/eze-cli-*.tar.gz
+
 # setup.py exe
 dist
 *.egg-info
@@ -273,3 +276,4 @@ $RECYCLE.BIN/
 */build/*
 
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode
+
