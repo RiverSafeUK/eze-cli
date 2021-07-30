@@ -69,6 +69,8 @@ def load_toml(file_path: str) -> str:
 def load_json(file_path: str):
     """Load json file and convert to dict"""
     json_str = load_text(file_path)
+    if not json_str:
+        return []
     python_obj = json.loads(json_str)
     return python_obj
 
