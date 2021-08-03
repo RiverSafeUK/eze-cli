@@ -47,7 +47,7 @@ $ npm install
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "cyclonedx-bom",
+            "BASE_COMMAND": ["cyclonedx-bom"],
             # eze config fields -> flags
             "FLAGS": {"REPORT_FILE": "-o "},
         }
@@ -56,7 +56,7 @@ $ npm install
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("cyclonedx-bom --version")
+        version = extract_cmd_version(["cyclonedx-bom", "--version"])
         return version
 
     async def run_scan(self) -> ScanResult:

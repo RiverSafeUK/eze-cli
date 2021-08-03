@@ -18,7 +18,7 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
     ]
     [python.trufflehog]
     REPORT_FILE = "reports/truffleHog-python-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
     IGNORED_FILES = [
         "node_modules/",
         "target/",

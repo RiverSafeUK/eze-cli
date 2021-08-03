@@ -5,11 +5,10 @@ opensource secret scanner
 config_help:
 ======================
 [trufflehog]
-# SOURCE str
-# TruffleHog3 source folder to scan for secrets
-# can be space seperated list
+# SOURCE list
+# TruffleHog3 list of source folders to scan for secrets
 # 
-SOURCE = "..."
+SOURCE = ["..."]
 
 
 # EXCLUDE list [OPTIONAL]

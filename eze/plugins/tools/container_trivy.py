@@ -1,4 +1,5 @@
 """Trivy Container tool class"""
+import shlex
 
 from pydash import py_
 
@@ -82,7 +83,7 @@ Note: Required IMAGE or IMAGE_FILE""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "trivy image --no-progress --format=json",
+            "BASE_COMMAND": shlex.split("trivy image --no-progress --format=json"),
             # eze config fields -> arguments
             "TAIL_ARGUMENTS": ["IMAGE"],
             # eze config fields -> flags
@@ -98,7 +99,7 @@ Note: Required IMAGE or IMAGE_FILE""",
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("trivy --version")
+        version = extract_cmd_version(["trivy", "--version"])
         return version
 
     async def run_scan(self) -> ScanResult:

@@ -35,8 +35,8 @@ tools are expecting pom.xml at root level"""
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("java --version")
-        mvn_version = extract_cmd_version("mvn --version")
+        version = extract_cmd_version(["java", "--version"])
+        mvn_version = extract_cmd_version(["mvn", "--version"])
         if not version:
             return "inbuilt (java: none)"
         return f"inbuilt (java: {version}, mvn:{mvn_version})"
@@ -67,7 +67,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{JavaDependen
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
     REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
     IGNORED_FILES = [
         "node_modules/",
         "target/",

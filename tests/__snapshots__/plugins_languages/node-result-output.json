@@ -15,7 +15,7 @@ tools = ['semgrep', 'trufflehog', 'node-npmaudit', 'node-npmoutdated', 'node-cyc
     ]
     [node.trufflehog]
     REPORT_FILE = "reports/truffleHog-node-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
     IGNORED_FILES = [
         "node_modules/",
         "target/",

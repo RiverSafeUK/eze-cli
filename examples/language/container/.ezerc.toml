@@ -7,7 +7,7 @@ REPORT_FILE = "../reports/container/syft-report-sbom.json"
 INTERMEDIATE_FILE = "../reports/container/syft-report-sbom.xml"
 
 [container-trivy]
-IMAGE = "python:3.8-slim"
+IMAGE_FILE = "python:3.8-slim"
 REPORT_FILE = "../reports/container/trivy-report.json"
 
 [anchore-grype]
@@ -18,6 +18,7 @@ REPORT_FILE = "../reports/container/grype-report.json"
 # HIGHLY RECOMMENDED, Docker rule set extremely good
 # https://semgrep.dev/p/dockerfile
 # Path to DockerFile
+PRINT_TIMING_INFO = false
 SOURCE = "Dockerfile"
 CONFIGS = [
     "p/dockerfile"

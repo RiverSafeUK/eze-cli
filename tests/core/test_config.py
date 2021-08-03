@@ -84,6 +84,17 @@ def test_get_config_keys__std_case():
     assert output == expected_output
 
 
+def test_get_config_keys__cast_str_as_list():
+    # Given
+    input_dict = {"SOME_KEY": "1234"}
+    input_config = {"SOME_KEY": {"type": list}}
+    expected_output = {"SOME_KEY": ["1234"]}
+    # When
+    output = get_config_keys(input_dict, input_config)
+    # Then
+    assert output == expected_output
+
+
 def test_create_config_help__real_case_snapshot(snapshot):
     # Given
     input_config = {

@@ -15,7 +15,7 @@ tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java
     ]
     [java.trufflehog]
     REPORT_FILE = "reports/truffleHog-java-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
     IGNORED_FILES = [
         "node_modules/",
         "target/",

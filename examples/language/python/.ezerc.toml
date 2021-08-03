@@ -23,7 +23,7 @@ IGNORE_BELOW_SEVERITY = "medium"
 REPORT_FILE = "../reports/python/safety-report.json"
 
 [semgrep]
-PRINT_TIMING_INFO = true
+PRINT_TIMING_INFO = false
 REPORT_FILE = "../reports/python/semgrep-report.json"
 EXCLUDE = [
     "tests",

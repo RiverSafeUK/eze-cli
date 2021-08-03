@@ -19,7 +19,7 @@ tools = ['semgrep', 'trufflehog']
     ]
     [docker.trufflehog]
     REPORT_FILE = "reports/truffleHog-docker-report.json"
-    SOURCE = "Dockerfile"
+    SOURCE = ["Dockerfile"]
     IGNORED_FILES = [
         "node_modules/",
         "target/",

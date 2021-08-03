@@ -1,4 +1,5 @@
 """TruffleHog Python tool class"""
+import shlex
 import time
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
@@ -47,10 +48,9 @@ Tips and Tricks
     LICENSE: str = """GNU"""
     EZE_CONFIG: dict = {
         "SOURCE": {
-            "type": str,
+            "type": list,
             "required": True,
-            "help_text": """TruffleHog3 source folder to scan for secrets
-can be space seperated list""",
+            "help_text": """TruffleHog3 list of source folders to scan for secrets""",
         },
         "EXCLUDE": {
             "type": list,
@@ -85,7 +85,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "trufflehog3 --line-numbers -f json",
+            "BASE_COMMAND": shlex.split("trufflehog3 --line-numbers -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags

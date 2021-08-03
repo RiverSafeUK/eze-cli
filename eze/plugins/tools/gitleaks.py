@@ -1,4 +1,5 @@
 """GitLeaks Python tool class"""
+import shlex
 import time
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
@@ -71,7 +72,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "gitleaks --no-git --quiet",
+            "BASE_COMMAND": shlex.split("gitleaks --no-git --quiet"),
             # eze config fields -> arguments
             "ARGUMENTS": [],
             # eze config fields -> flags
@@ -87,7 +88,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return extract_cmd_version("gitleaks --version")
+        return extract_cmd_version(["gitleaks", "--version"])
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""

@@ -100,11 +100,12 @@ Vulnerabilities
         for scan_result in scan_results_with_vulnerabilities:
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
+            run_type = py_.get(run_details, "run_type", "default")
             small_indent = "    "
             indent = "        "
             click.echo(
                 f"""
-{small_indent}[{tool_name}] Vulnerabilities
+{small_indent}[{tool_name}:{run_type}] Vulnerabilities
 {small_indent}================================="""
             )
             vulnerability: Vulnerability = None
@@ -148,10 +149,10 @@ Bill of Materials
         for scan_result in scan_results_with_sboms:
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            small_indent = "    "
+            run_type = py_.get(run_details, "run_type", "default")
             click.echo(
                 f"""
-[{tool_name}] SBOM
+[{tool_name}:{run_type}] SBOM
 ================================="""
             )
             sboms = []
@@ -197,11 +198,12 @@ Warnings
         for scan_result in scan_results_with_warnings:
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
+            run_type = py_.get(run_details, "run_type", "default")
             small_indent = "    "
             indent = "        "
             click.echo(
                 f"""
-{small_indent}[{tool_name}] Warnings
+{small_indent}[{tool_name}:{run_type}] Warnings
 {small_indent}================================="""
             )
             for warning in scan_result.warnings:

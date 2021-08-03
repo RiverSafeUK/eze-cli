@@ -14,7 +14,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Given
         input_config = {"SOURCE": "eze"}
         expected_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "EXCLUDE": "",
             "CONFIG_FILE": None,
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-report.json"),
@@ -34,13 +34,13 @@ class TestTruffleHogTool(ToolMetaTestBase):
     def test_creation__with_config(self):
         # Given
         input_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "CONFIG_FILE": "truffle-config.yaml",
             "INCLUDE_FULL_REASON": False,
         }
         expected_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "EXCLUDE": "",
             "CONFIG_FILE": "truffle-config.yaml",
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-report.json"),
@@ -61,7 +61,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
     def test_creation__with_windows_exclude_config(self):
         # Given
         input_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "EXCLUDE": [
                 "PATH-TO-EXCLUDED-FOLDER/.*",
                 "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*",
@@ -69,7 +69,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             ],
         }
         expected_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "CONFIG_FILE": None,
             "EXCLUDE": "PATH-TO-EXCLUDED-FOLDER\\\\.* "
             "PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.* "
@@ -92,7 +92,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
     def test_creation__with_linux_exclude_config(self):
         # Given
         input_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "EXCLUDE": [
                 "PATH-TO-EXCLUDED-FOLDER/.*",
                 "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*",
@@ -100,7 +100,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             ],
         }
         expected_config = {
-            "SOURCE": "eze",
+            "SOURCE": ["eze"],
             "CONFIG_FILE": None,
             "EXCLUDE": "PATH-TO-EXCLUDED-FOLDER/.* "
             "PATH-TO-NESTED-FOLDER/SOME_NESTING/.* "

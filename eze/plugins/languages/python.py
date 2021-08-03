@@ -36,8 +36,8 @@ Safety and Piprot work best when running against pip frozen requirements"""
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("python --version")
-        pip_version = extract_cmd_version("pip --version")
+        version = extract_cmd_version(["python", "--version"])
+        pip_version = extract_cmd_version(["pip", "--version"])
         if not version:
             return "inbuilt (python: none)"
         return f"inbuilt (python: {version}, pip:{pip_version})"
@@ -72,7 +72,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{BanditTool.T
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
     REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
     IGNORED_FILES = [
         "node_modules/",
         "target/",

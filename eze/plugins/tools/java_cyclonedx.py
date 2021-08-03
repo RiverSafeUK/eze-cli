@@ -1,4 +1,5 @@
 """cyclonedx SBOM tool class"""
+import shlex
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
@@ -54,14 +55,16 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "mvn -Dmaven.test.skip=true clean install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+            "BASE_COMMAND": shlex.split(
+                "mvn -Dmaven.test.skip=true clean install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+            )
         }
     }
 
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_version_from_maven("mvn -Dplugin=org.cyclonedx:cyclonedx-maven-plugin help:describe")
+        version = extract_version_from_maven("org.cyclonedx:cyclonedx-maven-plugin")
         return version
 
     async def run_scan(self) -> ScanResult:

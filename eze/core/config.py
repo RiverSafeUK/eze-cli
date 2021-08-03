@@ -85,7 +85,13 @@ def get_config_keys(raw_config: dict, fields_config: dict, config: dict = None) 
 
 def get_config_key(config: dict, key: str, value_type: object, default=False):
     """helper : takes raw config dict and get key or default"""
-    return config[key] if key in config and isinstance(config[key], value_type) else default
+    if key in config:
+        if isinstance(config[key], value_type):
+            return config[key]
+        if value_type is list and isinstance(config[key], str):
+            # if want list and str given, wrap str as list
+            return [config[key]]
+    return default
 
 
 def create_config_help(tool_name: str, plugin_fields_config: dict, common_fields_config: dict = None):

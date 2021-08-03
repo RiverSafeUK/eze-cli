@@ -1,4 +1,5 @@
 """snyk tool class"""
+import shlex
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
@@ -62,7 +63,7 @@ aka pip""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "snyk test",
+            "BASE_COMMAND": shlex.split("snyk test"),
             # eze config fields -> flags
             "FLAGS": {
                 "PACKAGE_FILE": "--file=",
@@ -79,7 +80,7 @@ aka pip""",
         if SnykTool._version_cache:
             return SnykTool._version_cache
 
-        version = extract_cmd_version("snyk --version")
+        version = extract_cmd_version(["snyk", "--version"])
         SnykTool._version_cache = version
         return version
 
@@ -209,7 +210,7 @@ maps to --platform snyk argument""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "snyk container test",
+            "BASE_COMMAND": shlex.split("snyk container test"),
             # eze config fields -> arguments
             "ARGUMENTS": ["DOCKER_TAG"],
             # eze config fields -> flags
@@ -248,7 +249,7 @@ See https://support.snyk.io/hc/en-us/articles/360012429477-Test-your-Kubernetes-
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "snyk iac test",
+            "BASE_COMMAND": shlex.split("snyk iac test"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
