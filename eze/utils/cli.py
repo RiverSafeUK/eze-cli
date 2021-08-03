@@ -79,7 +79,7 @@ def _create_parameter_list(flag_key: str, flag_value: str) -> list:
     if not flag_key:
         flag_key = ""
     if flag_value:
-        flag_value = shlex.quote(flag_value)
+        flag_value = shlex.quote(str(flag_value))
     return shlex.split(f"{flag_key}{flag_value}")
 
 

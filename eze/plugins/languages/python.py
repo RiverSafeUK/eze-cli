@@ -12,6 +12,8 @@ from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.cli import extract_cmd_version
 from eze.utils.io import pretty_print_json
 
+from pydash import py_
+
 
 class PythonRunner(LanguageRunnerMeta):
     """Base class for python language runner"""
@@ -52,7 +54,9 @@ Safety and Piprot work best when running against pip frozen requirements"""
     def create_ezerc(self) -> dict:
         """Method for building a dynamic ezerc.toml fragment"""
         requirement_txt_files = pretty_print_json(self.discovery.files["REQUIREMENTS"])
-        requirement_txt_file = pretty_print_json(self.discovery.files["REQUIREMENTS"][0])
+        # TODO: decide: if no requirements file found what to do
+        first_requirement_txt = py_.get(self.discovery.files["REQUIREMENTS"], "[0]", "requirements.txt")
+        requirement_txt_file = pretty_print_json(first_requirement_txt)
         return {
             "fragment": f"""
 [{self.LANGUAGE_NAME}]
