@@ -20,15 +20,18 @@ tools = ['semgrep', 'trufflehog']
     [docker.trufflehog]
     REPORT_FILE = "reports/truffleHog-docker-report.json"
     SOURCE = ["Dockerfile"]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        "node_modules/",
-        "target/",
-        "build/",
-        "dist/",
         ".gradle",
         ".aws",
-        ".idea",
-        ".pytest_cache"
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\.DS_Store"
     ]
 
 

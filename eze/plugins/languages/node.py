@@ -67,15 +67,18 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{NpmAuditTool
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
     REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
     SOURCE = ["."]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        "node_modules/",
-        "target/",
-        "build/",
-        "dist/",
         ".gradle",
         ".aws",
-        ".idea",
-        ".pytest_cache"
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\\\.DS_Store"
     ]
     [{self.LANGUAGE_NAME}.{NpmAuditTool.TOOL_NAME}]
     REPORT_FILE = "reports/npmaudit-{self.LANGUAGE_NAME}-report.json"

@@ -13,9 +13,15 @@ SOURCE = ["..."]
 
 # EXCLUDE list [OPTIONAL]
 # array of regex str of folders/files to exclude from scan for secrets
-# eze will automatically normalise folder seperator "/" to os specific versions, "/" for unix, "\\" for windows
+# eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\" for windows
 # 
-EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"]
+EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"]
+
+# NO_ENTROPY bool [OPTIONAL]
+# disable entropy checks, maps to flag --no-entropy
+# 
+NO_ENTROPY = true / false
+
 
 # CONFIG_FILE str [OPTIONAL]
 # TruffleHog3 config file to use

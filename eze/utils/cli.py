@@ -1,7 +1,26 @@
 """Basic cli helpers utils
 
-by wrapping the cli tools in a framework, safety execution and santisation of parameters can be achieved
+by wrapping the cli tools in a framework, safety execution and sanitation of parameters can be achieved
 and making sure debugging of command can be achieved without exposing as apikeys/secrets in raw cli command
+
+Handles management of constructing and running a cli securely
+
+Parts of a cli command
+- command aka ls
+- arguments aka some.json
+  (special case: some programs require these to be after flags hence TAIL_ARGUMENTS)
+  ARGUMENTS
+- short/long flags aka -v / --version
+  SHORT_FLAGS
+- flag argument aka -s=foo / --source=foo / -s foo / --source foo
+  FLAGS
+- flag multiple argument aka -s foo1 foo2/ --source foo1 foo2
+  FLAGS_WITH_MULTI_FIELDS
+
+<command> <arguments> <short-flags> <flag-arguments> <tail-arguments>
+
+aka
+ls . -man
 """
 
 import re
@@ -31,6 +50,7 @@ def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "
         ARGUMENTS list of arguments to add (at start)
         TAIL_ARGUMENTS list of arguments to add (at end)
         FLAGS config-key flag-value pairs
+        SHORT_FLAGS config-key flag (value if truthy will set flag)
 
     config: dict
         config-key for FLAGS command
@@ -73,6 +93,32 @@ def _append_to_list(command_list: list, appendees, config: dict) -> str:
                 command_list += _create_parameter_list(flag_arg, config_value)
     return command_list
 
+def _append_multi_value_to_list(command_list: list, appendees, config: dict) -> str:
+    """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
+    for config_key in appendees:
+        flag_arg = ""
+        if isinstance(appendees, dict):
+            flag_arg = appendees[config_key]
+        config_value = config.get(config_key, "")
+        if config_value:
+            command_list += [flag_arg]
+            # is multiple values
+            if isinstance(config_value, list):
+                command_list += config_value
+            else:
+                command_list += [config_value]
+    return command_list
+
+def _append_short_flags_to_list(command_list: list, appendees, config: dict) -> str:
+    """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
+    for config_key in appendees:
+        flag_arg = ""
+        if isinstance(appendees, dict):
+            flag_arg = appendees[config_key]
+        config_value = config.get(config_key, "")
+        if flag_arg and config_value:
+            command_list += [flag_arg]
+    return command_list
 
 def _create_parameter_list(flag_key: str, flag_value: str) -> list:
     """ "Create parameter fragment from flag=value"""
@@ -90,19 +136,27 @@ def build_cli_command(cli_config: dict, config: dict) -> list:
         BASE_COMMAND:list command to start with
         ARGUMENTS list of arguments to add (at start)
         TAIL_ARGUMENTS list of arguments to add (at end)
+        SHORT_FLAGS short/long flags aka -v / --version
         FLAGS config-key flag-value pairs
+        FLAGS_WITH_MULTI_FIELDS config-key flag-<value list> pairs
 
     config: dict
         config-key for FLAGS command
         + inbuilt key ADDITIONAL_ARGUMENTS
     """
-    command_list = cli_config["BASE_COMMAND"]
+    command_list = [] + cli_config["BASE_COMMAND"]
 
     argument_keys = cli_config.get("ARGUMENTS", [])
     command_list = _append_to_list(command_list, argument_keys, config)
 
+    argument_keys = cli_config.get("SHORT_FLAGS", {})
+    command_list = _append_short_flags_to_list(command_list, argument_keys, config)
+
     argument_keys = cli_config.get("FLAGS", {})
     command_list = _append_to_list(command_list, argument_keys, config)
+
+    argument_keys = cli_config.get("FLAGS_WITH_MULTI_FIELDS", {})
+    command_list = _append_multi_value_to_list(command_list, argument_keys, config)
 
     argument_keys = cli_config.get("TAIL_ARGUMENTS", {})
     command_list = _append_to_list(command_list, argument_keys, config)
@@ -182,7 +236,7 @@ def detect_pip_executable_version(pip_package: str, cli_command: str, pip_comman
     return version
 
 
-def extract_cmd_version(command: str) -> str:
+def extract_cmd_version(command: list) -> str:
     """Run pip for package and check for common version patterns"""
     completed_process = run_cmd(command, False)
     output = completed_process.stdout
