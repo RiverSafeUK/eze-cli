@@ -1,5 +1,11 @@
 # Eze Changelog
 
+## 0.8.2
+Security Release
+
+- ab-699: exposing more trufflehog flags
+- ab-586: Adding shlex protection of cli lib
+- ab-605: bug fix for empty json reports from os tools
 
 ## 0.8.1
 Bug Fix Release
