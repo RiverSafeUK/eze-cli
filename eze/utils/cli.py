@@ -42,7 +42,9 @@ class ExecutableNotFoundException(Exception):
         self.message = message
 
 
-def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "") -> subprocess.CompletedProcess:
+def run_cli_command(
+    cli_config: dict, config: dict = None, command_name: str = ""
+) -> subprocess.CompletedProcess:
     """Run tool cli command
 
     cli_config: dict
@@ -93,6 +95,7 @@ def _append_to_list(command_list: list, appendees, config: dict) -> str:
                 command_list += _create_parameter_list(flag_arg, config_value)
     return command_list
 
+
 def _append_multi_value_to_list(command_list: list, appendees, config: dict) -> str:
     """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
     for config_key in appendees:
@@ -109,6 +112,7 @@ def _append_multi_value_to_list(command_list: list, appendees, config: dict) -> 
                 command_list += [config_value]
     return command_list
 
+
 def _append_short_flags_to_list(command_list: list, appendees, config: dict) -> str:
     """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
     for config_key in appendees:
@@ -119,6 +123,7 @@ def _append_short_flags_to_list(command_list: list, appendees, config: dict) -> 
         if flag_arg and config_value:
             command_list += [flag_arg]
     return command_list
+
 
 def _create_parameter_list(flag_key: str, flag_value: str) -> list:
     """ "Create parameter fragment from flag=value"""
@@ -167,7 +172,9 @@ def build_cli_command(cli_config: dict, config: dict) -> list:
     return command_list
 
 
-def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.CompletedProcess:
+def run_cmd(
+    cmd: list, error_on_missing_executable: bool = True
+) -> subprocess.CompletedProcess:
     """Supply os.run_cmd() wrap with additional arguments
 
     throws ExecutableNotFoundException"""
@@ -181,7 +188,13 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
     # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
     # also map ADDITIONAL_ARGUMENTS to a dict which is "shlex.quote"
     try:
-        proc = subprocess.run(cmd, capture_output=True, universal_newlines=True)  # nosec # nosemgrep
+        # FIXME: many programming tools failing without shell=true
+        # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
+        # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
+        cmd_str: str = shlex.join(cmd)
+        proc = subprocess.run(
+            cmd_str, capture_output=True, universal_newlines=True, shell=True
+        )  # nosec # nosemgrep
     except FileNotFoundError:
         core_executable = _extract_executable(sanitised_command_str)
         error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
@@ -249,9 +262,9 @@ def extract_cmd_version(command: list) -> str:
     return version
 
 
-def cmd_exists(input_executable: list) -> str:
+def cmd_exists(input_executable: str) -> str:
     """Check if core command exists on path, will return path"""
-    return shutil.which(input_executable[0])
+    return shutil.which(input_executable)
 
 
 def extract_version_from_maven(mvn_package: str) -> str:

@@ -268,7 +268,8 @@ def test_run_cmd__failure_no_throw_case():
     # Given
     expected_output = """"""
     expected_windows_error = (
-        "Executable not found 'non-existant.sh', when running command non-existant.sh some random arguments --api <xxx>"
+        """'non-existant.sh' is not recognized as an internal or external command,
+operable program or batch file."""
     )
     expected_linux_error = "non-existant.sh: not found"
 
@@ -295,7 +296,7 @@ def test_run_cmd__failure_throw_case():
 
 def test_cmd_exists__success():
     # Given
-    input_cmd = shlex.split("echo")
+    input_cmd = "echo"
     # When
     output = not not cmd_exists(input_cmd)
     # Then
@@ -304,7 +305,7 @@ def test_cmd_exists__success():
 
 def test_cmd_exists__failure():
     # Given
-    input_cmd = shlex.split("non-existant.sh")
+    input_cmd = "non-existant.sh"
     # When
     output = not not cmd_exists(input_cmd)
     # Then

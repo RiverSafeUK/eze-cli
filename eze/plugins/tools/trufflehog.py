@@ -81,7 +81,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "default": create_tempfile_path("tmp-truffleHog-report.json"),
             "default_help_value": "<tempdir>/.eze-temp/tmp-truffleHog-report.json",
             "help_text": "output report location (will default to tmp file otherwise)",
-        }
+        },
     }
     DEFAULT_SEVERITY = VulnerabilitySeverityEnum.high.name
 
@@ -99,9 +99,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "FLAGS_WITH_MULTI_FIELDS": {
                 "EXCLUDE": "--skip-paths",
             },
-            "SHORT_FLAGS": {
-                "NO_ENTROPY": "--no-entropy"
-            }
+            "SHORT_FLAGS": {"NO_ENTROPY": "--no-entropy"},
         }
     }
 
