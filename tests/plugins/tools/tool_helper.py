@@ -1,12 +1,19 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
+import shlex
+
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta
 from eze.utils.io import pretty_print_json
 from tests.__fixtures__.fixture_helper import get_snapshot_directory, load_json_fixture
 
 
+def throw_exception(cmd):
+    full_cmd = shlex.join(cmd)
+    raise Exception(full_cmd)
+
+
 class ToolMetaTestBase:
-    ToolMetaClass = ToolMeta
+    ToolMetaClass: ToolMeta = ToolMeta
     SNAPSHOT_PREFIX = "tool-meta"
 
     def test_help_text_fields(self, snapshot):
@@ -86,3 +93,28 @@ more_info:
         # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(output_snapshot, output_fixture_location)
+
+    async def assert_run_scan_command(
+        self, input_config: dict = None, expected_command: str = None, mock_subprocess_run=None
+    ):
+        """Help function to take a input config, and test command ran from commandline"""
+        mock_subprocess_run.reset_mock()
+        mock_subprocess_run.side_effect = Exception("Expected Exception")
+        testee = self.ToolMetaClass(input_config)
+        # When
+        try:
+            await testee.run_scan()
+            assert "Was expecting run_scan to exception" == "..."
+        except Exception as err:
+            assert err.args[0] == "Expected Exception"
+
+        cmd_arg = str(mock_subprocess_run.call_args.args[0])
+        # see https://github.com/pytest-dev/pytest-asyncio/issues/218
+        try:
+            assert cmd_arg == expected_command
+        except Exception as err:
+            print(f"""assert error "{cmd_arg}" != "{expected_command}" """)
+            raise err
+        mock_subprocess_run.assert_called_with(
+            expected_command, capture_output=True, universal_newlines=True, shell=True
+        )

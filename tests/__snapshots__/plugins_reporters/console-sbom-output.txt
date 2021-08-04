@@ -7,7 +7,7 @@ TOOL REPORT: python-cyclonedx (scan duration: xxx seconds)
 Bill of Materials
 _________________________________
 
-[python-cyclonedx] SBOM
+[python-cyclonedx:None] SBOM
 _________________________________
  | type    | name                               | version          | license      | description                                                                                                                  | 
 *|*********|************************************|******************|**************|******************************************************************************************************************************|*

@@ -1,5 +1,6 @@
 """Spotbugs java tool class to detect bugs inside the project"""
 import re
+import shlex
 
 import xmltodict
 
@@ -61,14 +62,16 @@ Warning: on production might want to set this to False to prevent found Secrets 
         "CMD_CONFIG": {
             # tool command prefix
             # https://spotbugs.github.io/spotbugs-maven-plugin/check-mojo.html
-            "BASE_COMMAND": "mvn -Dmaven.test.skip=true clean install com.github.spotbugs:spotbugs-maven-plugin:check"
+            "BASE_COMMAND": shlex.split(
+                "mvn -Dmaven.test.skip=true clean install com.github.spotbugs:spotbugs-maven-plugin:check"
+            )
         }
     }
 
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_version_from_maven("mvn -Dplugin=com.github.spotbugs:spotbugs-maven-plugin help:describe")
+        version = extract_version_from_maven("com.github.spotbugs:spotbugs-maven-plugin")
         return version
 
     async def run_scan(self) -> ScanResult:

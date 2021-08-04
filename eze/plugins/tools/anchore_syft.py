@@ -1,4 +1,5 @@
 """Syft SCA and Container SBOM tool class"""
+import shlex
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
@@ -84,13 +85,13 @@ From syft help
     TOOL_CLI_CONFIG = {
         "CONVERSION_CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "cyclonedx-cli convert --output-format json",
+            "BASE_COMMAND": shlex.split("cyclonedx-cli convert --output-format json"),
             # eze config fields -> flags
             "FLAGS": {"REPORT_FILE": "--output-file ", "INTERMEDIATE_FILE": "--input-file "},
         },
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "syft -o=cyclonedx",
+            "BASE_COMMAND": shlex.split("syft -o=cyclonedx"),
             # eze config fields -> arguments
             "TAIL_ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
@@ -102,8 +103,8 @@ From syft help
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
         # requires cyclonedx-cli for xml to json conversion
-        extract_cmd_version("cyclonedx-cli --version")
-        version = extract_cmd_version("syft version")
+        extract_cmd_version(["cyclonedx-cli", "--version"])
+        version = extract_cmd_version(["syft", "version"])
         return version
 
     async def run_scan(self) -> ScanResult:

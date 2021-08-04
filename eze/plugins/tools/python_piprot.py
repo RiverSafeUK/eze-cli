@@ -1,6 +1,7 @@
 """Piprot Python tool class"""
 
 import re
+import shlex
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
@@ -102,9 +103,10 @@ default is 182 (half a year)""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "piprot -o",
+            "BASE_COMMAND": shlex.split("piprot -o"),
+            "ARGUMENTS": ["REQUIREMENTS_FILES"],
             # eze config fields -> flags
-            "FLAGS": {"REQUIREMENTS_FILES": " "},
+            "FLAGS": {},
         }
     }
 

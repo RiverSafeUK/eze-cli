@@ -1,4 +1,5 @@
 """SemGrep Python tool class"""
+import shlex
 import time
 
 import click
@@ -107,7 +108,7 @@ maps to semgrep flag --exclude""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "semgrep --optimizations all --json --time --disable-metrics -q ",
+            "BASE_COMMAND": shlex.split("semgrep --optimizations all --json --time --disable-metrics -q "),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
@@ -123,7 +124,7 @@ maps to semgrep flag --exclude""",
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return extract_cmd_version("semgrep --version")
+        return extract_cmd_version(["semgrep", "--version"])
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""

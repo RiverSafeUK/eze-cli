@@ -1,5 +1,6 @@
 """Grype SCA and Container tool class"""
 import json
+import shlex
 
 from pydash import py_
 
@@ -80,7 +81,7 @@ You can also explicitly specify the scheme to use:
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "grype -o=json",
+            "BASE_COMMAND": shlex.split("grype -o=json"),
             # eze config fields -> arguments
             "TAIL_ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
@@ -91,7 +92,7 @@ You can also explicitly specify the scheme to use:
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("grype version")
+        version = extract_cmd_version(["grype", "version"])
         return version
 
     async def run_scan(self) -> ScanResult:
