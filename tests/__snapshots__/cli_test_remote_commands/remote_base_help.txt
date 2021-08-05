@@ -1,0 +1,12 @@
+Usage: test-remote [OPTIONS]
+
+  Eze run scan in a remote repository
+
+Options:
+  --debug / --no-debug    Enables or disables debug mode
+  -c, --config-file FILE  Pass external configuration file to Eze Cli
+  -s, --scan-type TEXT    named custom scan type to run aka production can
+                          include run type aka 'safety:test-only'
+  -u, --url TEXT          Especify the url of the remote repository to run scan.
+                          ex https://user:pass@github.com/repo-url  [required]
+  --help                  Show this message and exit.
