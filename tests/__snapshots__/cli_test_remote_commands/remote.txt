@@ -1,0 +1,4 @@
+Usage: test-remote [OPTIONS]
+Try 'test-remote --help' for help.
+
+Error: Missing option '--url' / '-u'.

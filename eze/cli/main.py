@@ -10,6 +10,7 @@ from eze.cli.commands.housekeeping_commands import housekeeping_group
 from eze.cli.commands.language_commands import languages_group
 from eze.cli.commands.reporter_commands import reporters_group
 from eze.cli.commands.tool_commands import tools_group
+from eze.cli.commands.test_remote_commands import test_remote_commands
 from eze.cli.utils.command_helpers import base_options, pass_state
 from eze.cli.utils.config import has_local_config
 from eze.core.engine import EzeCore
@@ -61,3 +62,4 @@ cli.add_command(tools_group)
 cli.add_command(reporters_group)
 cli.add_command(languages_group)
 cli.add_command(test_command)
+cli.add_command(test_remote_commands)
