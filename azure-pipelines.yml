@@ -43,9 +43,11 @@ steps:
   # See https://pypi.org/project/pytest-azurepipelines/
   - script: |
       pip install semgrep truffleHog3 bandit piprot safety cyclonedx-bom
-      chmod +x ./scripts/install-eze.sh
-      ./scripts/install-eze.sh
-
+      rm -f dist/*.tar.gz
+      python setup.py sdist
+      cd dist
+      pip install eze-cli-*.tar.gz
+      cd ..
       eze test -s ci --debug
     env:
       EZE_APIKEY: $(EZE_APIKEY)

@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/riversafe/DevSecOps/_apis/build/status/RiverSafeUK.eze-cli?branchName=develop)](https://dev.azure.com/riversafe/DevSecOps/_build/latest?definitionId=14&branchName=develop)
+
 # Overview
 
 Eze the one stop solution for security testing in modern development
