@@ -35,13 +35,6 @@ EXCLUDE = [
     "examples"
 ]
 
-
-[semgrep.python]
-REPORT_FILE = "reports/semgrep-python-report.json"
-CONFIGS = [
-    "p/ci",
-    "p/python"
-]
     [semgrep.python_slow]
     REPORT_FILE = "reports/semgrep-python-full-report.json"
     CONFIGS = [
