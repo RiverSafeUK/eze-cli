@@ -48,5 +48,6 @@ class TestRemoteCommand:
         runner = CliRunner()
         result = runner.invoke(test_remote_commands, ["--url", "https://google.com"])
         # Then
-        assert result.output == "scan run"
+        snapshot.snapshot_dir = get_snapshot_directory()
+        snapshot.assert_match(result.output, "cli_test_remote_commands/test_run_tool.txt")
         assert result.exit_code == 0
