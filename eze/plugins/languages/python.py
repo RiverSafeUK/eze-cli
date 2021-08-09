@@ -12,6 +12,8 @@ from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.cli import extract_cmd_version
 from eze.utils.io import pretty_print_json
 
+from pydash import py_
+
 
 class PythonRunner(LanguageRunnerMeta):
     """Base class for python language runner"""
@@ -36,8 +38,8 @@ Safety and Piprot work best when running against pip frozen requirements"""
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("python --version")
-        pip_version = extract_cmd_version("pip --version")
+        version = extract_cmd_version(["python", "--version"])
+        pip_version = extract_cmd_version(["pip", "--version"])
         if not version:
             return "inbuilt (python: none)"
         return f"inbuilt (python: {version}, pip:{pip_version})"
@@ -52,7 +54,9 @@ Safety and Piprot work best when running against pip frozen requirements"""
     def create_ezerc(self) -> dict:
         """Method for building a dynamic ezerc.toml fragment"""
         requirement_txt_files = pretty_print_json(self.discovery.files["REQUIREMENTS"])
-        requirement_txt_file = pretty_print_json(self.discovery.files["REQUIREMENTS"][0])
+        # TODO: decide: if no requirements file found what to do
+        first_requirement_txt = py_.get(self.discovery.files["REQUIREMENTS"], "[0]", "requirements.txt")
+        requirement_txt_file = pretty_print_json(first_requirement_txt)
         return {
             "fragment": f"""
 [{self.LANGUAGE_NAME}]
@@ -71,16 +75,19 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{BanditTool.T
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
     REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        "node_modules/",
-        "target/",
-        "build/",
-        "dist/",
         ".gradle",
         ".aws",
-        ".idea",
-        ".pytest_cache"
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\\\.DS_Store"
     ]
     
     [{self.LANGUAGE_NAME}.{BanditTool.TOOL_NAME}]

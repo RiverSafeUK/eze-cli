@@ -56,7 +56,7 @@ https://docs.docker.com/engine/reference/builder/
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("docker --version")
+        version = extract_cmd_version(["docker", "--version"])
         if not version:
             return "inbuilt (docker: none)"
         return f"inbuilt (docker: {version})"
@@ -91,16 +91,19 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
     REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
-    SOURCE = "Dockerfile"
+    SOURCE = ["Dockerfile"]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        "node_modules/",
-        "target/",
-        "build/",
-        "dist/",
         ".gradle",
         ".aws",
-        ".idea",
-        ".pytest_cache"
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\\\.DS_Store"
     ]
 
 """,

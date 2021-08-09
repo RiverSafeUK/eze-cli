@@ -14,16 +14,19 @@ tools = ['semgrep', 'trufflehog', 'node-npmaudit', 'node-npmoutdated', 'node-cyc
     ]
     [node.trufflehog]
     REPORT_FILE = "reports/truffleHog-node-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        "node_modules/",
-        "target/",
-        "build/",
-        "dist/",
         ".gradle",
         ".aws",
-        ".idea",
-        ".pytest_cache"
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\.DS_Store"
     ]
     [node.node-npmaudit]
     REPORT_FILE = "reports/npmaudit-node-report.json"

@@ -1,5 +1,6 @@
 """Safety Python tool class"""
 import os
+import shlex
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
@@ -66,7 +67,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "safety check --full-report",
+            "BASE_COMMAND": shlex.split("safety check --full-report"),
             # eze config fields -> flags
             "FLAGS": {"APIKEY": "--api=", "REQUIREMENTS_FILES": "-r ", "REPORT_FILE": "--json --output "},
         }
@@ -75,7 +76,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("safety --version")
+        version = extract_cmd_version(["safety", "--version"])
         return version
 
     async def run_scan(self) -> ScanResult:

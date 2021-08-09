@@ -1,4 +1,5 @@
 """TruffleHog Python tool class"""
+import shlex
 import time
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
@@ -47,17 +48,21 @@ Tips and Tricks
     LICENSE: str = """GNU"""
     EZE_CONFIG: dict = {
         "SOURCE": {
-            "type": str,
+            "type": list,
             "required": True,
-            "help_text": """TruffleHog3 source folder to scan for secrets
-can be space seperated list""",
+            "help_text": """TruffleHog3 list of source folders to scan for secrets""",
         },
         "EXCLUDE": {
             "type": list,
             "default": [],
             "help_text": """array of regex str of folders/files to exclude from scan for secrets
-eze will automatically normalise folder seperator "/" to os specific versions, "/" for unix, "\\\\" for windows""",
-            "help_example": ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"],
+eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\\\" for windows""",
+            "help_example": ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"],
+        },
+        "NO_ENTROPY": {
+            "type": bool,
+            "default": False,
+            "help_text": """disable entropy checks, maps to flag --no-entropy""",
         },
         "CONFIG_FILE": {
             "type": str,
@@ -77,23 +82,24 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "default_help_value": "<tempdir>/.eze-temp/tmp-truffleHog-report.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
-        #
-        #
     }
     DEFAULT_SEVERITY = VulnerabilitySeverityEnum.high.name
 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "trufflehog3 --line-numbers -f json",
+            "BASE_COMMAND": shlex.split("trufflehog3 --line-numbers -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
             "FLAGS": {
                 "CONFIG_FILE": "-c ",
                 "REPORT_FILE": "-o ",
-                "EXCLUDE": "--skip-paths ",
             },
+            "FLAGS_WITH_MULTI_FIELDS": {
+                "EXCLUDE": "--skip-paths",
+            },
+            "SHORT_FLAGS": {"NO_ENTROPY": "--no-entropy"},
         }
     }
 
@@ -142,7 +148,10 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
             # only include full reason if include_full_reason true
             if self.config["INCLUDE_FULL_REASON"]:
-                recommendation += " Full Match: " + found
+                if len(found) > 1000:
+                    recommendation += f" Full Match: <on minifed long line ({len(found)} characters)>"
+                else:
+                    recommendation += " Full Match: " + found
 
             vulnerabilities_list.append(
                 Vulnerability(
@@ -175,12 +184,9 @@ Warning: on production might want to set this to False to prevent found Secrets 
         parsed_config = super()._parse_config(eze_config)
 
         # ADDITION PARSING: EXCLUDE
-        # convert to space seperated, clean os specific regex
+        # convert to space separated, clean os specific regex
         if len(parsed_config["EXCLUDE"]) > 0:
             if is_windows_os():
                 parsed_config["EXCLUDE"] = list(map(normalise_windows_regex_file_path, parsed_config["EXCLUDE"]))
-            parsed_config["EXCLUDE"] = " ".join(parsed_config["EXCLUDE"])
-        else:
-            parsed_config["EXCLUDE"] = ""
 
         return parsed_config

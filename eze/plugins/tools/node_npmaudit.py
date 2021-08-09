@@ -1,5 +1,6 @@
 """NpmAudit tool class"""
 import json
+import shlex
 
 import semantic_version
 from pydash import py_
@@ -47,7 +48,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
-            "BASE_COMMAND": "npm audit --json",
+            "BASE_COMMAND": shlex.split("npm audit --json"),
             # eze config fields -> flags
             "FLAGS": {},
         }
@@ -56,7 +57,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("npm --version")
+        version = extract_cmd_version(["npm", "--version"])
         # npm audit only available in version 6 and above
         try:
             version6_or_above = semantic_version.SimpleSpec(">=6")

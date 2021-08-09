@@ -1,4 +1,5 @@
 """cyclonedx SBOM tool class"""
+import shlex
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
@@ -51,7 +52,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "cyclonedx-py -j",
+            "BASE_COMMAND": shlex.split("cyclonedx-py -j"),
             # eze config fields -> flags
             "FLAGS": {"REPORT_FILE": "-o=", "REQUIREMENTS_FILE": "-i="},
         }

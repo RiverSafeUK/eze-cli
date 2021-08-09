@@ -3,7 +3,7 @@
 # ========================================
 
 [semgrep]
-PRINT_TIMING_INFO = true
+PRINT_TIMING_INFO = false
 REPORT_FILE = "../reports/java/semgrep-report.json"
 CONFIGS = [
     "p/ci",

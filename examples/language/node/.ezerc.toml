@@ -12,7 +12,7 @@ REPORT_FILE = "../reports/node/node-cyclonedx-bom.json"
 REPORT_FILE = "../reports/node/node-npmoutdated-report.json"
 
 [semgrep]
-PRINT_TIMING_INFO = true
+PRINT_TIMING_INFO = false
 REPORT_FILE = "../reports/node/semgrep-report.json"
 EXCLUDE = [
     "node_module/.*"

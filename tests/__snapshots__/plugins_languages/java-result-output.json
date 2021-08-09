@@ -14,16 +14,19 @@ tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java
     ]
     [java.trufflehog]
     REPORT_FILE = "reports/truffleHog-java-report.json"
-    SOURCE = "."
+    SOURCE = ["."]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        "node_modules/",
-        "target/",
-        "build/",
-        "dist/",
         ".gradle",
         ".aws",
-        ".idea",
-        ".pytest_cache"
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\.DS_Store"
     ]
     [java.java-dependencycheck]
     REPORT_FILE = "reports/dependencycheck-java-report.json"

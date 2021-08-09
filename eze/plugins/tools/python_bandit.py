@@ -1,4 +1,5 @@
 """Bandit Python tool class"""
+import shlex
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
@@ -74,7 +75,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
-            "BASE_COMMAND": "bandit -f json ",
+            "BASE_COMMAND": shlex.split("bandit -f json "),
             # eze config fields -> flags
             "FLAGS": {
                 "REPORT_FILE": "-o ",
@@ -90,7 +91,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version("bandit --version")
+        version = extract_cmd_version(["bandit", "--version"])
         return version
 
     async def run_scan(self) -> ScanResult:

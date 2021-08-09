@@ -28,11 +28,13 @@ IGNORE_BELOW_SEVERITY = "medium"
 REPORT_FILE = "reports/safety-report.json"
 
 [semgrep]
-PRINT_TIMING_INFO = true
+PRINT_TIMING_INFO = false
 EXCLUDE = [
     "tests",
-    "tests-integration"
+    "tests-integration",
+    "examples"
 ]
+
 
 [semgrep.python]
 REPORT_FILE = "reports/semgrep-python-report.json"
@@ -40,15 +42,30 @@ CONFIGS = [
     "p/ci",
     "p/python"
 ]
-[semgrep.python_slow]
-REPORT_FILE = "reports/semgrep-python-full-report.json"
-CONFIGS = [
-    "p/ci",
-    "p/python",
-]
+    [semgrep.python_slow]
+    REPORT_FILE = "reports/semgrep-python-full-report.json"
+    CONFIGS = [
+        "p/ci",
+        "p/python",
+    ]
+
+    [semgrep.python]
+    REPORT_FILE = "reports/semgrep-python-report.json"
+    CONFIGS = [
+        "p/ci",
+        "p/python",
+    ]
+
+    [semgrep.docker]
+    SOURCE = "Dockerfile"
+    CONFIGS = [
+        "p/dockerfile",
+    ]
+    REPORT_FILE = "reports/semgrep-docker-report.json"
+
 
 [trufflehog]
-SOURCE = "eze/ tests/"
+SOURCE = ["eze/", "tests/"]
 IGNORED_FILES = [
     "__fixtures__/",
     "__snapshots__/",
@@ -56,20 +73,14 @@ IGNORED_FILES = [
 ]
 REPORT_FILE = "reports/truffleHog-report.json"
 
-[trufflehog.ci]
-INCLUDE_FULL_REASON = false
+    [trufflehog.ci]
+    INCLUDE_FULL_REASON = false
 
 [python-cyclonedx]
 REPORT_FILE = "reports/cyclonedx-bom.json"
 REQUIREMENTS_FILE = "requirements.txt"
 
 
-[semgrep.docker]
-SOURCE = "Dockerfile"
-CONFIGS = [
-    "p/dockerfile",
-]
-REPORT_FILE = "reports/semgrep-docker-report.json"
 
 
 

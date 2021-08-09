@@ -1,4 +1,6 @@
 """Bill of Materials reporter class implementation"""
+import shlex
+
 import click
 from pydash import py_
 
@@ -53,12 +55,12 @@ By default set to eze_bom.json""",
     REPORTER_CONFIG = {
         "CONVERSION_CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": "cyclonedx-cli convert",
+            "BASE_COMMAND": shlex.split("cyclonedx-cli convert"),
             # eze config fields -> flags
             "FLAGS": {
-                "REPORT_FILE": "--output-file ",
-                "INTERMEDIATE_FILE": "--input-file ",
-                "OUTPUT_FORMAT": "--output-format ",
+                "REPORT_FILE": "--output-file",
+                "INTERMEDIATE_FILE": "--input-file",
+                "OUTPUT_FORMAT": "--output-format",
             },
         }
     }
@@ -66,7 +68,7 @@ By default set to eze_bom.json""",
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        version = extract_cmd_version("cyclonedx-cli --version")
+        version = extract_cmd_version(["cyclonedx-cli", "--version"])
         return version
 
     async def run_report(self, scan_results: list):

@@ -1,6 +1,7 @@
 """OWASP dependency-check java tool class to detect vulnerabilities within project dependencies"""
 
 import re
+import shlex
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
@@ -55,14 +56,16 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         "CMD_CONFIG": {
             # tool command prefix
             # https://jeremylong.github.io/DependencyCheck/dependency-check-cli/arguments.html
-            "BASE_COMMAND": "mvn -Dmaven.test.skip=true clean install org.owasp:dependency-check-maven:check -Dformat=JSON -DprettyPrint"
+            "BASE_COMMAND": shlex.split(
+                "mvn -Dmaven.test.skip=true clean install org.owasp:dependency-check-maven:check -Dformat=JSON -DprettyPrint"
+            )
         }
     }
 
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_version_from_maven("mvn -Dplugin=org.owasp:dependency-check-maven help:describe")
+        version = extract_version_from_maven("org.owasp:dependency-check-maven")
         return version
 
     async def run_scan(self) -> ScanResult:
