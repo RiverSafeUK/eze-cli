@@ -42,9 +42,7 @@ class ExecutableNotFoundException(Exception):
         self.message = message
 
 
-def run_cli_command(
-    cli_config: dict, config: dict = None, command_name: str = ""
-) -> subprocess.CompletedProcess:
+def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "") -> subprocess.CompletedProcess:
     """Run tool cli command
 
     cli_config: dict
@@ -172,9 +170,7 @@ def build_cli_command(cli_config: dict, config: dict) -> list:
     return command_list
 
 
-def run_cmd(
-    cmd: list, error_on_missing_executable: bool = True
-) -> subprocess.CompletedProcess:
+def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.CompletedProcess:
     """Supply os.run_cmd() wrap with additional arguments
 
     throws ExecutableNotFoundException"""
@@ -192,9 +188,7 @@ def run_cmd(
         # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
         # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
         cmd_str: str = shlex.join(cmd)
-        proc = subprocess.run(
-            cmd_str, capture_output=True, universal_newlines=True, shell=True
-        )  # nosec # nosemgrep
+        proc = subprocess.run(cmd_str, capture_output=True, universal_newlines=True, shell=True)  # nosec # nosemgrep
     except FileNotFoundError:
         core_executable = _extract_executable(sanitised_command_str)
         error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
