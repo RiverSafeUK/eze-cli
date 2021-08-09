@@ -7,8 +7,7 @@ tools = ['semgrep', 'trufflehog', 'node-npmaudit', 'node-npmoutdated', 'node-cyc
     PRINT_TIMING_INFO = true
     CONFIGS = [
         "p/ci",
-        "r/node",
-        "p/node",
+        "p/nodejs",
     ]
     EXCLUDE = [
         "tests"

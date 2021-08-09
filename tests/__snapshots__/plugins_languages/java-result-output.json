@@ -7,7 +7,6 @@ tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java
     PRINT_TIMING_INFO = true
     CONFIGS = [
         "p/ci",
-        "r/java",
         "p/java",
     ]
     EXCLUDE = [

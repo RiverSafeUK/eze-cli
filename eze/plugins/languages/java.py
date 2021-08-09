@@ -59,7 +59,6 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{JavaDependen
     PRINT_TIMING_INFO = true
     CONFIGS = [
         "p/ci",
-        "r/java",
         "p/java",
     ]
     EXCLUDE = [

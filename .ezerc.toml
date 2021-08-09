@@ -45,7 +45,6 @@ REPORT_FILE = "reports/semgrep-python-full-report.json"
 CONFIGS = [
     "p/ci",
     "p/python",
-    "r/python"
 ]
 
 [trufflehog]
@@ -69,7 +68,6 @@ REQUIREMENTS_FILE = "requirements.txt"
 SOURCE = "Dockerfile"
 CONFIGS = [
     "p/dockerfile",
-    "r/dockerfile"
 ]
 REPORT_FILE = "reports/semgrep-docker-report.json"
 
