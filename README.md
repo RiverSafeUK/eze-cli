@@ -4,23 +4,23 @@
 
 Eze the one stop solution for security testing in modern development
 
+This tool can be run locally on the cli by developers or security consultants, or deeply integrated into a team / organisations CI pipeline, with team and organisation management dashboards available for reviewing and monitoring the overall security of a organisation's estate.
+
 Features:
+- quick setup via Dockerfile with preinstalled tools
+- simple multi-tool configuration via a single common configuration file
+- normalise multiple tool output into common report format
+- extendable plugin architecture for adding new security tools to eze
+- provide single cli entrypoint to run the multiple tools needed to test modern applications
 - improve uptake of security testing in modern development
 - improve discovery and uptake of open source security tools
-- provide single cli entrypoint to run the multiple tools needed to test modern applications
-- simple multi-tool configuration via a single common configuration file
-- quick setup via Dockerfile with preinstalled tools
-- normalise multiple tool output into common report format
 - extending capabilities of opensource tools
   (adding missing features like ignore patterns, version detection, and cve metadata annotation, as needed)
-- extendable plugin architecture for adding new security tools to eze
 - layering enterprise level reporting and auditing via the eze management console (PAID service offered by RiverSafe)
-
-This tool can be run locally on the cli by developers or security consultants, or deeply integrated into a team / organisations CI pipeline, with team and organisation management dashboards available for reviewing and monitoring the overall security of a organisation's estate.
 
 # Installation
 ## Use Locally via Pip
-Install eze with pip. Keep in mind that eze only supports Python 3.7 and up.
+Install eze with pip. Keep in mind that eze runs on Python 3.7 and up.
 
 ```bash
 pip install eze-cli
@@ -30,6 +30,8 @@ pip install eze-cli
 Eze can also be used inside a Docker image, the default Dockerfile contains the eze cli and a selection of common opensource tools out the box.
 
 It's recommended to tailor this Dockerfile, download it and add/remove tools as needed to optimise size of the image.
+
+https://hub.docker.com/r/riversafe/eze-cli
 
 ```bash
 # Pull docker image

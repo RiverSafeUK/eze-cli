@@ -20,6 +20,7 @@ from eze.utils.io import (
 
 class TruffleHogTool(ToolMeta):
     """TruffleHog Python tool class"""
+    MAX_REASON_SIZE: int = 1000
 
     TOOL_NAME: str = "trufflehog"
     TOOL_TYPE: ToolType = ToolType.SECRET
@@ -148,8 +149,8 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
             # only include full reason if include_full_reason true
             if self.config["INCLUDE_FULL_REASON"]:
-                if len(found) > 1000:
-                    recommendation += f" Full Match: <on minifed long line ({len(found)} characters)>"
+                if len(found) > self.MAX_REASON_SIZE:
+                    recommendation += f" Full Match: <on long line ({len(found)} characters)>"
                 else:
                     recommendation += " Full Match: " + found
 
