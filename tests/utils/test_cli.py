@@ -267,10 +267,8 @@ def test_run_cmd__success():
 def test_run_cmd__failure_no_throw_case():
     # Given
     expected_output = """"""
-    expected_windows_error = (
-        """'non-existant.sh' is not recognized as an internal or external command,
+    expected_windows_error = """'non-existant.sh' is not recognized as an internal or external command,
 operable program or batch file."""
-    )
     expected_linux_error = "non-existant.sh: not found"
 
     input_cmd = shlex.split("non-existant.sh some random arguments --api super-secret-apikey")

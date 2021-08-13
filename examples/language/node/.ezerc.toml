@@ -19,8 +19,7 @@ EXCLUDE = [
 ]
 CONFIGS = [
     "p/ci",
-    "r/node",
-    "p/node",
+    "p/nodejs",
 ]
 
 [trufflehog]

@@ -58,8 +58,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{NpmAuditTool
     PRINT_TIMING_INFO = true
     CONFIGS = [
         "p/ci",
-        "r/node",
-        "p/node",
+        "p/nodejs",
     ]
     EXCLUDE = [
         "tests"

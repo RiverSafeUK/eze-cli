@@ -69,7 +69,6 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{BanditTool.T
     CONFIGS = [
         "p/ci",
         "p/python",
-        "r/python"
     ]
     EXCLUDE = [
         "tests"
@@ -113,5 +112,5 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{BanditTool.T
     REPORT_FILE = "reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
     REQUIREMENTS_FILE = {requirement_txt_file}
 """,
-            "message": f"""Saftey and Piprot work best when running against pip frozen requirements""",
+            "message": f"""Safety and Piprot work best when running against pip frozen requirements""",
         }

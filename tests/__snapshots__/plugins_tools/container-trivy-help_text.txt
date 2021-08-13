@@ -7,13 +7,12 @@ config_help:
 [container-trivy]
 # DOCKER_TAG str [OPTIONAL]
 # docker image tag to scan
-# Note: Required IMAGE or IMAGE_FILE
 # 
 DOCKER_TAG = "aquasec/trivy"
 
 # IMAGE_FILE str [OPTIONAL]
-# image file to scan, maps to trivy argument -i
-# Note: Required IMAGE or IMAGE_FILE
+# image file to scan, maps to trivy's argument
+# Note: Required IMAGE
 # 
 IMAGE_FILE = "docker-image.tar"
 

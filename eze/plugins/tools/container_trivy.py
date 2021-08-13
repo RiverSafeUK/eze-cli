@@ -48,15 +48,14 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         "DOCKER_TAG": {
             "type": str,
             "default": "",
-            "help_text": """docker image tag to scan
-Note: Required IMAGE or IMAGE_FILE""",
+            "help_text": """docker image tag to scan""",
             "help_example": "aquasec/trivy",
         },
         "IMAGE_FILE": {
             "type": str,
             "default": "",
-            "help_text": """image file to scan, maps to trivy argument -i
-Note: Required IMAGE or IMAGE_FILE""",
+            "help_text": """image file to scan, maps to trivy's argument
+Note: Required IMAGE""",
             "help_example": "docker-image.tar",
         },
         "TRIVY_VULN_TYPE": {
@@ -91,7 +90,6 @@ Note: Required IMAGE or IMAGE_FILE""",
                 "TRIVY_VULN_TYPE": "--vuln-type=",
                 "TRIVY_IGNORE_UNFIXED": "--ignore-unfixed=",
                 "REPORT_FILE": "-o=",
-                "IMAGE_FILE": "-i=",
             },
         }
     }

@@ -11,7 +11,6 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
     CONFIGS = [
         "p/ci",
         "p/python",
-        "r/python"
     ]
     EXCLUDE = [
         "tests"
@@ -58,4 +57,4 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
 
 ========
 
-Saftey and Piprot work best when running against pip frozen requirements
+Safety and Piprot work best when running against pip frozen requirements

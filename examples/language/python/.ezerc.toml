@@ -32,7 +32,6 @@ EXCLUDE = [
 CONFIGS = [
     "p/ci",
     "p/python",
-    "r/python"
 ]
 
 [trufflehog]
