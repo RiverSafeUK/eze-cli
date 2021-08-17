@@ -322,4 +322,6 @@ def _extract_maven_version(value: str) -> str:
     """Take Maven output and checks for version patterns"""
     leading_number_regex = re.compile("Version: ([0-9].[0-9](.[0-9])?)")
     leading_number = re.search(leading_number_regex, value)
+    if leading_number is None:
+        return value
     return leading_number.group(1)

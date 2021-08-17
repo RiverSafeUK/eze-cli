@@ -20,6 +20,7 @@ from eze.utils.io import (
 
 class TruffleHogTool(ToolMeta):
     """TruffleHog Python tool class"""
+
     MAX_REASON_SIZE: int = 1000
 
     TOOL_NAME: str = "trufflehog"
