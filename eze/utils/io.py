@@ -53,10 +53,14 @@ def pretty_print_json(obj) -> str:
 
 def load_text(file_path: str) -> str:
     """Load text file"""
-    with open(file_path, "r", encoding="utf-8") as text_file:
-        text_str = text_file.read()
-    text_file.close()
-    return text_str
+    try:
+        with open(file_path, "r", encoding="utf-8") as text_file:
+            text_str = text_file.read()
+        text_file.close()
+        return text_str
+
+    except PermissionError as file_path_not_found:
+        raise click.ClickException("Eze can't access file path or doesn't exist.") from file_path_not_found
 
 
 def load_toml(file_path: str) -> str:
@@ -79,17 +83,24 @@ def create_folder(file_path: str):
     """Create folder to location file"""
     location = get_absolute_filename(file_path)
     path = os.path.dirname(location)
-    os.makedirs(path, exist_ok=True)
+    try:
+        os.makedirs(path, exist_ok=True)
+
+    except PermissionError as path_not_found:
+        raise click.ClickException(f"Eze can not access '{path}' as Permission was denied.") from path_not_found
 
 
 def write_text(file_path: str, text: str) -> str:
     """Save text file"""
     create_folder(file_path)
     location = get_absolute_filename(file_path)
-    with open(location, mode="w") as text_file:
-        text_file.write(text)
-    text_file.close()
-    return location
+    try:
+        with open(location, mode="w") as text_file:
+            text_file.write(text)
+        text_file.close()
+        return location
+    except PermissionError as location_not_found:
+        raise click.ClickException("Eze can't access file location or doesn't exist.") from location_not_found
 
 
 def write_json(file_path: str, json_vo) -> str:
