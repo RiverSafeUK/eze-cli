@@ -20,6 +20,7 @@ from eze.utils.io import (
 
 class TruffleHogTool(ToolMeta):
     """TruffleHog Python tool class"""
+
     MAX_REASON_SIZE: int = 1000
 
     TOOL_NAME: str = "trufflehog"
@@ -89,7 +90,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("trufflehog3 --line-numbers -f json"),
+            "BASE_COMMAND": shlex.split("trufflehog3 -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
