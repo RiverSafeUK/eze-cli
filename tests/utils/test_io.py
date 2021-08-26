@@ -7,6 +7,8 @@ import tempfile
 from pathlib import Path
 from unittest import mock
 
+import click
+
 import pytest
 
 from eze.utils.io import (
@@ -181,11 +183,62 @@ def test_load_json():
     assert output == expected_output
 
 
+@mock.patch("eze.utils.io.os.makedirs", side_effect=PermissionError())
+def test_write_json__makedirs_exception(mock_make_dirs):
+    """Test irregular case, can't create folder"""
+
+    # Given
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
+    input_vo = [1, 2, 3, 4, 5]
+    expected_error = click.ClickException(f"Eze can not access '{input_report_location}' as Permission was denied.")
+
+    try:
+        write_json(input_report_location / "report.json", input_vo)
+    except Exception as e:
+        raised_error = e
+
+    # Then
+    assert str(expected_error) == str(raised_error)
+
+
+@mock.patch("eze.utils.io.open", side_effect=PermissionError())
+def test_write_json__write_exception(mock_write_text):
+    """Test irregular case, cant write text file"""
+
+    # Given
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
+    input_vo = [1, 2, 3, 4, 5]
+    expected_error = click.ClickException(f"Eze can't write file or doesn't exist.")
+
+    try:
+        write_json(input_report_location / "report.json", input_vo)
+    except Exception as e:
+        raised_error = e
+    # Then
+    assert str(expected_error) == str(raised_error)
+
+
+@mock.patch("eze.utils.io.open", side_effect=PermissionError())
+def test_write_json__load_exception(mock_load_text):
+    """Test irregular case, cant load text file"""
+
+    # Given
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
+    expected_error = click.ClickException(f"Eze can't access file path or doesn't exist.")
+
+    try:
+        load_json(input_report_location / "report.json")
+    except Exception as e:
+        raised_error = e
+    # Then
+    assert str(expected_error) == str(raised_error)
+
+
 def test_write_json():
     """Test normal case, can write json into python object"""
 
     # Given
-    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "tmp-local-test_io_wrtie_json.json"
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "tmp-local-test_io_write_json.json"
     input_vo = [1, 2, 3, 4, 5]
 
     # When
@@ -194,7 +247,6 @@ def test_write_json():
     # Then
     output = load_json(written_location)
     assert written_location == input_report_location
-    assert output == output
 
 
 def test_load_toml():

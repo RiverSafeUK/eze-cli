@@ -100,7 +100,7 @@ def write_text(file_path: str, text: str) -> str:
         text_file.close()
         return location
     except PermissionError as location_not_found:
-        raise click.ClickException("Eze can't access file location or doesn't exist.") from location_not_found
+        raise click.ClickException("Eze can't write file or doesn't exist.") from location_not_found
 
 
 def write_json(file_path: str, json_vo) -> str:
