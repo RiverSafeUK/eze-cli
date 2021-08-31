@@ -206,28 +206,12 @@ def test_write_json__write_exception(mock_write_text):
     """Test irregular case, cant write text file"""
 
     # Given
-    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "report.json"
     input_vo = [1, 2, 3, 4, 5]
-    expected_error = click.ClickException(f"Eze can't write file or doesn't exist.")
+    expected_error = click.ClickException(f"Eze can't write file '{input_report_location}' or doesn't exist.")
 
     try:
-        write_json(input_report_location / "report.json", input_vo)
-    except Exception as e:
-        raised_error = e
-    # Then
-    assert str(expected_error) == str(raised_error)
-
-
-@mock.patch("eze.utils.io.open", side_effect=PermissionError())
-def test_write_json__load_exception(mock_load_text):
-    """Test irregular case, cant load text file"""
-
-    # Given
-    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
-    expected_error = click.ClickException(f"Eze can't access file path or doesn't exist.")
-
-    try:
-        load_json(input_report_location / "report.json")
+        write_json(input_report_location, input_vo)
     except Exception as e:
         raised_error = e
     # Then

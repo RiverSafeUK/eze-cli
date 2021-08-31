@@ -53,14 +53,10 @@ def pretty_print_json(obj) -> str:
 
 def load_text(file_path: str) -> str:
     """Load text file"""
-    try:
-        with open(file_path, "r", encoding="utf-8") as text_file:
-            text_str = text_file.read()
-        text_file.close()
-        return text_str
-
-    except PermissionError as file_path_not_found:
-        raise click.ClickException("Eze can't access file path or doesn't exist.") from file_path_not_found
+    with open(file_path, "r", encoding="utf-8") as text_file:
+        text_str = text_file.read()
+    text_file.close()
+    return text_str
 
 
 def load_toml(file_path: str) -> str:
@@ -100,7 +96,7 @@ def write_text(file_path: str, text: str) -> str:
         text_file.close()
         return location
     except PermissionError as location_not_found:
-        raise click.ClickException("Eze can't write file or doesn't exist.") from location_not_found
+        raise click.ClickException(f"Eze can't write file '{file_path}' or doesn't exist.") from location_not_found
 
 
 def write_json(file_path: str, json_vo) -> str:
