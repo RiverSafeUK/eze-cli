@@ -58,8 +58,7 @@ REPORT_FILE = "../reports/python/eze_report.json"
 # SCAN CONFIG
 # ========================================
 [scan]
-# tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "trufflehog"]
-tools = ["trufflehog"]
+tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "trufflehog"]
 reporters = ["json", "console", "bom"]
 
 [scan.linux]
