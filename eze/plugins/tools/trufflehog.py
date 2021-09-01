@@ -140,8 +140,8 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         for report_event in report_events:
             path = report_event["path"]
-            reason = report_event["reason"]
-            found = "\n".join(report_event["stringsFound"])
+            reason = report_event["rule"]["message"]
+            found = "\n".join(report_event["line"])
             line = extract_leading_number(found)
 
             name = f"Found Hardcoded '{reason}' Pattern"
@@ -164,7 +164,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
                         "overview": summary,
                         "recommendation": recommendation,
                         "language": "file",
-                        "severity": self.DEFAULT_SEVERITY,
+                        "severity": report_event["rule"]["severity"],
                         "identifiers": {},
                         "metadata": None,
                         "file_location": {"path": path, "line": line},

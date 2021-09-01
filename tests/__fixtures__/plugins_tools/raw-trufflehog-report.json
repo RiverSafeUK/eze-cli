@@ -1,24 +1,41 @@
 [
   {
-    "date": "2021-04-12 11:50:07",
-    "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py",
+    "rule": {
+      "id": "high-entropy",
+      "message": "High Entropy",
+      "severity": "MEDIUM"
+    },
+    "path": "src/super-insecure-lib.py",
+    "line": "3",
+    "secret": "AAAAB3NzaC1yc2EAAAABJQAAAQEAp0A7aEqG42y0q22yU+dLFMrlVhnk2C94QChUwZv0pKmEvySmzSGSY2gSMfarHjpKcW8OKZ5bcmgkZZ3sRkLJSUwYui/pZxOkUIKZ/sUsFDrW4souGPLfP1ziX/Rj0x+MXj7et/cKO5GwqanXrULssdXapaTz4W+OmMkSpPjtDC2lbfTuOL7lYE1cfbluoPcxvU2kw0ZIGFqOCFar2It33Xsie1C+//qIX3QWjJAvYF0ZF+OR",
+    "context": {
+      "3": "INSECURE_SECRET_RSA_KEY = \"ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAp0A7aEqG42y0q22yU+dLFMrlVhnk2C94QChUwZv0pKmEvySmzSGSY2gSMfarHjpKcW8OKZ5bcmgkZZ3sRkLJSUwYui/pZxOkUIKZ/sUsFDrW4souGPLfP1ziX/Rj0x+MXj7et/cKO5GwqanXrULssdXapaTz4W+OmMkSpPjtDC2lbfTuOL7lYE1cfbluoPcxvU2kw0ZIGFqOCFar2It33Xsie1C+//qIX3QWjJAvYF0ZF+OR\""
+    },
+    "id": "a030e42d-2015-35d6-922e-4516c922fdf3",
     "branch": null,
+    "message": null,
+    "author": null,
     "commit": null,
-    "commitHash": null,
-    "reason": "High entropy",
-    "stringsFound": [
-      "2 JWT_TOKEN = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\""
-    ]
+    "date": null
   },
   {
-    "date": "2021-04-12 11:50:07",
-    "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py",
+    "rule": {
+      "id": "generic.password-in-url",
+      "message": "Password in URL",
+      "pattern": "[a-zA-Z]{3,10}://[^/\\s:@]{3,20}:[^/\\s:@]{3,20}@.{1,100}[\"'\\s]",
+      "severity": "LOW"
+    },
+    "path": "src/super-insecure-lib.py",
+    "line": "5",
+    "secret": "https://admin:god@hackers.com\"",
+    "context": {
+      "5": "INSECURE_URL_WITH_HARDCODED_BASIC_AUTH = \"https://admin:god@hackers.com\""
+    },
+    "id": "9648875a-a7fb-3a16-9a06-276f5fefcb5a",
     "branch": null,
+    "message": null,
+    "author": null,
     "commit": null,
-    "commitHash": null,
-    "reason": "Password in URL",
-    "stringsFound": [
-      "1 SERVER_LOCATION = \"https://username:password@localhost:1234\""
-    ]
+    "date": null
   }
 ]
