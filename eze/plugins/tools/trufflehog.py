@@ -16,6 +16,7 @@ from eze.utils.io import (
     normalise_windows_regex_file_path,
     create_folder,
 )
+from pydash import py_
 
 
 class TruffleHogTool(ToolMeta):
@@ -133,44 +134,83 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         return report
 
+    def _trufflehog_v3_line(self, report_event):
+        """ab-712: Post Aug 2021 - Trufflehog3 v3 format parse support"""
+        path = report_event["path"]
+        line = report_event["line"]
+        reason = report_event["rule"]["message"]
+
+        name = f"Found Hardcoded '{reason}' Pattern"
+        summary = f"Found Hardcoded '{reason}' Pattern in {path}"
+        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings"
+
+        # only include full reason if include_full_reason true
+        if self.config["INCLUDE_FULL_REASON"]:
+            line_containing_secret = report_event["context"][line]
+            if len(line_containing_secret) > self.MAX_REASON_SIZE:
+                recommendation += f" Full Match: <on long line ({len(line_containing_secret)} characters)>"
+            else:
+                recommendation += " Full Match: " + line_containing_secret
+        return Vulnerability(
+            {
+                "vulnerability_type": VulnerabilityType.secret.name,
+                "name": name,
+                "version": None,
+                "overview": summary,
+                "recommendation": recommendation,
+                "language": "file",
+                "severity": report_event["rule"]["severity"],
+                "identifiers": {},
+                "metadata": None,
+                "file_location": {"path": path, "line": line},
+            }
+        )
+
+    def _trufflehog_v2_line(self, report_event):
+        """ab-712: Pre Aug 2021 - Trufflehog3 v2 format parse support"""
+        path = report_event["path"]
+        reason = report_event["reason"]
+        found = "\n".join(report_event["stringsFound"])
+        line = extract_leading_number(found)
+
+        name = f"Found Hardcoded '{reason}' Pattern"
+        summary = f"Found Hardcoded '{reason}' Pattern in {path}"
+        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings"
+
+        # only include full reason if include_full_reason true
+        if self.config["INCLUDE_FULL_REASON"]:
+            if len(found) > self.MAX_REASON_SIZE:
+                recommendation += f" Full Match: <on long line ({len(found)} characters)>"
+            else:
+                recommendation += " Full Match: " + found
+        return Vulnerability(
+            {
+                "vulnerability_type": VulnerabilityType.secret.name,
+                "name": name,
+                "version": None,
+                "overview": summary,
+                "recommendation": recommendation,
+                "language": "file",
+                "severity": self.DEFAULT_SEVERITY,
+                "identifiers": {},
+                "metadata": None,
+                "file_location": {"path": path, "line": line},
+            }
+        )
+
     def parse_report(self, parsed_json: list) -> ScanResult:
         """convert report json into ScanResult"""
         report_events = parsed_json
         vulnerabilities_list = []
 
         for report_event in report_events:
-            path = report_event["path"]
-            reason = report_event["rule"]["message"]
-            found = "\n".join(report_event["line"])
-            line = extract_leading_number(found)
-
-            name = f"Found Hardcoded '{reason}' Pattern"
-            summary = f"Found Hardcoded '{reason}' Pattern in {path}"
-            recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings"
-
-            # only include full reason if include_full_reason true
-            if self.config["INCLUDE_FULL_REASON"]:
-                if len(found) > self.MAX_REASON_SIZE:
-                    recommendation += f" Full Match: <on long line ({len(found)} characters)>"
-                else:
-                    recommendation += " Full Match: " + found
-
-            vulnerabilities_list.append(
-                Vulnerability(
-                    {
-                        "vulnerability_type": VulnerabilityType.secret.name,
-                        "name": name,
-                        "version": None,
-                        "overview": summary,
-                        "recommendation": recommendation,
-                        "language": "file",
-                        "severity": report_event["rule"]["severity"],
-                        "identifiers": {},
-                        "metadata": None,
-                        "file_location": {"path": path, "line": line},
-                    }
-                )
-            )
+            is_v3_report = py_.get(report_event, "rule.message", False)
+            if is_v3_report:
+                vulnerability = self._trufflehog_v3_line(report_event)
+                vulnerabilities_list.append(vulnerability)
+            else:
+                vulnerability = self._trufflehog_v2_line(report_event)
+                vulnerabilities_list.append(vulnerability)
 
         report: ScanResult = ScanResult(
             {

@@ -145,11 +145,29 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    def test_parse_report__snapshot(self, snapshot):
+    def test_parse_report__version2_snapshot(self, snapshot):
+        """ab-712: Pre Aug 2021 - Trufflehog3 v2 format parse support"""
         # Given
         input_config = {"SOURCE": "eze"}
         # Test container fixture and snapshot
-        self.assert_parse_report_snapshot_test(snapshot, input_config)
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            input_config,
+            "__fixtures__/plugins_tools/raw-trufflehog-v2-report.json",
+            "plugins_tools/trufflehog-result-v2-output.json"
+        )
+
+    def test_parse_report__version3_snapshot(self, snapshot):
+        """ab-712: Post Aug 2021 - Trufflehog3 v3 format parse support"""
+        # Given
+        input_config = {"SOURCE": "eze"}
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            input_config,
+            "__fixtures__/plugins_tools/raw-trufflehog-v3-report.json",
+            "plugins_tools/trufflehog-result-v3-output.json"
+        )
 
     @mock.patch("eze.utils.cli.subprocess.run")
     @pytest.mark.asyncio
