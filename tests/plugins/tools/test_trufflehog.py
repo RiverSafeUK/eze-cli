@@ -145,18 +145,36 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    def test_parse_report__snapshot(self, snapshot):
+    def test_parse_report__version2_snapshot(self, snapshot):
+        """ab-712: Pre Aug 2021 - Trufflehog3 v2 format parse support"""
         # Given
         input_config = {"SOURCE": "eze"}
         # Test container fixture and snapshot
-        self.assert_parse_report_snapshot_test(snapshot, input_config)
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            input_config,
+            "__fixtures__/plugins_tools/raw-trufflehog-v2-report.json",
+            "plugins_tools/trufflehog-result-v2-output.json"
+        )
+
+    def test_parse_report__version3_snapshot(self, snapshot):
+        """ab-712: Post Aug 2021 - Trufflehog3 v3 format parse support"""
+        # Given
+        input_config = {"SOURCE": "eze"}
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            input_config,
+            "__fixtures__/plugins_tools/raw-trufflehog-v3-report.json",
+            "plugins_tools/trufflehog-result-v3-output.json"
+        )
 
     @mock.patch("eze.utils.cli.subprocess.run")
     @pytest.mark.asyncio
     async def test_run_scan_command(self, mock_subprocess_run):
         # Given
         input_config = {"SOURCE": "eze", "REPORT_FILE": "tmp-truffleHog-report.json"}
-        expected_cmd = "trufflehog3 --line-numbers -f json eze -o tmp-truffleHog-report.json"
+        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
 
@@ -174,7 +192,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
                 "PATH-TO-EXCLUDED-FILE.js",
             ],
         }
-        expected_cmd = "trufflehog3 --line-numbers -f json eze -o tmp-truffleHog-report.json --skip-paths 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js"
+        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
 
@@ -184,6 +202,6 @@ class TestTruffleHogTool(ToolMetaTestBase):
     async def test_run_scan_command__ab_699_short_flag(self, mock_subprocess_run):
         # Given
         input_config = {"SOURCE": "eze", "REPORT_FILE": "tmp-truffleHog-report.json", "NO_ENTROPY": True}
-        expected_cmd = "trufflehog3 --line-numbers -f json eze --no-entropy -o tmp-truffleHog-report.json"
+        expected_cmd = "trufflehog3 -f json eze --no-entropy -o tmp-truffleHog-report.json"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
