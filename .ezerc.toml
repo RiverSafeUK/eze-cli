@@ -54,7 +54,7 @@ EXCLUDE = [
     CONFIGS = [
         "p/dockerfile",
     ]
-    REPORT_FILE = "/reports/semgrep-docker-report.json"
+    REPORT_FILE = "reports/semgrep-docker-report.json"
 
 
 [trufflehog]
@@ -70,7 +70,7 @@ REPORT_FILE = "reports/truffleHog-report.json"
     INCLUDE_FULL_REASON = false
 
 [python-cyclonedx]
-REPORT_FILE = "/reports/cyclonedx-bom.json"
+REPORT_FILE = "reports/cyclonedx-bom.json"
 REQUIREMENTS_FILE = "requirements.txt"
 
 
