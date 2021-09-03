@@ -4,7 +4,7 @@ import click
 from eze import __version__
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.io import load_json
+from eze.utils.io import load_json, ClickManagedFileAccessError
 
 
 class RawTool(ToolMeta):
@@ -40,5 +40,5 @@ normally REPORT_FILE: eze_report.json""",
             scan_result = load_json(report_file)[0]
             report = ScanResult(scan_result)
             return report
-        except FileNotFoundError:
+        except ClickManagedFileAccessError:
             raise click.ClickException(f"""Eze Raw tool can not find 'REPORT_FILE' {report_file}""")

@@ -14,6 +14,10 @@ import click
 import toml
 
 
+class ClickManagedFileAccessError(click.ClickException):
+    pass
+
+
 def normalise_file_paths(file_paths: list) -> Path:
     """Clean up user inputted filename path makes all"""
     new_file_paths = list(map(normalise_linux_file_path, file_paths))
@@ -53,10 +57,16 @@ def pretty_print_json(obj) -> str:
 
 def load_text(file_path: str) -> str:
     """Load text file"""
-    with open(file_path, "r", encoding="utf-8") as text_file:
-        text_str = text_file.read()
-    text_file.close()
-    return text_str
+    try:
+        with open(file_path, "r", encoding="utf-8") as text_file:
+            text_str = text_file.read()
+        text_file.close()
+        return text_str
+
+    except PermissionError as not_permitted_err:
+        raise ClickManagedFileAccessError(f"Eze cannot access '{not_permitted_err.filename}', Permission was denied")
+    except FileNotFoundError as not_found_err:
+        raise ClickManagedFileAccessError(f"Eze cannot access '{not_found_err.filename}', File could not be found")
 
 
 def load_toml(file_path: str) -> str:
@@ -82,8 +92,8 @@ def create_folder(file_path: str):
     try:
         os.makedirs(path, exist_ok=True)
 
-    except PermissionError as path_not_found:
-        raise click.ClickException(f"Eze can not access '{path}' as Permission was denied.") from path_not_found
+    except PermissionError as not_permitted_err:
+        raise ClickManagedFileAccessError(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_text(file_path: str, text: str) -> str:
@@ -95,8 +105,8 @@ def write_text(file_path: str, text: str) -> str:
             text_file.write(text)
         text_file.close()
         return location
-    except PermissionError as location_not_found:
-        raise click.ClickException(f"Eze can't write file '{file_path}' or doesn't exist.") from location_not_found
+    except PermissionError as not_permitted_err:
+        raise ClickManagedFileAccessError(f"Eze cannot write '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_json(file_path: str, json_vo) -> str:

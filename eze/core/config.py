@@ -16,7 +16,7 @@ import click
 import toml
 from pydash import py_
 
-from eze.utils.io import load_toml
+from eze.utils.io import load_toml, ClickManagedFileAccessError
 
 
 class ConfigException(Exception):
@@ -167,7 +167,7 @@ class EzeConfig:
                     continue
                 parsed_config = load_toml(config_file)
                 self._add_config(parsed_config)
-            except FileNotFoundError:
+            except ClickManagedFileAccessError:
                 if EzeConfig.debug_mode:
                     print(f"-- [CONFIG ENGINE] skipping file '{config_file}' as not found")
                 continue

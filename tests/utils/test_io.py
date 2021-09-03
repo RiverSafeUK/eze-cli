@@ -36,6 +36,9 @@ def teardown_module(module):
     print("teardown any state that was previously setup with a setup_module method.")
 
 
+class FakePermissionError(PermissionError):
+    filename = 'some-mocked-file.json'
+
 class DummyClass:
     """Dummy Class"""
 
@@ -183,35 +186,16 @@ def test_load_json():
     assert output == expected_output
 
 
-@mock.patch("eze.utils.io.os.makedirs", side_effect=PermissionError())
-def test_write_json__makedirs_exception(mock_make_dirs):
-    """Test irregular case, can't create folder"""
-
-    # Given
-    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
-    input_vo = [1, 2, 3, 4, 5]
-    expected_error = click.ClickException(f"Eze can not access '{input_report_location}' as Permission was denied.")
-
-    try:
-        write_json(input_report_location / "report.json", input_vo)
-    except Exception as e:
-        raised_error = e
-
-    # Then
-    assert str(expected_error) == str(raised_error)
-
-
-@mock.patch("eze.utils.io.open", side_effect=PermissionError())
-def test_write_json__write_exception(mock_write_text):
-    """Test irregular case, cant write text file"""
+@mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
+def test_load_json__ab_688_write_exception(mock_write_text):
+    """ab-688: Test irregular case, cant load text file"""
 
     # Given
     input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "report.json"
-    input_vo = [1, 2, 3, 4, 5]
-    expected_error = click.ClickException(f"Eze can't write file '{input_report_location}' or doesn't exist.")
+    expected_error = "Eze cannot access 'some-mocked-file.json', Permission was denied"
 
     try:
-        write_json(input_report_location, input_vo)
+        load_json(input_report_location)
     except Exception as e:
         raised_error = e
     # Then
@@ -231,6 +215,41 @@ def test_write_json():
     # Then
     output = load_json(written_location)
     assert written_location == input_report_location
+
+
+@mock.patch("eze.utils.io.os.makedirs", side_effect=FakePermissionError())
+def test_write_json__ab_688_makedirs_exception(mock_make_dirs):
+    """Test irregular case, can't create folder"""
+
+    # Given
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp"
+    input_vo = [1, 2, 3, 4, 5]
+    expected_error = "Eze cannot create folder 'some-mocked-file.json', Permission was denied"
+
+    try:
+        write_json(input_report_location / "report.json", input_vo)
+    except Exception as e:
+        raised_error = e
+
+    # Then
+    assert str(expected_error) == str(raised_error)
+
+
+@mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
+def test_write_json__ab_688_write_exception(mock_write_text):
+    """ab-688: Test irregular case, cant write text file"""
+
+    # Given
+    input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "report.json"
+    input_vo = [1, 2, 3, 4, 5]
+    expected_error = "Eze cannot write 'some-mocked-file.json', Permission was denied"
+
+    try:
+        write_json(input_report_location, input_vo)
+    except Exception as e:
+        raised_error = e
+    # Then
+    assert str(expected_error) == str(raised_error)
 
 
 def test_load_toml():

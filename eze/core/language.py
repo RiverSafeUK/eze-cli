@@ -10,6 +10,8 @@ from pathlib import Path
 from typing import Callable
 
 import click
+from eze.utils.io import write_text
+
 from pydash import py_
 
 from eze.cli.utils.config import get_local_config_filename
@@ -300,13 +302,9 @@ class LanguageManager:
 
         return languages
 
-    def _create_config_file(self, config_location: pathlib.Path, copy: str) -> None:
+    def _create_config_file(self, config_location: pathlib.Path, config_yaml_str: str) -> None:
         """Create the path to create the config file at and creates file"""
-        config_path = os.path.dirname(config_location)
-        os.makedirs(config_path, exist_ok=True)
-        handler = open(config_location, mode="w")
-        handler.write(copy)
-        handler.close()
+        write_text(config_location, config_yaml_str)
         click.echo(f"Successfully written configuration file to '{config_location}'")
 
     def create_local_ezerc_config(self, root_path: str = None) -> bool:
