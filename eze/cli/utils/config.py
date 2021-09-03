@@ -9,7 +9,7 @@ import click
 import toml
 
 from eze.core.config import EzeConfig
-from eze.utils.io import load_toml
+from eze.utils.io import load_toml, ClickManagedFileAccessError
 
 
 def get_debug_mode() -> bool:
@@ -48,7 +48,7 @@ def has_local_config() -> bool:
         return True
     except toml.TomlDecodeError:
         return True
-    except FileNotFoundError:
+    except ClickManagedFileAccessError:
         return False
 
 
