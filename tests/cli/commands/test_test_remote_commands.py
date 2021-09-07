@@ -50,7 +50,7 @@ class TestRemoteCommand:
         # Given
         # When
         runner = CliRunner()
-        result = runner.invoke(test_remote_commands, ["--url", "https://google.com"])
+        result = runner.invoke(test_remote_commands, ["--url", "https://google.com", "--branch", "main"])
         # Then
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_remote_commands/test_run_tool.txt")
