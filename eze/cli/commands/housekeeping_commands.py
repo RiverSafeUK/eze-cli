@@ -27,7 +27,7 @@ DEFAULT_GLOABL_CONFIG_COPY = """
 # ===================================
 [eze]
 # WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
-# it can also be specifed as the environment variable EZE_APIKEY
+# it can also be specified as the environment variable EZE_APIKEY
 # APIKEY = xxx
 
 # Required management console url

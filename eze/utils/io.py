@@ -93,7 +93,9 @@ def create_folder(file_path: str):
         os.makedirs(path, exist_ok=True)
 
     except PermissionError as not_permitted_err:
-        raise ClickManagedFileAccessError(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
+        raise ClickManagedFileAccessError(
+            f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied"
+        )
 
 
 def write_text(file_path: str, text: str) -> str:

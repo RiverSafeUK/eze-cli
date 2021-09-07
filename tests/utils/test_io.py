@@ -37,7 +37,8 @@ def teardown_module(module):
 
 
 class FakePermissionError(PermissionError):
-    filename = 'some-mocked-file.json'
+    filename = "some-mocked-file.json"
+
 
 class DummyClass:
     """Dummy Class"""

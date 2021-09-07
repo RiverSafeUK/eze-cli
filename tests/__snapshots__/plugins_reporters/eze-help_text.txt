@@ -7,7 +7,7 @@ config_help:
 [eze]
 # APIKEY str
 # WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
-# it can also be specifed as the environment variable EZE_APIKEY
+# it can also be specified as the environment variable EZE_APIKEY
 # get EZE_APIKEY from eze console profile page
 # default value: 
 #   APIKEY = "ENVIRONMENT VARIABLE <EZE_APIKEY>"

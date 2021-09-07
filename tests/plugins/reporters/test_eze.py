@@ -70,7 +70,7 @@ class TestEzeReporter(ReporterMetaTestBase):
         # Given
         expected_error_message = """required param 'APIKEY' missing from configuration
 WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
-it can also be specifed as the environment variable EZE_APIKEY
+it can also be specified as the environment variable EZE_APIKEY
 get EZE_APIKEY from eze console profile page"""
         # Given valid inside valid git repo
         mock_repo.return_value = MockSuccessGitRepo()

@@ -29,7 +29,7 @@ class EzeReporter(ReporterMeta):
             "default": os.environ.get("EZE_APIKEY", ""),
             "default_help_value": "ENVIRONMENT VARIABLE <EZE_APIKEY>",
             "help_text": """WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
-it can also be specifed as the environment variable EZE_APIKEY
+it can also be specified as the environment variable EZE_APIKEY
 get EZE_APIKEY from eze console profile page""",
         },
         "CONSOLE_ENDPOINT": {
