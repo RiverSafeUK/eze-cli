@@ -2,6 +2,7 @@
 from unittest import mock
 
 import pytest
+from eze.utils.io import is_windows_os
 
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.io import create_tempfile_path
@@ -192,7 +193,11 @@ class TestTruffleHogTool(ToolMetaTestBase):
                 "PATH-TO-EXCLUDED-FILE.js",
             ],
         }
-        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js"
+
+        if is_windows_os():
+            expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths PATH-TO-EXCLUDED-FOLDER/.* PATH-TO-NESTED-FOLDER/SOME_NESTING/.* PATH-TO-EXCLUDED-FILE.js"
+        else:
+            expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
 
