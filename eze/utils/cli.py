@@ -23,6 +23,7 @@ aka
 ls . -man
 """
 
+from eze.utils.io import is_windows_os
 import re
 import shlex
 import shutil
@@ -184,11 +185,15 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
     # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
     # also map ADDITIONAL_ARGUMENTS to a dict which is "shlex.quote"
     try:
+        if is_windows_os():
+            # FIXME: ab-742: windows commandline not working with shlex.join
+            final_cmd = " ".join(cmd)
+        else:
+            final_cmd = shlex.join(cmd)
         # FIXME: many programming tools failing without shell=true
         # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
         # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
-        cmd_str: str = shlex.join(cmd)
-        proc = subprocess.run(cmd_str, capture_output=True, universal_newlines=True, shell=True)  # nosec # nosemgrep
+        proc = subprocess.run(final_cmd, capture_output=True, universal_newlines=True, shell=True)  # nosec # nosemgrep
     except FileNotFoundError:
         core_executable = _extract_executable(sanitised_command_str)
         error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"

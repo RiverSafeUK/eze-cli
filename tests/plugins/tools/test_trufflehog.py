@@ -179,9 +179,10 @@ class TestTruffleHogTool(ToolMetaTestBase):
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
 
     @mock.patch("eze.utils.cli.subprocess.run")
-    @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__ab_699_multi_value_flag(self, mock_subprocess_run):
+    async def test_run_scan_command__windows_ab_699_multi_value_flag_with_windows_path_escaping(self, mock_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "eze",
@@ -192,11 +193,35 @@ class TestTruffleHogTool(ToolMetaTestBase):
                 "PATH-TO-EXCLUDED-FILE.js",
             ],
         }
-        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js"
+
+        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths PATH-TO-EXCLUDED-FOLDER\\\\.* PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.* PATH-TO-EXCLUDED-FILE.js"
+
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
 
     @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
+    @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__ab_699_multi_value_flag_with_linux(self, mock_subprocess_run):
+        # Given
+        input_config = {
+            "SOURCE": "eze",
+            "REPORT_FILE": "tmp-truffleHog-report.json",
+            "EXCLUDE": [
+                "PATH-TO-EXCLUDED-FOLDER/.*",
+                "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*",
+                "PATH-TO-EXCLUDED-FILE.js",
+                "FILE WITH SPACES.js"
+            ],
+        }
+
+        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js 'FILE WITH SPACES.js'"
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @pytest.mark.asyncio
     async def test_run_scan_command__ab_699_short_flag(self, mock_subprocess_run):
