@@ -52,7 +52,7 @@ safety offers a paid real-time vulnerabilty db service look on the safety websit
             "default_help_value": "ENVIRONMENT VARIABLE <SAFETY_APIKEY>",
             "help_text": """By default it uses the open Python vulnerability database Safety DB,
 but can be upgraded to use pyup.io's Safety API using the APIKEY option
-it can also be specifed as the environment variable SAFETY_APIKEY
+it can also be specified as the environment variable SAFETY_APIKEY
 see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
         },
         "REPORT_FILE": {

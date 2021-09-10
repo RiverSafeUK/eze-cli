@@ -32,11 +32,17 @@ from eze.core.engine import EzeCore
     required=True,
 )
 @click.option(
+    "--branch",
+    "-b",
+    help="Specify the branch name to run scan into. ex main",
+    required=True,
+)
+@click.option(
     "--online",
     is_flag=True,
     help="Specify if you want to run the test online instead of locally",
 )
-def test_remote_commands(state, config_file: str, scan_type, url: str, online: bool) -> None:
+def test_remote_commands(state, config_file: str, scan_type, url: str, online: bool, branch: str) -> None:
     """Eze run scan in a remote repository"""
     if online:
         api_url = os.environ.get("EZE_REMOTE_SCAN_ENDPOINT", "")
@@ -55,10 +61,14 @@ def test_remote_commands(state, config_file: str, scan_type, url: str, online: b
             raise click.ClickException(f"""Error in request: {error_text}""")
     else:
         temp_dir = os.path.join(os.getcwd(), "test-remote")
-        repo = git.Repo.clone_from(
-            url,
-            temp_dir,
-        )
+
+        try:
+            os.chdir(temp_dir)
+            repo = git.Repo.clone_from(url, temp_dir, branch=branch)
+            state.config = set_eze_config(None)
+        except git.exc.GitCommandError as error:
+            raise click.ClickException(f"""on cloning process, remote branch not found""")
+
         os.chdir(temp_dir)
         state.config = set_eze_config(None)
         eze_core = EzeCore.get_instance()

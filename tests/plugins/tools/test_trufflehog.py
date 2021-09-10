@@ -154,7 +154,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             snapshot,
             input_config,
             "__fixtures__/plugins_tools/raw-trufflehog-v2-report.json",
-            "plugins_tools/trufflehog-result-v2-output.json"
+            "plugins_tools/trufflehog-result-v2-output.json",
         )
 
     def test_parse_report__version3_snapshot(self, snapshot):
@@ -166,7 +166,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             snapshot,
             input_config,
             "__fixtures__/plugins_tools/raw-trufflehog-v3-report.json",
-            "plugins_tools/trufflehog-result-v3-output.json"
+            "plugins_tools/trufflehog-result-v3-output.json",
         )
 
     @mock.patch("eze.utils.cli.subprocess.run")
