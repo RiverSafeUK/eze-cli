@@ -1,4 +1,11 @@
+![GitHub](https://img.shields.io/github/license/riversafeuk/eze-cli?color=03ac13)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/riversafeuk/eze-cli?label=release&logo=github)
+![GitHub All Releases](https://img.shields.io/github/downloads/RiverSafeUK/eze-cli/total?logo=github)
+![Docker Pulls](https://img.shields.io/docker/pulls/riversafe/eze-cli?logo=docker)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/eze-cli?logo=pypi)
+
 [![Build Status](https://dev.azure.com/riversafe/DevSecOps/_apis/build/status/RiverSafeUK.eze-cli?branchName=develop)](https://dev.azure.com/riversafe/DevSecOps/_build/latest?definitionId=14&branchName=develop)
+![GitHub issues](https://img.shields.io/github/issues/riversafeUK/eze-cli?style=flat-square)
 
 # Overview
 
@@ -123,3 +130,6 @@ See README-DEVELOPMENT.md
 # Contribute
 
 See CONTRIBUTING.md
+
+[release]: https://github.com/RiverSafeUK/eze-cli/releases
+[release-img]: https://img.shields.io/github/release/RiverSafeUK/eze-cli.svg?logo=github
