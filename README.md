@@ -58,10 +58,10 @@ pip install safety
 eze test
 ```
 </details>
-<br/>
+
 
 ## Use Eze in Container via Docker
-Eze can also be used without installation with a [Docker image]((https://hub.docker.com/r/riversafe/eze-cli)), the default Dockerfile contains the `eze cli` and a selection of common opensource tools out of the box.
+Eze can also be used without installation with a [Docker image](https://hub.docker.com/r/riversafe/eze-cli), the default Dockerfile contains the `eze cli` and a selection of common opensource tools out of the box.
 
 It's recommended to tailor this Dockerfile, download it and add/remove tools as needed to optimise the size of the image.
 
@@ -107,18 +107,18 @@ semgrep               0.53.0            opensource multi language SAST scanner
 ...
 ```
 </details>
-<br/>
+
 
 ## Scan a remote repository
 
-```ps
+```bash
 eze test-remote --url <remote_uri> --branch <branch_name>
 ```
 
 # Configuring Eze
 
 ## Custom configuration
-Eze runs off a local **.ezerc.toml** file, when this config is not present, a sample config will be generated automatically by scanning the codebase (with `eze test`). You can customise it for:
+Eze runs off a local **.ezerc.toml** file, when this config is not present, a sample config will be generated automatically by scanning the codebase (`eze test`). You can customise it to:
 
 - Add/remove a scanning tool
 - Customise the arguments passed to a specific tool
