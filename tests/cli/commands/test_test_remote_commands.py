@@ -6,7 +6,7 @@ import pytest
 from unittest import mock
 from click.testing import CliRunner
 
-from eze.cli.commands.test_remote_commands import test_remote_commands
+from eze.cli.commands.test_remote_commands import test_remote_commands as remote_test_commands
 from tests.__fixtures__.fixture_helper import get_snapshot_directory
 from tests.__test_helpers__.mock_helper import setup_mock, teardown_mock
 
@@ -24,7 +24,7 @@ class TestRemoteCommand:
     def test__test_remote_base(self, snapshot):
         """Test that the help message appears ok"""
         runner = CliRunner()
-        result = runner.invoke(test_remote_commands, [])
+        result = runner.invoke(remote_test_commands, [])
         assert result.exit_code == 2
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_remote_commands/remote.txt")
@@ -33,7 +33,7 @@ class TestRemoteCommand:
     def test__test_remote_base_help(self, snapshot):
         """Test that the help message appears ok with explicit --help flag"""
         runner = CliRunner()
-        result = runner.invoke(test_remote_commands, ["--help"])
+        result = runner.invoke(remote_test_commands, ["--help"])
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_remote_commands/remote_base_help.txt")
 
@@ -50,7 +50,7 @@ class TestRemoteCommand:
         # Given
         # When
         runner = CliRunner()
-        result = runner.invoke(test_remote_commands, ["--url", "https://google.com", "--branch", "main"])
+        result = runner.invoke(remote_test_commands, ["--url", "https://google.com", "--branch", "main"])
         # Then
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_remote_commands/test_run_tool.txt")

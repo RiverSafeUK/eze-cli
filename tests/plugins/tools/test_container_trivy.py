@@ -15,7 +15,7 @@ class TestTrivyTool(ToolMetaTestBase):
 
     def test_creation__no_image_fail_needs_source(self):
         # Given
-        expected_error_message = "required param 'DOCKER_TAG' or 'IMAGE_FILE' missing from configuration"
+        expected_error_message = "required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration"
         # When
         with pytest.raises(ConfigException) as thrown_exception:
             testee = TrivyTool()
@@ -28,7 +28,7 @@ class TestTrivyTool(ToolMetaTestBase):
             "IMAGE_FILE": "python_3_8_slim.tar",
         }
         expected_config = {
-            "DOCKER_TAG": "",
+            "IMAGE_NAME": "",
             "IMAGE_FILE": "python_3_8_slim.tar",
             "REPORT_FILE": create_tempfile_path("tmp-trivy-report.json"),
             "TRIVY_IGNORE_UNFIXED": "false",
@@ -48,13 +48,13 @@ class TestTrivyTool(ToolMetaTestBase):
     def test_creation__with_IMAGE_config(self):
         # Given
         input_config = {
-            "DOCKER_TAG": "python:3.8-slim",
+            "IMAGE_NAME": "python:3.8-slim",
             "TRIVY_VULN_TYPE": ["os"],
             "TRIVY_IGNORE_UNFIXED": "true",
             "ADDITIONAL_ARGUMENTS": "--something foo",
         }
         expected_config = {
-            "DOCKER_TAG": "python:3.8-slim",
+            "IMAGE_NAME": "python:3.8-slim",
             "IMAGE_FILE": "",
             "REPORT_FILE": create_tempfile_path("tmp-trivy-report.json"),
             "TRIVY_IGNORE_UNFIXED": "true",
