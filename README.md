@@ -1,5 +1,12 @@
-<h1 align="center"><strong>EZE</strong></h1>
-<p align="center">The one stop solution for security testing in modern development</p>
+```
+                              ______   ______  ______                 _____   _        _____ 
+                             |  ____| |___  / |  ____|               / ____| | |      |_   _|
+                             | |__       / /  | |__       ______    | |      | |        | |  
+                             |  __|     / /   |  __|     |______|   | |      | |        | |  
+                             | |____   / /__  | |____               | |____  | |____   _| |_ 
+                             |______| /_____| |______|               \_____| |______| |_____|
+```
+<p align="center"><strong>The one stop solution for security testing in modern development</strong></p>
 
 ![GitHub](https://img.shields.io/github/license/riversafeuk/eze-cli?color=03ac13)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/riversafeuk/eze-cli?label=release&logo=github)
