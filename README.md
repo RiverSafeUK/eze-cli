@@ -158,7 +158,6 @@ Configuration Format for SemGrep
 ...
 ```
 </details>
-</br>
 
 
 # Developers Documentation
