@@ -151,6 +151,34 @@ source ~/.virtualenvs/eze-pip-test/Scripts/activate
 pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple eze-cli
 ```
 
+## Use Eze Locally via Pip
+Install Eze from Pypi using pip.
+
+```bash
+# Keep in mind that Eze runs on Python 3.7 and up.
+pip install eze-cli
+
+# Test Eze running ok
+eze, version X.X.X
+```
+
+Once finished, you can install any tools you want to run Eze with, and finally run Eze locally.
+```bash
+eze test
+```
+
+<details>
+<summary>Example: Scanning a Python project using  Eze</summary>
+
+```py
+# Install 3 tools and run Eze
+pip install piprot
+pip install bandit
+pip install safety
+eze test
+```
+</details>
+
 ## Tips and Tricks
 
 ### venv helpers

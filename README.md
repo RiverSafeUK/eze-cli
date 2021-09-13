@@ -10,11 +10,10 @@
 
 ![GitHub](https://img.shields.io/github/license/riversafeuk/eze-cli?color=03ac13)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/riversafeuk/eze-cli?label=release&logo=github)
-![GitHub All Releases](https://img.shields.io/github/downloads/RiverSafeUK/eze-cli/total?logo=github)
+[![Build Status](https://dev.azure.com/riversafe/DevSecOps/_apis/build/status/RiverSafeUK.eze-cli?branchName=develop)](https://dev.azure.com/riversafe/DevSecOps/_build/latest?definitionId=14&branchName=develop)
+![GitHub issues](https://img.shields.io/github/issues/riversafeUK/eze-cli?style=rounded-square)
 ![Docker Pulls](https://img.shields.io/docker/pulls/riversafe/eze-cli?logo=docker)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/eze-cli?logo=pypi)
-[![Build Status](https://dev.azure.com/riversafe/DevSecOps/_apis/build/status/RiverSafeUK.eze-cli?branchName=develop)](https://dev.azure.com/riversafe/DevSecOps/_build/latest?definitionId=14&branchName=develop)
-![GitHub issues](https://img.shields.io/github/issues/riversafeUK/eze-cli?style=flat-square)
 
 
 # Overview
@@ -28,50 +27,24 @@ This tool can be run locally on the cli by developers or security consultants, o
 - Simple multi-tool configuration via a single common configuration file
   - Support for multiple targets: remote git repositories, containers
   - Supports Python, Node and Java applications.
-- Normalise multiple tools output into one common report format
-- Extendable plugin architecture for adding new security tools to Eze
-- Provide single cli entrypoint to run the multiple tools needed to test modern applications
+- Run multiple tools with one command
+- Extendable plugin architecture for adding new security tools
 - Improve uptake of security testing in modern development.
 - Improve discovery and uptake of open source security tools
-- Extending capabilities of opensource tools
+- Extends capabilities of raw opensource tools underneath
   (adding missing features like ignore patterns, version detection, and cve metadata annotation, as needed)
 - Layering enterprise level reporting and auditing via the _Eze Management Console_ (PAID service offered by RiverSafe)
 
 
-# Installation and Usage
-## Use Eze Locally via Pip
-Install Eze from Pypi using pip. 
+# Eze Usage
 
-```bash
-# Keep in mind that Eze runs on Python 3.7 and up.
-pip install eze-cli
+It is **strongly*** recommended most users run eze inside the docker image, this is the easiest way to get started with eze security scanning.
 
-# Test Eze running ok
-eze, version X.X.X
-```
-Once finished, you can install any tools you want to run Eze with. And  run Eze inside your directory.
-```bash
-eze test
-```
-
-<details>
-<summary>Example: Scanning a Python project using  Eze</summary>
-
-```py
-# Install 3 tools and run Eze
-pip install piprot
-pip install bandit
-pip install safety
-eze test
-```
-</details>
+_*_ For sysadmin and power users, see the [README-DEVELOPMENT.md](README-DEVELOPMENT.md)
 
 
-## Use Eze in Container via Docker
-Eze can also be used without installation with a [Docker image](https://hub.docker.com/r/riversafe/eze-cli), the default Dockerfile contains the `eze cli` and a selection of common opensource tools out of the box.
-
-It's recommended to tailor this Dockerfile, download it and add/remove tools as needed to optimise the size of the image.
-
+## Pull Docker image
+Eze is inside this [Docker image](https://hub.docker.com/r/riversafe/eze-cli), the default Dockerfile contains the `eze cli` running inside a default linux os with a selection of opensource security tools out of the box.
 
 ```bash
 # Pull docker image
@@ -79,26 +52,36 @@ docker pull riversafe/eze-cli:latest
 
 # Test docker running ok
 docker run riversafe/eze-cli --version
+```
 
-# Run pulled image in docker (cmd)
+
+## Run security scan
+
+This command will run a security scan against the current folder. Results will be in eze_report.json
+
+```bash
+# Scan code in current directory (cmd)
 docker run --rm -v %cd%:/data riversafe/eze-cli test
 
-# Run pulled image in (powershell)
+# Scan code in current directory (powershell)
 docker run --rm -v ${PWD}:/data riversafe/eze-cli test
 
-# Run pulled image in (git bash)
+# Scan code in current directory (git bash)
 docker run --rm -v $(pwd -W):/data riversafe/eze-cli test
 
-# Run pulled image in (linux/mac os bash)
+# Scan code in current directory (linux/mac os bash)
 docker run --rm -v "$(pwd)":/data riversafe/eze-cli test
 ```
 
-# Additional commands
+_*For advanced users this Dockerfile image can be downloaded and tailored to optimise the size of the image / versions of tools._
+
+
+# Other Common commands
 
 ## Detect tools locally installed
 
 ```bash
-eze tools list
+docker run riversafe/eze-cli tools list
 ```
 
 <details>
@@ -119,7 +102,7 @@ semgrep               0.53.0            opensource multi language SAST scanner
 ## Scan a remote repository
 
 ```bash
-eze test-remote --url <remote_uri> --branch <branch_name>
+docker run riversafe/eze-cli test-remote --url <remote_uri> --branch <branch_name>
 ```
 
 # Configuring Eze
@@ -137,13 +120,13 @@ To show information about a specific tool:
 - Instructions how-to install it and configure
 
 ```bash
-eze tools help <TOOL>
+docker run riversafe/eze-cli tools help <TOOL>
 ```
 <details>
 <summary>Result</summary>
 
 ```bash
-$ eze tools help semgrep
+$ docker run riversafe/eze-cli tools help semgrep
 
 Tool 'semgrep' Help
 opensource multi language SAST scanner
@@ -162,11 +145,11 @@ Configuration Format for SemGrep
 
 # Developers Documentation
 
-To add your own tools check README-DEVELOPMENT.md
+To add your own tools checkout [README-DEVELOPMENT.md], this will walk you through installing eze locally for local development.
 
 # Contribute
 
-To start contributing read CONTRIBUTING.md
+To start contributing read [CONTRIBUTING.md]
 
 [release]: https://github.com/RiverSafeUK/eze-cli/releases
 [release-img]: https://img.shields.io/github/release/RiverSafeUK/eze-cli.svg?logo=github
