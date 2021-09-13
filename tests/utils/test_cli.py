@@ -5,10 +5,10 @@ from unittest import mock
 import pytest
 from pydash import trim
 
+from __test_helpers__.mock_helper import mock_run_cmd
 from eze.utils.cli import (
     _check_output_corrupt,
     _extract_version,
-    _extract_maven_version,
     build_cli_command,
     _extract_executable,
     extract_leading_number,
@@ -16,6 +16,7 @@ from eze.utils.cli import (
     ExecutableNotFoundException,
     cmd_exists,
     run_cli_command,
+    extract_version_from_maven,
 )
 
 
@@ -31,7 +32,6 @@ def test_check_output_corrupt__windows_bash_file_missing():
 operable program or batch file."""
     output = _check_output_corrupt(input)
     assert output == True
-
 
 def test_check_output_corrupt__normal_output():
     input = """safety, version 1.10.3"""
@@ -140,52 +140,6 @@ def test_extract_executable__trufflehog_std():
     output = _extract_executable(input)
     assert output == expected_output
 
-
-def test_extract_version_from_maven__java_spotbugs():
-    expected_output = "4.3.0"
-    input = """[INFO] Scanning for projects...
-[INFO] 
-[INFO] ------------------< org.apache.maven:standalone-pom >-------------------
-[INFO] Building Maven Stub Project (No POM) 1
-[INFO] --------------------------------[ pom ]---------------------------------
-[INFO] 
-[INFO] --- maven-help-plugin:3.2.0:describe (default-cli) @ standalone-pom ---
-[INFO] com.github.spotbugs:spotbugs-maven-plugin:4.3.0
-
-Name: SpotBugs Maven Plugin
-Description: This Plug-In generates reports based on the SpotBugs Library
-Group Id: com.github.spotbugs
-Artifact Id: spotbugs-maven-plugin
-Version: 4.3.0
-Goal Prefix: spotbugs
-
-This plugin has 4 goals:
-
-spotbugs:check
-  Description: (no description available)
-
-spotbugs:gui
-  Description: (no description available)
-
-spotbugs:help
-  Description: Display help information on spotbugs-maven-plugin.
-    Call mvn spotbugs:help -Ddetail=true -Dgoal=<goal-name> to display
-    parameter details.
-
-spotbugs:spotbugs
-  Description: (no description available)
-  Note: This goal should be used as a Maven report.
-
-For more information, run 'mvn help:describe [...] -Ddetail'
-
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  2.355 s
-[INFO] Finished at: 2021-07-19T14:29:37+01:00
-[INFO] ------------------------------------------------------------------------"""
-    output = _extract_maven_version(input)
-    assert output == expected_output
 
 
 def test_extract_leading_number__std():
@@ -375,3 +329,62 @@ def test_run_cli_command__sanity():
     completed_process = run_cli_command(input)
     output = trim(completed_process.stdout)
     assert output == expected_output
+
+
+@mock.patch("eze.utils.cli.run_cmd")
+def test_extract_version_from_maven_from_maven__java_spotbugs(mocked_run_cmd):
+    expected_output = "4.3.0"
+    input = """[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.apache.maven:standalone-pom >-------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-help-plugin:3.2.0:describe (default-cli) @ standalone-pom ---
+[INFO] com.github.spotbugs:spotbugs-maven-plugin:4.3.0
+
+Name: SpotBugs Maven Plugin
+Description: This Plug-In generates reports based on the SpotBugs Library
+Group Id: com.github.spotbugs
+Artifact Id: spotbugs-maven-plugin
+Version: 4.3.0
+Goal Prefix: spotbugs
+
+This plugin has 4 goals:
+
+spotbugs:check
+  Description: (no description available)
+
+spotbugs:gui
+  Description: (no description available)
+
+spotbugs:help
+  Description: Display help information on spotbugs-maven-plugin.
+    Call mvn spotbugs:help -Ddetail=true -Dgoal=<goal-name> to display
+    parameter details.
+
+spotbugs:spotbugs
+  Description: (no description available)
+  Note: This goal should be used as a Maven report.
+
+For more information, run 'mvn help:describe [...] -Ddetail'
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.355 s
+[INFO] Finished at: 2021-07-19T14:29:37+01:00
+[INFO] ------------------------------------------------------------------------"""
+    mock_run_cmd(mocked_run_cmd, input)
+    output = extract_version_from_maven('some-package')
+    assert output == expected_output
+
+
+@mock.patch("eze.utils.cli.run_cmd")
+def test_extract_version_from_maven_from_maven__windows_bash_file_missing(mocked_run_cmd):
+    input = """
+'safetsy' is not recognized as an internal or external command,
+operable program or batch file."""
+    mock_run_cmd(mocked_run_cmd, input)
+    output = extract_version_from_maven('some-package')
+    assert output == ""

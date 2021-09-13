@@ -95,6 +95,15 @@ class DummyReporter(ReporterMeta):
             print(f"""{vulnerabilities_short_summary(scan_result)}""")
 
 
+class MockSuccessfullyCompletedProcess:
+    """Example of a completed process"""
+
+    def __init__(self, stdout: str, stderr: str = ""):
+        """constructor"""
+        self.stdout = stdout
+        self.stderr = stderr
+
+
 DEFAULT_MOCK_TOOLS = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
 
 DEFAULT_MOCK_REPORTERS = {"testee-reporter": DummyReporter}
@@ -107,7 +116,8 @@ DEFAULT_MOCK_CONFIG = {"success-tool": {"some": "config"}, "scan": {}}
 
 
 def get_dummy_plugin(
-    tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS, languages: dict = DEFAULT_MOCK_LANGUAGES
+        tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS,
+        languages: dict = DEFAULT_MOCK_LANGUAGES
 ):
     class DummyPlugin:
         """Dummy Plugin"""
@@ -131,7 +141,8 @@ def get_dummy_plugin(
 
 
 def setup_mock(
-    eze_config: dict = DEFAULT_MOCK_CONFIG, tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS
+        eze_config: dict = DEFAULT_MOCK_CONFIG, tools: dict = DEFAULT_MOCK_TOOLS,
+        reporters: dict = DEFAULT_MOCK_REPORTERS
 ):
     """Mock the services being used in app"""
     EzeCore.reset_instance()
@@ -168,3 +179,8 @@ def mock_print() -> StringIO:
 def unmock_print():
     """Unmock the print command"""
     sys.stdout = sys.__stdout__
+
+
+def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = ""):
+    """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
+    mocked_run_cmd.return_value = MockSuccessfullyCompletedProcess(stdout, stderr)

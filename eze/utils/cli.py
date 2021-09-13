@@ -23,7 +23,6 @@ aka
 ls . -man
 """
 
-from eze.utils.io import is_windows_os
 import re
 import shlex
 import shutil
@@ -31,6 +30,7 @@ import shutil
 # nosec: Subprocess is inherently required to run cli tools, hence is a necessary security risk
 import subprocess  # nosec
 
+from eze.utils.io import is_windows_os
 from eze.core.config import EzeConfig
 
 
@@ -275,7 +275,7 @@ def extract_version_from_maven(mvn_package: str) -> str:
     if _check_output_corrupt(output):
         return ""
     version = _extract_maven_version(output)
-    if version == output or error_output:
+    if not version or error_output:
         version = ""
     return version
 
@@ -328,5 +328,5 @@ def _extract_maven_version(value: str) -> str:
     leading_number_regex = re.compile("Version: ([0-9].[0-9](.[0-9])?)")
     leading_number = re.search(leading_number_regex, value)
     if leading_number is None:
-        return value
+        return ""
     return leading_number.group(1)
