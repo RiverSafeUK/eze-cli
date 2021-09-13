@@ -5,7 +5,7 @@ from unittest import mock
 import pytest
 from pydash import trim
 
-from __test_helpers__.mock_helper import mock_run_cmd
+from tests.__test_helpers__.mock_helper import mock_run_cmd
 from eze.utils.cli import (
     _check_output_corrupt,
     _extract_version,
