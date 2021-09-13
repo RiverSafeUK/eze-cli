@@ -99,12 +99,6 @@ semgrep               0.53.0            opensource multi language SAST scanner
 </details>
 
 
-## Scan a remote repository
-
-```bash
-docker run riversafe/eze-cli test-remote --url <remote_uri> --branch <branch_name>
-```
-
 # Configuring Eze
 
 ## Custom configuration
