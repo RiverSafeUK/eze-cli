@@ -150,7 +150,7 @@ https://github.com/returntocorp/semgrep/issues/1330"""
         return report
 
     def print_out_semgrep_timing_report(self, time_info: dict) -> dict:
-        """prints out debug information for semgrep to identifer poorly performing rules"""
+        """prints out debug information for semgrep to identifier poorly performing rules"""
         rules = {}
         rules_index = []
         files = {}
@@ -217,8 +217,8 @@ Top 10 slowest files
 
         return VulnerabilitySeverityEnum.low.name
 
-    def extract_semgrep_identifers(self, report_event: dict) -> dict:
-        """extract semgrep identifers"""
+    def extract_semgrep_identifiers(self, report_event: dict) -> dict:
+        """extract semgrep identifiers"""
         metadata = py_.get(report_event, "extra.metadata", {})
         identifiers = {}
         for key in metadata:
@@ -274,7 +274,7 @@ Top 10 slowest files
             if cwe_severity in (VulnerabilitySeverityEnum.medium.name, VulnerabilitySeverityEnum.low.name):
                 recommendation += ", use '# nosemgrep' if false positive"
 
-            identifiers = self.extract_semgrep_identifers(report_event)
+            identifiers = self.extract_semgrep_identifiers(report_event)
 
             metadata = py_.get(report_event, "extra.metadata", {})
             references = metadata.pop("references", [])

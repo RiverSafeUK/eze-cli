@@ -70,7 +70,7 @@ class TestToolManager:
         expected_tool_config = {
             "some-thing-for-tool": 123,
             "DEFAULT_SEVERITY": "na",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORED_FILES": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
@@ -98,7 +98,7 @@ class TestToolManager:
             "some-thing-for-tool": 123,
             "some-thing-for-dev-mode": 456,
             "DEFAULT_SEVERITY": "na",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORED_FILES": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
@@ -140,7 +140,7 @@ class TestToolManager:
         expected_tool_config = {
             "some-thing-for-tool": 123,
             "DEFAULT_SEVERITY": "na",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORED_FILES": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
@@ -237,7 +237,7 @@ class TestToolManager:
             corrupted_high_vulnerability,
             corrupted_missing_severity_vulnerability,
         ]
-        input_config = {"DEFAULT_SEVERITY": "medium", "IGNORED_VUNERABLITIES": [], "IGNORE_BELOW_SEVERITY_INT": 9999}
+        input_config = {"DEFAULT_SEVERITY": "medium", "IGNORED_VULNERABILITIES": [], "IGNORE_BELOW_SEVERITY_INT": 9999}
         # When
         tool_manager_instance = ToolManager()
         # Then
@@ -293,7 +293,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
         }
 
@@ -316,7 +316,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.high.value,
         }
 
@@ -339,7 +339,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": ["foo"],
+            "IGNORED_VULNERABILITIES": ["foo"],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
         }
 
@@ -362,7 +362,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": ["cve-xxxx"],
+            "IGNORED_VULNERABILITIES": ["cve-xxxx"],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
         }
 

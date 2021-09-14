@@ -29,7 +29,7 @@ piprot -h"""
 
 Piprot is a tool to ensure your dependencies aren't old and out of date
 this is important as old dependencies won't necessarily be actively supported
-and can contain hidden vulnerablities 
+and can contain hidden vulnerabilities 
 
 There are two types of operation for this plugin
 - severity by age

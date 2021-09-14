@@ -19,7 +19,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -39,7 +39,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -96,10 +96,10 @@ class TestNpmAuditTool(ToolMetaTestBase):
         # Given
         expected_output = """fix available via `npm audit fix --force`
 Will install mocha@8.4.0, which is a breaking change"""
-        input_vulnerablity = {"fixAvailable": {"name": "mocha", "version": "8.4.0", "isSemVerMajor": True}}
+        input_vulnerability = {"fixAvailable": {"name": "mocha", "version": "8.4.0", "isSemVerMajor": True}}
         testee = NpmAuditTool()
         # When
-        output = testee.create_recommendation_v7(input_vulnerablity)
+        output = testee.create_recommendation_v7(input_vulnerability)
         # Then
         assert output == expected_output
 
@@ -107,37 +107,37 @@ Will install mocha@8.4.0, which is a breaking change"""
         # Given
         expected_output = """fix available via `npm audit fix --force`
 Will install mocha@8.4.0"""
-        input_vulnerablity = {"fixAvailable": {"name": "mocha", "version": "8.4.0", "isSemVerMajor": False}}
+        input_vulnerability = {"fixAvailable": {"name": "mocha", "version": "8.4.0", "isSemVerMajor": False}}
         testee = NpmAuditTool()
         # When
-        output = testee.create_recommendation_v7(input_vulnerablity)
+        output = testee.create_recommendation_v7(input_vulnerability)
         # Then
         assert output == expected_output
 
     def test_create_recommendation_v7__no_details(self):
         # Given
         expected_output = """fix available via `npm audit fix --force`"""
-        input_vulnerablity = {"fixAvailable": True}
+        input_vulnerability = {"fixAvailable": True}
         testee = NpmAuditTool()
         # When
-        output = testee.create_recommendation_v7(input_vulnerablity)
+        output = testee.create_recommendation_v7(input_vulnerability)
         # Then
         assert output == expected_output
 
     def test_create_recommendation_v7__no_fix_available(self):
         # Given
         expected_output = """no fix available"""
-        input_vulnerablity = {"fixAvailable": False}
+        input_vulnerability = {"fixAvailable": False}
         testee = NpmAuditTool()
         # When
-        output = testee.create_recommendation_v7(input_vulnerablity)
+        output = testee.create_recommendation_v7(input_vulnerability)
         # Then
         assert output == expected_output
 
     def test_create_path_v7__nested_vul(self):
         # Given
         expected_output = """helmet>connect(2.11.1 - 3.6.4): has insecure dependency finalhandler>debug"""
-        input_vulnerablity = {
+        input_vulnerability = {
             "name": "connect",
             "severity": "low",
             "via": ["debug", "finalhandler"],
@@ -148,7 +148,7 @@ Will install mocha@8.4.0"""
         }
         testee = NpmAuditTool()
         # When
-        output = testee.create_path_v7(input_vulnerablity)
+        output = testee.create_path_v7(input_vulnerability)
         # Then
         assert output == expected_output
 
@@ -157,7 +157,7 @@ Will install mocha@8.4.0"""
         expected_output = (
             """connect>finalhandler>mocha>debug(<= 2.6.8 || >= 3.0.0 <= 3.0.1): Regular Expression Denial of Service"""
         )
-        input_vulnerablity = {
+        input_vulnerability = {
             "name": "debug",
             "severity": "low",
             "via": [
@@ -178,6 +178,6 @@ Will install mocha@8.4.0"""
         }
         testee = NpmAuditTool()
         # When
-        output = testee.create_path_v7(input_vulnerablity)
+        output = testee.create_path_v7(input_vulnerability)
         # Then
         assert output == expected_output

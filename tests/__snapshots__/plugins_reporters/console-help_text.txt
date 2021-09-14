@@ -13,7 +13,7 @@ PRINT_SUMMARY_ONLY = true / false
 
 
 # PRINT_IGNORED bool [OPTIONAL]
-# Whether or not to print out ignored vulnerablities
+# Whether or not to print out ignored vulnerabilities
 # defaults to false
 # 
 PRINT_IGNORED = true / false

@@ -124,7 +124,7 @@ aka pip""",
             raw_identifiers = vulnerability_event.get("identifiers", {})
             for identifier_key in raw_identifiers:
                 identifier_values = raw_identifiers[identifier_key]
-                # pick first identifer if multiple available
+                # pick first identifier if multiple available
                 if len(identifier_values) > 0:
                     # normalise ALTERNATIVE id to SNYK
                     if identifier_key == "ALTERNATIVE":

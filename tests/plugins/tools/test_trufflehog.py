@@ -25,7 +25,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -52,7 +52,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -86,7 +86,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -120,7 +120,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -182,7 +182,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__windows_ab_699_multi_value_flag_with_windows_path_escaping(self, mock_subprocess_run):
+    async def test_run_scan_command__windows_ab_699_multi_value_flag_with_windows_path_escaping(
+        self, mock_subprocess_run
+    ):
         # Given
         input_config = {
             "SOURCE": "eze",
@@ -212,7 +214,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
                 "PATH-TO-EXCLUDED-FOLDER/.*",
                 "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*",
                 "PATH-TO-EXCLUDED-FILE.js",
-                "FILE WITH SPACES.js"
+                "FILE WITH SPACES.js",
             ],
         }
 

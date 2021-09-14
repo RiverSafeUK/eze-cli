@@ -21,7 +21,7 @@ class TestGrypeTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }
@@ -45,7 +45,7 @@ class TestGrypeTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }

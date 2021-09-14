@@ -56,12 +56,12 @@ class Vulnerability:
         if self.is_ignored:
             self.is_ignored = True
             return True
-        if self.name in tool_config["IGNORED_VUNERABLITIES"]:
+        if self.name in tool_config["IGNORED_VULNERABILITIES"]:
             self.is_ignored = True
             return True
-        for identifer_key in self.identifiers:
-            identifer_value = self.identifiers[identifer_key]
-            if identifer_value in tool_config["IGNORED_VUNERABLITIES"]:
+        for identifier_key in self.identifiers:
+            identifier_value = self.identifiers[identifier_key]
+            if identifier_value in tool_config["IGNORED_VULNERABILITIES"]:
                 self.is_ignored = True
                 return True
         file_location = py_.get(self, "file_location.path", False)
@@ -130,15 +130,15 @@ class ToolMeta(ABC):
 aka if set to medium, would ignore medium/low/none/na
 available levels: critical, high, medium, low, none, na""",
         },
-        "IGNORED_VUNERABLITIES": {
+        "IGNORED_VULNERABILITIES": {
             "type": list,
             "help_text": """vulnerabilities to ignore, by CVE code or by name
-feature only for use when vunerablity mitigated or on track to be fixed""",
+feature only for use when vulnerability mitigated or on track to be fixed""",
         },
         "IGNORED_FILES": {
             "type": list,
             "help_text": """vulnerabilities in files or prefix folders to ignore
-feature only for use when vunerablity mitigated or on track to be fixed""",
+feature only for use when vulnerability mitigated or on track to be fixed""",
         },
         "DEFAULT_SEVERITY": {
             "type": str,
@@ -497,7 +497,7 @@ Tool '{tool}' Help
                 f"{tool_name} configured with invalid DEFAULT_SEVERITY='{tool_config['DEFAULT_SEVERITY']}', defaulting to na"
             )
             tool_config["DEFAULT_SEVERITY"] = VulnerabilitySeverityEnum.na.name
-        tool_config["IGNORED_VUNERABLITIES"] = get_config_key(tool_config, "IGNORED_VUNERABLITIES", list, [])
+        tool_config["IGNORED_VULNERABILITIES"] = get_config_key(tool_config, "IGNORED_VULNERABILITIES", list, [])
 
         raw_ignored_files = get_config_key(tool_config, "IGNORED_FILES", list, [])
         tool_config["IGNORED_FILES"] = normalise_file_paths(raw_ignored_files)

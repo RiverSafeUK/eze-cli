@@ -33,7 +33,7 @@ defaults to false""",
         "PRINT_IGNORED": {
             "type": bool,
             "default": False,
-            "help_text": """Whether or not to print out ignored vulnerablities
+            "help_text": """Whether or not to print out ignored vulnerabilities
 defaults to false""",
         },
     }
@@ -124,9 +124,9 @@ Vulnerabilities
                     first_line += f" ({vulnerability.version})"
                 click.echo(first_line)
                 click.echo(f"""{indent}overview: {vulnerability.overview}""")
-                for identifer_key in vulnerability.identifiers:
-                    identifer_value = vulnerability.identifiers[identifer_key]
-                    click.echo(f"""{indent}{identifer_key}: {identifer_value}""")
+                for identifier_key in vulnerability.identifiers:
+                    identifier_value = vulnerability.identifiers[identifier_key]
+                    click.echo(f"""{indent}{identifier_key}: {identifier_value}""")
 
                 if vulnerability.recommendation:
                     click.echo(f"""{indent}recommendation: {vulnerability.recommendation}""")

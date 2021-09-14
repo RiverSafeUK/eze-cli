@@ -33,7 +33,7 @@ $ pip freeze > requirements.txt
 
 Tips and Tricks
 ===============================
-to get the latest vulnerablities in your code (free db only updated monthly),
+to get the latest vulnerabilities in your code (free db only updated monthly),
 safety offers a paid real-time vulnerabilty db service look on the safety website for details
 """
     # https://github.com/pyupio/safety/blob/master/LICENSE
