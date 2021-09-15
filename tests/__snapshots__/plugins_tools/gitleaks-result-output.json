@@ -11,6 +11,7 @@
         "path": "goat-owasp-node\\artifacts\\cert\\server.key"
       },
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": null,

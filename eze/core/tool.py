@@ -36,6 +36,7 @@ class Vulnerability:
         self.confidence: str = get_config_key(vo, "confidence", str, "").lower()
         self.overview: str = get_config_key(vo, "overview", str, "")
         self.is_ignored: bool = get_config_key(vo, "is_ignored", bool, False)
+        self.is_excluded: bool = get_config_key(vo, "is_excluded", bool, False)
         # [optional] containers cve/cwe info
         self.identifiers: dict = get_config_key(vo, "identifiers", dict, {})
         # [optional] mitigation recommendations
@@ -76,6 +77,24 @@ class Vulnerability:
             self.is_ignored = True
             return True
         self.is_ignored = False
+        return False
+
+    def update_excluded(self, tool_config: dict) -> bool:
+        """detect if vulnerability is to be excluded"""
+        if self.is_excluded:
+            self.is_excluded = True
+            return True
+
+        file_location = py_.get(self, "file_location.path", False)
+        if file_location:
+            file_location = normalise_linux_file_path(file_location)
+            for excluded_path in tool_config["EXCLUDE"]:
+                print("exclPath", excluded_path, "\n", file_location)
+                if file_location.startswith(excluded_path):
+                    self.is_excluded = True
+                    return True
+
+        self.is_excluded = False
         return False
 
 
@@ -144,6 +163,11 @@ feature only for use when vulnerability mitigated or on track to be fixed""",
             "type": str,
             "help_text": """Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
 available levels: critical, high, medium, low, none, na""",
+        },
+        "EXCLUDE": {
+            "type": list,
+            "default": [],
+            "help_text": """files or prefix folders to exclude in the scanning process""",
         },
     }
 
@@ -416,6 +440,8 @@ Tool '{tool}' Help
         for vulnerability in vulnerabilities:
             vulnerability.severity = self._get_severity(vulnerability, tool_config)
             vulnerability.update_ignored(tool_config)
+            vulnerability.update_excluded(tool_config)
+        vulnerabilities = [x for x in vulnerabilities if not x.is_excluded]
         # sort by severity and ignored status
         vulnerabilities = self._sort_vulnerabilities(vulnerabilities)
         return vulnerabilities
@@ -502,6 +528,10 @@ Tool '{tool}' Help
         raw_ignored_files = get_config_key(tool_config, "IGNORED_FILES", list, [])
         tool_config["IGNORED_FILES"] = normalise_file_paths(raw_ignored_files)
 
+        raw_excluded_files = get_config_key(tool_config, "EXCLUDE", list, [])
+        raw_excluded_files.extend(self.find_report_files(scan_type, run_type, parent_language_name))
+        tool_config["EXCLUDE"] = normalise_file_paths(raw_excluded_files)
+
         ignore_below_severity_name = get_config_key(
             tool_config, "IGNORE_BELOW_SEVERITY", str, VulnerabilitySeverityEnum.na.name
         )
@@ -510,3 +540,12 @@ Tool '{tool}' Help
             ignore_below_severity_name = VulnerabilitySeverityEnum.na.name
         tool_config["IGNORE_BELOW_SEVERITY_INT"] = VulnerabilitySeverityEnum[ignore_below_severity_name].value
         return tool_config
+
+    def find_report_files(self, scan_type: str, run_type: str, parent_language_name: str):
+        """Get Tool Config, handle default config parameters"""
+        eze_config = EzeConfig.get_instance()
+        report_files = []
+        for tool_name in self.tools:
+            tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type, parent_language_name)
+            report_files.append(tool_config.get("REPORT_FILE", None))
+        return [rf for rf in report_files if rf]

@@ -82,6 +82,12 @@ IGNORED_FILES = ["..."]
 DEFAULT_SEVERITY = "..."
 
 
+# EXCLUDE list [OPTIONAL]
+# files or prefix folders to exclude in the scanning process
+# 
+EXCLUDE = ["..."]
+
+
 
 
 install_help:

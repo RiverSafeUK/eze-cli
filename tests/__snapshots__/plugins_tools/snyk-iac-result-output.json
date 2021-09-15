@@ -13,6 +13,7 @@
       "identifiers": {
         "SNYK": "SNYK-CC-K8S-10"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "",
       "metadata": null,
@@ -33,6 +34,7 @@
       "identifiers": {
         "SNYK": "SNYK-CC-K8S-32"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "",
       "metadata": null,

@@ -12,6 +12,7 @@
         "cwe": "CWE-300",
         "snyk": "SNYK-PYTHON-PIP-40230"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": {},
@@ -31,6 +32,7 @@
         "cwe": "CWE-400",
         "snyk": "SNYK-PYTHON-PIP-40297"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": {},
@@ -50,6 +52,7 @@
         "cwe": "CWE-22",
         "snyk": "SNYK-PYTHON-PIP-609855"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": {},

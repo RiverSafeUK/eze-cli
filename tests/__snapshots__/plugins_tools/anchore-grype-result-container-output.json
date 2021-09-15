@@ -10,6 +10,7 @@
       "identifiers": {
         "cve": "CVE-2005-2541-DUPLICATE-CHECK"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -29,6 +30,7 @@
       "identifiers": {
         "cve": "CVE-2007-5686"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -48,6 +50,7 @@
       "identifiers": {
         "cve": "CVE-2007-6755"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -67,6 +70,7 @@
       "identifiers": {
         "cve": "CVE-2010-0928"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -86,6 +90,7 @@
       "identifiers": {
         "cve": "CVE-2010-4051"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -105,6 +110,7 @@
       "identifiers": {
         "cve": "CVE-2010-4051"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -124,6 +130,7 @@
       "identifiers": {
         "cve": "CVE-2011-3374"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -143,6 +150,7 @@
       "identifiers": {
         "cve": "CVE-2011-3374"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -162,6 +170,7 @@
       "identifiers": {
         "cve": "CVE-2011-3389"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -181,6 +190,7 @@
       "identifiers": {
         "cve": "CVE-2011-4116"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -200,6 +210,7 @@
       "identifiers": {
         "cve": "CVE-2013-0340"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -219,6 +230,7 @@
       "identifiers": {
         "cve": "CVE-2013-4235"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -238,6 +250,7 @@
       "identifiers": {
         "cve": "CVE-2013-4392"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -257,6 +270,7 @@
       "identifiers": {
         "cve": "CVE-2013-4392"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -276,6 +290,7 @@
       "identifiers": {
         "cve": "CVE-2016-10228"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,

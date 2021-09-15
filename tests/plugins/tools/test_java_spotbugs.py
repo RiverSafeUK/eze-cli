@@ -18,6 +18,7 @@ class TestJavaSpotbugsTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
+            "EXCLUDE": [],
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "INCLUDE_FULL_REASON": True,
@@ -37,6 +38,7 @@ class TestJavaSpotbugsTool(ToolMetaTestBase):
             #
             "ADDITIONAL_ARGUMENTS": "--foo",
             "IGNORED_FILES": None,
+            "EXCLUDE": [],
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "INCLUDE_FULL_REASON": True,

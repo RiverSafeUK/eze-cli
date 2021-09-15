@@ -11,6 +11,7 @@
         "cve": "CVE-2020-8169",
         "cwe": "CWE-200"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,
@@ -37,6 +38,7 @@
         "cve": "CVE-2019-19242",
         "cwe": "CWE-476"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "container",
       "metadata": null,

@@ -11,6 +11,7 @@
         "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py"
       },
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": null,
@@ -29,6 +30,7 @@
         "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py"
       },
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": null,

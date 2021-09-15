@@ -13,6 +13,7 @@
       "identifiers": {
         "spotbugs-code": "IL_INFINITE_LOOP:An apparent infinite loop (CORRECTNESS)"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "java",
       "metadata": null,
