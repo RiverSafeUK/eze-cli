@@ -202,16 +202,15 @@ class TestToolManager:
     def test_private__normalise_vulnerabilities(self):
         # Given
         fixed_low_vulnerability = Vulnerability(
-            {"severity": "low", "is_ignored": False, "is_excluded": False, "name": "corrupted_low_vulnerability"}
+            {"severity": "low", "is_ignored": False, "name": "corrupted_low_vulnerability"}
         )
         fixed_high_vulnerability = Vulnerability(
-            {"severity": "high", "is_ignored": False, "is_excluded": False, "name": "corrupted_high_vulnerability"}
+            {"severity": "high", "is_ignored": False, "name": "corrupted_high_vulnerability"}
         )
         fixed_missing_severity_vulnerability = Vulnerability(
             {
                 "severity": "medium",
                 "is_ignored": False,
-                "is_excluded": False,
                 "name": "corrupted_missing_severity_vulnerability",
             }
         )
@@ -219,7 +218,6 @@ class TestToolManager:
             {
                 "severity": "high",
                 "is_ignored": True,
-                "is_excluded": False,
                 "name": "corrupted_ignored_high_vulnerability",
             }
         )
@@ -228,22 +226,20 @@ class TestToolManager:
             {
                 "severity": "low",
                 "is_ignored": "Not a Ignored Bool Value",
-                "is_excluded": False,
                 "name": "corrupted_low_vulnerability",
             }
         )
         corrupted_low_vulnerability.severity = "LoW"
         corrupted_missing_severity_vulnerability = Vulnerability(
-            {"is_ignored": False, "is_excluded": False, "name": "corrupted_missing_severity_vulnerability"}
+            {"is_ignored": False, "name": "corrupted_missing_severity_vulnerability"}
         )
         corrupted_high_vulnerability = Vulnerability(
-            {"severity": "high", "is_ignored": False, "is_excluded": False, "name": "corrupted_high_vulnerability"}
+            {"severity": "high", "is_ignored": False, "name": "corrupted_high_vulnerability"}
         )
         corrupted_ignored_high_vulnerability = Vulnerability(
             {
                 "severity": "high",
                 "is_ignored": True,
-                "is_excluded": False,
                 "name": "corrupted_ignored_high_vulnerability",
             }
         )
