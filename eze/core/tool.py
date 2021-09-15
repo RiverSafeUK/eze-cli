@@ -1,5 +1,6 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
+from eze.core.reporter import ReporterManager
 
 import os
 import time
@@ -89,7 +90,6 @@ class Vulnerability:
         if file_location:
             file_location = normalise_linux_file_path(file_location)
             for excluded_path in tool_config["EXCLUDE"]:
-                print("exclPath", excluded_path, "\n", file_location)
                 if file_location.startswith(excluded_path):
                     self.is_excluded = True
                     return True
@@ -529,7 +529,8 @@ Tool '{tool}' Help
         tool_config["IGNORED_FILES"] = normalise_file_paths(raw_ignored_files)
 
         raw_excluded_files = get_config_key(tool_config, "EXCLUDE", list, [])
-        raw_excluded_files.extend(self.find_report_files(scan_type, run_type, parent_language_name))
+        raw_excluded_files.extend(self.find_tool_output_files(scan_type, run_type, parent_language_name))
+        raw_excluded_files.extend(self.find_reporter_files(scan_type, run_type, parent_language_name))
         tool_config["EXCLUDE"] = normalise_file_paths(raw_excluded_files)
 
         ignore_below_severity_name = get_config_key(
@@ -541,11 +542,25 @@ Tool '{tool}' Help
         tool_config["IGNORE_BELOW_SEVERITY_INT"] = VulnerabilitySeverityEnum[ignore_below_severity_name].value
         return tool_config
 
-    def find_report_files(self, scan_type: str, run_type: str, parent_language_name: str):
+    def find_tool_output_files(self, scan_type: str, run_type: str, parent_language_name: str):
         """Get Tool Config, handle default config parameters"""
         eze_config = EzeConfig.get_instance()
         report_files = []
         for tool_name in self.tools:
             tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type, parent_language_name)
             report_files.append(tool_config.get("REPORT_FILE", None))
+        return [rf for rf in report_files if rf]
+
+    def find_reporter_files(self, scan_type: str, run_type: str, parent_language_name: str):
+        """Get Tool Config, handle default config parameters"""
+        reporters = []
+        try:
+            reporters = EzeConfig.get_instance().get_scan_config(scan_type).get("reporters", [])
+        except Exception as e:
+            pass
+        reporter_manager = ReporterManager.get_instance()
+        report_files = []
+        for reporter_name in reporters:
+            reporter_config = reporter_manager.get_reporter(reporter_name, scan_type, run_type).config
+            report_files.append(reporter_config.get("REPORT_FILE", None))
         return [rf for rf in report_files if rf]

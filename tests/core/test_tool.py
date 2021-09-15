@@ -65,7 +65,7 @@ class TestToolManager:
 
     def test_get_tool__simple(self):
         # Given
-        eze_config = {"success-tool": {"some-thing-for-tool": 123}}
+        eze_config = {"success-tool": {"some-thing-for-tool": 123}, "scan": {"tools": [], "reporters": []}}
         setup_mock(eze_config)
         expected_tool_config = {
             "some-thing-for-tool": 123,
@@ -93,6 +93,7 @@ class TestToolManager:
         eze_config = {
             "success-tool": {"some-thing-for-tool": 123},
             "success-tool_dev-mode": {"some-thing-for-dev-mode": 456},
+            "scan": {"tools": [], "reporters": []},
         }
         setup_mock(eze_config)
         expected_tool_config = {
@@ -137,7 +138,7 @@ class TestToolManager:
     async def test_run_tool__simple(self, mock_repo, snapshot):
         # Given
         mock_repo.return_value = MockSuccessGitRepo()
-        eze_config = {"success-tool": {"some-thing-for-tool": 123}}
+        eze_config = {"success-tool": {"some-thing-for-tool": 123}, "scan": {"tools": [], "reporters": []}}
         setup_mock(eze_config)
         expected_tool_config = {
             "some-thing-for-tool": 123,
