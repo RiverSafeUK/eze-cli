@@ -100,7 +100,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
                 "REPORT_FILE": "-o ",
             },
             "FLAGS_WITH_MULTI_FIELDS": {
-                "EXCLUDE": "--skip-paths",
+                "EXCLUDE": "--exclude",
             },
             "SHORT_FLAGS": {"NO_ENTROPY": "--no-entropy"},
         }
