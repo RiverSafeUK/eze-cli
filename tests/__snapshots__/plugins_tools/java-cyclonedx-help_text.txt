@@ -38,16 +38,16 @@ ADDITIONAL_ARGUMENTS = "..."
 IGNORE_BELOW_SEVERITY = "..."
 
 
-# IGNORED_VUNERABLITIES list [OPTIONAL]
+# IGNORED_VULNERABILITIES list [OPTIONAL]
 # vulnerabilities to ignore, by CVE code or by name
-# feature only for use when vunerablity mitigated or on track to be fixed
+# feature only for use when vulnerability mitigated or on track to be fixed
 # 
-IGNORED_VUNERABLITIES = ["..."]
+IGNORED_VULNERABILITIES = ["..."]
 
 
 # IGNORED_FILES list [OPTIONAL]
 # vulnerabilities in files or prefix folders to ignore
-# feature only for use when vunerablity mitigated or on track to be fixed
+# feature only for use when vulnerability mitigated or on track to be fixed
 # 
 IGNORED_FILES = ["..."]
 
@@ -57,6 +57,12 @@ IGNORED_FILES = ["..."]
 # available levels: critical, high, medium, low, none, na
 # 
 DEFAULT_SEVERITY = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# files or prefix folders to exclude in the scanning process
+# 
+EXCLUDE = ["..."]
 
 
 

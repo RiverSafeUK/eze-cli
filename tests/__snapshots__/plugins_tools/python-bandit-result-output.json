@@ -13,6 +13,7 @@
       "identifiers": {
         "bandit-code": "B105:hardcoded_password_string"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": null,
@@ -33,6 +34,7 @@
       "identifiers": {
         "bandit-code": "B310:blacklist"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": null,
@@ -53,6 +55,7 @@
       "identifiers": {
         "bandit-code": "B404:blacklist"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": null,
@@ -73,6 +76,7 @@
       "identifiers": {
         "bandit-code": "B602:subprocess_popen_with_shell_equals_true"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": null,
@@ -93,6 +97,7 @@
       "identifiers": {
         "bandit-code": "B310:blacklist"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": null,

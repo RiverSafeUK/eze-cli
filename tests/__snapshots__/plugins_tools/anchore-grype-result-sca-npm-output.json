@@ -10,6 +10,7 @@
       "identifiers": {
         "cve": "CVE-2013-4691"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -30,6 +31,7 @@
       "identifiers": {
         "cve": "CVE-2016-0948"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -51,6 +53,7 @@
       "identifiers": {
         "cve": "CVE-2016-0949"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -72,6 +75,7 @@
       "identifiers": {
         "cve": "CVE-2016-10540"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -92,6 +96,7 @@
       "identifiers": {
         "cve": "CVE-2017-16042"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -114,6 +119,7 @@
       "identifiers": {
         "cve": "CVE-2017-16137"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -138,6 +144,7 @@
       "identifiers": {
         "cve": "CVE-2019-16374"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -159,6 +166,7 @@
       "identifiers": {
         "cve": "CVE-2020-27225"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -179,6 +187,7 @@
       "identifiers": {
         "cve": "CVE-2020-7598"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -200,6 +209,7 @@
       "identifiers": {
         "cve": "CVE-2021-23331"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -221,6 +231,7 @@
       "identifiers": {
         "ghsa": "GHSA-c3m8-x3cg-qm2c"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -240,6 +251,7 @@
       "identifiers": {
         "ghsa": "GHSA-gxpj-cx7g-858c"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -259,6 +271,7 @@
       "identifiers": {
         "ghsa": "GHSA-h6ch-v84p-w6p9"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,
@@ -278,6 +291,7 @@
       "identifiers": {
         "ghsa": "GHSA-vh95-rmgr-6w4m"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "javascript",
       "metadata": null,

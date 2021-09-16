@@ -116,8 +116,7 @@ DEFAULT_MOCK_CONFIG = {"success-tool": {"some": "config"}, "scan": {}}
 
 
 def get_dummy_plugin(
-        tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS,
-        languages: dict = DEFAULT_MOCK_LANGUAGES
+    tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS, languages: dict = DEFAULT_MOCK_LANGUAGES
 ):
     class DummyPlugin:
         """Dummy Plugin"""
@@ -141,8 +140,7 @@ def get_dummy_plugin(
 
 
 def setup_mock(
-        eze_config: dict = DEFAULT_MOCK_CONFIG, tools: dict = DEFAULT_MOCK_TOOLS,
-        reporters: dict = DEFAULT_MOCK_REPORTERS
+    eze_config: dict = DEFAULT_MOCK_CONFIG, tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS
 ):
     """Mock the services being used in app"""
     EzeCore.reset_instance()

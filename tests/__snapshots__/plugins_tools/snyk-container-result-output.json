@@ -12,6 +12,7 @@
         "cwe": "CWE-347",
         "snyk": "SNYK-DEBIAN10-APT-407502"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "linux",
       "metadata": {},
@@ -31,6 +32,7 @@
         "cwe": "CWE-266",
         "snyk": "SNYK-DEBIAN10-SYSTEMD-345391"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "linux",
       "metadata": {},

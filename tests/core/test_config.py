@@ -145,15 +145,15 @@ You can also explicitly specify the scheme to use:
 aka if set to medium, would ignore medium/low/none/na
 available levels: critical, high, medium, low, none, na""",
         },
-        "IGNORED_VUNERABLITIES": {
+        "IGNORED_VULNERABILITIES": {
             "type": list,
             "help_text": """vulnerabilities to ignore, by CVE code or by name
-feature only for use when vunerablity mitigated or on track to be fixed""",
+feature only for use when vulnerability mitigated or on track to be fixed""",
         },
         "IGNORED_FILES": {
             "type": list,
             "help_text": """vulnerabilities in files or prefix folders to ignore
-feature only for use when vunerablity mitigated or on track to be fixed""",
+feature only for use when vulnerability mitigated or on track to be fixed""",
         },
         "DEFAULT_SEVERITY": {
             "type": str,

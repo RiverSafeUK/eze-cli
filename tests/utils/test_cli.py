@@ -28,10 +28,11 @@ def test_check_output_corrupt__linux_bash_file_missing():
 
 def test_check_output_corrupt__windows_bash_file_missing():
     input = """
-'safetsy' is not recognized as an internal or external command,
+'safety' is not recognized as an internal or external command,
 operable program or batch file."""
     output = _check_output_corrupt(input)
     assert output == True
+
 
 def test_check_output_corrupt__normal_output():
     input = """safety, version 1.10.3"""
@@ -141,7 +142,6 @@ def test_extract_executable__trufflehog_std():
     assert output == expected_output
 
 
-
 def test_extract_leading_number__std():
     expected_output = "1.45434"
     input = "1.45434s"
@@ -218,6 +218,7 @@ def test_run_cmd__success():
     assert expected_output_contains in completed_process.stdout.strip()
     assert completed_process.stderr.strip() == expected_error.strip()
 
+
 @mock.patch("eze.utils.cli.subprocess.run")
 @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
 def test_run_cmd__escape_arguments_with_spaces__ab_724_linux(mock_subprocess_run):
@@ -234,6 +235,7 @@ def test_run_cmd__escape_arguments_with_spaces__ab_724_linux(mock_subprocess_run
     # Then
     cmd_arg = str(mock_subprocess_run.call_args.args[0])
     assert cmd_arg == expected_command
+
 
 @mock.patch("eze.utils.cli.subprocess.run")
 @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
@@ -376,15 +378,15 @@ For more information, run 'mvn help:describe [...] -Ddetail'
 [INFO] Finished at: 2021-07-19T14:29:37+01:00
 [INFO] ------------------------------------------------------------------------"""
     mock_run_cmd(mocked_run_cmd, input)
-    output = extract_version_from_maven('some-package')
+    output = extract_version_from_maven("some-package")
     assert output == expected_output
 
 
 @mock.patch("eze.utils.cli.run_cmd")
 def test_extract_version_from_maven_from_maven__windows_bash_file_missing(mocked_run_cmd):
     input = """
-'safetsy' is not recognized as an internal or external command,
+'safety' is not recognized as an internal or external command,
 operable program or batch file."""
     mock_run_cmd(mocked_run_cmd, input)
-    output = extract_version_from_maven('some-package')
+    output = extract_version_from_maven("some-package")
     assert output == ""

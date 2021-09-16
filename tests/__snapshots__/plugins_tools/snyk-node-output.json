@@ -13,6 +13,7 @@
         "nsp": 1176,
         "snyk": "SNYK-JS-HELMETCSP-469436"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "js",
       "metadata": {},
@@ -34,6 +35,7 @@
         "nsp": 534,
         "snyk": "npm:debug:20170905"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "js",
       "metadata": {},
@@ -55,6 +57,7 @@
         "nsp": 534,
         "snyk": "npm:debug:20170905"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "js",
       "metadata": {},
@@ -73,6 +76,7 @@
         "cwe": "CWE-400",
         "snyk": "npm:ms:20170412"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "js",
       "metadata": {},
@@ -91,6 +95,7 @@
         "cwe": "CWE-400",
         "snyk": "npm:ms:20170412"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "js",
       "metadata": {},

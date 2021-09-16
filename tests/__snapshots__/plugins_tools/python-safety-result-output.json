@@ -8,6 +8,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": {
@@ -29,6 +30,7 @@
       "identifiers": {
         "cve": "CVE-2013-5123"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "python",
       "metadata": {

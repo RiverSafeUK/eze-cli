@@ -8,6 +8,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -25,6 +26,7 @@
       "identifiers": {
         "npm": 534
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -44,6 +46,7 @@
       "identifiers": {
         "npm": 1631
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -61,6 +64,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -76,6 +80,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -93,6 +98,7 @@
       "identifiers": {
         "npm": 146
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -110,6 +116,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -127,6 +134,7 @@
       "identifiers": {
         "npm": 1176
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -146,6 +154,7 @@
       "identifiers": {
         "npm": 118
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -165,6 +174,7 @@
       "identifiers": {
         "npm": 1179
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -182,6 +192,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,
@@ -197,6 +208,7 @@
       "confidence": "",
       "file_location": null,
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "node",
       "metadata": null,

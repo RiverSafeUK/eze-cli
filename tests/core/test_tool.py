@@ -65,13 +65,14 @@ class TestToolManager:
 
     def test_get_tool__simple(self):
         # Given
-        eze_config = {"success-tool": {"some-thing-for-tool": 123}}
+        eze_config = {"success-tool": {"some-thing-for-tool": 123}, "scan": {"tools": [], "reporters": []}}
         setup_mock(eze_config)
         expected_tool_config = {
             "some-thing-for-tool": 123,
             "DEFAULT_SEVERITY": "na",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORED_FILES": [],
+            "EXCLUDE": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
         expected_tools = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
@@ -92,14 +93,16 @@ class TestToolManager:
         eze_config = {
             "success-tool": {"some-thing-for-tool": 123},
             "success-tool_dev-mode": {"some-thing-for-dev-mode": 456},
+            "scan": {"tools": [], "reporters": []},
         }
         setup_mock(eze_config)
         expected_tool_config = {
             "some-thing-for-tool": 123,
             "some-thing-for-dev-mode": 456,
             "DEFAULT_SEVERITY": "na",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORED_FILES": [],
+            "EXCLUDE": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
         input_plugin = {
@@ -135,13 +138,14 @@ class TestToolManager:
     async def test_run_tool__simple(self, mock_repo, snapshot):
         # Given
         mock_repo.return_value = MockSuccessGitRepo()
-        eze_config = {"success-tool": {"some-thing-for-tool": 123}}
+        eze_config = {"success-tool": {"some-thing-for-tool": 123}, "scan": {"tools": [], "reporters": []}}
         setup_mock(eze_config)
         expected_tool_config = {
             "some-thing-for-tool": 123,
             "DEFAULT_SEVERITY": "na",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORED_FILES": [],
+            "EXCLUDE": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
         expected_tools = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
@@ -205,14 +209,26 @@ class TestToolManager:
             {"severity": "high", "is_ignored": False, "name": "corrupted_high_vulnerability"}
         )
         fixed_missing_severity_vulnerability = Vulnerability(
-            {"severity": "medium", "is_ignored": False, "name": "corrupted_missing_severity_vulnerability"}
+            {
+                "severity": "medium",
+                "is_ignored": False,
+                "name": "corrupted_missing_severity_vulnerability",
+            }
         )
         fixed_ignored_high_vulnerability = Vulnerability(
-            {"severity": "high", "is_ignored": True, "name": "corrupted_ignored_high_vulnerability"}
+            {
+                "severity": "high",
+                "is_ignored": True,
+                "name": "corrupted_ignored_high_vulnerability",
+            }
         )
 
         corrupted_low_vulnerability = Vulnerability(
-            {"severity": "low", "is_ignored": "Not a Ignored Bool Value", "name": "corrupted_low_vulnerability"}
+            {
+                "severity": "low",
+                "is_ignored": "Not a Ignored Bool Value",
+                "name": "corrupted_low_vulnerability",
+            }
         )
         corrupted_low_vulnerability.severity = "LoW"
         corrupted_missing_severity_vulnerability = Vulnerability(
@@ -222,7 +238,11 @@ class TestToolManager:
             {"severity": "high", "is_ignored": False, "name": "corrupted_high_vulnerability"}
         )
         corrupted_ignored_high_vulnerability = Vulnerability(
-            {"severity": "high", "is_ignored": True, "name": "corrupted_ignored_high_vulnerability"}
+            {
+                "severity": "high",
+                "is_ignored": True,
+                "name": "corrupted_ignored_high_vulnerability",
+            }
         )
 
         expected_output = [
@@ -237,7 +257,75 @@ class TestToolManager:
             corrupted_high_vulnerability,
             corrupted_missing_severity_vulnerability,
         ]
-        input_config = {"DEFAULT_SEVERITY": "medium", "IGNORED_VUNERABLITIES": [], "IGNORE_BELOW_SEVERITY_INT": 9999}
+        input_config = {"DEFAULT_SEVERITY": "medium", "IGNORED_VULNERABILITIES": [], "IGNORE_BELOW_SEVERITY_INT": 9999}
+        # When
+        tool_manager_instance = ToolManager()
+        # Then
+        output = tool_manager_instance._normalise_vulnerabilities(input_vulnerabilities, input_config)
+
+        output_object = json.loads(json.dumps(output, default=vars))
+        expected_output_object = json.loads(json.dumps(expected_output, default=vars))
+        assert output_object == expected_output_object
+
+    def test_private__normalise_vulnerabilities_excluded_files(self):
+        # Given
+        not_excluded_no_file = Vulnerability(
+            {
+                "severity": "medium",
+                "is_excluded": False,
+                "name": "not_excluded_no_file",
+            }
+        )
+        excluded_no_file = Vulnerability(
+            {
+                "severity": "medium",
+                "is_excluded": True,
+                "name": "excluded_no_file",
+            }
+        )
+        not_excluded_and_file_loc_excluded = Vulnerability(
+            {
+                "severity": "medium",
+                "is_excluded": False,
+                "file_location": {"path": "excluded/report1.txt"},
+                "name": "not_excluded_and_file_loc_excluded",
+            }
+        )
+        not_excluded_and_file_loc_not_excluded = Vulnerability(
+            {
+                "severity": "low",
+                "is_excluded": False,
+                "file_location": {"path": "included/report2.txt"},
+                "name": "not_excluded_and_file_loc_not_excluded",
+            }
+        )
+        excluded_and_file_location_excluded = Vulnerability(
+            {
+                "severity": "low",
+                "is_excluded": True,
+                "file_location": {"path": "excluded/report3.txt"},
+                "name": "excluded_and_file_loc_excluded",
+            }
+        )
+
+        expected_output = [
+            not_excluded_no_file,
+            not_excluded_and_file_loc_not_excluded,
+        ]
+        input_vulnerabilities = [
+            not_excluded_no_file,
+            excluded_no_file,
+            not_excluded_and_file_loc_excluded,
+            not_excluded_and_file_loc_not_excluded,
+            excluded_and_file_location_excluded,
+        ]
+        input_config = {
+            "DEFAULT_SEVERITY": "medium",
+            "IGNORED_VULNERABILITIES": [],
+            "IGNORED_FILES": [],
+            "EXCLUDE": ["excluded/"],
+            "IGNORE_BELOW_SEVERITY_INT": 9999,
+        }
         # When
         tool_manager_instance = ToolManager()
         # Then
@@ -293,7 +381,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
         }
 
@@ -316,7 +404,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": [],
+            "IGNORED_VULNERABILITIES": [],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.high.value,
         }
 
@@ -339,7 +427,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": ["foo"],
+            "IGNORED_VULNERABILITIES": ["foo"],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
         }
 
@@ -362,7 +450,7 @@ class TestVulnerability:
 
         input_config = {
             "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VUNERABLITIES": ["cve-xxxx"],
+            "IGNORED_VULNERABILITIES": ["cve-xxxx"],
             "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
         }
 

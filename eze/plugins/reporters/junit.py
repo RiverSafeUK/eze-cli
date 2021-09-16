@@ -131,18 +131,18 @@ By default set to eze_junit_report.xml""",
             f"""{indent}<testcase name="{xescape(obj.name + '-failure-' + test_id)}" classname="{xescape(obj.name)}">"""
             + "\n"
         )
-        identifer_values = []
-        for identifer_key in obj.identifiers:
-            identifer_value = obj.identifiers[identifer_key]
-            identifer_values.append(f"""{identifer_value}""")
-        identifer_str = ":".join(identifer_values)
+        identifier_values = []
+        for identifier_key in obj.identifiers:
+            identifier_value = obj.identifiers[identifier_key]
+            identifier_values.append(f"""{identifier_value}""")
+        identifier_str = ":".join(identifier_values)
 
         if obj.is_ignored:
-            testcase_str += f"""{indent}    <skipped message="ignored:{xescape(identifer_str)}{xescape(obj.overview)}{xescape(obj.recommendation)}"></skipped>"""
+            testcase_str += f"""{indent}    <skipped message="ignored:{xescape(identifier_str)}{xescape(obj.overview)}{xescape(obj.recommendation)}"></skipped>"""
         else:
             testcase_str += (
                 f"""{indent}    <failure message="{xescape(obj.overview)}"
-{indent}      type="{xescape(identifer_str)}"
+{indent}      type="{xescape(identifier_str)}"
 {indent}    >{xescape(obj.recommendation)}</failure>"""
                 + "\n"
             )

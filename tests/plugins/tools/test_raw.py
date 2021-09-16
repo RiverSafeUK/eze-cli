@@ -39,7 +39,8 @@ normally REPORT_FILE: eze_report.json"""
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
-            "IGNORED_VUNERABLITIES": None,
+            "EXCLUDE": [],
+            "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
         }

@@ -14,6 +14,7 @@
         "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
         "owasp": "A1: Injection"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": {
@@ -48,6 +49,7 @@
         "cwe": "CWE-611: Improper Restriction of XML External Entity Reference",
         "owasp": "A4: XML External Entities (XXE)"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": {
@@ -72,6 +74,7 @@
         "path": "tests/utils/test_cve.py"
       },
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": {},
@@ -93,6 +96,7 @@
         "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
         "owasp": "A1: Injection"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": {
@@ -121,6 +125,7 @@
         "cwe": "CWE-939: Improper Authorization in Handler for Custom URL Scheme",
         "owasp": "A1: Injection"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": {
@@ -154,6 +159,7 @@
         "cwe": "CWE-939: Improper Authorization in Handler for Custom URL Scheme",
         "owasp": "A1: Injection"
       },
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": {

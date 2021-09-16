@@ -11,6 +11,7 @@
         "path": "src/super-insecure-lib.py"
       },
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": null,
@@ -29,6 +30,7 @@
         "path": "src/super-insecure-lib.py"
       },
       "identifiers": {},
+      "is_excluded": false,
       "is_ignored": false,
       "language": "file",
       "metadata": null,

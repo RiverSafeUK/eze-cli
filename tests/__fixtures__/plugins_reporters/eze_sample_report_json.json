@@ -36,6 +36,7 @@
         },
         "file_location": null,
         "is_ignored": false,
+        "is_excluded": false,
         "language": "python",
         "metadata": {
           "cves": [
@@ -63,10 +64,10 @@
       },
       {
         "confidence": "",
-        "identifiers": {
-        },
+        "identifiers": {},
         "file_location": null,
         "is_ignored": false,
+        "is_excluded": false,
         "language": "python",
         "metadata": {
           "safety": {
@@ -83,14 +84,13 @@
       },
       {
         "confidence": "",
-        "identifiers": {
-        },
+        "identifiers": {},
         "file_location": null,
         "is_ignored": true,
+        "is_excluded": false,
         "language": "python",
         "metadata": {
-          "cves": [
-          ],
+          "cves": [],
           "safety": {
             "id": "25961"
           }
@@ -105,13 +105,13 @@
       },
       {
         "confidence": "",
-        "identifiers": {
-        },
+        "identifiers": {},
         "file_location": {
           "line": "1",
           "path": "__fixture__\\secrets\\all_the_hard_coded_secrets.py"
         },
         "is_ignored": false,
+        "is_excluded": false,
         "language": "file",
         "metadata": null,
         "name": "Found Hardcoded 'Password in URL' Pattern",
