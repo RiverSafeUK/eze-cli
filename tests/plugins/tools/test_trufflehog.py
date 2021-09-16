@@ -196,7 +196,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             ],
         }
 
-        expected_cmd = "trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths PATH-TO-EXCLUDED-FOLDER\\\\.* PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.* PATH-TO-EXCLUDED-FILE.js"
+        expected_cmd = 'trufflehog3 -f json eze -o tmp-truffleHog-report.json --skip-paths "PATH-TO-EXCLUDED-FOLDER\\\\.*" "PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*" PATH-TO-EXCLUDED-FILE.js'
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

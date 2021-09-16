@@ -264,7 +264,7 @@ def test_run_cmd__escape_shell_attacks__ab_724_linux(mock_subprocess_run):
 @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
 def test_run_cmd__fixme__ab_724__windows(mock_subprocess_run):
     # Given
-    expected_command = "some-command --something PATH-TO-EXCLUDED-FOLDER/.* some thing with spaces"
+    expected_command = 'some-command --something "PATH-TO-EXCLUDED-FOLDER/.*" "some thing with spaces"'
     input_cmd = ["some-command", "--something", "PATH-TO-EXCLUDED-FOLDER/.*", "some thing with spaces"]
     mock_subprocess_run.reset_mock()
     mock_subprocess_run.side_effect = Exception("Expected Exception")
