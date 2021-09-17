@@ -19,7 +19,7 @@ from eze.utils.io import (
     normalise_linux_file_path,
     normalise_file_paths,
     is_windows_os,
-    normalise_windows_regex_file_path, delete_file,
+    normalise_windows_regex_file_path, delete_file, exit_app,
 )
 from tests.__fixtures__.fixture_helper import get_path_fixture
 
@@ -250,3 +250,13 @@ def test_delete_file():
     filename = 'remove_me'
     delete_file(filename)
     assert os.path.exists('remove_me') == 0
+
+
+'''test case for exit functiom'''
+
+
+def test_exit_app():
+    expected_error = "There was an error"
+    with pytest.raises(Exception, match=expected_error) as captured_exception:
+        exit_app(expected_error)
+    assert captured_exception.value.message == expected_error
