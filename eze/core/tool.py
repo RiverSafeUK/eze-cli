@@ -21,7 +21,7 @@ from eze.core.config import (
 )
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType
 from eze.utils.cli import ExecutableNotFoundException
-from eze.utils.io import normalise_file_paths, normalise_linux_file_path
+from eze.utils.io import normalise_file_paths, normalise_linux_file_path, create_folder
 from eze.utils.print import pretty_print_table
 
 
@@ -228,6 +228,12 @@ available levels: critical, high, medium, low, none, na""",
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
 
+    def prepare_folder(self) -> None:
+        """Create a reports folder for the plugin report if it does not exist"""
+        report_path = self.config.get("REPORT_FILE", None)
+        if report_path:
+            create_folder(report_path)
+
 
 class ToolManager:
     """Singleton Class for accessing all available Tools"""
@@ -277,6 +283,8 @@ class ToolManager:
             [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
 
             tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
+            # prepare a reports folder for the plugin report
+            tool_instance.prepare_folder()
             # get raw scan result
             scan_result: ScanResult = await tool_instance.run_scan()
             toc = time.perf_counter()

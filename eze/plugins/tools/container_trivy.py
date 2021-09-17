@@ -11,7 +11,7 @@ from eze.core.tool import (
     ScanResult,
 )
 from eze.utils.cli import extract_cmd_version, run_cli_command
-from eze.utils.io import load_json, create_tempfile_path, create_folder
+from eze.utils.io import load_json, create_tempfile_path
 
 
 class TrivyTool(ToolMeta):
@@ -102,9 +102,6 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-        # AB#608: create report folder
-        report_path = self.config["REPORT_FILE"]
-        create_folder(report_path)
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 

@@ -7,7 +7,7 @@ from pydash import py_
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
-from eze.utils.io import create_tempfile_path, create_folder, write_text
+from eze.utils.io import create_tempfile_path, write_text
 
 
 class GrypeTool(ToolMeta):
@@ -97,9 +97,6 @@ You can also explicitly specify the scheme to use:
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-        # AB#608: create report folder
-        report_path = self.config["REPORT_FILE"]
-        create_folder(report_path)
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout

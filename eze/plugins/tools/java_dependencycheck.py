@@ -7,7 +7,7 @@ from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_cli_command
 from eze.utils.cve import CVE
-from eze.utils.io import create_tempfile_path, create_folder, load_json, write_json
+from eze.utils.io import create_tempfile_path, load_json, write_json
 
 
 class JavaDependencyCheckTool(ToolMeta):
@@ -70,8 +70,6 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-        report_path = self.config["REPORT_FILE"]
-        create_folder(report_path)
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         owasp_report = load_json(self.config["MVN_REPORT_FILE"])
