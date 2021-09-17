@@ -32,6 +32,7 @@ import subprocess  # nosec
 
 from eze.utils.io import is_windows_os
 from eze.core.config import EzeConfig
+import eze.utils.windowslex as windowslex
 
 
 class ExecutableNotFoundException(Exception):
@@ -187,7 +188,7 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
     try:
         if is_windows_os():
             # FIXME: ab-742: windows commandline not working with shlex.join
-            final_cmd = " ".join(_windows_quote(arg) for arg in cmd)
+            final_cmd = windowslex.join(cmd)
         else:
             final_cmd = shlex.join(cmd)
         # FIXME: many programming tools failing without shell=true
@@ -330,16 +331,3 @@ def _extract_maven_version(value: str) -> str:
     if leading_number is None:
         return ""
     return leading_number.group(1)
-
-
-def _windows_quote(s):
-    """Return a shell-escaped version of the string *s*."""
-    find_unsafe = re.compile(r"[^\w@%+=:,./-]", re.ASCII).search
-    if not s:
-        return "''"
-    if find_unsafe(s) is None:
-        return s
-
-    # use single quotes, and put single quotes into double quotes
-    # the string $'b is then quoted as '$'"'"'b'
-    return '"' + s.replace('"', '"\'"\'"') + '"'
