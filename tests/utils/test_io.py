@@ -246,7 +246,10 @@ def test_xescape__zero():
 '''test case for delete functiom'''
 
 
-def test_delete_file():
-    filename = 'remove_me'
-    delete_file(filename)
-    assert os.path.exists('remove_me') == 0
+def test_delete_file(tmp_path):
+    file_name = tmp_path / "dir/test_file.txt"
+    file_name.parent.mkdir()
+    file_name.touch()
+
+    delete_file(file_name)
+    assert os.path.exists(file_name) == 0
