@@ -253,3 +253,27 @@ def test_delete_file(tmp_path):
 
     delete_file(file_name)
     assert os.path.exists(file_name) == 0
+
+
+'''Test if json return condition works'''
+
+
+def test_json_return(tmp_path):
+    json_file = tmp_path / "path/test_file.json"
+    json_file.parent.mkdir()
+    json_file.touch()
+
+    expected = []
+    sample = load_json(json_file)
+    assert expected == sample
+    os.remove(json_file)
+
+
+'''test case for exit_app function'''
+
+
+def test_exit_app():
+    expected_error = "There was an error"
+    with pytest.raises(Exception, match=expected_error) as captured_exception:
+        exit_app(expected_error)
+    assert captured_exception.value.message == expected_error
