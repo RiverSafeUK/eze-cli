@@ -32,6 +32,7 @@ import subprocess  # nosec
 
 from eze.utils.io import is_windows_os
 from eze.core.config import EzeConfig
+import eze.utils.windowslex as windowslex
 
 
 class ExecutableNotFoundException(Exception):
@@ -186,11 +187,10 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
     # also map ADDITIONAL_ARGUMENTS to a dict which is "shlex.quote"
     try:
         if is_windows_os():
-            # FIXME: ab-742: windows commandline not working with shlex.join
-            final_cmd = " ".join(cmd)
+            final_cmd = windowslex.join(cmd)
         else:
             final_cmd = shlex.join(cmd)
-        # FIXME: many programming tools failing without shell=true
+        # TODO: many programming tools failing without shell=true
         # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
         # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
         proc = subprocess.run(final_cmd, capture_output=True, universal_newlines=True, shell=True)  # nosec # nosemgrep
