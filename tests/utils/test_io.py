@@ -203,6 +203,16 @@ def test_load_json__ab_688_write_exception(mock_write_text):
     assert str(expected_error) == str(raised_error)
 
 
+def test_load_json__empty_case(tmp_path):
+    json_file = tmp_path / "path/test_file.json"
+    json_file.parent.mkdir()
+    json_file.touch()
+
+    expected = []
+    sample = load_json(json_file)
+    assert expected == sample
+    os.remove(json_file)
+
 def test_write_json():
     """Test normal case, can write json into python object"""
 
@@ -311,17 +321,6 @@ def test_delete_file(tmp_path):
 
     # Then
     assert os.path.exists(file_name) == 0
-
-
-def test_json_return(tmp_path):
-    json_file = tmp_path / "path/test_file.json"
-    json_file.parent.mkdir()
-    json_file.touch()
-
-    expected = []
-    sample = load_json(json_file)
-    assert expected == sample
-    os.remove(json_file)
 
 
 def test_exit_app():
