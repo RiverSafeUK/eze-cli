@@ -243,19 +243,18 @@ def test_xescape__zero():
     assert output == expected_output
 
 
-'''test case for delete functiom'''
-
-
 def test_delete_file(tmp_path):
+    # Given
     file_name = tmp_path / "dir/test_file.txt"
     file_name.parent.mkdir()
     file_name.touch()
+    assert os.path.exists(file_name) == 1
 
+    # When
     delete_file(file_name)
+
+    # Then
     assert os.path.exists(file_name) == 0
-
-
-'''Test if json return condition works'''
 
 
 def test_json_return(tmp_path):
@@ -267,9 +266,6 @@ def test_json_return(tmp_path):
     sample = load_json(json_file)
     assert expected == sample
     os.remove(json_file)
-
-
-'''test case for exit_app function'''
 
 
 def test_exit_app():
