@@ -191,6 +191,7 @@ def test_load_json__empty_case(tmp_path):
     assert expected == sample
     os.remove(json_file)
 
+
 def test_write_json():
     """Test normal case, can write json into python object"""
 
