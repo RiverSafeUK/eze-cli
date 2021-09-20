@@ -39,9 +39,7 @@ class TestWindowslex(TestCase):
 
     def test_join__with_spaces(self):
         # Given
-        expected_output = (
-            'some-command --something "PATH-TO-EXCLUDED-FOLDER/.*" "some thing with spaces"'
-        )
+        expected_output = 'some-command --something "PATH-TO-EXCLUDED-FOLDER/.*" "some thing with spaces"'
         input = ["some-command", "--something", "PATH-TO-EXCLUDED-FOLDER/.*", "some thing with spaces"]
         # When
         output = windowslex.join(input)

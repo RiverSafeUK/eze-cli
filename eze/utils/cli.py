@@ -330,16 +330,3 @@ def _extract_maven_version(value: str) -> str:
     if leading_number is None:
         return ""
     return leading_number.group(1)
-
-
-def _windows_quote(s):
-    """Return a shell-escaped version of the string *s*."""
-    find_unsafe = re.compile(r"[^\w@%+=:,./-]", re.ASCII).search
-    if not s:
-        return "''"
-    if find_unsafe(s) is None:
-        return s
-
-    # use single quotes, and put single quotes into double quotes
-    # the string $'b is then quoted as '$'"'"'b'
-    return '"' + s.replace('"', '"\'"\'"') + '"'
