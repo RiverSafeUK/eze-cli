@@ -22,6 +22,8 @@ from eze.utils.io import (
     normalise_file_paths,
     is_windows_os,
     normalise_windows_regex_file_path,
+    delete_file,
+    exit_app,
 )
 from tests.__fixtures__.fixture_helper import get_path_fixture
 
@@ -203,6 +205,17 @@ def test_load_json__ab_688_write_exception(mock_write_text):
     assert str(expected_error) == str(raised_error)
 
 
+def test_load_json__empty_case(tmp_path):
+    json_file = tmp_path / "path/test_file.json"
+    json_file.parent.mkdir()
+    json_file.touch()
+
+    expected = []
+    sample = load_json(json_file)
+    assert expected == sample
+    os.remove(json_file)
+
+
 def test_write_json():
     """Test normal case, can write json into python object"""
 
@@ -297,3 +310,24 @@ def test_xescape__zero():
     output = xescape(input)
 
     assert output == expected_output
+
+
+def test_delete_file(tmp_path):
+    # Given
+    file_name = tmp_path / "dir/test_file.txt"
+    file_name.parent.mkdir()
+    file_name.touch()
+    assert os.path.exists(file_name) == 1
+
+    # When
+    delete_file(file_name)
+
+    # Then
+    assert os.path.exists(file_name) == 0
+
+
+def test_exit_app():
+    expected_error = "There was an error"
+    with pytest.raises(Exception, match=expected_error) as captured_exception:
+        exit_app(expected_error)
+    assert captured_exception.value.message == expected_error
