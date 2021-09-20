@@ -21,7 +21,9 @@ from eze.utils.io import (
     normalise_linux_file_path,
     normalise_file_paths,
     is_windows_os,
-    normalise_windows_regex_file_path, delete_file, exit_app,
+    normalise_windows_regex_file_path,
+    delete_file,
+    exit_app,
 )
 from tests.__fixtures__.fixture_helper import get_path_fixture
 
@@ -212,6 +214,7 @@ def test_load_json__empty_case(tmp_path):
     sample = load_json(json_file)
     assert expected == sample
     os.remove(json_file)
+
 
 def test_write_json():
     """Test normal case, can write json into python object"""

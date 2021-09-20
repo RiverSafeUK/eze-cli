@@ -7,7 +7,7 @@ from click import ClickException
 from eze.utils.io import pretty_print_json
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
-from eze.core.tool import ToolManager, Vulnerability, ScanResult
+from eze.core.tool import ToolManager, ToolMeta, Vulnerability, ScanResult
 from tests.__fixtures__.fixture_helper import assert_deep_equal, get_snapshot_directory
 from tests.__test_helpers__.mock_helper import (
     setup_mock,
@@ -27,6 +27,31 @@ class DummyPlugin1:
 class DummyPlugin2:
     def get_tools(self) -> dict:
         return {"failure-tool": DummyFailureTool}
+
+
+class DummyPlugin3(ToolMeta):
+    EZE_CONFIG: dict = {
+        "REPORT_FILE": {
+            "type": str,
+            "default": "/dummy-path/tmp-path-report.json",
+        },
+    }
+
+    def get_tools(self) -> dict:
+        return {"success-tool": DummySuccessTool}
+
+    def check_installed(self) -> str:
+        return True
+
+    def run_scan(self):
+        report = ScanResult(
+            {
+                "tool": "DummyPlugin3",
+                "vulnerabilities": [],
+                "warnings": [],
+            }
+        )
+        return report
 
 
 class MockGitBranch:
@@ -165,6 +190,19 @@ class TestToolManager:
         # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(output_snapshot, f"core/tool__run_tool-result-output.json")
+
+    @pytest.mark.asyncio
+    @patch("eze.core.tool.create_folder")
+    async def test_prepare_folder(self, create_folder_mock):
+        # Given
+        input_config = {
+            "REPORT_FILE": "reports/test_report.json",
+        }
+        tool_manager_instance = DummyPlugin3(input_config)
+        # When
+        tool_manager_instance.prepare_folder()
+        # Then
+        create_folder_mock.assert_called_with("reports/test_report.json")
 
     def test_print_tool_help__simple(self, snapshot):
         # Given

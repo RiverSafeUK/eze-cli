@@ -7,7 +7,7 @@ import xmltodict
 from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_cli_command
-from eze.utils.io import create_tempfile_path, create_folder, write_json
+from eze.utils.io import create_tempfile_path, write_json
 
 
 class JavaSpotbugsTool(ToolMeta):
@@ -76,8 +76,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-        report_path = self.config["REPORT_FILE"]
-        create_folder(report_path)
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         with open(self.config["MVN_REPORT_FILE"]) as xml_file:

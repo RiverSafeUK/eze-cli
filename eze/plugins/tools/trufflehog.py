@@ -14,7 +14,6 @@ from eze.utils.io import (
     create_tempfile_path,
     is_windows_os,
     normalise_windows_regex_file_path,
-    create_folder,
 )
 from pydash import py_
 
@@ -113,9 +112,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-        # AB#608: create report folder
-        report_path = self.config["REPORT_FILE"]
-        create_folder(report_path)
 
         tic = time.perf_counter()
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)

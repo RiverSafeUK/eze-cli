@@ -58,7 +58,7 @@ class ReporterManager:
         await reporter_instance.run_report(scan_results)
         toc = time.perf_counter()
         duration_sec = toc - tic
-        print(f"Report '{reporter_name}' took {duration_sec:0.1f} seconds")
+        print(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
 
     def get_reporter(self, reporter_name: str, scan_type: str = None, run_type: str = None):
         """Gets a instance of a reporter, populated with it's configuration"""
