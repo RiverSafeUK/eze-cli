@@ -1,6 +1,6 @@
 # Eze Changelog
 
-## 0.9.0
+## 0.9.0 - 20th September 2021
 Improvements:
 - ab-778: improved test coverage
 - ab-742: adding new windowslex utils class (single quotes of linux shlex lib breaking windows)
@@ -19,18 +19,18 @@ Bugs
 - ab-711: fixing image parameter for trivy plugin
 - ab-710: fixing minor typos
 
-## 0.8.2
+## 0.8.2 - 4th August 2021
 Security Release
 
 - ab-699: exposing more trufflehog flags
 - ab-586: Adding shlex protection of cli lib
 - ab-605: bug fix for empty json reports from os tools
 
-## 0.8.1
+## 0.8.1 - 28th July 2021
 Bug Fix Release
 
 - ab-665: Updating docker instructions
 - ab-666: improving/fixing ci support
 
-## 0.8.0
+## 0.8.0 - 24th July 2021
 Initial Release
