@@ -255,17 +255,33 @@ def test_run_cmd__escape_shell_attacks__ab_724_linux(mock_subprocess_run):
     assert cmd_arg == expected_command
 
 
-# FIXME: AB-742: windows should escape
-# - Powershell expansion attacks
-#   PowerShell -Command "temperature | prismcom.exe usb"
-# - spaces
-# - in gitbash mode
 @mock.patch("eze.utils.cli.subprocess.run")
 @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
 def test_run_cmd__fixme__ab_724__windows(mock_subprocess_run):
     # Given
     expected_command = 'some-command --something "PATH-TO-EXCLUDED-FOLDER/.*" "some thing with spaces"'
     input_cmd = ["some-command", "--something", "PATH-TO-EXCLUDED-FOLDER/.*", "some thing with spaces"]
+    mock_subprocess_run.reset_mock()
+    mock_subprocess_run.side_effect = Exception("Expected Exception")
+    # When
+    try:
+        completed_process = run_cmd(input_cmd, False)
+    except Exception as err:
+        assert err.args[0] == "Expected Exception"
+    # Then
+    cmd_arg = str(mock_subprocess_run.call_args.args[0])
+    assert cmd_arg == expected_command
+
+
+# TODO: AB-793: windows should escape detect powershell attacks
+# - Powershell expansion attacks
+#   PowerShell -Command "temperature | prismcom.exe usb"
+@mock.patch("eze.utils.cli.subprocess.run")
+@mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+def test_run_cmd__fixme__ab_724__windows__Powershell_expansion_attacks(mock_subprocess_run):
+    # Given
+    expected_command = 'PowerShell -Command "temperature | prismcom.exe usb"'
+    input_cmd = ["PowerShell", "-Command", "temperature | prismcom.exe usb"]
     mock_subprocess_run.reset_mock()
     mock_subprocess_run.side_effect = Exception("Expected Exception")
     # When
