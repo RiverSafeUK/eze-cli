@@ -167,27 +167,6 @@ def test_build_command__safety_std():
     assert output == expected_output
 
 
-def test_build_command__snyk_std():
-    expected_output = (
-        "snyk container test debian:stable --file=some-dockerfile/dockerfile --platform=linux --something foo"
-    )
-    input_cli_config = {
-        "BASE_COMMAND": shlex.split("snyk container test"),
-        "ARGUMENTS": ["REPOSITORY"],
-        "FLAGS": {"DOCKERFILE": "--file=", "PLATFORM": "--platform=", "TEMP_REPORT_FILE": "--json-file-output="},
-    }
-    input_config = {
-        "REPOSITORY": "debian:stable",
-        "ADDITIONAL_ARGUMENTS": "--something foo",
-        "DOCKERFILE": "some-dockerfile/dockerfile",
-        "PLATFORM": "linux",
-    }
-
-    output = shlex.join(build_cli_command(input_cli_config, input_config))
-
-    assert output == expected_output
-
-
 def test_build_command__tail_argument():
     expected_output = "command start --middle=middle end"
     input_cli_config = {
