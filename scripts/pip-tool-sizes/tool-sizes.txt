@@ -17,9 +17,6 @@ SIZE OF NPM TOOLS"
 # https://packagephobia.com/result?p=%40cyclonedx%2Fbom
 @cyclonedx/bom == 1.42MB
 
-# https://packagephobia.com/result?p=snyk
-snyk == 74.9MB
-
 ===============================
 SIZE OF PIP TOOLS"
 ===============================

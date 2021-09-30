@@ -46,7 +46,7 @@ Tips and Tricks
 - use IGNORED_FILES to ignore false positives
   aka high enthropy ids, or mock passwords in unit test fixtures, (or package-lock.json)
 """
-    # https://github.com/snyk/snyk/blob/master/LICENSE
+
     LICENSE: str = """GNU"""
     EZE_CONFIG: dict = {
         "SOURCE": {

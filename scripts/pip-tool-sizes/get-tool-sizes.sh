@@ -25,9 +25,6 @@ echo "==============================="
 # https://packagephobia.com/result?p=%40cyclonedx%2Fbom
 echo "@cyclonedx/bom == 1.42MB"
 
-# https://packagephobia.com/result?p=snyk
-echo "snyk == 74.9MB"
-
 echo ""
 echo "==============================="
 echo "SIZE OF PIP TOOLS"
