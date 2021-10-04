@@ -36,9 +36,6 @@
 # ====================================
 # Total Image Size           897.6 MB
 #
-# Premium Tool Sizes
-# ===============================
-# snyk:                 74.9MB
 #
 
 # base image

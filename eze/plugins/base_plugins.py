@@ -26,7 +26,6 @@ from eze.plugins.tools.python_piprot import PiprotTool
 from eze.plugins.tools.python_safety import SafetyTool
 from eze.plugins.tools.raw import RawTool
 from eze.plugins.tools.semgrep import SemGrepTool
-from eze.plugins.tools.snyk import SnykTool, SnykContainerTool, SnykIacTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 
 
@@ -78,9 +77,4 @@ def get_tools() -> dict:
         "node-cyclonedx": NodeCyclonedxTool,
         # Container Tools
         "container-trivy": TrivyTool,
-        # Premium Tools
-        # Snyk
-        "snyk": SnykTool,
-        "snyk-container": SnykContainerTool,
-        "snyk-iac": SnykIacTool,
     }
