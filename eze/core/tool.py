@@ -301,6 +301,7 @@ class ToolManager:
                 "scan_type": scan_type,
                 "run_type": run_type,
                 "duration_sec": toc - tic,
+                "date": tic,
                 "git_repo": git_repo,
                 "git_branch": git_branch,
             }
