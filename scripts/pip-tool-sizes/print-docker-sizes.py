@@ -1,5 +1,6 @@
 from eze.utils.cli import run_cmd
 import re
+import shlex
 
 
 def convertToKB(size):
@@ -17,7 +18,8 @@ def convertToKB(size):
     return number
 
 
-subprocess = run_cmd('docker history --no-trunc --format "{{.Size}}_:_{{.CreatedBy}}" eze-cli')
+input_cmd = shlex.split('docker history --no-trunc --format "{{.Size}}_:_{{.CreatedBy}}" eze-cli')
+subprocess = run_cmd(input_cmd)
 
 
 summary = {"Base": {"Base Linux Image": 0}}
@@ -45,10 +47,10 @@ for category in ["Base", "Language", "Tool"]:
     print(f"\n{category} Sizes")
     print("====================================")
     for name in dict(sorted(summary[category].items(), key=lambda item: -item[1])):
-        size = round(summary[category][name] / 1024, 2)
+        size = round(summary[category][name] / 1024, 1)
         print(f"{name.ljust(25)} {str(size).rjust(6)} MB")
         tot_size += size
 
 
 print("\n====================================")
-print(f"{'Total Image Size '.ljust(25)} {str(tot_size).rjust(6)} MB\n")
+print(f"{'Total Image Size '.ljust(25)} {str(round(tot_size,1)).rjust(6)} MB\n")
