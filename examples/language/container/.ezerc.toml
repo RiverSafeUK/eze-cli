@@ -33,6 +33,9 @@ REPORT_FILE = "../reports/container/trufflehog-report.json"
 [trufflehog.ci]
 INCLUDE_FULL_REASON = false
 
+[kics]
+SOURCE = "Dockerfile"
+
 # ========================================
 # REPORT CONFIG
 # ========================================
@@ -56,7 +59,7 @@ REPORT_FILE = "../reports/container/eze_report.json"
 # SCAN CONFIG
 # ========================================
 [scan]
-tools = ["anchore-grype", "anchore-syft", "trufflehog", "gitleaks"]
+tools = ["anchore-grype", "anchore-syft", "trufflehog", "gitleaks", "kics"]
 reporters = ["console", "json", "bom"]
 
 [scan.linux]

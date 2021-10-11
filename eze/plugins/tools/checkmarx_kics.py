@@ -51,8 +51,8 @@ Also you can define a custom config file and pass the --config flag.
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,
-            "required": True,
-            "help_text": """source folder to scan for IAC files, paths comma-separated""",
+            "default": ".",
+            "help_text": """source folders to scan for IAC files, paths comma-separated""",
         },
         "CONFIG_FILE": {"type": str, "default": None, "help_text": "Optional file input to customise scan command"},
         "EXCLUDE": {
@@ -124,20 +124,20 @@ Warning: on production might want to set this to False to prevent found Secrets 
                 if report_event["files"]:
                     files = report_event["files"]
                     for file in files:
-                        reason = report_event["query_name"]
+                        reason = report_event["description"]
                         path = file["file_name"]
                         line = file["line"]
                         identifier = file["issue_type"]
 
-                        name = reason
-                        summary = f"{file['actual_value']} - {identifier} on {report_event['platform']}"
+                        name = report_event["query_name"]
+                        summary = f"{file['actual_value']} ({identifier}) on {report_event['platform']}"
                         recommendation = (
                             f"Investigate '{path}' on line {line} for '{reason}'. Expected '{file['expected_value']}'. "
                         )
 
                         # only include full reason if include_full_reason true
                         if self.config["INCLUDE_FULL_REASON"]:
-                            recommendation += f"Full Match: {file['search_key']} - {file['actual_value']}."
+                            recommendation += f"Full Match: {file['search_key']}."
 
                         vulnerabilities_list.append(
                             Vulnerability(
@@ -169,7 +169,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         old_report_flag = parsed_config["REPORT_FILE"]
         # ADDITION PARSING: OUTPUT_PATH FLAGS
         # convert to separated arguments to fit the plugin
-        parsed_config["REPORT_PATH"] = os.path.dirname(old_report_flag)
+        parsed_config["REPORT_PATH"] = os.path.dirname(old_report_flag) or "."
         parsed_config["REPORT_FILENAME"] = os.path.basename(old_report_flag)
 
         return parsed_config
