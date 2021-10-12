@@ -297,9 +297,11 @@ class ToolManager:
             git_branch = get_active_branch_name(git_dir)
             scan_result.run_details = {
                 "tool_name": tool_name,
+                "tool_type": tool_instance.TOOL_TYPE,
                 "scan_type": scan_type,
                 "run_type": run_type,
                 "duration_sec": toc - tic,
+                "date": tic,
                 "git_repo": git_repo,
                 "git_branch": git_branch,
             }
