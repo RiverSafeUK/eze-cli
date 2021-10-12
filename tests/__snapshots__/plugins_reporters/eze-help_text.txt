@@ -21,8 +21,9 @@ APIKEY = "..."
 CONSOLE_ENDPOINT = "..."
 
 
-# CODEBASE_ID str
-# Management console codebase ID as specified by eze management console codebase page
+# CODEBASE_ID str [OPTIONAL]
+# Optional Management console codebase ID as specified by eze management console codebase page,
+# if not set, git repo url will be automatically determined via local git info and sent
 # 
 CODEBASE_ID = "..."
 
