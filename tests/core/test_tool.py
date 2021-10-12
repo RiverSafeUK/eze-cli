@@ -184,6 +184,7 @@ class TestToolManager:
         output: ScanResult = await tool_manager_instance.run_tool("success-tool")
         # Then
         output.run_details["duration_sec"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
+        output.run_details["date"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
         output.vulnerabilities = ["NOT UNDER TEST (FROM FIXTURE)"]
         output_snapshot = pretty_print_json(output)
         # Then

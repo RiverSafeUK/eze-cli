@@ -1,6 +1,9 @@
 {
   "bom": null,
   "run_details": {
+    "date": [
+      "NOT UNDER TEST (TIME IS DYNAMIC)"
+    ],
     "duration_sec": [
       "NOT UNDER TEST (TIME IS DYNAMIC)"
     ],
@@ -8,7 +11,8 @@
     "git_repo": "https://some-repo.some-domain.com",
     "run_type": null,
     "scan_type": null,
-    "tool_name": "success-tool"
+    "tool_name": "success-tool",
+    "tool_type": "MISC"
   },
   "summary": {
     "ignored": {

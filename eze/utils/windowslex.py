@@ -11,7 +11,8 @@ def join(split_command):
     return " ".join(quote(arg) for arg in split_command)
 
 
-_find_unsafe = re.compile(r'[^\w@%+=:,./-]', re.ASCII).search
+_find_unsafe = re.compile(r"[^\w@%+=:,./-]", re.ASCII).search
+
 
 def quote(s):
     """Return a shell-escaped version of the string *s*."""
