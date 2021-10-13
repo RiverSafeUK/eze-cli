@@ -126,7 +126,7 @@ branch_test_data = [
             "CI_REPOSITORY_URL": "https://gitlab-ci-token:[MASKED]@gitlab.com/gitlab-examples/ci-debug-trace.git",  # nosec
             "CI_DEFAULT_BRANCH": "main_Gitlab_thing",
         },
-        "https://gitlab.com/gitlab-examples/ci-debug-trace.git",
+        "https://gitlab.com/gitlab-examples/ci-debug-trace",
         "main_Gitlab_thing",
     ),
     (
@@ -136,7 +136,7 @@ branch_test_data = [
             "GITHUB_REPOSITORY": "zapper/eze.git",
             "CI_DEFAULT_BRANCH": "main_Github_thing",
         },
-        "https://Gitlab-repo.com/zapper/eze.git",
+        "https://Gitlab-repo.com/zapper/eze",
         "main_Github_thing",
     ),
 ]
@@ -193,8 +193,13 @@ url_test_data = [
     ("Do Nothing", "https://clean.already.com/repo", "https://clean.already.com/repo"),
     (
         "Remove Credentials",
+        "https://user:[MASKED]@azure-devops.com/azure-examples/ci-debug-trace",
+        "https://azure-devops.com/azure-examples/ci-debug-trace",
+    ),
+    (
+        "Remove Credentials and .git",
         "https://gitlab-ci-token:[MASKED]@gitlab.com/gitlab-examples/ci-debug-trace.git",
-        "https://gitlab.com/gitlab-examples/ci-debug-trace.git",
+        "https://gitlab.com/gitlab-examples/ci-debug-trace",
     ),
 ]
 
