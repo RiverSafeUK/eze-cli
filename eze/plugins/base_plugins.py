@@ -27,6 +27,7 @@ from eze.plugins.tools.python_safety import SafetyTool
 from eze.plugins.tools.raw import RawTool
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
+from eze.plugins.tools.checkmarx_kics import KicsTool
 
 
 def get_languages() -> dict:
@@ -77,4 +78,5 @@ def get_tools() -> dict:
         "node-cyclonedx": NodeCyclonedxTool,
         # Container Tools
         "container-trivy": TrivyTool,
+        "kics": KicsTool,
     }
