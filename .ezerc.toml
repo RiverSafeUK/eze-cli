@@ -82,7 +82,6 @@ REQUIREMENTS_FILE = "requirements.txt"
 # ========================================
 [eze]
 CONSOLE_ENDPOINT = "https://lff3adj48f.execute-api.eu-west-2.amazonaws.com/staging"
-CODEBASE_ID = "5b5b342f-f120-4dae-b5cb-7be99c7ecbf6"
 
 # ========================================
 # SCAN CONFIG
