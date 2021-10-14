@@ -118,6 +118,13 @@ def write_json(file_path: str, json_vo) -> str:
     return json_location
 
 
+def write_sarif(file_path: str, json_vo) -> str:
+    """Save sarif file"""
+    sarif_str = json.dumps(json_vo, default=vars, indent=2, sort_keys=False)
+    sarif_location = write_text(file_path, sarif_str)
+    return sarif_location
+
+
 def xescape(fragment: str) -> str:
     """Helper, escapes xml attribute strings prevents xml expansion attacks"""
     if not fragment:
