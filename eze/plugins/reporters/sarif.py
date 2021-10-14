@@ -1,11 +1,11 @@
 """Sarif reporter class implementation"""
 
+from typing import List
 import uuid
 from pydash import py_
 import click
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.core.enums import VulnerabilitySeverityEnum
 from eze.core.tool import ScanResult, Vulnerability
 from eze.utils.io import write_sarif
 
@@ -44,10 +44,8 @@ By default set to eze_report.sarif""",
         schema_version = "2.1.0"
         click.echo("Eze report results:\n")
         scan_results_with_sboms = []
-        scan_results_with_warnings = []
 
         sarif_str = {"$schema": sarif_schema, "version": schema_version, "runs": []}
-
         for scan_result in scan_results:
             tool = {"driver": {}}
             # print_scan_summary_title() ??
@@ -56,15 +54,22 @@ By default set to eze_report.sarif""",
 
                 tool["driver"]["name"] = py_.get(run_details, "tool_name", "unknown")
                 tool["driver"]["version"] = "unknown"
-                tool["driver"]["fullName"] = py_.get(run_details, "tool_type", "unknown") + ":" + tool["driver"]["name"]
-                tool["driver"]["informationUri"] = "unknown"
+                tool["driver"]["fullName"] = (
+                    py_.get(run_details, "tool_type", "unknown")
+                    + ":"
+                    + py_.get(run_details, "short_description", "unknown")
+                )
+                tool["driver"]["informationUri"] = py_.get(run_details, "tool_url", "unknown")
 
-                rules, results = self._group_vulnerabilities_into_rules(scan_result.vulnerabilities)
+                rules, results, severity_counters = self._group_vulnerabilities_into_rules(scan_result.vulnerabilities)
 
                 tool["driver"]["rules"] = rules
-                single_run = {"tool": {}, "artifacts": [], "results": [], "taxonomies": []}
-                single_run["tool"] = tool
-                single_run["results"] += results
+                single_run = {
+                    "tool": tool,
+                    "results": results,
+                    "taxonomies": [],
+                    "severity_counters": severity_counters,
+                }
 
                 sarif_str["runs"].append(single_run)
 
@@ -72,12 +77,6 @@ By default set to eze_report.sarif""",
                 scan_results_with_sboms.append(
                     scan_result
                 )  # TODO: SBOM cannot be handle by this reporter, so its skipped.
-
-            if len(scan_result.warnings) > 0:
-                scan_results_with_warnings.append(scan_result)
-
-            sarif_str["runs"].append(self._print_scan_report_warnings(scan_results_with_warnings))
-
         return sarif_str
 
     def _has_printable_vulnerabilities(self, scan_result: ScanResult) -> bool:
@@ -86,26 +85,37 @@ By default set to eze_report.sarif""",
             return False
         return True
 
-    def _group_vulnerabilities_into_rules(self, vulnerabilities: Vulnerability) -> list:
+    def _group_vulnerabilities_into_rules(self, vulnerabilities: List[Vulnerability]) -> list:
         """Method for summarizing vulnerabilities and grouping into rules"""
         if len(vulnerabilities) <= 0:
             return {}, {}
 
         rules = []
         results = []
+        severity_counters = {}
         for idx, vulnerability in enumerate(vulnerabilities):
             rule = {}
             rule["id"] = str(uuid.uuid4())
-            rule["name"] = vulnerability.overview
+            rule["name"] = vulnerability.name
             rule["shortDescription"] = {"text": vulnerability.overview}
-            rule["fullDescription"] = {"text": vulnerability.vulnerability_type + "/" + vulnerability.recommendation}
+            rule["fullDescription"] = {"text": vulnerability.overview + ". " + vulnerability.recommendation}
             rules.append(rule)
 
             result = {"ruleId": "", "ruleIndex": -1, "level": "", "message": {"text": ""}, "locations": []}
             result["ruleId"] = rule["id"]
             result["ruleIndex"] = idx
-            result["level"] = VulnerabilitySeverityEnum.normalise_name(vulnerability.severity).upper()
-            result["message"] = {"text": vulnerability.overview}
+
+            if (
+                vulnerability.severity == "critical"
+                or vulnerability.severity == "high"
+                or vulnerability.severity == "medium"
+            ):
+                result["level"] = "error"
+            elif vulnerability.severity == "low":
+                result["level"] = "note"
+            elif vulnerability.severity == "none" or vulnerability.severity == "na":
+                result["level"] = "none"
+            result["message"] = {"text": vulnerability.recommendation}
             result["locations"].append(
                 {
                     "physicalLocation": {
@@ -115,35 +125,8 @@ By default set to eze_report.sarif""",
                 }
             )
             results.append(result)
-            return rules, results
+            if vulnerability.severity not in severity_counters:
+                severity_counters[vulnerability.severity] = 0
+            severity_counters[vulnerability.severity] += 1
 
-    def _print_scan_report_warnings(self, scan_results_with_warnings: list):
-        """Method for printing scan warnings"""
-
-        if len(scan_results_with_warnings) <= 0:
-            return
-
-        click.echo(
-            f"""
-Warnings
-================================="""
-        )
-
-        tool = {"driver": {}}
-        for scan_result in scan_results_with_warnings:
-            warnings = scan_result.warnings
-            for warning in warnings:
-                single_run = {"tool": {}, "artifacts": [], "results": [], "taxonomies": []}
-
-                tool = {"driver": {}}
-                tool["driver"]["name"] = py_.get(scan_result.run_details, "tool_name", "unknown")
-                tool["driver"]["rules"] = []
-                single_run["tool"] = tool
-                single_run["artifacts"] = []
-                single_run["results"] = []
-
-                result = {"ruleId": "", "ruleIndex": -1, "level": "", "message": {"text": ""}, "locations": []}
-                result["ruleId"] = str(uuid.uuid4())
-                result["message"] = {"text": warning}
-                single_run["results"].append(result)
-                return single_run
+        return rules, results, severity_counters

@@ -9,32 +9,33 @@
 #
 # Base Sizes
 # ====================================
-# Base Linux Image           114.4 MB
+# Base Linux Image           114.5 MB
 # Git Support                 78.2 MB
-# Eze                         2.17 MB
+# Eze                          2.5 MB
 #
 # Language Sizes
 # ====================================
-# Maven + Java jdk 11        221.3 MB
-# Node + npm                 139.0 MB
+# Maven + Java jdk 11        240.1 MB
+# Node + npm                 132.0 MB
 #
 # Tool Sizes
 # ====================================
-# semgrep                    209.0 MB
+# semgrep                    116.0 MB
+# checkmarx/kics              83.4 MB
 # aqua/trivy                  35.4 MB
 # cyclonedx-cli               32.4 MB
-# anchore/grype               19.9 MB
-# anchore/syft                15.1 MB
+# anchore/grype               20.9 MB
+# anchore/syft                16.9 MB
 # gitleaks                    11.8 MB
-# truffleHog3                 6.45 MB
-# node/@cyclonedx/bom         4.51 MB
-# python/cyclonedx-bom        4.39 MB
-# python/bandit               1.37 MB
-# python/piprot               1.35 MB
-# python/safety               0.86 MB
+# truffleHog3                  5.6 MB
+# python/cyclonedx-bom         4.9 MB
+# node/@cyclonedx/bom          4.7 MB
+# python/bandit                1.4 MB
+# python/safety                0.2 MB
+# python/piprot                0.1 MB
 #
 # ====================================
-# Total Image Size           897.6 MB
+# Total Image Size           901.0 MB
 #
 #
 
@@ -70,11 +71,8 @@ RUN apt-get update \
 ENV MAVEN_HOME=/usr/share/maven \
     MAVEN_CONFIG=/data/.m2 \
     JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
-    && curl -fsSL https://mirrors.ukfast.co.uk/sites/ftp.apache.org/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz -o /tmp/apache-maven.tar.gz \
-    && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
-    && rm -f /tmp/apache-maven.tar.gz \
-    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends maven \
     && chmod +x /usr/bin/mvn \
     && echo "SIZETAG:Language:Maven + Java jdk 11"
 
@@ -129,6 +127,10 @@ RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/
     && chmod +x /usr/local/bin/gitleaks \
     && gitleaks --version \
     && echo "SIZETAG:Tool:gitleaks"
+
+#
+## Install Kics tools
+RUN curl -sfL 'https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh' | bash | sh -s -- -b /usr/local/bin  && echo "SIZETAG:Tool:checkmarx/kics"
 
 #
 ## install eze
