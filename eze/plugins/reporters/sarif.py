@@ -34,18 +34,18 @@ By default set to eze_report.sarif""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning them into report output"""
-        sarif_str = await self._build_sarif_str(scan_results)
-        sarif_location = write_sarif(self.config["REPORT_FILE"], sarif_str)
+        sarif_dict = await self._build_sarif_dict(scan_results)
+        sarif_location = write_sarif(self.config["REPORT_FILE"], sarif_dict)
         print(f"Written sarif report : {sarif_location}")
 
-    async def _build_sarif_str(self, scan_results: list):
+    async def _build_sarif_dict(self, scan_results: list):
         """Method for parsing the scans results into sarif format"""
         sarif_schema = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
         schema_version = "2.1.0"
         click.echo("Eze report results:\n")
         scan_results_with_sboms = []
 
-        sarif_str = {"$schema": sarif_schema, "version": schema_version, "runs": []}
+        sarif_dict = {"$schema": sarif_schema, "version": schema_version, "runs": []}
         for scan_result in scan_results:
             tool = {"driver": {}}
             # print_scan_summary_title() ??
@@ -66,13 +66,13 @@ By default set to eze_report.sarif""",
                     "severity_counters": severity_counters,
                 }
 
-                sarif_str["runs"].append(single_run)
+                sarif_dict["runs"].append(single_run)
 
             if scan_result.bom:
                 scan_results_with_sboms.append(
                     scan_result
                 )  # TODO: SBOM cannot be handle by this reporter, so its skipped.
-        return sarif_str
+        return sarif_dict
 
     def _has_printable_vulnerabilities(self, scan_result: ScanResult) -> bool:
         """Method for taking scan vulnerabilities return True if anything to print"""
