@@ -1,5 +1,15 @@
 # Eze Changelog
 
+## 0.10.0 - 15th October 2021
+Improvements:
+- ab-800: improved report format to include tool type and date
+- ab-818: added kics tool plugin
+- ab-813: added support for v2 reporting console endpoint
+- ab-819: sarif reporter plugin
+
+Misc:
+- ab-774: move snyk tools into separate plugin
+
 ## 0.9.0 - 20th September 2021
 Improvements:
 - ab-778: improved test coverage
