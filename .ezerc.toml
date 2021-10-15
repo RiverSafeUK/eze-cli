@@ -88,12 +88,12 @@ CONSOLE_ENDPOINT = "https://lff3adj48f.execute-api.eu-west-2.amazonaws.com/stagi
 # ========================================
 [scan]
 tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "trufflehog"]
-reporters = ["json", "console"]
+reporters = ["json", "console", "sarif", "bom"]
 
 [scan.linux]
 tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog"]
-reporters = ["json", "console"]
+reporters = ["json", "console", "sarif", "bom"]
 
 [scan.ci]
 tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog:ci"]
-reporters = ["console", "json", "eze"]
+reporters = ["console", "json", "sarif", "bom", "eze"]
