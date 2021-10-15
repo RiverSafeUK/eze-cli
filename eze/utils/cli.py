@@ -193,7 +193,9 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
         # TODO: many programming tools failing without shell=true
         # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
         # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
-        proc = subprocess.run(final_cmd, capture_output=True, universal_newlines=True, shell=True)  # nosec # nosemgrep
+        proc = subprocess.run(
+            final_cmd, capture_output=True, universal_newlines=True, encoding="utf-8", shell=True
+        )  # nosec # nosemgrep
     except FileNotFoundError:
         core_executable = _extract_executable(sanitised_command_str)
         error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
