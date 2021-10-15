@@ -1,0 +1,29 @@
+short_description:
+======================
+sarif output file reporter
+
+config_help:
+======================
+[sarif]
+# REPORT_FILE str [OPTIONAL]
+# report file location
+# By default set to eze_report.sarif
+# default value: 
+#   REPORT_FILE = "eze_report.sarif"
+# 
+REPORT_FILE = "..."
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+SBOM plugins will not be exported by this reporter

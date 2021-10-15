@@ -7,6 +7,8 @@
 # Ignore local files
 Dockerfile-local
 eze_report.json
+eze_report.sarif
+eze_bom.json
 eze_junit_report.xml
 
 # IDE: ignore IDE config files

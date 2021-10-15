@@ -1,0 +1,85 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "python-piprot",
+          "version": "unknown",
+          "fullName": "SCA:python-piprot",
+          "informationUri": "unknown",
+          "rules": [
+            {
+              "id": "d45662fb-577e-4fd8-9950-f5cfd7923450",
+              "name": "requests",
+              "shortDescription": {
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
+              },
+              "fullDescription": {
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0. requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
+              }
+            },
+            {
+              "id": "d45662fb-577e-4fd8-9950-f5cfd7923450",
+              "name": "requests",
+              "shortDescription": {
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
+              },
+              "fullDescription": {
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0. update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "d45662fb-577e-4fd8-9950-f5cfd7923450",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "unknown"
+                },
+                "region": {
+                  "startLine": "unknown"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "d45662fb-577e-4fd8-9950-f5cfd7923450",
+          "ruleIndex": 1,
+          "level": "none",
+          "message": {
+            "text": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "unknown"
+                },
+                "region": {
+                  "startLine": "unknown"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "taxonomies": [],
+      "severity_counters": {
+        "high": 1,
+        "none": 1
+      }
+    }
+  ]
+}
