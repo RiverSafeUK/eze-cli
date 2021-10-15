@@ -1,0 +1,51 @@
+{
+  "bom": null,
+  "run_details": {},
+  "summary": {},
+  "tool": "container-kics",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 17,
+        "path": "Dockerfile"
+      },
+      "identifiers": {},
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "container",
+      "metadata": null,
+      "name": "Multiple ENTRYPOINT Instructions Listed",
+      "overview": "There are 2 ENTRYPOINT instructions (RedundantAttribute) on Dockerfile",
+      "recommendation": "Investigate 'Dockerfile' on line 17 for 'There can only be one ENTRYPOINT instruction in a Dockerfile. Only the last ENTRYPOINT instruction in the Dockerfile will have an effect'. Expected 'There is only one ENTRYPOINT instruction'. Full Match: FROM={{python:3.8-slim-buster}}.{{ENTRYPOINT [\"ls\"]}}.",
+      "references": [
+        "https://docs.docker.com/engine/reference/builder/#entrypoint"
+      ],
+      "severity": "high",
+      "version": "",
+      "vulnerability_type": "infrastructure"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 11,
+        "path": "Dockerfile"
+      },
+      "identifiers": {},
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "container",
+      "metadata": null,
+      "name": "Last User Is 'root'",
+      "overview": "Last User is root (IncorrectValue) on Dockerfile",
+      "recommendation": "Investigate 'Dockerfile' on line 11 for 'Leaving the last user as root can cause security risks. Change to another user after running the commands the need privileges'. Expected 'Last User isn't root'. Full Match: FROM={{python:3.8-slim-buster}}.{{USER root}}.",
+      "references": [
+        "https://docs.docker.com/engine/reference/builder/#user"
+      ],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "infrastructure"
+    }
+  ],
+  "warnings": []
+}

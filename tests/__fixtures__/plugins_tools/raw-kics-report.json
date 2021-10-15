@@ -1,0 +1,78 @@
+{
+    "kics_version": "1.4.4",
+    "files_scanned": 1,
+    "files_parsed": 1,
+    "files_failed_to_scan": 0,
+    "queries_total": 53,
+    "queries_failed_to_execute": 0,
+    "queries_failed_to_compute_similarity_id": 0,
+    "scan_id": "console",
+    "severity_counters": {
+        "HIGH": 1,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 1
+    },
+    "total_counter": 2,
+    "start": "2021-10-11T21:50:32.7957189Z",
+    "end": "2021-10-11T21:50:33.9362176Z",
+    "paths": [
+        "."
+    ],
+    "queries": [
+        {
+            "query_name": "Multiple ENTRYPOINT Instructions Listed",
+            "query_id": "6938958b-3f1a-451c-909b-baeee14bdc97",
+            "query_url": "https://docs.docker.com/engine/reference/builder/#entrypoint",
+            "severity": "HIGH",
+            "platform": "Dockerfile",
+            "category": "Build Process",
+            "description": "There can only be one ENTRYPOINT instruction in a Dockerfile. Only the last ENTRYPOINT instruction in the Dockerfile will have an effect",
+            "description_id": "03be1867",
+            "cis_description_id": "",
+            "cis_description_title": "",
+            "cis_description_text": "",
+            "files": [
+                {
+                    "file_name": "Dockerfile",
+                    "similarity_id": "500b6dbf5f8e589accbc7bbd9c909af17cc88ab2fea35bb8512b923449d7e268",
+                    "line": 17,
+                    "issue_type": "RedundantAttribute",
+                    "search_key": "FROM={{python:3.8-slim-buster}}.{{ENTRYPOINT [\"ls\"]}}",
+                    "search_line": 0,
+                    "search_value": "",
+                    "expected_value": "There is only one ENTRYPOINT instruction",
+                    "actual_value": "There are 2 ENTRYPOINT instructions",
+                    "value": null
+                }
+            ]
+        },
+        {
+            "query_name": "Last User Is 'root'",
+            "query_id": "67fd0c4a-68cf-46d7-8c41-bc9fba7e40ae",
+            "query_url": "https://docs.docker.com/engine/reference/builder/#user",
+            "severity": "MEDIUM",
+            "platform": "Dockerfile",
+            "category": "Best Practices",
+            "description": "Leaving the last user as root can cause security risks. Change to another user after running the commands the need privileges",
+            "description_id": "f445bd25",
+            "cis_description_id": "",
+            "cis_description_title": "",
+            "cis_description_text": "",
+            "files": [
+                {
+                    "file_name": "Dockerfile",
+                    "similarity_id": "b5f351f666891cf8e21c8d7ef34d26d3cf521d4b0786e3ff9b4b0b475c6d9f1b",
+                    "line": 11,
+                    "issue_type": "IncorrectValue",
+                    "search_key": "FROM={{python:3.8-slim-buster}}.{{USER root}}",
+                    "search_line": 0,
+                    "search_value": "",
+                    "expected_value": "Last User isn't root",
+                    "actual_value": "Last User is root",
+                    "value": null
+                }
+            ]
+        }
+    ]
+}

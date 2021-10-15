@@ -1,0 +1,120 @@
+short_description:
+======================
+opensource infrastructure scanner
+
+config_help:
+======================
+[container-kics]
+# SOURCE str [OPTIONAL]
+# source folders to scan for IAC files, paths comma-separated
+# default value: 
+#   SOURCE = "."
+# 
+SOURCE = "..."
+
+
+# CONFIG_FILE str [OPTIONAL]
+# Optional file input to customise scan command
+# 
+CONFIG_FILE = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# array of regex str of folders/files to exclude from scan,
+# eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\" for windows
+# 
+EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"]
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-kics-report.json"
+# 
+REPORT_FILE = "..."
+
+
+# INCLUDE_FULL_REASON bool [OPTIONAL]
+# Optional include the full reason in report
+# Warning: on production might want to set this to False to prevent found Secrets appearing in reports
+# default value: 
+#   INCLUDE_FULL_REASON = true
+# 
+INCLUDE_FULL_REASON = true / false
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VULNERABILITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vulnerability mitigated or on track to be fixed
+# 
+IGNORED_VULNERABILITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vulnerability mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# files or prefix folders to exclude in the scanning process
+# 
+EXCLUDE = ["..."]
+
+
+
+
+install_help:
+======================
+Installation guide for KICS
+
+It is possible to install Gitleaks through:
+- Running install command:
+    1. There is an automatic detection to download the appropriate latest binary package, just run: 
+    `curl -sfL 'https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh' | bash`.
+    2. Move the file kics.exe to a specific directory ( i.e. "C:\Program Files\Kics").
+
+- Downloading KICS binary:
+    1. Download the appropriate kics_*_linux_* executable file.
+    2. Rename the downloaded file to "kics" and move it into the executables directory ( /usr/local/bin/kics )
+
+Last step, make sure you are able to run this command:
+    kics --version
+
+
+more_info:
+======================
+https://github.com/Checkmarx/kics
+
+Common Gotchas
+===========================
+You can use the Docker image available on https://hub.docker.com/r/checkmarx/kics
+or by using the command `docker pull checkmarx/kics:latest`
+
+
+Also you can define a custom config file and pass the --config flag.
+

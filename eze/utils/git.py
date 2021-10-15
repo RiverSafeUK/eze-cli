@@ -17,8 +17,9 @@ except ImportError:
 
 
 def clean_url(url: str) -> str:
-    """Clean up url and remove any embedded credentials"""
+    """Clean up url and remove any embedded credentials, remove trailing .git to normalise git url"""
     cleaned_url = re.sub("//[^@]+@", "//", url)
+    cleaned_url = re.sub("\\.git$", "", cleaned_url)
     return cleaned_url
 
 
@@ -60,9 +61,10 @@ def _get_active_branch(git_dir: str) -> object:
 def get_active_branch_uri(git_dir: str) -> str:
     """given dir will check repo latest uri"""
     branch = get_active_branch(git_dir)
-    git_branchname = py_.get(branch, "repo.remotes.origin.url", None)
-    if git_branchname:
-        return git_branchname
+    git_uri = py_.get(branch, "repo.remotes.origin.url", None)
+    if git_uri:
+        # remove any credentials inside repo url
+        return clean_url(git_uri)
 
     ci_uri = (
         # FROM Microsoft ADO: Build.Repository.Uri = BUILD_REPOSITORY_URI
@@ -89,10 +91,10 @@ def get_active_branch_uri(git_dir: str) -> str:
             and (os.environ.get("GITHUB_SERVER_URL") + "/" + os.environ.get("GITHUB_REPOSITORY"))
         )
     )
-    if ci_uri:
-        # remove any credentials inside repo url
-        return clean_url(ci_uri)
-    return None
+    if not ci_uri:
+        return None
+    # remove any credentials inside repo url
+    return clean_url(ci_uri)
 
 
 def get_active_branch_name(git_dir: str) -> str:
