@@ -51,14 +51,9 @@ By default set to eze_report.sarif""",
             # print_scan_summary_title() ??
             if self._has_printable_vulnerabilities(scan_result):
                 run_details = scan_result.run_details
-
                 tool["driver"]["name"] = py_.get(run_details, "tool_name", "unknown")
                 tool["driver"]["version"] = "unknown"
-                tool["driver"]["fullName"] = (
-                    py_.get(run_details, "tool_type", "unknown")
-                    + ":"
-                    + py_.get(run_details, "short_description", "unknown")
-                )
+                tool["driver"]["fullName"] = py_.get(run_details, "tool_type", "unknown") + ":" + tool["driver"]["name"]
                 tool["driver"]["informationUri"] = py_.get(run_details, "tool_url", "unknown")
 
                 rules, results, severity_counters = self._group_vulnerabilities_into_rules(scan_result.vulnerabilities)

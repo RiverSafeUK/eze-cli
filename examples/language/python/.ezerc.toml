@@ -54,12 +54,15 @@ PRINT_SUMMARY_ONLY = true
 [json]
 REPORT_FILE = "../reports/python/eze_report.json"
 
+[sarif]
+REPORT_FILE = "../reports/python/eze_report.sarif"
+
 # ========================================
 # SCAN CONFIG
 # ========================================
 [scan]
 tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "trufflehog"]
-reporters = ["json", "console", "bom"]
+reporters = ["json", "console", "bom", "sarif"]
 
 [scan.linux]
 tools = ["python-piprot", "python-bandit", "semgrep", "python-safety", "python-cyclonedx", "trufflehog"]

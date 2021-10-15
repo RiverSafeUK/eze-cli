@@ -130,7 +130,7 @@ RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/
 
 #
 ## Install Kics tools
-RUN curl -sfL 'https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh' | bash | sh -s -- -b /usr/local/bin  && echo "SIZETAG:Tool:checkmarx/kics"
+RUN curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin  && echo "SIZETAG:Tool:checkmarx/kics"
 
 #
 ## install eze
