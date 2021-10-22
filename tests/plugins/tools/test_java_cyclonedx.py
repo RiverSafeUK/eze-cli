@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 from unittest import mock
 
+import pytest
+
 from eze.plugins.tools.java_cyclonedx import JavaCyclonedxTool
 from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
@@ -67,3 +69,15 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
     def test_parse_report_snapshot(self, snapshot):
         # Test default fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__std(self, mock_subprocess_run):
+        # Given
+        input_config = {"REPORT_FILE": "foo_report.json"}
+
+        expected_cmd = "mvn -Dmaven.test.skip=true clean install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

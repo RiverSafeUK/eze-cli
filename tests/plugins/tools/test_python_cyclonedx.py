@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 from unittest import mock
 
+import pytest
+
 from eze.plugins.tools.python_cyclonedx import PythonCyclonedxTool
 from eze.utils.io import create_tempfile_path
 from tests.__fixtures__.fixture_helper import (
@@ -79,3 +81,19 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
 
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__std(self, mock_subprocess_run):
+        # Given
+        input_config = {
+            "REQUIREMENTS_FILE": "requirements-dev.txt",
+            "ADDITIONAL_ARGUMENTS": "--something foo",
+            "REPORT_FILE": "foo-python-cyclonedx-bom.json",
+        }
+
+        expected_cmd = "cyclonedx-py -r --format=json --force -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 from unittest import mock
 
+import pytest
+
 from eze.plugins.tools.anchore_grype import GrypeTool
 from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
@@ -89,3 +91,20 @@ class TestGrypeTool(ToolMetaTestBase):
             "__fixtures__/plugins_tools/raw-anchore-grype-sca-npm-report.json",
             "plugins_tools/anchore-grype-result-sca-npm-output.json",
         )
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__std(self, mock_subprocess_run):
+        # Given
+        input_config = {
+            "SOURCE": "python",
+            "CONFIG_FILE": "something.json",
+            "ADDITIONAL_ARGUMENTS": "--something foo",
+            "REPORT_FILE": "foo-report.json",
+        }
+
+        expected_cmd = "grype -o=json -c=something.json python --something foo"
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 from unittest import mock
 
+import pytest
+
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
@@ -74,3 +76,17 @@ class TestSemGrepTool(ToolMetaTestBase):
     def test_parse_report__snapshot(self, snapshot):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__std(self, mock_subprocess_run):
+        # Given
+        input_config = {"ADDITIONAL_ARGUMENTS": "--something foo", "REPORT_FILE": "foo_report.json"}
+
+        expected_cmd = (
+            "semgrep --optimizations all --json --time --disable-metrics -q -c p/ci -o foo_report.json --something foo"
+        )
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
