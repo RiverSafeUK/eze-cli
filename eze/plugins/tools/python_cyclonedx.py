@@ -52,10 +52,10 @@ gotcha: make sure it's a frozen version of the pip requirements""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("cyclonedx-py -r --format=json --force"),
+            "BASE_COMMAND": shlex.split("cyclonedx-py -j"),
             # eze config fields -> flags
             "FLAGS": {
-                "REQUIREMENTS_FILE": "-rf=",
+                "REQUIREMENTS_FILE": "-r=",
                 "REPORT_FILE": "-o=",
             },
         }

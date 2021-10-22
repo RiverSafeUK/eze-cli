@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 from unittest import mock
 
+import pytest
+
 from eze.plugins.tools.node_npmaudit import NpmAuditTool
 from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
@@ -183,3 +185,15 @@ Will install mocha@8.4.0"""
         output = testee.create_path_v7(input_vulnerability)
         # Then
         assert output == expected_output
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__std(self, mock_subprocess_run):
+        # Given
+        input_config = {"REPORT_FILE": "foo_report.json"}
+
+        expected_cmd = "npm audit --json"
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

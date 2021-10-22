@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring
 from unittest import mock
 
+import pytest
+
 from eze.plugins.tools.anchore_syft import SyftTool
 from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
@@ -77,3 +79,21 @@ class TestSyftTool(ToolMetaTestBase):
     def test_parse_report__container_mode_snapshot(self, snapshot):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__std(self, mock_subprocess_run):
+        # Given
+        input_config = {
+            "SOURCE": "python:3.8-slim",
+            "CONFIG_FILE": "something.json",
+            "INTERMEDIATE_FILE": "foo-syft-bom.xml",
+            "REPORT_FILE": "foo-syft-bom.json",
+            "ADDITIONAL_ARGUMENTS": "--something foo",
+        }
+
+        expected_cmd = "syft -o=cyclonedx -c=something.json python:3.8-slim --something foo"
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
