@@ -55,7 +55,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             "BASE_COMMAND": shlex.split("cyclonedx-py -j"),
             # eze config fields -> flags
             "FLAGS": {
-                "REQUIREMENTS_FILE": "-r=",
+                "REQUIREMENTS_FILE": "-i=",
                 "REPORT_FILE": "-o=",
             },
         }

@@ -93,7 +93,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
         }
 
-        expected_cmd = "cyclonedx-py -j -r=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
+        expected_cmd = "cyclonedx-py -j -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
