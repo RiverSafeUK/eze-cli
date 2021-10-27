@@ -1,0 +1,13 @@
+Usage: test [OPTIONS]
+
+  Eze run scan
+
+Options:
+  --debug / --no-debug            Enables or disables debug mode
+  -c, --config-file FILE          Pass external configuration file to Eze Cli
+  -s, --scan-type TEXT            named custom scan type to run aka production
+                                  can include run type aka 'safety:test-only'
+  --force-autoscan / --dont-force-autoscan
+                                  Forces language autoscan and creation of new
+                                  .ezerc.toml
+  --help                          Show this message and exit.

@@ -1,0 +1,10 @@
+Usage: test-online [OPTIONS]
+
+  Eze run scan remotely on a server
+
+Options:
+  --debug / --no-debug    Enables or disables debug mode
+  -c, --config-file FILE  Pass external configuration file to Eze Cli
+  -u, --url TEXT          Specify the url of the remote repository to run scan.
+                          ex https://user:pass@github.com/repo-url  [required]
+  --help                  Show this message and exit.

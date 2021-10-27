@@ -6,11 +6,18 @@ from unittest import TestCase
 import pytest
 from click import ClickException
 
-from eze.core.config import EzeConfig, get_config_key, extract_embedded_run_type, get_config_keys, create_config_help
+from eze.core.config import get_config_key, extract_embedded_run_type, get_config_keys, create_config_help
 from eze.utils.io import create_tempfile_path
 from tests.__fixtures__.config import example_complex_dot_format_ezerc
 from tests.__fixtures__.config import example_complex_ezerc
-from tests.__fixtures__.fixture_helper import get_path_fixture, get_snapshot_directory
+from tests.__fixtures__.fixture_helper import get_snapshot_directory
+import pathlib
+import tempfile
+from unittest import mock
+
+from eze.core.config import EzeConfig
+from tests.__fixtures__.config.example_complex_ezerc import get_expected_full_config
+from tests.__fixtures__.fixture_helper import get_path_fixture
 
 
 def test_extract_embedded_run_type__no_change():
@@ -190,6 +197,27 @@ def test_create_config_help__std_case_snapshot(snapshot):
 
 
 class TestEzeConfig(TestCase):
+    @mock.patch("eze.core.config.EzeConfig.get_global_config_filename")
+    @mock.patch("eze.core.config.EzeConfig.get_local_config_filename")
+    def test_set_eze_config(self, mock_get_local_config_filename, mock_get_global_config_filename):
+        # Given
+        mock_get_local_config_filename.return_value = (
+            pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "does-not-exist"
+        )
+        mock_get_global_config_filename.return_value = (
+            pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "does-not-exist"
+        )
+        external_file = get_path_fixture("__fixtures__/config/example_complex_ezerc.toml")
+
+        expected_output = get_expected_full_config()
+        # When
+        output = EzeConfig.set_eze_config(external_file)
+
+        eze_config = EzeConfig.get_instance().config
+
+        # Then
+        assert eze_config == expected_output
+
     def test_creation__with_toml(self):
         # Given
         expected_output = {

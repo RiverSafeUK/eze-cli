@@ -2,7 +2,6 @@
 import click
 from pydash import py_
 
-from eze.cli.utils.config import get_local_config_filename, set_eze_config
 from eze.core.config import EzeConfig
 from eze.core.language import LanguageManager
 from eze.core.reporter import ReporterManager
@@ -29,21 +28,24 @@ class EzeCore:
     def __init__(self):
         """Core Eze Constructor"""
 
-    async def run_scan(self, scan_type: str = None, build_ezerc: bool = False) -> list:
-        """run a scan with configured tools and reporters"""
-
-        local_config_location = get_local_config_filename()
+    def auto_build_ezerc(self, build_ezerc: bool = False) -> list:
+        """detect if needs to build ezerc from scratch"""
+        local_config_location = EzeConfig.get_local_config_filename()
         if not build_ezerc and not local_config_location.is_file():
             click.echo(f"unable to find local config auto generating new config file", err=True)
             build_ezerc = True
 
-        if build_ezerc:
-            click.echo(f"Auto generating a new .ezerc.toml")
-            language_manager = LanguageManager.get_instance()
-            language_manager = language_manager.create_local_ezerc_config()
-            # reset stored eze config
-            set_eze_config()
+        if not build_ezerc:
+            return
 
+        click.echo(f"Auto generating a new .ezerc.toml")
+        language_manager = LanguageManager.get_instance()
+        language_manager.create_local_ezerc_config()
+        # reset stored eze config
+        EzeConfig.set_eze_config()
+
+    async def run_scan(self, scan_type: str = None) -> list:
+        """run a scan with configured tools and reporters"""
         eze_config = EzeConfig.get_instance()
         scan_config = eze_config.get_scan_config(scan_type)
 

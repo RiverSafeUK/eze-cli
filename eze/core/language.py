@@ -14,7 +14,6 @@ from eze.utils.io import write_text
 
 from pydash import py_
 
-from eze.cli.utils.config import get_local_config_filename
 from eze.core.config import (
     EzeConfig,
     extract_embedded_run_type,
@@ -366,7 +365,7 @@ PRINT_IGNORED = false
 reporters = ["console", "bom", "json", "junit", "quality"]
 languages = [{",".join(language_list)}]
 """
-        local_config_location = get_local_config_filename()
+        local_config_location = EzeConfig.get_local_config_filename()
         self._create_config_file(local_config_location, eze_rc)
         click.echo(f"Written local configuration file: '{local_config_location}'")
 
@@ -424,12 +423,6 @@ Language '{language}' Help
             )
             click.echo(language_class.install_help())
             click.echo(f"""""")
-
-        click.echo(
-            f"""Language Configuration Instructions:
----------------------------------"""
-        )
-        click.echo(language_class.config_help())
 
         click.echo(
             f"""Language More Info:

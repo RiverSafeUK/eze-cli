@@ -5,7 +5,7 @@ import pathlib
 import click
 
 from eze.cli.utils.command_helpers import debug_option
-from eze.cli.utils.config import get_global_config_filename, get_local_config_filename
+from eze.core.config import EzeConfig
 from eze.core.language import LanguageManager
 from eze.core.reporter import ReporterManager
 from eze.core.tool import ToolManager
@@ -55,7 +55,7 @@ def create_local_config_command():
 @debug_option
 def create_global_config_command():
     """created a default config for a user in their global location"""
-    global_config_location = get_global_config_filename()
+    global_config_location = EzeConfig.get_global_config_filename()
     _create_config_file(global_config_location, DEFAULT_GLOABL_CONFIG_COPY)
 
 
@@ -63,8 +63,8 @@ def create_global_config_command():
 @debug_option
 def list_locations_command():
     """created a default config for a user in their global location"""
-    global_config_location = get_global_config_filename()
-    local_config_location = get_local_config_filename()
+    global_config_location = EzeConfig.get_global_config_filename()
+    local_config_location = EzeConfig.get_local_config_filename()
     click.echo(f"Global configuration file: '{global_config_location}'")
     click.echo(f"Local configuration file: '{local_config_location}'")
 

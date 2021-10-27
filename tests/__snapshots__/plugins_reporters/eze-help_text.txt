@@ -17,6 +17,10 @@ APIKEY = "..."
 
 # CONSOLE_ENDPOINT str
 # Management console url as specified by eze management console /profile page
+# it can also be specified as the environment variable EZE_CONSOLE_ENDPOINT
+# get EZE_CONSOLE_ENDPOINT from eze management console profile page
+# default value: 
+#   CONSOLE_ENDPOINT = "ENVIRONMENT VARIABLE <EZE_CONSOLE_ENDPOINT>"
 # 
 CONSOLE_ENDPOINT = "..."
 
