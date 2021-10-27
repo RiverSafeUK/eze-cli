@@ -14,14 +14,6 @@ from eze.core.engine import EzeCore
 from eze.core.config import EzeConfig
 
 
-def _run_scan(scan_type: str, force_autoscan: bool = False) -> None:
-    """run eze scan"""
-    eze_core = EzeCore.get_instance()
-    build_ezerc = not EzeConfig.has_local_config() or force_autoscan
-    eze_core.auto_build_ezerc(build_ezerc)
-    asyncio.run(eze_core.run_scan(scan_type))
-
-
 @click.command("test")
 @base_options
 @pass_state
@@ -38,7 +30,9 @@ def _run_scan(scan_type: str, force_autoscan: bool = False) -> None:
 )
 def test_command(state, config_file: str, scan_type: str, force_autoscan: bool) -> None:
     """Eze run scan"""
-    _run_scan(scan_type, force_autoscan)
+    EzeCore.auto_build_ezerc(force_autoscan)
+    eze_core = EzeCore.get_instance()
+    asyncio.run(eze_core.run_scan(scan_type))
 
 
 @click.command("test-online")
@@ -97,13 +91,13 @@ def test_remote_command(state, config_file: str, scan_type, url: str, branch: st
     try:
         os.chdir(temp_dir)
         repo = git.Repo.clone_from(url, temp_dir, branch=branch)
-        state.config = EzeConfig.set_eze_config(None)
     except git.exc.GitCommandError as error:
         raise click.ClickException(f"""on cloning process, remote branch not found""")
-
     os.chdir(temp_dir)
-    state.config = EzeConfig.set_eze_config(None)
+
+    # rescan for new .ezerc.toml inside downloaded repo
+    state.config = EzeConfig.refresh_ezerc_config()
+    EzeCore.auto_build_ezerc()
 
     eze_core = EzeCore.get_instance()
-    eze_core.auto_build_ezerc()
-    asyncio.run(eze_core.run_scan(scan_type))
+    asyncio.run(eze_core.run_scan(scan_type, ["console", "eze"]))

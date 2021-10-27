@@ -23,7 +23,7 @@ class TestTestCommands:
         """teardown any state that was previously setup with a setup_module method."""
         teardown_mock()
 
-    @mock.patch("eze.cli.commands.test_commands.EzeConfig.set_eze_config", mock.MagicMock(return_value=None))
+    @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
     def test__test_base_help(self, snapshot):
         """Test that the help message appears ok with explicit --help flag"""
         runner = CliRunner()
@@ -31,7 +31,7 @@ class TestTestCommands:
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/normal_base_help.txt")
 
-    @mock.patch("eze.cli.commands.test_commands.EzeConfig.set_eze_config", mock.MagicMock(return_value=None))
+    @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
     def test__test_online_help(self, snapshot):
         """Test that the help message appears ok with explicit --help flag"""
         runner = CliRunner()
@@ -39,7 +39,7 @@ class TestTestCommands:
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/online_base_help.txt")
 
-    @mock.patch("eze.cli.commands.test_commands.EzeConfig.set_eze_config", mock.MagicMock(return_value=None))
+    @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
     def test__test_remote_help(self, snapshot):
         """Test that the help message appears ok with explicit --help flag"""
         runner = CliRunner()
@@ -47,7 +47,7 @@ class TestTestCommands:
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/remote_base_help.txt")
 
-    @mock.patch("eze.cli.commands.test_commands.EzeConfig.set_eze_config", mock.MagicMock(return_value=None))
+    @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
     def test__test_remote_base(self, snapshot):
         """Test that the help message appears ok"""
         runner = CliRunner()
@@ -56,20 +56,22 @@ class TestTestCommands:
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/remote.txt")
 
-    def run_fake_scan(scan_type):
+    def run_fake_scan(scan_type, reporters):
         print("scan run", end="")
 
     @pytest.mark.asyncio
     @mock.patch("eze.cli.commands.test_commands.os.path.join", mock.MagicMock(return_value=os.getcwd()))
     @mock.patch("eze.cli.commands.test_commands.git.Repo.clone_from", mock.MagicMock(return_value=None))
     @mock.patch("eze.cli.commands.test_commands.EzeCore.run_scan", mock.AsyncMock(side_effect=run_fake_scan))
-    @mock.patch("eze.cli.commands.test_commands.EzeConfig.set_eze_config", mock.MagicMock(return_value=None))
-    def test_tool_run(self, snapshot):
+    @mock.patch("eze.cli.commands.test_commands.EzeCore.auto_build_ezerc", mock.AsyncMock(return_value=None))
+    @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
+    def test_tool_run__with_no_rebuild(self, snapshot):
         # Given
         # When
         runner = CliRunner()
         result = runner.invoke(remote_test_command, ["--url", "https://google.com", "--branch", "main"])
         # Then
+        assert result.exception is None
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/test_run_tool.txt")
         assert result.exit_code == 0

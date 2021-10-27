@@ -3,13 +3,13 @@ import shlex
 
 from pydash import py_
 
-from eze.core.config import ConfigException
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
     ToolMeta,
     Vulnerability,
     ScanResult,
 )
+from eze.utils.config import ConfigException
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import load_json, create_tempfile_path
 

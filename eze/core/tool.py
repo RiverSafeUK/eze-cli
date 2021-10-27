@@ -10,19 +10,19 @@ from typing import Callable
 import click
 from pydash import py_
 
-from eze.utils.git import get_active_branch_name, get_active_branch_uri
-from eze.core.config import (
-    EzeConfig,
-    get_config_key,
-    extract_embedded_run_type,
-    ConfigException,
-    get_config_keys,
-    create_config_help,
-)
+from eze.core.config import EzeConfig
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType
+from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.cli import ExecutableNotFoundException
 from eze.utils.io import normalise_file_paths, normalise_linux_file_path, create_folder
 from eze.utils.print import pretty_print_table
+from eze.utils.config import (
+    ConfigException,
+    get_config_key,
+    get_config_keys,
+    create_config_help,
+    extract_embedded_run_type,
+)
 
 
 class Vulnerability:

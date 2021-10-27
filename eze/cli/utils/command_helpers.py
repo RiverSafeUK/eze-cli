@@ -32,7 +32,7 @@ def config_option(f):
     def callback(ctx, param, value):
         """option callback"""
         state = ctx.ensure_object(State)
-        state.config = EzeConfig.set_eze_config(value)
+        state.config = EzeConfig.refresh_ezerc_config(value)
         return value
 
     return click.option(

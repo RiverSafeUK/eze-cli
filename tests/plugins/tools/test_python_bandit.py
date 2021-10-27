@@ -3,8 +3,8 @@ from unittest import mock
 
 import pytest
 
-from eze.core.config import ConfigException
 from eze.plugins.tools.python_bandit import BanditTool
+from eze.utils.config import ConfigException
 from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 

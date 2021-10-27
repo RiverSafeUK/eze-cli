@@ -28,30 +28,32 @@ class EzeCore:
     def __init__(self):
         """Core Eze Constructor"""
 
-    def auto_build_ezerc(self, build_ezerc: bool = False) -> list:
+    @staticmethod
+    def auto_build_ezerc(force_build_ezerc: bool = False) -> bool:
         """detect if needs to build ezerc from scratch"""
-        local_config_location = EzeConfig.get_local_config_filename()
-        if not build_ezerc and not local_config_location.is_file():
-            click.echo(f"unable to find local config auto generating new config file", err=True)
-            build_ezerc = True
+        valid_config = EzeConfig.has_local_config()
+        if not valid_config:
+            click.echo(f"unable to find valid local config auto generating new config file", err=True)
 
+        build_ezerc = not valid_config or force_build_ezerc
         if not build_ezerc:
-            return
+            return False
 
         click.echo(f"Auto generating a new .ezerc.toml")
         language_manager = LanguageManager.get_instance()
         language_manager.create_local_ezerc_config()
-        # reset stored eze config
-        EzeConfig.set_eze_config()
+        # reset stored eze config, to generated version
+        EzeConfig.refresh_ezerc_config()
+        return True
 
-    async def run_scan(self, scan_type: str = None) -> list:
+    async def run_scan(self, scan_type: str = None, custom_reporters: list = None) -> list:
         """run a scan with configured tools and reporters"""
         eze_config = EzeConfig.get_instance()
         scan_config = eze_config.get_scan_config(scan_type)
 
         tools = py_.get(scan_config, "tools", [])
         languages = py_.get(scan_config, "languages", [])
-        reporters = scan_config["reporters"]
+        reporters = custom_reporters or py_.get(scan_config, "reporters", None)
 
         return await self.run(tools, languages, reporters, scan_type)
 
@@ -86,7 +88,8 @@ class EzeCore:
 
     async def run_reports(self, scan_results: list, reports: list = None, scan_type: str = None) -> None:
         """starting reporting scan results"""
-        if reports is None:
+        # default to console report
+        if not reports:
             reports = ["console"]
         #
         reporter_manager = ReporterManager.get_instance()

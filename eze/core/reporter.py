@@ -6,7 +6,8 @@ from typing import Callable
 
 import click
 
-from eze.core.config import EzeConfig, extract_embedded_run_type, ConfigException, get_config_keys, create_config_help
+from eze.core.config import EzeConfig
+from eze.utils.config import extract_embedded_run_type, ConfigException, get_config_keys, create_config_help
 from eze.utils.print import pretty_print_table
 
 

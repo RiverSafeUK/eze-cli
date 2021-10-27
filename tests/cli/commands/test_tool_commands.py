@@ -63,7 +63,7 @@ Available source types are (ALL,PYTHON,NODE,JAVA,GRADLE,SBT,RUBY,GO,PHP,CONTAINE
         assert result.exit_code == 0
 
     @pytest.mark.asyncio
-    @mock.patch("eze.cli.commands.tool_commands.EzeConfig.set_eze_config", mock.MagicMock(return_value=None))
+    @mock.patch("eze.cli.commands.tool_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
     def test_tool_run(self, snapshot):
         # Given
         # When

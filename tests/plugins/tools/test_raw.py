@@ -4,8 +4,8 @@ import pytest
 from click import ClickException
 
 from eze import __version__
-from eze.core.config import ConfigException
 from eze.plugins.tools.raw import RawTool
+from eze.utils.config import ConfigException
 from eze.utils.io import load_json
 from tests.__fixtures__.fixture_helper import (
     convert_to_std_object,
