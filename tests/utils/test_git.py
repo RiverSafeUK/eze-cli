@@ -86,7 +86,12 @@ def test_get_active_branch_name__success_with_ado_ci_detached_example(mock_repo)
 
 
 @patch("git.Repo")
-@mock.patch.dict(os.environ, {"BUILD_SOURCEBRANCHNAME": "", "AWS_BRANCH": "main_aws_thing"})
+@mock.patch.dict(os.environ, {
+    "BUILD_SOURCEBRANCH": "",
+    "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
+    "BUILD_SOURCEBRANCHNAME": "",
+    "AWS_BRANCH": "main_aws_thing"
+})
 def test_get_active_branch_name__success_with_no_git_installed(mock_repo):
     mock_repo.return_value = MockSimulateGitNotInstalledGitRepo()
     expected_output = "main_aws_thing"
