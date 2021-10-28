@@ -104,8 +104,16 @@ def get_active_branch_name(git_dir: str) -> str:
     if git_branchname:
         return git_branchname
 
+    # SPECIAL ADO PULL REQUEST LOGIC
+    # when BUILD_SOURCEBRANCH starts with 'refs/heads/' normal BUILD_SOURCEBRANCHNAME
+    # when BUILD_SOURCEBRANCH starts with 'refs/pull/' pr, BUILD_SOURCEBRANCHNAME contains merge
+    # https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
+    ado_source_branch = os.environ.get("BUILD_SOURCEBRANCH")
+    if ado_source_branch and ado_source_branch.startswith("refs/pull/"):
+        return os.environ.get("SYSTEM_PULLREQUEST_SOURCEBRANCH").replace("refs/heads/", "")
+
     ci_branchname = (
-        # FROM Microsoft ADO: Build.SourceBranchName = BUILD_SOURCEBRANCHNAME
+        # FROM ADO: Standard ADO non PR case, BUILD_SOURCEBRANCHNAME
         # https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml
         os.environ.get("BUILD_SOURCEBRANCHNAME")
         # FROM AWS Amplify: AWS_BRANCH

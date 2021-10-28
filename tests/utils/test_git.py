@@ -86,6 +86,17 @@ branch_test_data = [
         "main_ado_thing",
     ),
     (
+        "ab-860: ado: merge case",
+        {
+            "BUILD_SOURCEBRANCHNAME": "merge",
+            "BUILD_SOURCEBRANCH": "refs/pull/feature/ab-860-something-something-dont-take-from-here",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "refs/heads/feature/ab-860-something-something",
+            "BUILD_REPOSITORY_URI": "https://ado-repo.com",
+        },
+        "https://ado-repo.com",
+        "feature/ab-860-something-something",
+    ),
+    (
         "AWS_CASE",
         {"AWS_BRANCH": "main_aws_thing", "AWS_CLONE_URL": "https://aws-repo.com"},
         "https://aws-repo.com",
