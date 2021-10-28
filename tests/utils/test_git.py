@@ -80,13 +80,18 @@ def test_get_active_branch_name__success_with_no_git_installed(mock_repo):
 
 branch_test_data = [
     (
-        "ado",
-        {"BUILD_SOURCEBRANCHNAME": "main_ado_thing", "BUILD_REPOSITORY_URI": "https://ado-repo.com"},
+        "ado: normal merge",
+        {
+            "BUILD_SOURCEBRANCH": "refs/heads/main_ado_thing-dont-take-from-here",
+            "BUILD_SOURCEBRANCHNAME": "main_ado_thing",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
+            "BUILD_REPOSITORY_URI": "https://ado-repo.com",
+        },
         "https://ado-repo.com",
         "main_ado_thing",
     ),
     (
-        "ab-860: ado: merge case",
+        "ab-860: ado: pull request merge case",
         {
             "BUILD_SOURCEBRANCHNAME": "merge",
             "BUILD_SOURCEBRANCH": "refs/pull/feature/ab-860-something-something-dont-take-from-here",
@@ -98,7 +103,13 @@ branch_test_data = [
     ),
     (
         "AWS_CASE",
-        {"AWS_BRANCH": "main_aws_thing", "AWS_CLONE_URL": "https://aws-repo.com"},
+        {
+            "BUILD_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
+            "AWS_BRANCH": "main_aws_thing",
+            "AWS_CLONE_URL": "https://aws-repo.com",
+        },
         "https://aws-repo.com",
         "main_aws_thing",
     ),
@@ -106,6 +117,9 @@ branch_test_data = [
     (
         "Jenkins",
         {
+            "BUILD_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
             "GIT_URL": "https://Jenkins-repo.com",
             "GIT_LOCAL_BRANCH": "main_Jenkins_thing",
             "GIT_BRANCH": "/o/origin/main_Jenkins_thing",
@@ -116,6 +130,9 @@ branch_test_data = [
     (
         "IBMCLOUD",
         {
+            "BUILD_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
             "GIT_URL": "https://IBMCLOUD-repo.com",
             "GIT_BRANCH": "main_IBMCLOUD_thing",
         },
@@ -125,6 +142,9 @@ branch_test_data = [
     (
         "GCP",
         {
+            "BUILD_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
             "_REPO_URL": "https://GCP-repo.com",
             "BRANCH_NAME": "main_GCP_thing",
         },
@@ -134,6 +154,9 @@ branch_test_data = [
     (
         "Gitlab_with_credentials",
         {
+            "BUILD_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
             "CI_REPOSITORY_URL": "https://gitlab-ci-token:[MASKED]@gitlab.com/gitlab-examples/ci-debug-trace.git",  # nosec
             "CI_DEFAULT_BRANCH": "main_Gitlab_thing",
         },
@@ -143,6 +166,9 @@ branch_test_data = [
     (
         "Github",
         {
+            "BUILD_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
             "GITHUB_SERVER_URL": "https://Gitlab-repo.com",
             "GITHUB_REPOSITORY": "zapper/eze.git",
             "CI_DEFAULT_BRANCH": "main_Github_thing",
