@@ -9,7 +9,7 @@ from unittest.mock import patch
 import pytest
 from git import InvalidGitRepositoryError
 
-from eze.core.config import ConfigException
+from eze.utils.config import ConfigException
 from eze.plugins.reporters.eze import EzeReporter
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 

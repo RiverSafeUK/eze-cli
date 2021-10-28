@@ -3,9 +3,9 @@ from unittest import mock
 
 import pytest
 
-from eze.core.config import ConfigException
 from eze.plugins.tools.container_trivy import TrivyTool
 from eze.utils.io import create_tempfile_path
+from eze.utils.config import ConfigException
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 

@@ -6,10 +6,11 @@ import sys
 import click
 
 from eze.cli.utils.command_helpers import base_options, pass_state, debug_option
-from eze.core.config import EzeConfig, extract_embedded_run_type
+from eze.core.config import EzeConfig
 from eze.core.engine import EzeCore
 from eze.core.enums import SourceType
 from eze.core.tool import ToolManager, ToolType
+from eze.utils.config import extract_embedded_run_type
 
 
 @click.group("tools")

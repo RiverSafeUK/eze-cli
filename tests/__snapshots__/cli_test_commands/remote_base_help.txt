@@ -1,6 +1,6 @@
 Usage: test-remote [OPTIONS]
 
-  Eze run scan in a remote repository
+  Eze run scan against git repo, and report back to management console
 
 Options:
   --debug / --no-debug    Enables or disables debug mode
@@ -9,8 +9,6 @@ Options:
                           include run type aka 'safety:test-only'
   -u, --url TEXT          Specify the url of the remote repository to run scan.
                           ex https://user:pass@github.com/repo-url  [required]
-  -b, --branch TEXT       Specify the branch name to run scan into. ex main
-                          [required]
-  --online                Specify if you want to run the test online instead of
-                          locally
+  -b, --branch TEXT       Specify the branch name to run scan against, aka
+                          'main'  [required]
   --help                  Show this message and exit.

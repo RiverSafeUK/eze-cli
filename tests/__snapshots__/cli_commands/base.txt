@@ -11,5 +11,6 @@ Commands:
   languages     container for language commands
   reporters     container for reporter commands
   test          Eze run scan
-  test-remote   Eze run scan in a remote repository
+  test-online   Eze run scan remotely on a server
+  test-remote   Eze run scan against git repo, and report back to...
   tools         container for tool commands

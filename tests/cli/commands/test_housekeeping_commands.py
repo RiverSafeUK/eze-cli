@@ -48,8 +48,8 @@ class TestHousekeepingCommand:
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_housekeeping_commands/housekeeping_base_help.txt")
 
-    @mock.patch("eze.cli.commands.housekeeping_commands.get_global_config_filename")
-    @mock.patch("eze.cli.commands.housekeeping_commands.get_local_config_filename")
+    @mock.patch("eze.cli.commands.housekeeping_commands.EzeConfig.get_global_config_filename")
+    @mock.patch("eze.cli.commands.housekeeping_commands.EzeConfig.get_local_config_filename")
     def test_create_global_config_command(self, mock_get_local_config_filename, mock_get_global_config_filename):
         tmp_local_file = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "tmp-local-testfile"
         mock_get_local_config_filename.return_value = tmp_local_file
@@ -62,8 +62,8 @@ class TestHousekeepingCommand:
         assert result.output.strip() == expected_success_message
         assert result.exit_code == 0
 
-    @mock.patch("eze.cli.commands.housekeeping_commands.get_global_config_filename")
-    @mock.patch("eze.cli.commands.housekeeping_commands.get_local_config_filename")
+    @mock.patch("eze.cli.commands.housekeeping_commands.EzeConfig.get_global_config_filename")
+    @mock.patch("eze.cli.commands.housekeeping_commands.EzeConfig.get_local_config_filename")
     def test_create_global_config_command__already_exists_case(
         self, mock_get_local_config_filename, mock_get_global_config_filename
     ):
@@ -81,8 +81,8 @@ class TestHousekeepingCommand:
         assert result.output.strip() == expected_failure_message
         assert result.exit_code == 0
 
-    @mock.patch("eze.cli.commands.housekeeping_commands.get_global_config_filename")
-    @mock.patch("eze.cli.commands.housekeeping_commands.get_local_config_filename")
+    @mock.patch("eze.cli.commands.housekeeping_commands.EzeConfig.get_global_config_filename")
+    @mock.patch("eze.cli.commands.housekeeping_commands.EzeConfig.get_local_config_filename")
     def test_list_locations_command(self, mock_get_local_config_filename, mock_get_global_config_filename):
         tmp_local_file = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "tmp-local-testfile"
         mock_get_local_config_filename.return_value = tmp_local_file

@@ -9,8 +9,8 @@ from pydash import py_
 import click
 
 from eze import __version__
-from eze.core.config import ConfigException
 from eze.core.reporter import ReporterMeta
+from eze.utils.config import ConfigException
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.io import pretty_print_json
 
@@ -36,7 +36,11 @@ get EZE_APIKEY from eze console profile page""",
         "CONSOLE_ENDPOINT": {
             "type": str,
             "required": True,
-            "help_text": "Management console url as specified by eze management console /profile page",
+            "default": os.environ.get("EZE_CONSOLE_ENDPOINT", ""),
+            "default_help_value": "ENVIRONMENT VARIABLE <EZE_CONSOLE_ENDPOINT>",
+            "help_text": """Management console url as specified by eze management console /profile page
+it can also be specified as the environment variable EZE_CONSOLE_ENDPOINT
+get EZE_CONSOLE_ENDPOINT from eze management console profile page""",
         },
         "CODEBASE_ID": {
             "type": str,

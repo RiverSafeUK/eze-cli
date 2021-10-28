@@ -10,21 +10,17 @@ from pathlib import Path
 from typing import Callable
 
 import click
-from eze.utils.io import write_text
 
 from pydash import py_
 
-from eze.cli.utils.config import get_local_config_filename
-from eze.core.config import (
-    EzeConfig,
-    extract_embedded_run_type,
-    ConfigException,
-)
+from eze.core.config import EzeConfig
 from eze.core.enums import SourceType
 from eze.core.tool import ToolManager
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
+from eze.utils.io import write_text
 from eze.utils.print import pretty_print_table
+from eze.utils.config import extract_embedded_run_type, ConfigException
 
 
 class LanguageRunnerMeta(ABC):
@@ -366,7 +362,7 @@ PRINT_IGNORED = false
 reporters = ["console", "bom", "json", "junit", "quality"]
 languages = [{",".join(language_list)}]
 """
-        local_config_location = get_local_config_filename()
+        local_config_location = EzeConfig.get_local_config_filename()
         self._create_config_file(local_config_location, eze_rc)
         click.echo(f"Written local configuration file: '{local_config_location}'")
 
@@ -424,12 +420,6 @@ Language '{language}' Help
             )
             click.echo(language_class.install_help())
             click.echo(f"""""")
-
-        click.echo(
-            f"""Language Configuration Instructions:
----------------------------------"""
-        )
-        click.echo(language_class.config_help())
 
         click.echo(
             f"""Language More Info:

@@ -8,7 +8,7 @@ from typing import Callable
 
 import click
 
-from eze.cli.utils.config import set_eze_config, set_debug_mode
+from eze.core.config import EzeConfig
 
 """spec https://click.palletsprojects.com/en/7.x/api/#click.File"""
 FILE_TYPE = click.Path(exists=True, file_okay=True, dir_okay=False, readable=True, resolve_path=True)
@@ -32,7 +32,7 @@ def config_option(f):
     def callback(ctx, param, value):
         """option callback"""
         state = ctx.ensure_object(State)
-        state.config = set_eze_config(value)
+        state.config = EzeConfig.refresh_ezerc_config(value)
         return value
 
     return click.option(
@@ -53,7 +53,7 @@ def debug_option(f):
         """option callback"""
         state = ctx.ensure_object(State)
         state.debug = value
-        set_debug_mode(value)
+        EzeConfig.debug_mode = value
         return value
 
     return click.option(
