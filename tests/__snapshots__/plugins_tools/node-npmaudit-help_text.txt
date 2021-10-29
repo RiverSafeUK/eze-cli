@@ -11,6 +11,14 @@ config_help:
 SOURCE = "..."
 
 
+# ONLY_PROD bool [OPTIONAL]
+# if to add a '--only=prod' flag to ignore devDependencies
+# default value: 
+#   ONLY_PROD = true
+# 
+ONLY_PROD = true / false
+
+
 # REPORT_FILE str [OPTIONAL]
 # output report location (will default to tmp file otherwise)
 # default value: 

@@ -18,6 +18,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
             "SOURCE": None,
+            "ONLY_PROD": True,
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -39,6 +40,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
             "SOURCE": "src",
+            "ONLY_PROD": True,
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -192,6 +194,18 @@ Will install mocha@8.4.0"""
     async def test_run_scan_command__std(self, mock_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
+
+        expected_cmd = "npm audit --json --only=prod"
+
+        # Test run calls correct program
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+
+    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @pytest.mark.asyncio
+    async def test_run_scan_command__non_prod(self, mock_subprocess_run):
+        # Given
+        input_config = {"REPORT_FILE": "foo_report.json", "ONLY_PROD": False}
 
         expected_cmd = "npm audit --json"
 
