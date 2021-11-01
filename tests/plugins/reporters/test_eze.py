@@ -45,12 +45,15 @@ class TestEzeReporter(ReporterMetaTestBase):
         assert isinstance(output, str)
         assert len(output) > 0
 
-    @mock.patch.dict(os.environ, {
-        "BUILD_SOURCEBRANCH": "",
-        "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
-        "BUILD_SOURCEBRANCHNAME": "",
-        "AWS_BRANCH": ""
-    })
+    @mock.patch.dict(
+        os.environ,
+        {
+            "BUILD_SOURCEBRANCH": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "AWS_BRANCH": "",
+        },
+    )
     @patch("git.Repo")
     def test_creation__no_config_git_info_missing(self, mock_repo):
         # Given
