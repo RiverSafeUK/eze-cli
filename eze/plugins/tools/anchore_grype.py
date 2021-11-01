@@ -139,7 +139,7 @@ You can also explicitly specify the scheme to use:
 
             references = py_.get(grype_match, "vulnerability.urls", [])
             source_url = py_.get(grype_match, "vulnerability.dataSource", None)
-            if source_url and not source_url in references:
+            if source_url and source_url not in references:
                 references.insert(0, source_url)
 
             grype_severity = py_.get(grype_match, "vulnerability.severity", [])

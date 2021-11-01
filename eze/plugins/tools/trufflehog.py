@@ -14,6 +14,7 @@ from eze.utils.io import (
     create_tempfile_path,
     is_windows_os,
     normalise_windows_regex_file_path,
+    remove_non_folders,
 )
 from pydash import py_
 
@@ -226,5 +227,9 @@ Warning: on production might want to set this to False to prevent found Secrets 
         if len(parsed_config["EXCLUDE"]) > 0:
             if is_windows_os():
                 parsed_config["EXCLUDE"] = list(map(normalise_windows_regex_file_path, parsed_config["EXCLUDE"]))
+
+        # ADDITIONAL PARSING: AB-848: detect non folders being set as source
+        # remove from SOURCE
+        parsed_config["SOURCE"] = remove_non_folders(parsed_config["SOURCE"], ["."], "trufflehog")
 
         return parsed_config

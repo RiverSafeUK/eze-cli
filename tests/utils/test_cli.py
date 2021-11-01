@@ -23,7 +23,7 @@ from eze.utils.cli import (
 def test_check_output_corrupt__linux_bash_file_missing():
     input = """/bin/sh: 1: non-existant.sh: not found\n"""
     output = _check_output_corrupt(input)
-    assert output == True
+    assert output is True
 
 
 def test_check_output_corrupt__windows_bash_file_missing():
@@ -31,13 +31,13 @@ def test_check_output_corrupt__windows_bash_file_missing():
 'safety' is not recognized as an internal or external command,
 operable program or batch file."""
     output = _check_output_corrupt(input)
-    assert output == True
+    assert output is True
 
 
 def test_check_output_corrupt__normal_output():
     input = """safety, version 1.10.3"""
     output = _check_output_corrupt(input)
-    assert output == False
+    assert output is False
 
 
 def test_extract_version__safety_version():
@@ -307,7 +307,7 @@ def test_cmd_exists__success():
     # When
     output = not not cmd_exists(input_cmd)
     # Then
-    assert output == True
+    assert output is True
 
 
 def test_cmd_exists__failure():
@@ -316,7 +316,7 @@ def test_cmd_exists__failure():
     # When
     output = not not cmd_exists(input_cmd)
     # Then
-    assert output == False
+    assert output is False
 
 
 def test_run_cli_command__sanity():

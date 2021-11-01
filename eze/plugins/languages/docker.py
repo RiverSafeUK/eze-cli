@@ -91,7 +91,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
     REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
-    SOURCE = ["Dockerfile"]
+    SOURCE = ["."]
     NO_ENTROPY = false
     INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
