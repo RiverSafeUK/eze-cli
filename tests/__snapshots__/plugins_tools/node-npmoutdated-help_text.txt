@@ -22,7 +22,7 @@ REPORT_FILE = "..."
 # NEWER_MAJOR_SEMVERSION_SEVERITY str [OPTIONAL]
 # severity of vulnerabilty to raise, if new major version available of a package
 # default value: 
-#   NEWER_MAJOR_SEMVERSION_SEVERITY = "high"
+#   NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
 # 
 NEWER_MAJOR_SEMVERSION_SEVERITY = "..."
 
@@ -30,7 +30,7 @@ NEWER_MAJOR_SEMVERSION_SEVERITY = "..."
 # NEWER_MINOR_SEMVERSION_SEVERITY str [OPTIONAL]
 # severity of vulnerabilty to raise, if new minor version available of a package
 # default value: 
-#   NEWER_MINOR_SEMVERSION_SEVERITY = "medium"
+#   NEWER_MINOR_SEMVERSION_SEVERITY = "low"
 # 
 NEWER_MINOR_SEMVERSION_SEVERITY = "..."
 
@@ -38,7 +38,7 @@ NEWER_MINOR_SEMVERSION_SEVERITY = "..."
 # NEWER_PATCH_SEMVERSION_SEVERITY str [OPTIONAL]
 # severity of vulnerabilty to raise, if new patch version available of a package
 # default value: 
-#   NEWER_PATCH_SEMVERSION_SEVERITY = "low"
+#   NEWER_PATCH_SEMVERSION_SEVERITY = "none"
 # 
 NEWER_PATCH_SEMVERSION_SEVERITY = "..."
 

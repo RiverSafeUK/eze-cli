@@ -17,9 +17,9 @@ class TestNpmOutdatedTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmoutdated-report.json"),
-            "NEWER_MAJOR_SEMVERSION_SEVERITY": "high",
-            "NEWER_MINOR_SEMVERSION_SEVERITY": "medium",
-            "NEWER_PATCH_SEMVERSION_SEVERITY": "low",
+            "NEWER_MAJOR_SEMVERSION_SEVERITY": "medium",
+            "NEWER_MINOR_SEMVERSION_SEVERITY": "low",
+            "NEWER_PATCH_SEMVERSION_SEVERITY": "none",
             "SOURCE": None,
             #
             "ADDITIONAL_ARGUMENTS": "",
@@ -41,9 +41,9 @@ class TestNpmOutdatedTool(ToolMetaTestBase):
         }
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmoutdated-report.json"),
-            "NEWER_MAJOR_SEMVERSION_SEVERITY": "high",
-            "NEWER_MINOR_SEMVERSION_SEVERITY": "medium",
-            "NEWER_PATCH_SEMVERSION_SEVERITY": "low",
+            "NEWER_MAJOR_SEMVERSION_SEVERITY": "medium",
+            "NEWER_MINOR_SEMVERSION_SEVERITY": "low",
+            "NEWER_PATCH_SEMVERSION_SEVERITY": "none",
             "SOURCE": "src",
             #
             "ADDITIONAL_ARGUMENTS": "",

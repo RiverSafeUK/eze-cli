@@ -16,7 +16,7 @@
       "overview": "",
       "recommendation": "update helmet-example-when-not-npm-installed (2.3.0) to a newer version, current version is 2 major versions out of date. Latest is 4.6.0",
       "references": [],
-      "severity": "high",
+      "severity": "medium",
       "version": "2.3.0",
       "vulnerability_type": "dependancy"
     },
@@ -32,7 +32,7 @@
       "overview": "",
       "recommendation": "update helmet (2.3.0) to a newer version, current version is 2 major versions out of date. Latest is 4.6.0",
       "references": [],
-      "severity": "high",
+      "severity": "medium",
       "version": "2.3.0",
       "vulnerability_type": "dependancy"
     },
@@ -48,7 +48,7 @@
       "overview": "",
       "recommendation": "update mocha (2.5.3) to a newer version, current version is 6 major versions out of date. Latest is 8.4.0",
       "references": [],
-      "severity": "high",
+      "severity": "medium",
       "version": "2.5.3",
       "vulnerability_type": "dependancy"
     }

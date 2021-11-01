@@ -42,17 +42,17 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         },
         "NEWER_MAJOR_SEMVERSION_SEVERITY": {
             "type": str,
-            "default": VulnerabilitySeverityEnum.high.name,
+            "default": VulnerabilitySeverityEnum.medium.name,
             "help_text": """severity of vulnerabilty to raise, if new major version available of a package""",
         },
         "NEWER_MINOR_SEMVERSION_SEVERITY": {
             "type": str,
-            "default": VulnerabilitySeverityEnum.medium.name,
+            "default": VulnerabilitySeverityEnum.low.name,
             "help_text": """severity of vulnerabilty to raise, if new minor version available of a package""",
         },
         "NEWER_PATCH_SEMVERSION_SEVERITY": {
             "type": str,
-            "default": VulnerabilitySeverityEnum.low.name,
+            "default": VulnerabilitySeverityEnum.none.name,
             "help_text": """severity of vulnerabilty to raise, if new patch version available of a package""",
         },
     }

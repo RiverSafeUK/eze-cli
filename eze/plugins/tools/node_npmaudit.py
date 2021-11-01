@@ -33,6 +33,11 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             "default": None,
             "help_text": """folder where node package.json, will default to folder eze ran from""",
         },
+        "ONLY_PROD": {
+            "type": bool,
+            "default": True,
+            "help_text": """if to add a '--only=prod' flag to ignore devDependencies""",
+        },
         "REPORT_FILE": {
             "type": str,
             "default": create_tempfile_path("tmp-npmaudit-report.json"),
@@ -50,7 +55,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         "CMD_CONFIG": {
             "BASE_COMMAND": shlex.split("npm audit --json"),
             # eze config fields -> flags
-            "FLAGS": {},
+            "SHORT_FLAGS": {"ONLY_PROD": "--only=prod"},
         }
     }
 
