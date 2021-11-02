@@ -34,18 +34,14 @@ trufflehog3 --help
 pip show truffleHog3"""
     MORE_INFO: str = """https://pypi.org/project/truffleHog3/
 
-Org Truffle Hog
-===============================
-https://pypi.org/project/truffleHog/
-https://github.com/dxa4481/truffleHog
-
 Tips and Tricks
 ===============================
-- exclude compiled and dependency folders to gain a big speed increases
-  aka node_modules
-- scan tests as well as source
-- use IGNORED_FILES to ignore false positives
-  aka high enthropy ids, or mock passwords in unit test fixtures, (or package-lock.json)
+- use EXCLUDE to exclude compiled and dependency folders to gain a big speed increases
+  aka "node_modules"
+- use EXCLUDE to not run scan in tests
+  aka to avoid high enthropy ids, or mock passwords in unit test fixtures, (or package-lock.json)
+- use IGNORED_FILES to ignore false positives in files and folders
+- false positives can be individually omitted with post fixing line with "# nosecret" and "// nosecret"
 """
 
     LICENSE: str = """GNU"""
@@ -91,7 +87,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("trufflehog3 -f json"),
+            "BASE_COMMAND": shlex.split("trufflehog3 --no-history -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags

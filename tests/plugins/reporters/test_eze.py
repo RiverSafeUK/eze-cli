@@ -82,9 +82,15 @@ it can also be specified as the environment variable EZE_APIKEY
 get EZE_APIKEY from eze console profile page"""
         # Given valid inside valid git repo
         mock_repo.return_value = MockSuccessGitRepo()
+        input_config = {
+            "CONSOLE_ENDPOINT": "MOCK_CONSOLE_ENDPOINT",
+            "CODEBASE_ID": "MOCK_CODEBASE_ID",
+            "CODEBRANCH_NAME": "MOCK_CODEBRANCH_NAME",
+            "APIKEY": "",
+        }
         # When
         with pytest.raises(ConfigException) as thrown_exception:
-            testee = EzeReporter()
+            testee = EzeReporter(input_config)
         # Then
         assert thrown_exception.value.message == expected_error_message
 
