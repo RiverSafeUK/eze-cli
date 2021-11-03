@@ -356,6 +356,7 @@ class LanguageManager:
 # VULNERABILITY_NA_SEVERITY_LIMIT = xxx
 
 [console]
+PRINT_SUMMARY_ONLY = false
 PRINT_IGNORED = false
 
 [scan]

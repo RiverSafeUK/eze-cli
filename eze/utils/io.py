@@ -24,6 +24,23 @@ def normalise_file_paths(file_paths: list) -> Path:
     return new_file_paths
 
 
+def remove_non_folders(file_paths: list, default: list, subject: str) -> list:
+    """Removes non folders and non existant entries"""
+    cleaned = []
+    for file_path in file_paths:
+        local_folder = Path.cwd() / file_path
+        if not os.path.exists(local_folder):
+            continue
+        if not os.path.isdir(local_folder):
+            print(f"{subject}: Removing non folder '{local_folder}' from list '{file_paths}'")
+            continue
+        cleaned.append(file_path)
+    if len(cleaned) == 0:
+        print(f"{subject}: No valid paths left, defaulting to '{default}'")
+        return default
+    return cleaned
+
+
 def is_windows_os() -> bool:
     """Is running on a windows machine
     see https://docs.python.org/3/library/os.html

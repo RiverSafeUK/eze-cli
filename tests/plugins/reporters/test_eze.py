@@ -45,12 +45,15 @@ class TestEzeReporter(ReporterMetaTestBase):
         assert isinstance(output, str)
         assert len(output) > 0
 
-    @mock.patch.dict(os.environ, {
-        "BUILD_SOURCEBRANCH": "",
-        "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
-        "BUILD_SOURCEBRANCHNAME": "",
-        "AWS_BRANCH": ""
-    })
+    @mock.patch.dict(
+        os.environ,
+        {
+            "BUILD_SOURCEBRANCH": "",
+            "SYSTEM_PULLREQUEST_SOURCEBRANCH": "",
+            "BUILD_SOURCEBRANCHNAME": "",
+            "AWS_BRANCH": "",
+        },
+    )
     @patch("git.Repo")
     def test_creation__no_config_git_info_missing(self, mock_repo):
         # Given
@@ -79,9 +82,15 @@ it can also be specified as the environment variable EZE_APIKEY
 get EZE_APIKEY from eze console profile page"""
         # Given valid inside valid git repo
         mock_repo.return_value = MockSuccessGitRepo()
+        input_config = {
+            "CONSOLE_ENDPOINT": "MOCK_CONSOLE_ENDPOINT",
+            "CODEBASE_ID": "MOCK_CODEBASE_ID",
+            "CODEBRANCH_NAME": "MOCK_CODEBRANCH_NAME",
+            "APIKEY": "",
+        }
         # When
         with pytest.raises(ConfigException) as thrown_exception:
-            testee = EzeReporter()
+            testee = EzeReporter(input_config)
         # Then
         assert thrown_exception.value.message == expected_error_message
 
