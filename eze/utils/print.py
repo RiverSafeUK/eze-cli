@@ -2,11 +2,12 @@
 """
 
 
-def pretty_print_table(table: list) -> None:
+def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
     """given kv with print it as a pretty printed table"""
 
     if len(table) == 0:
-        print("Nothing to display")
+        if has_nothing_message:
+            print("Nothing to display")
         return
 
     sample_entry = table[0]

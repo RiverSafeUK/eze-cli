@@ -70,12 +70,13 @@ def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "
         )
 
     if completed_process.stderr:
-        sanitised_command_str = __sanitise_command(command_list)
-        print(
-            f"""{command_name} ran with warnings/errors:
+        if EzeConfig.debug_mode:
+            sanitised_command_str = __sanitise_command(command_list)
+            print(
+                f"""{command_name} ran with warnings/errors:
     Ran: '{sanitised_command_str}'
     Error: {completed_process.stderr}"""
-        )
+            )
     return completed_process
 
 
