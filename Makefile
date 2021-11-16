@@ -6,10 +6,12 @@
 
 
 # AUTO DETECT CORRECT LOCAL PYTHON / PIP
-ifeq ($(shell which python3 2> /dev/null),)
-	PYTHON = 'python'
+# AB-895: workaround windows has python symlinks to non-functional python3
+# so "which python3" not enough
+ifeq ($(shell python3 --version 2> /dev/null),)
+	PYTHON = python
 else
-	PYTHON = 'python3'
+	PYTHON = python3
 endif
 ifeq ($(shell which pip3 2> /dev/null),)
 	PIP = pip
