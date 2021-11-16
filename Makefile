@@ -3,19 +3,7 @@
 # https://www.gnu.org/software/make/
 # https://www.gnu.org/software/make/manual/html_node/Special-Targets.html
 ##############################################
-HAS_PYTHON3 = $(shell eval which python3)
-HAS_PY = $(shell eval which py)
 PYTHON = python
-ifdef (HAS_PYTHON3)
-	PYTHON = python3
-else
-	ifdef (HAS_PY)
-		PYTHON = py -3
-	else
-		PYTHON = python
-	endif
-endif
-
 PIP = pip3
 
 .PHONY: install lint test
