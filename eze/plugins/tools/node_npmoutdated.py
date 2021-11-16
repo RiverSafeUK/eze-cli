@@ -14,6 +14,7 @@ from eze.core.tool import (
 from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
 from eze.utils.io import create_tempfile_path, write_text
 from eze.utils.semvar import get_severity, get_recommendation
+from eze.utils.language.node import install_node_dependencies
 
 
 class NpmOutdatedTool(ToolMeta):
@@ -86,8 +87,9 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
+        # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
+        install_node_dependencies()
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        # completed_process = run_cmd(command_str, True, self.config["SOURCE"])
         completed_process = run_cmd(command_str, True)
 
         report_text = completed_process.stdout
