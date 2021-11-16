@@ -6,4 +6,7 @@ lastly generate SBOM using cyclonedx
 
 Tips and Tricks
 =================================
-node will require "npm install" ran before running security tools
+Many node security tools will require "npm install" ran,
+and will fail if "npm install" fails
+
+"npm install" will be automatically run when a package.json is detected

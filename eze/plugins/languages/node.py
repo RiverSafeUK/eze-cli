@@ -9,6 +9,7 @@ from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.cli import extract_cmd_version
 
+
 class NodeRunner(LanguageRunnerMeta):
     """Base class for node language runner, also has utilities"""
 

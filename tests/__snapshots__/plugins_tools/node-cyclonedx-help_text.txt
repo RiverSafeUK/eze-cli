@@ -78,9 +78,11 @@ Common Gotchas
 NPM Installing
 
 A bill-of-material such as CycloneDX expects exact version numbers. 
-Therefore the dependancies in node_modules needs installed
+Therefore the dependencies in node_modules needs installed
 
 This can be accomplished via:
 
 $ npm install
+
+This will be ran automatically, if npm install fails this tool can't be run
 
