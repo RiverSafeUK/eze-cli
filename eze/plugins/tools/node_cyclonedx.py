@@ -1,9 +1,9 @@
 """cyclonedx SBOM tool class"""
-
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.language.node import install_node_dependencies
 
 
 class NodeCyclonedxTool(ToolMeta):
@@ -27,11 +27,13 @@ Common Gotchas
 NPM Installing
 
 A bill-of-material such as CycloneDX expects exact version numbers. 
-Therefore the dependancies in node_modules needs installed
+Therefore the dependencies in node_modules needs installed
 
 This can be accomplished via:
 
 $ npm install
+
+This will be ran automatically, if npm install fails this tool can't be run
 """
     # https://github.com/CycloneDX/cyclonedx-node-module/blob/master/LICENSE
     LICENSE: str = """Apache 2.0"""
@@ -61,9 +63,9 @@ $ npm install
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
-
+        # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
+        install_node_dependencies()
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
-
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(cyclonedx_bom)
         report.warnings = []

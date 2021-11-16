@@ -1,5 +1,4 @@
 """Node Language Runner module"""
-import click
 
 from eze.core.enums import SourceType
 from eze.core.language import LanguageRunnerMeta
@@ -12,7 +11,7 @@ from eze.utils.cli import extract_cmd_version
 
 
 class NodeRunner(LanguageRunnerMeta):
-    """Base class for node language runner"""
+    """Base class for node language runner, also has utilities"""
 
     LANGUAGE_NAME: str = "node"
     SOURCE_TYPE: SourceType = SourceType.NODE
@@ -25,11 +24,17 @@ lastly generate SBOM using cyclonedx
 
 Tips and Tricks
 =================================
-node will require "npm install" ran before running security tools"""
+Many node security tools will require "npm install" ran,
+and will fail if "npm install" fails
+
+"npm install" will be automatically run when a package.json is detected
+"""
     MORE_INFO: str = """https://nodejs.org/en/"""
 
     FILE_PATTERNS: dict = {"NPM": "package.json$", "NODE_FILE": ".*\\.js$"}
     FOLDER_PATTERNS: dict = {}
+
+    _installed_dependency: bool = False
 
     @staticmethod
     def check_installed() -> str:
@@ -40,11 +45,9 @@ node will require "npm install" ran before running security tools"""
             return "inbuilt (node: none)"
         return f"inbuilt (node: {version}, npm:{npm_version})"
 
-    async def pre_test(self) -> list:
+    def pre_test(self) -> list:
         """Method for running a pre test builds on project"""
-        # AB#662: implement auto builds
-        # aka npm install
-        click.echo("Node auto build not implemented yet, see AB#662: implement auto node build")
+        # NOTE: npm installed individual via 'utils.language.node.install_node_dependencies()' by tools
 
     def create_ezerc(self) -> dict:
         """Method for building a dynamic ezerc.toml fragment"""

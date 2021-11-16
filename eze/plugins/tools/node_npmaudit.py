@@ -13,6 +13,7 @@ from eze.core.tool import (
 )
 from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
 from eze.utils.io import create_tempfile_path, write_text
+from eze.utils.language.node import install_node_dependencies
 
 
 class NpmAuditTool(ToolMeta):
@@ -75,8 +76,9 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
     async def run_scan(self) -> ScanResult:
         """Method for running a synchronous scan using tool"""
+        # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
+        install_node_dependencies()
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        # completed_process = run_cmd(command_str, True, self.config["SOURCE"])
         completed_process = run_cmd(command_str, True)
 
         report_text = completed_process.stdout
@@ -124,17 +126,17 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         for parent_module in vulnerability["effects"]:
             module_path += f"{parent_module}>"
 
-        # if advistory not present, it's a insecure dependency issue
-        advisitory_title = py_.get(vulnerability, "via[0].title", "")
-        if not advisitory_title:
-            advisitory_title = "has insecure dependency "
-            advisitory_title += ">".join(reversed(vulnerability["via"]))
+        # if advisory not present, it's a insecure dependency issue
+        advisory_title = py_.get(vulnerability, "via[0].title", "")
+        if not advisory_title:
+            advisory_title = "has insecure dependency "
+            advisory_title += ">".join(reversed(vulnerability["via"]))
 
         # pull it all together
         path = f"{module_path}{module_name}({module_version})"
 
-        if advisitory_title:
-            path += f": {advisitory_title}"
+        if advisory_title:
+            path += f": {advisory_title}"
 
         return path
 

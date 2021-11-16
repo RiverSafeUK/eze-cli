@@ -190,6 +190,7 @@ Will install mocha@8.4.0"""
 
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan_command__std(self, mock_subprocess_run):
         # Given
@@ -202,6 +203,7 @@ Will install mocha@8.4.0"""
 
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan_command__non_prod(self, mock_subprocess_run):
         # Given
