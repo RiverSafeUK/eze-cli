@@ -101,6 +101,10 @@ RUN pip3 install --no-cache-dir piprot && echo "SIZETAG:Tool:python/piprot"
 RUN pip3 install --no-cache-dir safety && echo "SIZETAG:Tool:python/safety"
 RUN pip3 install --no-cache-dir cyclonedx-bom && echo "SIZETAG:Tool:python/cyclonedx-bom"
 
+# BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
+# deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
+RUN rm `which cyclonedx-bom`
+
 #
 ## Install Anchore tools
 RUN set -o pipefail \
