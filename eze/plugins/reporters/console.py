@@ -70,7 +70,7 @@ defaults to false""",
         self._print_scan_report_vulnerabilities(scan_results_with_vulnerabilities)
         self._print_scan_report_sbom(scan_results_with_sboms)
 
-    def print_scan_summary_table(self, scan_results: list[ScanResult]):
+    def print_scan_summary_table(self, scan_results: list):
         boms = []
         summaries = []
         for scan_result in scan_results:
