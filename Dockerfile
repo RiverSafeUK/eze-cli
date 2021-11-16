@@ -79,7 +79,7 @@ RUN apt-get update \
 #
 # Install node (tool dependency)
 ENV NODE_ENV production
-RUN set -o pipefail
+RUN set -o pipefail \
     && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
@@ -103,11 +103,11 @@ RUN pip3 install --no-cache-dir cyclonedx-bom && echo "SIZETAG:Tool:python/cyclo
 
 #
 ## Install Anchore tools
-RUN set -o pipefail
-    && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+RUN set -o pipefail \
+    && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin \
     && echo "SIZETAG:Tool:anchore/grype"
-RUN set -o pipefail
-    && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+RUN set -o pipefail \
+    && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin \
     && echo "SIZETAG:Tool:anchore/syft"
 
 #
@@ -135,8 +135,8 @@ RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/
 
 #
 ## Install Kics tools
-RUN set -o pipefail
-    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin
+RUN set -o pipefail \
+    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin \
     && echo "SIZETAG:Tool:checkmarx/kics"
 
 #
