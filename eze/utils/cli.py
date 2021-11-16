@@ -231,10 +231,11 @@ def detect_pip_command() -> str:
     version = extract_cmd_version(["pip", "--version"])
     if version:
         return "pip"
-    return ""
+    # unable to find pip, default to pip
+    return "pip"
 
 
-def detect_pip_executable_version(pip_package: str, cli_command: str, pip_command: str = "pip") -> str:
+def detect_pip_executable_version(pip_package: str, cli_command: str) -> str:
     """Run pip for package and check for common version patterns"""
     # 1. detect tool on command line
     # 2. detect version via pip
@@ -244,10 +245,16 @@ def detect_pip_executable_version(pip_package: str, cli_command: str, pip_comman
     if not executable_path:
         return ""
     # 2. detect version via pip, to see what version is installed on cli
-    version = extract_version_from_pip(pip_package, pip_command)
+    version = extract_version_from_pip(pip_package)
     if not version:
         return "Non-Pip version Installed"
     return version
+
+
+def extract_version_from_pip(pip_package: str) -> str:
+    """Run pip for package and check for common version patterns"""
+    pip_command = detect_pip_command()
+    return extract_cmd_version([pip_command, "show", pip_package])
 
 
 def extract_cmd_version(command: list) -> str:
@@ -280,11 +287,6 @@ def extract_version_from_maven(mvn_package: str) -> str:
     if not version or error_output:
         version = ""
     return version
-
-
-def extract_version_from_pip(pip_package: str, pip_command: str = "pip") -> str:
-    """Run pip for package and check for common version patterns"""
-    return extract_cmd_version([pip_command, "show", pip_package])
 
 
 def _check_output_corrupt(output: str) -> bool:
