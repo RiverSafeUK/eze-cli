@@ -104,9 +104,6 @@ _Some tools, for example semgrep are upto 200mb by themselves, tailoring the ima
 ```bash
 make docker
 
-# or create offline docker for air gapped testing
-docker build . -f eze-cli.tar
-
 # Run Eze in docker (cmd)
 docker run --rm -v %cd%:/data eze-cli --version
 
@@ -121,15 +118,8 @@ docker run --rm -v $(pwd -W):/data eze-cli --version
 These steps are for building and releasing a offical eze image
 
 ```bash
-# build pip release tar.gz
-make cli
-
-# create docker image
-docker build . -t riversafe/eze-cli:`python eze/version.py` -t riversafe/eze-cli:latest
-
 # release docker image to "riversafe/eze-cli"
-docker push riversafe/eze-cli:`python eze/version.py`
-docker push riversafe/eze-cli:latest
+make release-docker
 ```
 
 ## Testing PyPi via Test
