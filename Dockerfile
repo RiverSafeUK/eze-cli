@@ -79,7 +79,8 @@ RUN apt-get update \
 #
 # Install node (tool dependency)
 ENV NODE_ENV production
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
+RUN set -o pipefail \
+    && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -102,8 +103,12 @@ RUN pip3 install --no-cache-dir cyclonedx-bom && echo "SIZETAG:Tool:python/cyclo
 
 #
 ## Install Anchore tools
-RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin  && echo "SIZETAG:Tool:anchore/grype"
-RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin  && echo "SIZETAG:Tool:anchore/syft"
+RUN set -o pipefail \
+    && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin \
+    && echo "SIZETAG:Tool:anchore/grype"
+RUN set -o pipefail \
+    && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin \
+    && echo "SIZETAG:Tool:anchore/syft"
 
 #
 ## Install CycloneDX BOM tools
@@ -130,7 +135,9 @@ RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/
 
 #
 ## Install Kics tools
-RUN curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin  && echo "SIZETAG:Tool:checkmarx/kics"
+RUN set -o pipefail \
+    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin \
+    && echo "SIZETAG:Tool:checkmarx/kics"
 
 #
 ## install eze

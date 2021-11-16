@@ -125,6 +125,7 @@
     ],
     "warnings": [
       "Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.\nWarning: unpinned requirement 'click' found in tests-integration/__fixture__/python/requirements.txt, unable to check.\n"
-    ]
+    ],
+    "fatal_errors": []
   }
 ]

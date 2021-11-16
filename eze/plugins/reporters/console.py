@@ -49,34 +49,84 @@ defaults to false""",
         scan_results_with_vulnerabilities = []
         scan_results_with_sboms = []
         scan_results_with_warnings = []
+        scan_results_with_errors = []
+        self.print_scan_summary_table(scan_results)
+
+        if self.config["PRINT_SUMMARY_ONLY"]:
+            return
+
         for scan_result in scan_results:
-            self.print_scan_summary_title(scan_result)
             if self._has_printable_vulnerabilities(scan_result):
                 scan_results_with_vulnerabilities.append(scan_result)
             if scan_result.bom:
                 scan_results_with_sboms.append(scan_result)
             if len(scan_result.warnings) > 0:
                 scan_results_with_warnings.append(scan_result)
+            if len(scan_result.fatal_errors) > 0:
+                scan_results_with_errors.append(scan_result)
 
-        if self.config["PRINT_SUMMARY_ONLY"]:
-            return
-
+        self._print_scan_report_errors(scan_results_with_errors)
+        self._print_scan_report_warnings(scan_results_with_warnings)
         self._print_scan_report_vulnerabilities(scan_results_with_vulnerabilities)
         self._print_scan_report_sbom(scan_results_with_sboms)
-        self._print_scan_report_warnings(scan_results_with_warnings)
 
-    def print_scan_summary_title(self, scan_result: ScanResult) -> str:
+    def print_scan_summary_table(self, scan_results: list):
+        boms = []
+        summaries = []
+        for scan_result in scan_results:
+            run_details = scan_result.run_details
+            tool_name = py_.get(run_details, "tool_name", "unknown")
+            run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
+            scan_type = (
+                run_details["tool_type"] if "tool_type" in run_details and run_details["tool_type"] else "unknown"
+            )
+            duration_sec = py_.get(run_details, "duration_sec", "unknown")
+
+            if scan_result.bom:
+                boms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
+                boms.append(f"    {bom_short_summary(scan_result)}")
+
+            entry = {
+                "Name": tool_name + run_type,
+                "Type": scan_type,
+                "Critical": "-",
+                "High": "-",
+                "Medium": "-",
+                "Low": "-",
+                "Ignored": "-",
+                "Warnings": str(len(scan_result.warnings) > 0) or len(scan_result.fatal_errors) > 0,
+                "Time": "{:.1f}s".format(duration_sec),
+            }
+
+            if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
+                entry["Ignored"] = str(scan_result.summary["ignored"]["total"])
+                entry["Critical"] = str(scan_result.summary["totals"]["critical"])
+                entry["High"] = str(scan_result.summary["totals"]["high"])
+                entry["Medium"] = str(scan_result.summary["totals"]["medium"])
+                entry["Low"] = str(scan_result.summary["totals"]["low"])
+                if len(scan_result.fatal_errors) > 0:
+                    entry["Ignored"] = "Error"
+                    entry["Critical"] = "Error"
+                    entry["High"] = "Error"
+                    entry["Medium"] = "Error"
+                    entry["Low"] = "Error"
+                summaries.append(entry)
+        pretty_print_table(summaries, False)
+        if len(boms) > 0:
+            print("\n".join(boms))
+
+    def print_scan_summary_title(self, scan_result: ScanResult, prefix: str = "") -> str:
         """Title of scan summary title"""
 
-        scan_summary = f"""TOOL REPORT: {name_and_time_summary(scan_result, "")}\n"""
+        scan_summary = f"""{prefix}TOOL REPORT: {name_and_time_summary(scan_result, "")}\n"""
 
         # bom count if exists
         if scan_result.bom:
-            scan_summary += bom_short_summary(scan_result)
+            scan_summary += bom_short_summary(scan_result, prefix + "    ")
 
         # if bom only scan, do not print vulnerability count
         if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
-            scan_summary += vulnerabilities_short_summary(scan_result)
+            scan_summary += vulnerabilities_short_summary(scan_result, prefix + "    ")
         click.echo(scan_summary)
 
     def _has_printable_vulnerabilities(self, scan_result: ScanResult) -> bool:
@@ -100,14 +150,15 @@ Vulnerabilities
         for scan_result in scan_results_with_vulnerabilities:
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            run_type = py_.get(run_details, "run_type", "default")
+            run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
             small_indent = "    "
             indent = "        "
             click.echo(
                 f"""
-{small_indent}[{tool_name}:{run_type}] Vulnerabilities
+{small_indent}[{tool_name}{run_type}] Vulnerabilities
 {small_indent}================================="""
             )
+            self.print_scan_summary_title(scan_result, "    ")
             vulnerability: Vulnerability = None
             for vulnerability in scan_result.vulnerabilities:
                 if vulnerability.is_ignored:
@@ -149,10 +200,10 @@ Bill of Materials
         for scan_result in scan_results_with_sboms:
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            run_type = py_.get(run_details, "run_type", "default")
+            run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
             click.echo(
                 f"""
-[{tool_name}:{run_type}] SBOM
+[{tool_name}{run_type}] SBOM
 ================================="""
             )
             sboms = []
@@ -198,13 +249,37 @@ Warnings
         for scan_result in scan_results_with_warnings:
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            run_type = py_.get(run_details, "run_type", "default")
+            run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
             small_indent = "    "
             indent = "        "
             click.echo(
                 f"""
-{small_indent}[{tool_name}:{run_type}] Warnings
+{small_indent}[{tool_name}{run_type}] Warnings
 {small_indent}================================="""
             )
             for warning in scan_result.warnings:
                 click.echo(f"""{indent}{warning}""")
+
+    def _print_scan_report_errors(self, scan_results_with_errors: list):
+        """print scan errors"""
+        if len(scan_results_with_errors) <= 0:
+            return
+
+        click.echo(
+            f"""
+Errors
+================================="""
+        )
+        for scan_result in scan_results_with_errors:
+            run_details = scan_result.run_details
+            tool_name = py_.get(run_details, "tool_name", "unknown")
+            run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
+            small_indent = "    "
+            indent = "        "
+            click.echo(
+                f"""
+{small_indent}[{tool_name}{run_type}] Errors
+{small_indent}================================="""
+            )
+            for fatal_error in scan_result.fatal_errors:
+                click.echo(f"""{indent}{fatal_error}""")

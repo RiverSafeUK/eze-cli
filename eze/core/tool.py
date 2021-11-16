@@ -125,6 +125,10 @@ class ScanResult:
         # String list of Warnings from Tooling
         self.warnings: list = get_config_key(vo, "warnings", list, [])
 
+        # String list of Fatal Errors from Tooling
+        # one or more occurrences will
+        self.fatal_errors: list = get_config_key(vo, "fatal_errors", list, [])
+
 
 class ToolMeta(ABC):
     """Base class for all scanner implementations"""

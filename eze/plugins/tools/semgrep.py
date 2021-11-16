@@ -138,14 +138,15 @@ maps to semgrep flag --exclude""",
                 f"you can often speed up signifantly by tailoring your rule configs to your language or sub-dependancies"
             )
         if "OSError: [WinError 193] %1 is not a valid Win32 application" in completed_process.stderr:
-            raise click.ClickException(
+            report = self.create_error_report(
                 f"""[{self.TOOL_NAME}] semgrep crashed while running, this is likely because semgrep doesn't support native windows yet
 
 As of 2021 semgrep support for windows is limited, until support added you can use eze inside wsl2 to run semgrep on windows
 https://github.com/returntocorp/semgrep/issues/1330"""
             )
-        parsed_json = load_json(self.config["REPORT_FILE"])
-        report = self.parse_report(parsed_json)
+        else:
+            parsed_json = load_json(self.config["REPORT_FILE"])
+            report = self.parse_report(parsed_json)
 
         return report
 
@@ -248,6 +249,17 @@ Top 10 slowest files
 
             warnings.append(error_text)
         return warnings
+
+    def create_error_report(self, error_message: str) -> ScanResult:
+        """create error report"""
+        report = ScanResult(
+            {
+                "tool": self.TOOL_NAME,
+                "vulnerabilities": [],
+                "fatal_errors": [error_message],
+            }
+        )
+        return report
 
     def parse_report(self, parsed_json: dict) -> ScanResult:
         """convert report json into ScanResult"""

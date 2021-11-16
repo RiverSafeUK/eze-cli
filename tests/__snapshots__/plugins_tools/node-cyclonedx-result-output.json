@@ -54,6 +54,7 @@
     "specVersion": "1.2",
     "version": 1
   },
+  "fatal_errors": [],
   "run_details": {},
   "summary": {},
   "tool": "node-cyclonedx",
