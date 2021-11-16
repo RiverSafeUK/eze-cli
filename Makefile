@@ -3,8 +3,22 @@
 # https://www.gnu.org/software/make/
 # https://www.gnu.org/software/make/manual/html_node/Special-Targets.html
 ##############################################
-PYTHON = python
-PIP = pip3
+
+
+# AUTO DETECT CORRECT LOCAL PYTHON / PIP
+# AB-895: workaround windows has python symlinks to non-functional python3
+# so "which python3" not enough
+ifeq ($(shell python3 --version 2> /dev/null),)
+	PYTHON = python
+else
+	PYTHON = python3
+endif
+ifeq ($(shell which pip3 2> /dev/null),)
+	PIP = pip
+else
+	PIP = pip3
+endif
+
 
 .PHONY: install lint test
 
@@ -12,21 +26,18 @@ PIP = pip3
 # DEVELOPER COMMANDS
 ##############################################
 
-testy:
-	echo "$(PYTHON) = HAS_PYTHON3='$(HAS_PYTHON3)' HAS_PY='$(HAS_PY)'"
-
 install:
-	python -m pip install -r requirements-dev.txt  -r requirements.txt && pre-commit install
+	$(PIP) install -r requirements-dev.txt  -r requirements.txt && pre-commit install
 
 lint:
 	black eze tests
 	pylint --fail-under=8 --rcfile .pylintrc eze
 
 test:
-	python -m pytest tests -vv --cov=eze --cov-branch --cov-report=term-missing --cov-report html:reports/coverage/cov_html --cov-report=xml:reports/coverage/coverage.xml --junitxml=reports/xunit/test-results.xml -o junit_family=xunit1 || true
+	$(PYTHON) -m pytest tests -vv --cov=eze --cov-branch --cov-report=term-missing --cov-report html:reports/coverage/cov_html --cov-report=xml:reports/coverage/coverage.xml --junitxml=reports/xunit/test-results.xml -o junit_family=xunit1 || true
 
 test-snapshot-update:
-	python -m pytest tests --snapshot-update
+	$(PYTHON) -m pytest tests --snapshot-update
 
 ##############################################
 # EZE CLI PACKAGE COMMANDS
@@ -35,13 +46,13 @@ test-snapshot-update:
 # build eze package
 cli-build:
 	rm -f dist/*.tar.gz
-	python setup.py sdist
+	$(PYTHON) setup.py sdist
 	rm -f scripts/*.tar.gz
 	cp dist/*.tar.gz scripts/
 
 # install local eze package
 cli-install:
-	pip install dist/eze-cli-*.tar.gz
+	$(PIP) install dist/eze-cli-*.tar.gz
 
 # build and install eze package
 cli: cli-build cli-install
@@ -60,8 +71,8 @@ release-pypi: cli-build
 
 # release docker image
 release-docker: cli
-	docker build . -t riversafe/eze-cli:`python eze/version.py` -t riversafe/eze-cli:latest
-	docker push riversafe/eze-cli:`python eze/version.py`
+	docker build . -t riversafe/eze-cli:`$(PYTHON) eze/version.py` -t riversafe/eze-cli:latest
+	docker push riversafe/eze-cli:`$(PYTHON) eze/version.py`
 	docker push riversafe/eze-cli:latest
 
 ##############################################
@@ -78,19 +89,19 @@ verify:
 
 # for dependency analysis
 dump-local-pip-versions:
-	pip freeze > reports/pip-current-requirements.txt
+	$(PIP) freeze > reports/pip-current-requirements.txt
 
 # Run to fix black if it breaks its self locally
 # tip from https://stackoverflow.com/questions/59343656/problem-with-using-black-code-formatter-cant-import-ast3
 repair-black:
-	pip install --force-reinstall --upgrade typed-ast black
+	$(PIP) install --force-reinstall --upgrade typed-ast black
 
 # Run to fix pip packages
 # common if you accidentally have two pythons installed and the two pip repos get muddled
 # with the local pip registry being incorrect
 repair-pip:
-	python -m pip install ––upgrade --force-reinstall pip
-	pip install --upgrade --force-reinstall -r requirements-dev.txt  -r requirements.txt
+	$(PYTHON) -m pip install ––upgrade --force-reinstall pip
+	$(PIP) install --upgrade --force-reinstall -r requirements-dev.txt  -r requirements.txt
 
 # Run to fix pyenv not linking to recently installed pip packages
 repair-pyenv:

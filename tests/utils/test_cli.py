@@ -17,6 +17,8 @@ from eze.utils.cli import (
     cmd_exists,
     run_cli_command,
     extract_version_from_maven,
+    detect_pip_command,
+    detect_pip_executable_version,
 )
 
 
@@ -385,3 +387,40 @@ operable program or batch file."""
     mock_run_cmd(mocked_run_cmd, input)
     output = extract_version_from_maven("some-package")
     assert output == ""
+
+
+@mock.patch("eze.utils.cli.run_cmd")
+def test_detect_pip_command___pip3(mocked_run_cmd):
+    input = """pip 21.1.2 from c:\\users\\riversafe\\.pyenv\\pyenv-win\\versions\\3.8.2\\lib\\site-packages\\pip (python 3.8)"""
+    mock_run_cmd(mocked_run_cmd, input)
+    output = detect_pip_command()
+    assert output == "pip3"
+
+
+@mock.patch("eze.utils.cli.run_cmd")
+def test_detect_pip_command___default_to_pip(mocked_run_cmd):
+    input = """bash: pipX: command not found"""
+    mock_run_cmd(mocked_run_cmd, input)
+    output = detect_pip_command()
+    assert output == "pip"
+
+
+@mock.patch("eze.utils.cli.cmd_exists", mock.MagicMock(return_value=True))
+@mock.patch("eze.utils.cli.extract_version_from_pip", mock.MagicMock(return_value="0.8.9"))
+def test_detect_pip_executable_version___happy_path_has_version():
+    output = detect_pip_executable_version("truffleHog3", "trufflehog3")
+    assert output == "0.8.9"
+
+
+@mock.patch("eze.utils.cli.cmd_exists", mock.MagicMock(return_value=False))
+@mock.patch("eze.utils.cli.extract_version_from_pip", mock.MagicMock(return_value="0.8.9"))
+def test_detect_pip_executable_version___unhappy_path_no_executable():
+    output = detect_pip_executable_version("truffleHog3", "trufflehog3")
+    assert output == ""
+
+
+@mock.patch("eze.utils.cli.cmd_exists", mock.MagicMock(return_value=True))
+@mock.patch("eze.utils.cli.extract_version_from_pip", mock.MagicMock(return_value=""))
+def test_detect_pip_executable_version___unhappy_path_no_pip_install():
+    output = detect_pip_executable_version("truffleHog3", "trufflehog3")
+    assert output == "Non-Pip version Installed"
