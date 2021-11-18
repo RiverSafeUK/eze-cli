@@ -54,8 +54,6 @@ EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"]
 
 # PRINT_TIMING_INFO bool [OPTIONAL]
 # can be difficult to find which rules are running slowly, this outputs a small timing report
-# default value: 
-#   PRINT_TIMING_INFO = true
 # 
 PRINT_TIMING_INFO = true / false
 

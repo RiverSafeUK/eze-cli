@@ -1,13 +1,12 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
-from unittest import TestCase
-
-import pytest
-from click import ClickException
+from unittest import TestCase, mock
 
 import pathlib
 import tempfile
-from unittest import mock
+
+import pytest
+from click import ClickException
 
 from eze.core.config import EzeConfig
 from eze.utils.config import merge_configs
@@ -32,7 +31,7 @@ class TestEzeConfig(TestCase):
 
         expected_output = get_expected_full_config()
         # When
-        output = EzeConfig.refresh_ezerc_config(external_file)
+        EzeConfig.refresh_ezerc_config(external_file)
 
         eze_config = EzeConfig.get_instance().config
 
@@ -193,7 +192,6 @@ class TestEzeConfig(TestCase):
         expected_safety_output = example_complex_ezerc.get_expected_safety()
         # When
         testee = EzeConfig([external_file])
-        eze_config = testee.config
         safety_config = testee.get_plugin_config("safety")
 
         # Then

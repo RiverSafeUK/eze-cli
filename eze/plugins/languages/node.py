@@ -58,7 +58,7 @@ and will fail if "npm install" fails
 tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{NpmAuditTool.TOOL_NAME}', '{NpmOutdatedTool.TOOL_NAME}', '{NodeCyclonedxTool.TOOL_NAME}']
     [{self.LANGUAGE_NAME}.{SemGrepTool.TOOL_NAME}]
     REPORT_FILE = "reports/semgrep-{self.LANGUAGE_NAME}-report.json"
-    PRINT_TIMING_INFO = true
+    PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
         "p/nodejs",

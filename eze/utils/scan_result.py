@@ -20,6 +20,8 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
     bom = scan_result.bom
     if not bom:
         return ""
+    if len(scan_result.fatal_errors) > 0:
+        return f"ERROR when creating SBOM"
     license_counts = {}
     component_count = len(bom["components"])
     totals_txt = f"""{indent}components: {component_count}"""

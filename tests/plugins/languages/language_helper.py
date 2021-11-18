@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 from eze.core.language import LanguageRunnerMeta
 
@@ -53,7 +53,7 @@ more_info:
         if not input_config:
             input_config = {"files": {}, "folders": {}}
         if not output_fixture_location:
-            output_fixture_location = f"plugins_languages/{self.SNAPSHOT_PREFIX}-result-output.json"
+            output_fixture_location = f"plugins_languages/{self.SNAPSHOT_PREFIX}-result-output.toml"
 
         testee = self.LanguageMetaClass()
         testee.discovery.files = input_config["files"]

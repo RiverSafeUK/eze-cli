@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
 
 import pytest
@@ -18,7 +18,7 @@ class TestSemGrepTool(ToolMetaTestBase):
             "CONFIGS": ["p/ci"],
             "EXCLUDE": [],
             "INCLUDE": [],
-            "PRINT_TIMING_INFO": True,
+            "PRINT_TIMING_INFO": False,
             "REPORT_FILE": create_tempfile_path("tmp-semgrep-report.json"),
             "SOURCE": None,
             #
@@ -42,7 +42,7 @@ class TestSemGrepTool(ToolMetaTestBase):
             "CONFIGS": ["p/ci"],
             "EXCLUDE": [],
             "INCLUDE": [],
-            "PRINT_TIMING_INFO": True,
+            "PRINT_TIMING_INFO": False,
             "REPORT_FILE": create_tempfile_path("tmp-semgrep-report.json"),
             "SOURCE": None,
             #
@@ -80,7 +80,7 @@ class TestSemGrepTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
         # Given
         input_config = {"ADDITIONAL_ARGUMENTS": "--something foo", "REPORT_FILE": "foo_report.json"}
 

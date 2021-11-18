@@ -1,0 +1,45 @@
+{
+  "bom": null,
+  "fatal_errors": [
+    "Something bad"
+  ],
+  "run_details": {
+    "date": [
+      "NOT UNDER TEST (TIME IS DYNAMIC)"
+    ],
+    "duration_sec": [
+      "NOT UNDER TEST (TIME IS DYNAMIC)"
+    ],
+    "git_branch": "feature/helloworld",
+    "git_repo": "https://some-repo.some-domain.com",
+    "run_type": null,
+    "scan_type": null,
+    "tool_name": "failure-tool",
+    "tool_type": "MISC"
+  },
+  "summary": {
+    "ignored": {
+      "critical": 0,
+      "high": 0,
+      "low": 0,
+      "medium": 0,
+      "na": 0,
+      "none": 0,
+      "total": 0
+    },
+    "totals": {
+      "critical": 0,
+      "high": 0,
+      "low": 0,
+      "medium": 0,
+      "na": 0,
+      "none": 0,
+      "total": 0
+    }
+  },
+  "tool": "dummy-failure",
+  "vulnerabilities": [
+    "NOT UNDER TEST (FROM FIXTURE)"
+  ],
+  "warnings": []
+}

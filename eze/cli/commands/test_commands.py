@@ -90,6 +90,7 @@ def test_remote_command(state, config_file: str, scan_type, url: str, branch: st
 
     try:
         os.chdir(temp_dir)
+        # TODO: migrate all git helper functions into eze.utils.git
         repo = git.Repo.clone_from(url, temp_dir, branch=branch)
     except git.exc.GitCommandError as error:
         raise click.ClickException(f"""on cloning process, remote branch not found""")

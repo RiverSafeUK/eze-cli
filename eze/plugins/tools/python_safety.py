@@ -7,6 +7,7 @@ from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.cve import CVE
 from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.error import EzeError
 
 
 class SafetyTool(ToolMeta):
@@ -80,12 +81,15 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 
@@ -94,7 +98,8 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
     def parse_report(self, parsed_json: list) -> ScanResult:
         """convert report json into ScanResult"""
         report_events = parsed_json
-        vulnerabilities_list = []
+        vulnerabilities = []
+        warnings = []
 
         for report_event in report_events:
             vulnerable_package = report_event[0]
@@ -106,8 +111,11 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             cve_data = None
             metadata = {"safety": {"id": safety_id}}
             if cve:
-                cve_data = cve.get_metadata()
-                metadata["cves"] = [cve_data]
+                try:
+                    cve_data = cve.get_metadata()
+                    metadata["cves"] = [cve_data]
+                except EzeError as error:
+                    warnings.append(f"unable to get cve data for {cve.cve_id}, Error: {error}")
             if vulnerable_versions:
                 recommendation = f"Update {vulnerable_package} ({installed_version}) to a non vulnerable version, vulnerable versions: {vulnerable_versions}"
 
@@ -125,12 +133,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             if cve_data:
                 vulnerability_raw["identifiers"]["cve"] = cve_data["id"]
             vulnerability = Vulnerability(vulnerability_raw)
-            vulnerabilities_list.append(vulnerability)
+            vulnerabilities.append(vulnerability)
 
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-            }
-        )
+        report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities, "warnings": warnings})
         return report

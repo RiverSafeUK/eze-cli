@@ -1,6 +1,7 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 import pytest
 
+from jsonschema.exceptions import ValidationError
 from tests.__fixtures__.fixture_helper import (
     load_json_fixture,
     assert_deep_equal,
@@ -13,7 +14,7 @@ class MutableExampleClass:
     """Dummy Class"""
 
     def __init__(self, mutable_test: dict = {}):
-        """constructor"""
+        # WARNING: mutable_test test parameter deliberating mutable
         self.mutable_config = mutable_test
 
 
@@ -62,7 +63,6 @@ def test_assert_valid_sarif_sanity_success_case():
 
 def test_assert_valid_sarif_sanity_failure_case():
     """Example of the sarif not working"""
-    from jsonschema.exceptions import ValidationError
 
     example_sarif = load_json_fixture("__fixtures__/sarif/broken-example.sarif")
     expected_error_message = "Additional properties are not allowed ('schema' was unexpected)"

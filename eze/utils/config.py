@@ -8,14 +8,7 @@ Actual logic inside EzeConfig
 """
 import json
 
-
-class ConfigException(Exception):
-    """Extended exception for all config handling"""
-
-    def __init__(self, message: str) -> None:
-        """Constructor"""
-        super().__init__(message)
-        self.message = message
+from eze.utils.error import EzeConfigError
 
 
 class PluginConfigField:
@@ -69,7 +62,7 @@ def get_config_keys(raw_config: dict, fields_config: dict, config: dict = None) 
             error_message: str = f"required param '{key}' missing from configuration"
             if plugin_field.help_text:
                 error_message += "\n" + plugin_field.help_text
-            raise ConfigException(error_message)
+            raise EzeConfigError(error_message)
     return config
 
 

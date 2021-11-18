@@ -1,6 +1,9 @@
-"""Small setup_mock helper"""
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+
 import sys
 from io import StringIO
+
+from eze.utils.io import pretty_print_json
 
 from eze.utils.scan_result import name_and_time_summary, vulnerabilities_short_summary, bom_short_summary
 
@@ -11,6 +14,14 @@ from eze.core.reporter import ReporterManager, ReporterMeta
 from eze.core.tool import ToolManager, ToolMeta, ScanResult, ToolType
 from eze.plugins.languages.python import PythonRunner
 from tests.__fixtures__.fixture_helper import load_json_fixture
+from eze.utils.error import EzeError
+
+
+def convert_scanresult_to_snapshot(scanresult: ScanResult) -> str:
+    scanresult.run_details["duration_sec"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
+    scanresult.run_details["date"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
+    scanresult.vulnerabilities = ["NOT UNDER TEST (FROM FIXTURE)"]
+    return pretty_print_json(scanresult)
 
 
 class DummyFailureTool(ToolMeta):
@@ -25,8 +36,10 @@ class DummyFailureTool(ToolMeta):
     LICENSE: str = "LICENSE X"
     EZE_CONFIG: dict = {}
 
-    def __init__(self, config: dict = {}):
+    def __init__(self, config: dict = None):
         """constructor"""
+        if not config:
+            config = {}
         self.config = config
 
     @staticmethod
@@ -35,8 +48,12 @@ class DummyFailureTool(ToolMeta):
         return "X.X.X"
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
-        raise Exception("Something bad")
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
+        raise EzeError("Something bad")
 
 
 class DummySuccessTool(ToolMeta):
@@ -51,8 +68,10 @@ class DummySuccessTool(ToolMeta):
     LICENSE: str = "LICENSE X"
     EZE_CONFIG: dict = {}
 
-    def __init__(self, config: dict = {}):
+    def __init__(self, config: dict = None):
         """constructor"""
+        if not config:
+            config = {}
         self.config = config
 
     @staticmethod
@@ -61,7 +80,11 @@ class DummySuccessTool(ToolMeta):
         return "X.X.X"
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         scan_result_fixture = load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")
         output_scan_result: ScanResult = ScanResult(scan_result_fixture[0])
         return output_scan_result
@@ -77,8 +100,10 @@ class DummyReporter(ReporterMeta):
     LICENSE: str = "LICENSE X"
     EZE_CONFIG: dict = {}
 
-    def __init__(self, config: dict = {}):
+    def __init__(self, config: dict = None):
         """constructor"""
+        if not config:
+            config = {}
         self.config = config
 
     @staticmethod
@@ -115,9 +140,14 @@ DEFAULT_MOCK_LANGUAGES = {
 DEFAULT_MOCK_CONFIG = {"success-tool": {"some": "config"}, "scan": {}}
 
 
-def get_dummy_plugin(
-    tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS, languages: dict = DEFAULT_MOCK_LANGUAGES
-):
+def get_dummy_plugin(tools: dict = None, reporters: dict = None, languages: dict = None):
+    if not tools:
+        tools = DEFAULT_MOCK_TOOLS
+    if not reporters:
+        reporters = DEFAULT_MOCK_REPORTERS
+    if not languages:
+        languages = DEFAULT_MOCK_LANGUAGES
+
     class DummyPlugin:
         """Dummy Plugin"""
 
@@ -139,10 +169,15 @@ def get_dummy_plugin(
     return DummyPlugin
 
 
-def setup_mock(
-    eze_config: dict = DEFAULT_MOCK_CONFIG, tools: dict = DEFAULT_MOCK_TOOLS, reporters: dict = DEFAULT_MOCK_REPORTERS
-):
+def setup_mock(eze_config: dict = None, tools: dict = None, reporters: dict = None):
     """Mock the services being used in app"""
+    if not eze_config:
+        eze_config = DEFAULT_MOCK_CONFIG
+    if not tools:
+        tools = DEFAULT_MOCK_TOOLS
+    if not reporters:
+        reporters = DEFAULT_MOCK_REPORTERS
+
     EzeCore.reset_instance()
     EzeConfig.reset_instance()
     ToolManager.reset_instance()

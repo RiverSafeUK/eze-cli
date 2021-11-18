@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 from unittest import TestCase, mock
 
@@ -16,7 +16,7 @@ class TestCVE(TestCase):
         # Then
         assert testee.cve_id == expected_cve.cve_id
 
-    @mock.patch("eze.utils.cve.urllib.request.urlopen")
+    @mock.patch("urllib.request.urlopen")
     def test_get_metadata__creation(self, mock_urlopen):
         # Given
         mock_cve_json = get_path_fixture("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")

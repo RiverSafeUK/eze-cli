@@ -20,7 +20,8 @@ from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.io import write_text
 from eze.utils.print import pretty_print_table
-from eze.utils.config import extract_embedded_run_type, ConfigException
+from eze.utils.config import extract_embedded_run_type
+from eze.utils.error import EzeConfigError
 
 
 class LanguageRunnerMeta(ABC):
@@ -188,7 +189,7 @@ class LanguageDiscoveryVO:
                 self.folder_patterns[folder_type] = re.compile(current_regex)
                 self.folders[folder_type] = []
         except:
-            raise ConfigException(f"Unable to parse regex '{current_regex}'")
+            raise EzeConfigError(f"Unable to parse regex '{current_regex}'")
 
     def ingest_discovered_file(self, file_name: str) -> None:
         """Method ingesting file for discovery"""
@@ -448,32 +449,37 @@ Language '{language}' Help
                 continue
 
     def get_language_config(self, language_name: str, scan_type: str = None, run_type: str = None):
-        """Get Language Config, handle default config parameters"""
+        """
+        Get Language Config, handle default config parameters
+
+        :raises EzeConfigError
+        """
         eze_config = EzeConfig.get_instance()
         language_config = eze_config.get_plugin_config(language_name, scan_type, run_type)
 
         # Warnings for corrupted config
         if language_name not in self.languages:
-            error_message = f"The ./ezerc config references unknown language plugin '{language_name}', run 'eze languages list' to see available languages"
-            raise click.ClickException(error_message)
+            error_message = f"[{language_name}] The ./ezerc config references unknown language plugin '{language_name}', run 'eze languages list' to see available languages"
+            raise EzeConfigError(error_message)
 
         # Warnings for corrupted config
         if "tools" not in language_config:
-            error_message = f"The ./ezerc config missing required {language_name}.tools list, run 'eze housekeeping create-local-config' to recreate"
-            raise click.ClickException(error_message)
+            error_message = f"[{language_name}] The ./ezerc config missing required {language_name}.tools list, run 'eze housekeeping create-local-config' to recreate"
+            raise EzeConfigError(error_message)
 
         return language_config
 
     def get_language(self, language_name: str, scan_type: str = None, run_type: str = None) -> LanguageRunnerMeta:
-        """Gets a instance of a language, populated with it's configuration"""
+        """
+        Gets a instance of a language, populated with it's configuration
+
+        :raises EzeConfigError
+        """
 
         [language_name, run_type] = extract_embedded_run_type(language_name, run_type)
-        try:
-            language_config = self.get_language_config(language_name, scan_type, run_type)
-            language_class: LanguageRunnerMeta = self.languages[language_name]
-            language_instance = language_class(language_config)
-        except ConfigException as err:
-            raise click.ClickException(f"[{language_name}] {err.message}")
+        language_config = self.get_language_config(language_name, scan_type, run_type)
+        language_class: LanguageRunnerMeta = self.languages[language_name]
+        language_instance = language_class(language_config)
         return language_instance
 
     async def run_language(self, language_name: str, scan_type: str = None, run_type: str = None) -> list:

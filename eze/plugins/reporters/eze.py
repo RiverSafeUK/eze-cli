@@ -1,18 +1,16 @@
 """Eze reporter class implementation"""
-import json
 import os
 import urllib.request
-from urllib import request
-from urllib.error import HTTPError
 from pydash import py_
 
 import click
 
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.utils.config import ConfigException
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.io import pretty_print_json
+from eze.utils.error import EzeConfigError, EzeNetworkingError, EzeError
+from eze.utils.http import request_json
 
 
 class EzeReporter(ReporterMeta):
@@ -67,7 +65,11 @@ if not set, will be automatically determined via local git info""",
         self.send_results(scan_results)
 
     def send_results(self, scan_results: list) -> None:
-        """Sending results to management console"""
+        """
+        Sending results to management console
+
+        :raises EzeError: on send report error
+        """
         endpoint = self.config["CONSOLE_ENDPOINT"]
         codebase_id = self.config["CODEBASE_ID"]
         encoded_codebase_id = urllib.parse.quote_plus(codebase_id)
@@ -88,16 +90,14 @@ if not set, will be automatically determined via local git info""",
                 click.echo(f"scan results to long term storage: {long_term_storage_api_url}")
                 long_storage_results = self._get_http_json(long_term_storage_api_url, scan_results, apikey)
                 click.echo(pretty_print_json(long_storage_results))
-        except HTTPError as err:
-            error_text = err.read().decode()
-            raise click.ClickException(
+        except EzeNetworkingError as error:
+            raise EzeError(
                 f"""Eze Reporter failure to send report to management console
 Details:
 eze endpoint url: {api_url}
-code: {err.status} ({err.reason})
-reply: {error_text}
 codebase id: {codebase_id}
 codebase name: {codebase_name}
+error: {error}
 """
             )
 
@@ -111,7 +111,7 @@ codebase name: {codebase_name}
             git_dir = os.getcwd()
             codebase_id = get_active_branch_uri(git_dir)
             if not codebase_id:
-                raise ConfigException(
+                raise EzeConfigError(
                     "requires codebase id or url supplied via 'CODEBASE_ID' config field or a checked out git repo in current dir"
                 )
             parsed_config["CODEBASE_ID"] = codebase_id
@@ -122,7 +122,7 @@ codebase name: {codebase_name}
             git_dir = os.getcwd()
             branch = get_active_branch_name(git_dir)
             if not branch:
-                raise ConfigException(
+                raise EzeConfigError(
                     "requires branch supplied via 'CODEBRANCH_NAME' config field or a checked out git repo in current dir"
                 )
             parsed_config["CODEBRANCH_NAME"] = branch
@@ -130,9 +130,13 @@ codebase name: {codebase_name}
         return parsed_config
 
     @staticmethod
-    def _get_http_json(api_url, body, apikey) -> str:
-        """make api call to post endpoint"""
-        req = request.Request(
+    def _get_http_json(api_url, body, apikey) -> dict:
+        """
+        make api call to post endpoint
+
+        :raises EzeNetworkingError: on networking error
+        """
+        return request_json(
             api_url,
             data=pretty_print_json(body).encode("utf-8"),
             method="POST",
@@ -142,7 +146,3 @@ codebase name: {codebase_name}
                 "x-api-key": apikey,
             },
         )
-        # nosec: Request is being built directly above as a explicit http request
-        # hence no risk of unexpected scheme
-        with urllib.request.urlopen(req) as stream:  # nosec # nosemgrep
-            return json.loads(stream.read())

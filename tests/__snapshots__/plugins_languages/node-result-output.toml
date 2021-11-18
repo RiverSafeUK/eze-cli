@@ -4,7 +4,7 @@
 tools = ['semgrep', 'trufflehog', 'node-npmaudit', 'node-npmoutdated', 'node-cyclonedx']
     [node.semgrep]
     REPORT_FILE = "reports/semgrep-node-report.json"
-    PRINT_TIMING_INFO = true
+    PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
         "p/nodejs",

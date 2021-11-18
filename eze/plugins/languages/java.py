@@ -56,7 +56,7 @@ tools are expecting pom.xml at root level"""
 tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{JavaDependencyCheckTool.TOOL_NAME}', '{JavaSpotbugsTool.TOOL_NAME}', '{JavaCyclonedxTool.TOOL_NAME}']
     [{self.LANGUAGE_NAME}.{SemGrepTool.TOOL_NAME}]
     REPORT_FILE = "reports/semgrep-{self.LANGUAGE_NAME}-report.json"
-    PRINT_TIMING_INFO = true
+    PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
         "p/java",

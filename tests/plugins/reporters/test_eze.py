@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import os
 import shutil
@@ -8,9 +8,8 @@ from unittest.mock import patch
 
 import pytest
 from git import InvalidGitRepositoryError
-
-from eze.utils.config import ConfigException
 from eze.plugins.reporters.eze import EzeReporter
+from eze.utils.error import EzeConfigError
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 
 
@@ -67,8 +66,8 @@ class TestEzeReporter(ReporterMetaTestBase):
             "CODEBASE_ID": "MOCK_CODEBASE_ID",
         }
         # When
-        with pytest.raises(ConfigException) as thrown_exception:
-            testee = EzeReporter(input_config)
+        with pytest.raises(EzeConfigError) as thrown_exception:
+            EzeReporter(input_config)
         # Then
         assert thrown_exception.value.message == expected_error_message
 
@@ -89,8 +88,8 @@ get EZE_APIKEY from eze console profile page"""
             "APIKEY": "",
         }
         # When
-        with pytest.raises(ConfigException) as thrown_exception:
-            testee = EzeReporter(input_config)
+        with pytest.raises(EzeConfigError) as thrown_exception:
+            EzeReporter(input_config)
         # Then
         assert thrown_exception.value.message == expected_error_message
 

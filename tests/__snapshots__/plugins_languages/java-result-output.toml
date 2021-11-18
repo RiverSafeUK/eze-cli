@@ -4,7 +4,7 @@
 tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java-cyclonedx']
     [java.semgrep]
     REPORT_FILE = "reports/semgrep-java-report.json"
-    PRINT_TIMING_INFO = true
+    PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
         "p/java",

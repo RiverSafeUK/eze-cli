@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long,unused-argument
 import os
 import pathlib
 import shutil
@@ -6,8 +6,6 @@ import sys
 import tempfile
 from pathlib import Path
 from unittest import mock
-
-import click
 
 import pytest
 
@@ -28,13 +26,13 @@ from eze.utils.io import (
 from tests.__fixtures__.fixture_helper import get_path_fixture
 
 
-def setup_module(module):
+def setup_module(self):
     """Clean up temp folder"""
     eze_temp_folder = os.path.join(tempfile.gettempdir(), ".eze-temp")
     shutil.rmtree(eze_temp_folder, ignore_errors=True)
 
 
-def teardown_module(module):
+def teardown_module(self):
     print("teardown any state that was previously setup with a setup_module method.")
 
 
@@ -57,7 +55,7 @@ class DummyClass:
 
 def test_normalise_file_paths():
     # Given
-    input = [
+    test_input = [
         "hello/world.json",
         "hello\\world.json",
         "hello\\mutiple\\world.json",
@@ -65,7 +63,7 @@ def test_normalise_file_paths():
     expected_output = ["hello/world.json", "hello/world.json", "hello/mutiple/world.json"]
 
     # When
-    output = normalise_file_paths(input)
+    output = normalise_file_paths(test_input)
 
     # Then
     assert output == expected_output
@@ -73,11 +71,11 @@ def test_normalise_file_paths():
 
 def test_normalise_file_path__forward():
     # Given
-    input = "hello/world.json"
+    test_input = "hello/world.json"
     expected_output = "hello/world.json"
 
     # When
-    output = normalise_linux_file_path(input)
+    output = normalise_linux_file_path(test_input)
 
     # Then
     assert output == expected_output
@@ -85,11 +83,11 @@ def test_normalise_file_path__forward():
 
 def test_normalise_file_path__back():
     # Given
-    input = "hello\\world.json"
+    test_input = "hello\\world.json"
     expected_output = "hello/world.json"
 
     # When
-    output = normalise_linux_file_path(input)
+    output = normalise_linux_file_path(test_input)
 
     # Then
     assert output == expected_output
@@ -97,19 +95,19 @@ def test_normalise_file_path__back():
 
 def test_normalise_windows_regex_file_path():
     # Given
-    input = "hell/is_windows_paths/world.json"
+    test_input = "hell/is_windows_paths/world.json"
     # WARNING: Yes this number of slashes is correct / === \\\\
     expected_output = "hell\\\\is_windows_paths\\\\world.json"
 
     # When
-    output = normalise_windows_regex_file_path(input)
+    output = normalise_windows_regex_file_path(test_input)
 
     # Then
     assert output == expected_output
 
 
 @mock.patch("eze.utils.io.os.name", "nt")
-def test_is_windows_os__windows_case() -> bool:
+def test_is_windows_os__windows_case():
     # Given
     expected_output = True
     # When
@@ -119,7 +117,7 @@ def test_is_windows_os__windows_case() -> bool:
 
 
 @mock.patch("eze.utils.io.os.name", "posix")
-def test_is_windows_os__linux_case() -> bool:
+def test_is_windows_os__linux_case():
     # Given
     expected_output = False
     # When
@@ -133,9 +131,9 @@ def test_get_absolute_filename__absolute_url_win():
     """Test normal case for when Bash cannot find file"""
 
     expected_output = Path("C:\\dev\\path.json")
-    input = "C:\\dev\\path.json"
+    test_input = "C:\\dev\\path.json"
 
-    output = get_absolute_filename(input)
+    output = get_absolute_filename(test_input)
     assert output == expected_output
 
 
@@ -144,9 +142,9 @@ def test_get_absolute_filename__absolute_url_linux():
     """Test normal case for when Bash cannot find file"""
 
     expected_output = Path("/dev/path.json")
-    input = "/dev/path.json"
+    test_input = "/dev/path.json"
 
-    output = get_absolute_filename(input)
+    output = get_absolute_filename(test_input)
     assert output == expected_output
 
 
@@ -154,9 +152,9 @@ def test_get_absolute_filename__relative_url():
     """Test normal case for when Bash cannot find file"""
 
     expected_output = Path(Path(os.getcwd()).joinpath("path.json"))
-    input = "path.json"
+    test_input = "path.json"
 
-    output = get_absolute_filename(input)
+    output = get_absolute_filename(test_input)
     assert output == expected_output
 
 
@@ -173,9 +171,9 @@ def test_pretty_print_json():
   "hello": 1,
   "list_is": []
 }"""
-    input = dict({"hello": 1, "foo": "bar", "bool_is": True, "list_is": [], "class_is": DummyClass()})
+    test_input = dict({"hello": 1, "foo": "bar", "bool_is": True, "list_is": [], "class_is": DummyClass()})
 
-    output = pretty_print_json(input)
+    output = pretty_print_json(test_input)
     assert output == expected_output
 
 
@@ -260,8 +258,8 @@ def test_write_json__ab_688_write_exception(mock_write_text):
 
     try:
         write_json(input_report_location, input_vo)
-    except Exception as e:
-        raised_error = e
+    except Exception as error:
+        raised_error = error
     # Then
     assert str(expected_error) == str(raised_error)
 
@@ -285,9 +283,9 @@ def test_load_toml():
 def test_xescape__empty():
     """Test empty case"""
 
-    input = None
+    test_input = None
     expected_output = ""
-    output = xescape(input)
+    output = xescape(test_input)
 
     assert output == expected_output
 
@@ -295,9 +293,9 @@ def test_xescape__empty():
 def test_xescape__std():
     """Test normal case"""
 
-    input = '\\" <evil-xml-tag/>'
+    test_input = '\\" <evil-xml-tag/>'
     expected_output = "&#92;&quot; &lt;evil-xml-tag/&gt;"
-    output = xescape(input)
+    output = xescape(test_input)
 
     assert output == expected_output
 
@@ -305,9 +303,9 @@ def test_xescape__std():
 def test_xescape__zero():
     """Test zero case"""
 
-    input = 0
+    test_input = 0
     expected_output = "0"
-    output = xescape(input)
+    output = xescape(test_input)
 
     assert output == expected_output
 

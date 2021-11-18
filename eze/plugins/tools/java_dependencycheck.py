@@ -8,6 +8,7 @@ from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_cli_command
 from eze.utils.cve import CVE
 from eze.utils.io import create_tempfile_path, load_json, write_json
+from eze.utils.error import EzeError
 
 
 class JavaDependencyCheckTool(ToolMeta):
@@ -69,14 +70,17 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         owasp_report = load_json(self.config["MVN_REPORT_FILE"])
 
         write_json(self.config["REPORT_FILE"], owasp_report)
         report = self.parse_report(owasp_report)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 
@@ -86,6 +90,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         """convert report json into ScanResult"""
         report_events = parsed_json
         vulnerabilities_list = []
+        warnings = []
 
         for dependency in report_events["dependencies"]:
             if "vulnerabilities" not in dependency:
@@ -103,8 +108,12 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
                 cve_data = None
                 metadata = {"vulnerability": {"id": vulnerability["name"]}}
                 if cve:
-                    cve_data = cve.get_metadata()
-                    metadata["cves"] = [cve_data]
+                    try:
+                        cve_data = cve.get_metadata()
+                        metadata["cves"] = [cve_data]
+                    except EzeError as error:
+                        warnings.append(f"{error}")
+
                 if vulnerable_versions:
                     recommendation = f"Update {pkg_name} ({pkg_version}) to a non vulnerable version, vulnerable versions: {vulnerable_versions}"
 
@@ -124,12 +133,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
                 vulnerability = Vulnerability(vulnerability_raw)
                 vulnerabilities_list.append(vulnerability)
 
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-            }
-        )
+        report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings})
         return report
 
 

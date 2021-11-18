@@ -7,7 +7,7 @@ REQUIREMENTS_FILES = [
 tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safety', 'python-cyclonedx']
     [python.semgrep]
     REPORT_FILE = "reports/semgrep-python-report.json"
-    PRINT_TIMING_INFO = true
+    PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
         "p/python",

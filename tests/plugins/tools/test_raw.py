@@ -1,12 +1,12 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import pytest
 from click import ClickException
 
 from eze import __version__
 from eze.plugins.tools.raw import RawTool
-from eze.utils.config import ConfigException
 from eze.utils.io import load_json
+from eze.utils.error import EzeConfigError
 from tests.__fixtures__.fixture_helper import (
     convert_to_std_object,
     get_path_fixture,
@@ -24,8 +24,8 @@ class TestRawTool(ToolMetaTestBase):
 Eze report file to ingest
 normally REPORT_FILE: eze_report.json"""
         # When
-        with pytest.raises(ConfigException) as thrown_exception:
-            testee = RawTool()
+        with pytest.raises(EzeConfigError) as thrown_exception:
+            RawTool()
         # Then
         assert thrown_exception.value.message == expected_error_message
 
@@ -78,6 +78,6 @@ normally REPORT_FILE: eze_report.json"""
         # When
         with pytest.raises(ClickException) as thrown_exception:
             testee = RawTool(input_config)
-            output_scan_result = await testee.run_scan()
+            await testee.run_scan()
         # Then
         assert thrown_exception.value.message == expected_error_message

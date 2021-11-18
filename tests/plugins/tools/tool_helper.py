@@ -1,8 +1,8 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long,missing-function-docstring,invalid-name
 import shlex
 
 from eze.core.enums import ToolType, SourceType
-from eze.core.tool import ToolMeta
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.io import pretty_print_json
 from tests.__fixtures__.fixture_helper import get_snapshot_directory, load_json_fixture
 
@@ -67,7 +67,7 @@ more_info:
         input_config: dict = None,
         input_fixture_location: str = None,
         output_fixture_location: str = None,
-    ):
+    ) -> ScanResult:
         """Help function to take a input fixture, and test output matches given snapshot
 
         Default Input Fixture:
@@ -93,6 +93,8 @@ more_info:
         # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(output_snapshot, output_fixture_location)
+
+        return output
 
     async def assert_run_scan_command(
         self, input_config: dict = None, expected_command: str = None, mock_subprocess_run=None

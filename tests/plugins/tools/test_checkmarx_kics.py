@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
 
 import os
@@ -79,7 +79,7 @@ class TestKicsTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__multi_value_flag_exclude_and_no_folder_path_given(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__multi_value_flag_exclude_and_no_folder_path_given(self, mock_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "eze",
@@ -98,7 +98,7 @@ class TestKicsTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.subprocess.run")
     @pytest.mark.asyncio
-    async def test_run_scan_command_with_multi_sources_and_report(self, mock_subprocess_run):
+    async def test_run_scan__cli_command_with_multi_sources_and_report(self, mock_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "Dockerfile,azure-pipelines.yml",

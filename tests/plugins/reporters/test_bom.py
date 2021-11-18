@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import os
 import shutil
@@ -24,7 +24,6 @@ class TestBomReporter(ReporterMetaTestBase):
 
     def test_check_installed__sanity(self):
         # When
-        expected_output = "1.7.0"
         output = BomReporter.check_installed()
         # Then
         assert isinstance(output, str)

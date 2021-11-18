@@ -1,8 +1,8 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 import re
+from unittest import mock
 
 import pytest
-from unittest import mock
 from click.testing import CliRunner
 
 from eze.cli.commands.tool_commands import tools_group
@@ -11,11 +11,11 @@ from tests.__test_helpers__.mock_helper import setup_mock, teardown_mock
 
 
 class TestToolCommand:
-    def setup_method(module):
+    def setup_method(self):
         """Clean up method"""
         setup_mock()
 
-    def teardown_module(module):
+    def teardown_module(self):
         """teardown any state that was previously setup with a setup_module method."""
         teardown_mock()
 
