@@ -3,14 +3,14 @@ from unittest import mock
 
 import pytest
 
-from core.tool import ScanResult
+from eze.core.tool import ScanResult
 from eze.plugins.tools.python_safety import SafetyTool
 from eze.utils.io import create_tempfile_path
+from eze.utils.error import EzeNetworkingError
 from tests.__fixtures__.fixture_helper import (
     create_mocked_stream,
 )
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
-from eze.utils.error import EzeNetworkingError
 
 
 class TestSafetyTool(ToolMetaTestBase):

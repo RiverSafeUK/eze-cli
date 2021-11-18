@@ -3,11 +3,11 @@ from unittest import mock
 
 import pytest
 
-from __test_helpers__.mock_helper import mock_run_cmd
 from eze.plugins.tools.node_cyclonedx import NodeCyclonedxTool
 from eze.utils.io import create_tempfile_path
 from eze.utils.error import EzeError
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
+from tests.__test_helpers__.mock_helper import mock_run_cmd
 
 
 class TestNodeCyclonedxTool(ToolMetaTestBase):
