@@ -188,14 +188,14 @@ def test_load_json__happy_path():
 
 def test_load_json__sad_path__ab_898_json_error():
     sample_json_path = get_path_fixture("__fixtures__/io/sample_broken_json.json")
-    expected_error = "Unable to parse JSON file 'C:\\dev\\repos\\eze-cli\\tests\\__fixtures__\\..\\__fixtures__\\io\\sample_broken_json.json', message: 'Expecting property name enclosed in double quotes' (line 2)"
+    expected_error = "Unable to parse JSON file"
 
     try:
         load_json(sample_json_path)
     except EzeFileParsingError as error:
         raised_error = error
     # Then
-    assert str(expected_error) == str(raised_error)
+    assert expected_error in str(raised_error)
 
 
 @mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
