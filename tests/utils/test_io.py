@@ -23,6 +23,7 @@ from eze.utils.io import (
     delete_file,
     exit_app,
 )
+from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 from tests.__fixtures__.fixture_helper import get_path_fixture
 
 
@@ -177,9 +178,7 @@ def test_pretty_print_json():
     assert output == expected_output
 
 
-def test_load_json():
-    """Test normal case, can load and seralise json into python object"""
-
+def test_load_json__happy_path():
     sample_json_path = get_path_fixture("__fixtures__/io/sample_json.json")
     expected_output = {"Iam": "json", "someArray": [], "someInt": 1, "someNull": None, "someObject": {}}
     output = load_json(sample_json_path)
@@ -187,23 +186,33 @@ def test_load_json():
     assert output == expected_output
 
 
-@mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
-def test_load_json__ab_688_write_exception(mock_write_text):
-    """ab-688: Test irregular case, cant load text file"""
+def test_load_json__sad_path__ab_898_json_error():
+    sample_json_path = get_path_fixture("__fixtures__/io/sample_broken_json.json")
+    expected_error = "Unable to parse JSON file 'C:\\dev\\repos\\eze-cli\\tests\\__fixtures__\\..\\__fixtures__\\io\\sample_broken_json.json', message: 'Expecting property name enclosed in double quotes' (line 2)"
 
+    try:
+        load_json(sample_json_path)
+    except EzeFileParsingError as error:
+        raised_error = error
+    # Then
+    assert str(expected_error) == str(raised_error)
+
+
+@mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
+def test_load_json__sad_path__ab_688_permission_error(mock_write_text):
     # Given
     input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "report.json"
     expected_error = "Eze cannot access 'some-mocked-file.json', Permission was denied"
 
     try:
         load_json(input_report_location)
-    except Exception as e:
-        raised_error = e
+    except EzeFileAccessError as error:
+        raised_error = error
     # Then
     assert str(expected_error) == str(raised_error)
 
 
-def test_load_json__empty_case(tmp_path):
+def test_load_json__sad_path__empty_case(tmp_path):
     json_file = tmp_path / "path/test_file.json"
     json_file.parent.mkdir()
     json_file.touch()
@@ -240,8 +249,8 @@ def test_write_json__ab_688_makedirs_exception(mock_make_dirs):
 
     try:
         write_json(input_report_location / "report.json", input_vo)
-    except Exception as e:
-        raised_error = e
+    except EzeFileAccessError as error:
+        raised_error = error
 
     # Then
     assert str(expected_error) == str(raised_error)
