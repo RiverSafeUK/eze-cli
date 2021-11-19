@@ -34,7 +34,7 @@ def request(url: str, data=None, headers={}, method=None) -> str:
 
     except urllib.error.HTTPError as error:
         error_text = error.read().decode()
-        error_message = f"{error.status} ({error.reason} [{error_text}]"
+        error_message = f"{error.code} ({error.reason} [{error_text}]"
 
         raise EzeNetworkingError(f"Error accessing url '{url}', Error: {error_message}")
     except urllib.error.URLError as error:
