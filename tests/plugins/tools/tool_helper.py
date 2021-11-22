@@ -118,5 +118,5 @@ more_info:
             print(f"""assert error "{cmd_arg}" != "{expected_command}" """)
             raise err
         mock_subprocess_run.assert_called_with(
-            expected_command, capture_output=True, universal_newlines=True, encoding="utf-8", shell=True
+            expected_command, check=False, capture_output=True, universal_newlines=True, encoding="utf-8", shell=True
         )
