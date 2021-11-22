@@ -1,5 +1,20 @@
 # Eze Changelog
 
+## 0.11.0 - 22th October 2021
+Improvements:
+- ab-851 : updated python cyclonedx version
+- ab-855 : update remotescan automatically run eze reporter
+
+Bugfixes:
+- ab-848 : trufflehog warnings with non git repos in ado
+- ab-850 : auto run "npm install" when running "npm audit"
+- ab-860 : ado pull requests are coming up as branch "merge"
+- ab-862 : npmaudit ignore dev dependencies
+- ab-887 : cyclonedx node and py cli using same command
+- ab-888 : semgrep crashes on windows, handle window as warning not tool exit
+- ab-895 : mac support, auto detect python version and pip version in make
+- ab-898 : tools non-zero code can crash whole cli
+
 ## 0.10.0 - 15th October 2021
 Improvements:
 - ab-800: improved report format to include tool type and date
@@ -19,7 +34,7 @@ Improvements:
 - ab-688: improved error messages when file not found / os permission errors
 - ab-670: simplified trufflehog scan report when large matching text returned
 
-Bugs
+Bugfixes:
 - ab-777: fix reports folder error
 - ab-771 / ab-712: fix latest trufflehog skip argument / line-numbers changes
 - ab-758: fix latest cyclonedx contains breaking changes
@@ -30,15 +45,13 @@ Bugs
 - ab-710: fixing minor typos
 
 ## 0.8.2 - 4th August 2021
-Security Release
-
+Bugfixes:
 - ab-699: exposing more trufflehog flags
 - ab-586: Adding shlex protection of cli lib
 - ab-605: bug fix for empty json reports from os tools
 
 ## 0.8.1 - 28th July 2021
-Bug Fix Release
-
+Bugfixes:
 - ab-665: Updating docker instructions
 - ab-666: improving/fixing ci support
 
