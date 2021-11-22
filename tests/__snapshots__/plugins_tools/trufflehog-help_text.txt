@@ -7,6 +7,8 @@ config_help:
 [trufflehog]
 # SOURCE list
 # TruffleHog3 list of source folders to scan for secrets
+# default value: 
+#   SOURCE = "."
 # 
 SOURCE = ["..."]
 
