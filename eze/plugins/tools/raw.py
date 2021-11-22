@@ -1,10 +1,10 @@
 """Raw Python tool class"""
-import click
 
 from eze import __version__
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.io import load_json, ClickManagedFileAccessError
+from eze.utils.io import load_json
+from eze.utils.error import EzeFileAccessError
 
 
 class RawTool(ToolMeta):
@@ -33,12 +33,16 @@ normally REPORT_FILE: eze_report.json""",
         return __version__
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         report_file = self.config["REPORT_FILE"]
         try:
             # get first scan in json
             scan_result = load_json(report_file)[0]
             report = ScanResult(scan_result)
             return report
-        except ClickManagedFileAccessError:
-            raise click.ClickException(f"""Eze Raw tool can not find 'REPORT_FILE' {report_file}""")
+        except EzeFileAccessError:
+            raise EzeFileAccessError(f"""Eze Raw tool can not find 'REPORT_FILE' {report_file}""")

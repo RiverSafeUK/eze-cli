@@ -11,20 +11,20 @@
 # ====================================
 # Base Linux Image           114.5 MB
 # Git Support                 78.2 MB
-# Eze                          2.5 MB
+# Eze                          3.2 MB
 #
 # Language Sizes
 # ====================================
 # Maven + Java jdk 11        240.1 MB
-# Node + npm                 132.0 MB
+# Node + npm                 187.0 MB
 #
 # Tool Sizes
 # ====================================
-# semgrep                    116.0 MB
-# checkmarx/kics              83.4 MB
+# semgrep                    109.0 MB
+# checkmarx/kics              80.3 MB
 # aqua/trivy                  35.4 MB
 # cyclonedx-cli               32.4 MB
-# anchore/grype               20.9 MB
+# anchore/grype               22.3 MB
 # anchore/syft                16.9 MB
 # gitleaks                    11.8 MB
 # truffleHog3                  5.6 MB
@@ -35,7 +35,7 @@
 # python/piprot                0.1 MB
 #
 # ====================================
-# Total Image Size           901.0 MB
+# Total Image Size           948.0 MB
 #
 #
 

@@ -1,9 +1,8 @@
 """ Tools for parsing and dealing with CVE scores
 """
 
-import json
 import re
-import urllib.request
+from eze.utils.http import request_json
 
 
 class CVE:
@@ -33,20 +32,23 @@ class CVE:
         return f"https://cve.circl.lu/api/cve/{self.cve_id}"
 
     def _get_raw(self):
+        """
+        get raw data
+
+        :raises EzeNetworkingError: on networking error or json decoding error
+        """
         if not self._cache:
             api_url = self.to_api()
-            contents = None
+            self._cache = request_json(api_url)
 
-            req = urllib.request.Request(api_url)
-            # nosec: Request is being built directly above as a explicit http request
-            # hence no risk of unexpected scheme
-            with urllib.request.urlopen(req) as stream:  # nosec # nosemgrep
-                contents = stream.read()
-            self._cache = json.loads(contents)
         return self._cache
 
     def get_metadata(self) -> dict:
-        """create small fragment of CVE for usage"""
+        """
+        create small fragment of CVE for usage
+
+        :raises EzeNetworkingError: on networking error or json decoding error
+        """
         cvss_report = self._get_raw()
         return {
             "summary": cvss_report["summary"],

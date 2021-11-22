@@ -1,10 +1,12 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
 
 import pytest
 
+from eze.core.tool import ScanResult
 from eze.plugins.tools.python_safety import SafetyTool
 from eze.utils.io import create_tempfile_path
+from eze.utils.error import EzeNetworkingError
 from tests.__fixtures__.fixture_helper import (
     create_mocked_stream,
 )
@@ -74,18 +76,31 @@ class TestSafetyTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.utils.cve.urllib.request.urlopen")
-    def test_parse_report__snapshot(self, mock_urlopen, snapshot):
+    @mock.patch("urllib.request.urlopen")
+    def test_parse_report__snapshot(self, mock_request_json, snapshot):
         # Given
-        mock_urlopen.side_effect = create_mocked_stream("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")
+        mock_request_json.side_effect = create_mocked_stream("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")
 
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
+    @mock.patch("urllib.request.urlopen")
+    def test_parse_report__networking_error__snapshot(self, mock_request_json, snapshot):
+        # Given
+        mock_request_json.side_effect = EzeNetworkingError("mocked error on networking")
+
+        # Test container fixture and snapshot
+        output_scan_result: ScanResult = self.assert_parse_report_snapshot_test(
+            snapshot, {}, None, f"plugins_tools/{self.SNAPSHOT_PREFIX}-networking-error-result-output.json"
+        )
+        assert output_scan_result.warnings == [
+            "unable to get cve data for CVE-2013-5123, Error: mocked error on networking"
+        ]
+
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
         # Given
         input_config = {
             "APIKEY": "xxxx-aaaa-bbbb-cccc",

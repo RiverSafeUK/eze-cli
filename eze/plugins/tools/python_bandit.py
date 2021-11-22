@@ -95,7 +95,11 @@ Warning: on production might want to set this to False to prevent found Secrets 
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
         run_cmd(command_str)
 

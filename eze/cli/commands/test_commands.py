@@ -3,10 +3,10 @@
 import urllib.request
 from urllib.error import HTTPError
 import urllib.parse
-import git
 import os
-import click
 import asyncio
+import git
+import click
 
 from eze.utils.io import pretty_print_json
 from eze.cli.utils.command_helpers import base_options, pass_state
@@ -90,6 +90,7 @@ def test_remote_command(state, config_file: str, scan_type, url: str, branch: st
 
     try:
         os.chdir(temp_dir)
+        # TODO: migrate all git helper functions into eze.utils.git
         repo = git.Repo.clone_from(url, temp_dir, branch=branch)
     except git.exc.GitCommandError as error:
         raise click.ClickException(f"""on cloning process, remote branch not found""")

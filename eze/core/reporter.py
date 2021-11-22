@@ -7,8 +7,9 @@ from typing import Callable
 import click
 
 from eze.core.config import EzeConfig
-from eze.utils.config import extract_embedded_run_type, ConfigException, get_config_keys, create_config_help
+from eze.utils.config import extract_embedded_run_type, get_config_keys, create_config_help
 from eze.utils.print import pretty_print_table
+from eze.utils.error import EzeConfigError
 
 
 class ReporterManager:
@@ -50,7 +51,11 @@ class ReporterManager:
             self._add_reporters(plugin_reporters)
 
     async def run_report(self, scan_results: list, reporter_name: str, scan_type: str = None, run_type: str = None):
-        """Gets a instance of a reporter, runs report"""
+        """
+        Gets a instance of a reporter, runs report
+
+        :raises EzeConfigError
+        """
         tic = time.perf_counter()
 
         [reporter_name, run_type] = extract_embedded_run_type(reporter_name, run_type)
@@ -59,19 +64,21 @@ class ReporterManager:
         await reporter_instance.run_report(scan_results)
         toc = time.perf_counter()
         duration_sec = toc - tic
-        print(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
+        if EzeConfig.debug_mode:
+            print(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
 
     def get_reporter(self, reporter_name: str, scan_type: str = None, run_type: str = None):
-        """Gets a instance of a reporter, populated with it's configuration"""
+        """
+        Gets a instance of a reporter, populated with it's configuration
+
+        :raises EzeConfigError
+        """
 
         [reporter_name, run_type] = extract_embedded_run_type(reporter_name, run_type)
 
-        try:
-            reporter_config = self.get_reporter_config(reporter_name, scan_type, run_type)
-            reporter_class: ReporterMeta = self.reporters[reporter_name]
-            reporter_instance = reporter_class(reporter_config)
-        except ConfigException as err:
-            raise click.ClickException(f"[{reporter_name}] {err.message}")
+        reporter_config = self.get_reporter_config(reporter_name, scan_type, run_type)
+        reporter_class: ReporterMeta = self.reporters[reporter_name]
+        reporter_instance = reporter_class(reporter_config)
         return reporter_instance
 
     def _add_reporters(self, reporters: dict):
@@ -94,12 +101,16 @@ class ReporterManager:
                 continue
 
     def get_reporter_config(self, reporter_name: str, scan_type: str = None, run_type: str = None):
-        """Get Report Config, handle default config parameters"""
+        """
+        Get Report Config, handle default config parameters
+
+        :raises EzeConfigError
+        """
         eze_config = EzeConfig.get_instance()
         # Warnings for corrupted config
         if reporter_name not in self.reporters:
-            error_message = f"The ./ezerc config references unknown reporter plugin '{reporter_name}', run 'eze reporters list' to see available reporters"
-            raise click.ClickException(error_message)
+            error_message = f"[{reporter_name}] The ./ezerc config references unknown reporter plugin '{reporter_name}', run 'eze reporters list' to see available reporters"
+            raise EzeConfigError(error_message)
 
         reporter_config = eze_config.get_plugin_config(reporter_name, scan_type, run_type)
         return reporter_config
@@ -147,24 +158,23 @@ Reporter '{reporter}' Help
         )
         reporter_version = reporter_class.check_installed()
         if reporter_version:
-            click.echo(f"Version: {reporter_version} Installed")
-            click.echo(f"""""")
+            click.echo(f"Version: {reporter_version} Installed\n")
         else:
             click.echo(
-                f"""Reporter Install Instructions:
+                """Reporter Install Instructions:
 ---------------------------------"""
             )
             click.echo(reporter_class.install_help())
-            click.echo(f"""""")
+            click.echo("")
 
         click.echo(
-            f"""Reporter Configuration Instructions:
+            """Reporter Configuration Instructions:
 ---------------------------------"""
         )
         click.echo(reporter_class.config_help())
 
         click.echo(
-            f"""Reporter More Info:
+            """Reporter More Info:
 ---------------------------------"""
         )
         click.echo(reporter_class.more_info())

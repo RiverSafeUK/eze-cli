@@ -4,7 +4,6 @@ import shlex
 
 import semantic_version
 
-from eze.core.config import EzeConfig
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
     ToolMeta,
@@ -86,16 +85,16 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
         install_node_dependencies()
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
         completed_process = run_cmd(command_str, True)
-
         report_text = completed_process.stdout
-
-        if EzeConfig.debug_mode:
-            print(f"{self.TOOL_NAME} parsing output: '{report_text}'")
 
         write_text(self.config["REPORT_FILE"], report_text)
         parsed_json = json.loads(report_text)

@@ -22,14 +22,14 @@ def tools_group():
 @click.command("list", short_help="List the available tools")
 @click.option("--tool-type", "-t", help=f"filter by tool type ({','.join(ToolType.__members__)})")
 @click.option("--source-type", "-s", help=f"filter by source type ({','.join(SourceType.__members__)})")
-@click.option("--include-source-type/--exclude-source-type", default=False, help=f"adds source type column")
+@click.option("--include-source-type/--exclude-source-type", default=False, help="adds source type column")
 @click.option(
     "--include-version/--exclude-version",
     default=True,
-    help=f"""adds version column
+    help="""adds version column
 (slow as needs to collect all software versions of tools)""",
 )
-@click.option("--include-help/--exclude-help", default=False, help=f"adds all tools documentation")
+@click.option("--include-help/--exclude-help", default=False, help="adds all tools documentation")
 @debug_option
 def list_command(
     tool_type: str, source_type: str, include_source_type: bool, include_version: bool, include_help: bool

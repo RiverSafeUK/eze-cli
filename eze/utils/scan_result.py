@@ -20,11 +20,13 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
     bom = scan_result.bom
     if not bom:
         return ""
+    if len(scan_result.fatal_errors) > 0:
+        return "ERROR when creating SBOM"
     license_counts = {}
     component_count = len(bom["components"])
     totals_txt = f"""{indent}components: {component_count}"""
     if component_count > 0:
-        totals_txt += f" ("
+        totals_txt += " ("
         breakdowns = []
         for component in bom["components"]:
             licenses = component.get("licenses", [])
@@ -69,14 +71,14 @@ def _get_scan_summary_totals(summary_totals: dict, title: str, warnings: list) -
     """get text summary of summary dict"""
     totals_txt = f"{title}: {summary_totals['total']} "
     if summary_totals["total"] > 0:
-        totals_txt += f"("
+        totals_txt += "("
         breakdowns = []
         for key in ["critical", "high", "medium", "low", "none", "na"]:
             if summary_totals[key] > 0:
                 breakdowns.append(f"{key}:{summary_totals[key]}")
 
         if len(warnings) > 0:
-            breakdowns.append(f"warnings:true")
+            breakdowns.append("warnings:true")
 
         totals_txt += ", ".join(breakdowns)
         totals_txt += ")"

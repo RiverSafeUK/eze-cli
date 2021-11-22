@@ -1,6 +1,5 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
-from eze.core.reporter import ReporterManager
 
 import os
 import time
@@ -10,19 +9,20 @@ from typing import Callable
 import click
 from pydash import py_
 
+from eze.core.reporter import ReporterManager
 from eze.core.config import EzeConfig
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
-from eze.utils.cli import ExecutableNotFoundException
+from eze.utils.cli import EzeExecutableNotFoundError
 from eze.utils.io import normalise_file_paths, normalise_linux_file_path, create_folder
 from eze.utils.print import pretty_print_table
 from eze.utils.config import (
-    ConfigException,
     get_config_key,
     get_config_keys,
     create_config_help,
     extract_embedded_run_type,
 )
+from eze.utils.error import EzeError, EzeConfigError
 
 
 class Vulnerability:
@@ -230,13 +230,17 @@ available levels: critical, high, medium, low, none, na""",
 
     @abstractmethod
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
 
     def prepare_folder(self) -> None:
         """Create a reports folder for the plugin report if it does not exist"""
         report_path = self.config.get("REPORT_FILE", None)
         if report_path:
-            create_folder(report_path)
+            create_folder(report_path, False)
 
 
 class ToolManager:
@@ -280,50 +284,26 @@ class ToolManager:
     async def run_tool(
         self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ) -> ScanResult:
-        """Runs a instance of a tool, populated with it's configuration"""
+        """
+        Runs a instance of a tool, populated with it's configuration
+
+        :raises EzeConfigError
+        """
+        tic = time.perf_counter()
+        [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
+        tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
+        tool_instance.prepare_folder()
         try:
-            tic = time.perf_counter()
-
-            [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
-
-            tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
-            # prepare a reports folder for the plugin report
-            tool_instance.prepare_folder()
-            # get raw scan result
             scan_result: ScanResult = await tool_instance.run_scan()
-            toc = time.perf_counter()
-            # annotation raw scan result
-            if not scan_result.tool:
-                scan_result.tool = tool_instance.TOOL_NAME
-
-            git_dir = os.getcwd()
-            git_repo = get_active_branch_uri(git_dir)
-            git_branch = get_active_branch_name(git_dir)
-            scan_result.run_details = {
-                "tool_name": tool_name,
-                "tool_type": tool_instance.TOOL_TYPE.value,
-                "scan_type": scan_type,
-                "run_type": run_type,
-                "duration_sec": toc - tic,
-                "date": tic,
-                "git_repo": git_repo,
-                "git_branch": git_branch,
-            }
-            # get tool config for ignore list
-            tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
-            # normalise vulnerabilities list
-            scan_result.vulnerabilities = self._normalise_vulnerabilities(scan_result.vulnerabilities, tool_config)
-            # create counts of vulnerabilities
-            scan_result.summary = self._create_summary(scan_result.vulnerabilities, tool_config)
-            return scan_result
-        except ExecutableNotFoundException as err:
+        except EzeExecutableNotFoundError as error:
+            # Special Case:
+            # If executable not installed print "install help"
+            # to help user fix error
             tool_class = self.tools[tool_name]
             is_installed = tool_class.check_installed()
-            if is_installed:
-                raise click.ClickException(f"""[{tool_name}] {err.message}""")
-            # If not installed add install help ontop of org error message
-            raise click.ClickException(
-                f"""[{tool_name}] {err.message}
+            if not is_installed:
+                click.echo(
+                    f"""[{tool_name}] {error}
 
 Looks like {tool_name} is not installed
 
@@ -331,21 +311,61 @@ Looks like {tool_name} is not installed
 ============================
 {tool_class.install_help()}
 """
+                )
+            scan_result: ScanResult = ScanResult(
+                {
+                    "tool": tool_instance.TOOL_NAME,
+                    "fatal_errors": [f"{error}"],
+                }
             )
+        except EzeError as error:
+            scan_result: ScanResult = ScanResult(
+                {
+                    "tool": tool_instance.TOOL_NAME,
+                    "fatal_errors": [f"{error}"],
+                }
+            )
+
+        toc = time.perf_counter()
+        # annotation raw scan result
+        if not scan_result.tool:
+            scan_result.tool = tool_instance.TOOL_NAME
+
+        git_dir = os.getcwd()
+        git_repo = get_active_branch_uri(git_dir)
+        git_branch = get_active_branch_name(git_dir)
+        scan_result.run_details = {
+            "tool_name": tool_name,
+            "tool_type": tool_instance.TOOL_TYPE.value,
+            "scan_type": scan_type,
+            "run_type": run_type,
+            "duration_sec": toc - tic,
+            "date": tic,
+            "git_repo": git_repo,
+            "git_branch": git_branch,
+        }
+        # get tool config for ignore list
+        tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
+        # normalise vulnerabilities list
+        scan_result.vulnerabilities = self._normalise_vulnerabilities(scan_result.vulnerabilities, tool_config)
+        # create counts of vulnerabilities
+        scan_result.summary = self._create_summary(scan_result.vulnerabilities, tool_config)
+        return scan_result
 
     def get_tool(
         self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ) -> ToolMeta:
-        """Gets a instance of a tool, populated with it's configuration"""
+        """
+        Gets a instance of a tool, populated with it's configuration
+
+        :raises EzeConfigError
+        """
 
         [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
 
-        try:
-            tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
-            tool_class = self.tools[tool_name]
-            tool_instance = tool_class(tool_config)
-        except ConfigException as err:
-            raise click.ClickException(f"[{tool_name}] {err.message}")
+        tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
+        tool_class = self.tools[tool_name]
+        tool_instance = tool_class(tool_config)
         return tool_instance
 
     def print_tools_list(
@@ -427,23 +447,22 @@ Tool '{tool}' Help
         click.echo(f"License: {tool_license}")
         tool_version = tool_class.check_installed()
         if tool_version:
-            click.echo(f"Version: {tool_version} Installed")
-            click.echo(f"""""")
+            click.echo(f"Version: {tool_version} Installed\n")
         else:
             click.echo(
-                f"""Tool Install Instructions:
+                """Tool Install Instructions:
 ---------------------------------"""
             )
             click.echo(tool_class.install_help())
-            click.echo(f"""""")
+            click.echo("")
         click.echo(
-            f"""Tool Configuration Instructions:
+            """Tool Configuration Instructions:
 ---------------------------------"""
         )
         click.echo(tool_class.config_help())
 
         click.echo(
-            f"""Tool More Info:
+            """Tool More Info:
 ---------------------------------"""
         )
         click.echo(tool_class.more_info())
@@ -467,7 +486,7 @@ Tool '{tool}' Help
             "totals": {"total": 0, "critical": 0, "high": 0, "medium": 0, "low": 0, "none": 0, "na": 0},
         }
         for vulnerability in vulnerabilities:
-            # increament counters
+            # increment counters
             if vulnerability.is_ignored:
                 summary["ignored"]["total"] += 1
                 summary["ignored"][vulnerability.severity] += 1
@@ -517,14 +536,18 @@ Tool '{tool}' Help
     def _get_tool_config(
         self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ):
-        """Get Tool Config, handle default config parameters"""
+        """
+        Get Tool Config, handle default config parameters
+
+        :raises EzeConfigError
+        """
         eze_config = EzeConfig.get_instance()
         tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type, parent_language_name)
 
         # Warnings for corrupted config
         if tool_name not in self.tools:
-            error_message = f"The ./ezerc config references unknown tool plugin '{tool_name}', run 'eze tools list' to see available tools"
-            raise click.ClickException(error_message)
+            error_message = f"[{tool_name}] The ./ezerc config references unknown tool plugin '{tool_name}', run 'eze tools list' to see available tools"
+            raise EzeConfigError(error_message)
 
         tool_class = self.tools[tool_name]
         default_severity = VulnerabilitySeverityEnum.na.name
@@ -570,7 +593,7 @@ Tool '{tool}' Help
         reporters = []
         try:
             reporters = EzeConfig.get_instance().get_scan_config(scan_type).get("reporters", [])
-        except Exception as e:
+        except Exception as error:
             pass
         reporter_manager = ReporterManager.get_instance()
         report_files = []

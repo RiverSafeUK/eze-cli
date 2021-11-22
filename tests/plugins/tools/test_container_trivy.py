@@ -1,11 +1,11 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long,invalid-name
 from unittest import mock
 
 import pytest
 
 from eze.plugins.tools.container_trivy import TrivyTool
 from eze.utils.io import create_tempfile_path
-from eze.utils.config import ConfigException
+from eze.utils.error import EzeConfigError
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -17,8 +17,8 @@ class TestTrivyTool(ToolMetaTestBase):
         # Given
         expected_error_message = "required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration"
         # When
-        with pytest.raises(ConfigException) as thrown_exception:
-            testee = TrivyTool()
+        with pytest.raises(EzeConfigError) as thrown_exception:
+            TrivyTool()
         # Then
         assert thrown_exception.value.message == expected_error_message
 
@@ -99,7 +99,7 @@ class TestTrivyTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
         # Given
         input_config = {
             "IMAGE_NAME": "python:3.8-slim",

@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import os
 import pathlib
@@ -30,13 +30,13 @@ Commands:
 
 
 class TestHousekeepingCommand:
-    def setup_method(module):
+    def setup_method(self):
         """Clean up method"""
         mock_setup()
         eze_temp_folder = os.path.join(tempfile.gettempdir(), ".eze-temp")
         shutil.rmtree(eze_temp_folder, ignore_errors=True)
 
-    def teardown_module(module):
+    def teardown_module(self):
         """teardown any state that was previously setup with a setup_module method."""
         teardown_mock()
 

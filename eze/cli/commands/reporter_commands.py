@@ -14,7 +14,7 @@ def reporters_group():
 
 
 @click.command("list", short_help="List the available reporters")
-@click.option("--include-help/--exclude-help", default=False, help=f"adds all tools documentation")
+@click.option("--include-help/--exclude-help", default=False, help="adds all tools documentation")
 @debug_option
 def list_command(include_help: bool) -> None:
     """

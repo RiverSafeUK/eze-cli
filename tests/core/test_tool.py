@@ -1,10 +1,9 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long,invalid-name
 import json
 
 from unittest.mock import patch
 import pytest
 from click import ClickException
-from eze.utils.io import pretty_print_json
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
 from eze.core.tool import ToolManager, ToolMeta, Vulnerability, ScanResult
@@ -16,6 +15,7 @@ from tests.__test_helpers__.mock_helper import (
     DummyFailureTool,
     unmock_print,
     mock_print,
+    convert_scanresult_to_snapshot,
 )
 
 
@@ -41,7 +41,7 @@ class DummyPlugin3(ToolMeta):
         return {"success-tool": DummySuccessTool}
 
     def check_installed(self) -> str:
-        return True
+        return "YES"
 
     def run_scan(self):
         report = ScanResult(
@@ -100,7 +100,6 @@ class TestToolManager:
             "EXCLUDE": [],
             "IGNORE_BELOW_SEVERITY_INT": 5,
         }
-        expected_tools = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
         input_plugin = {
             "broken_plugin_with_no_get_tools": {},
             "test_plugin_1": DummyPlugin1(),
@@ -145,7 +144,7 @@ class TestToolManager:
     def test_get_tool__failure_invalid_reporter(self):
         # Given
         setup_mock()
-        expected_error_message = """The ./ezerc config references unknown tool plugin 'non-existant-tool', run 'eze tools list' to see available tools"""
+        expected_error_message = """[non-existant-tool] The ./ezerc config references unknown tool plugin 'non-existant-tool', run 'eze tools list' to see available tools"""
         input_plugin = {
             "broken_plugin_with_no_get_tools": {},
             "test_plugin_1": DummyPlugin1(),
@@ -165,15 +164,6 @@ class TestToolManager:
         mock_repo.return_value = MockSuccessGitRepo()
         eze_config = {"success-tool": {"some-thing-for-tool": 123}, "scan": {"tools": [], "reporters": []}}
         setup_mock(eze_config)
-        expected_tool_config = {
-            "some-thing-for-tool": 123,
-            "DEFAULT_SEVERITY": "na",
-            "IGNORED_VULNERABILITIES": [],
-            "IGNORED_FILES": [],
-            "EXCLUDE": [],
-            "IGNORE_BELOW_SEVERITY_INT": 5,
-        }
-        expected_tools = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
         input_plugin = {
             "broken_plugin_with_no_get_tools": {},
             "test_plugin_1": DummyPlugin1(),
@@ -183,14 +173,33 @@ class TestToolManager:
         # When
         output: ScanResult = await tool_manager_instance.run_tool("success-tool")
         # Then
-        output.run_details["duration_sec"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
-        output.run_details["date"] = ["NOT UNDER TEST (TIME IS DYNAMIC)"]
-        output.vulnerabilities = ["NOT UNDER TEST (FROM FIXTURE)"]
-        output_snapshot = pretty_print_json(output)
-        # Then
         # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
+        output_snapshot = convert_scanresult_to_snapshot(output)
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(output_snapshot, f"core/tool__run_tool-result-output.json")
+
+    @patch("git.Repo")
+    @pytest.mark.asyncio
+    async def test_run_tool__error(self, mock_repo, snapshot):
+        # Given
+        mock_repo.return_value = MockSuccessGitRepo()
+        eze_config = {"success-tool": {"some-thing-for-tool": 123}, "scan": {"tools": [], "reporters": []}}
+        setup_mock(eze_config)
+        input_plugin = {
+            "broken_plugin_with_no_get_tools": {},
+            "test_plugin_1": DummyPlugin1(),
+            "test_plugin_2": DummyPlugin2(),
+        }
+        tool_manager_instance = ToolManager(input_plugin)
+        # When
+        output: ScanResult = await tool_manager_instance.run_tool("failure-tool")
+        # Then
+        assert output.fatal_errors == ["Something bad"]
+
+        # WARNING: this is a snapshot test, any changes to format will edit this and the snapshot will need to be updated
+        output_snapshot = convert_scanresult_to_snapshot(output)
+        snapshot.snapshot_dir = get_snapshot_directory()
+        snapshot.assert_match(output_snapshot, f"core/tool__run_tool-error-result-output.json")
 
     @pytest.mark.asyncio
     @patch("eze.core.tool.create_folder")
@@ -203,7 +212,7 @@ class TestToolManager:
         # When
         tool_manager_instance.prepare_folder()
         # Then
-        create_folder_mock.assert_called_with("reports/test_report.json")
+        create_folder_mock.assert_called_with("reports/test_report.json", False)
 
     def test_print_tool_help__simple(self, snapshot):
         # Given
@@ -382,11 +391,11 @@ class TestToolManager:
         ignored_high_vulnerability = Vulnerability({"severity": "high", "is_ignored": True, "name": "foo"})
 
         expected_output = [high_vulnerability, med_vulnerability, low_vulnerability, ignored_high_vulnerability]
-        input = [low_vulnerability, ignored_high_vulnerability, high_vulnerability, med_vulnerability]
+        test_input = [low_vulnerability, ignored_high_vulnerability, high_vulnerability, med_vulnerability]
         # When
         tool_manager_instance = ToolManager()
         # Then
-        output = tool_manager_instance._sort_vulnerabilities(input)
+        output = tool_manager_instance._sort_vulnerabilities(test_input)
         assert output == expected_output
 
 

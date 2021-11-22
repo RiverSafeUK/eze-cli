@@ -14,14 +14,14 @@ def join(split_command):
 _find_unsafe = re.compile(r"[^\w@%+=:,./-]", re.ASCII).search
 
 
-def quote(s):
+def quote(text):
     """Return a shell-escaped version of the string *s*."""
-    if not s:
+    if not text:
         return '""'
-    matches = _find_unsafe(s)
+    matches = _find_unsafe(text)
     if matches is None:
-        return s
+        return text
 
     # use single quotes, and put single quotes into double quotes
     # the string $'b is then quoted as '$'"'"'b'
-    return '"' + s.replace('"', '"\'"\'"') + '"'
+    return '"' + text.replace('"', '"\'"\'"') + '"'

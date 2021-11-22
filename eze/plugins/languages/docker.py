@@ -86,6 +86,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
 #    REPORT_FILE = "reports/syft-{self.LANGUAGE_NAME}-report.json"
     [{self.LANGUAGE_NAME}.{SemGrepTool.TOOL_NAME}]
     REPORT_FILE = "reports/semgrep-{self.LANGUAGE_NAME}-report.json"
+    PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/dockerfile"
     ]
@@ -107,7 +108,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
     ]
 
 """,
-            "message": f"""To enable SCA and SBOM against Dockerfile, the docker image must be built first
+            "message": """To enable SCA and SBOM against Dockerfile, the docker image must be built first
 
 uncomment DOCKER_TAG and populate image tag
 DOCKER_TAG: <docker-image-tag>

@@ -46,7 +46,7 @@ def housekeeping_group():
 @debug_option
 def create_local_config_command():
     """creates a default config for a user in their local location"""
-    click.echo(f"Auto generating a new .ezerc.toml")
+    click.echo("Auto generating a new .ezerc.toml")
     language_manager = LanguageManager.get_instance()
     language_manager = language_manager.create_local_ezerc_config()
 
@@ -93,7 +93,7 @@ def get_repo_command():
 
 
 @click.command("documentation", short_help="list all plugins installed and their documentation")
-@click.option("--include-help/--exclude-help", default=False, help=f"adds all tools documentation")
+@click.option("--include-help/--exclude-help", default=False, help="adds all tools documentation")
 @debug_option
 def documentation_command(include_help: bool):
     """list all plugins (languages, tools, and reporters) then all their documentation"""

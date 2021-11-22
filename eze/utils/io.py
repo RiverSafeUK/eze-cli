@@ -10,12 +10,11 @@ from pathlib import Path
 # https://github.com/PyCQA/bandit/issues/452
 from xml.sax.saxutils import escape  # nosec # nosemgrep
 
+import xmltodict
 import click
 import toml
 
-
-class ClickManagedFileAccessError(click.ClickException):
-    pass
+from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 
 
 def normalise_file_paths(file_paths: list) -> Path:
@@ -25,7 +24,7 @@ def normalise_file_paths(file_paths: list) -> Path:
 
 
 def remove_non_folders(file_paths: list, default: list, subject: str) -> list:
-    """Removes non folders and non existant entries"""
+    """Removes non folders and non existent entries"""
     cleaned = []
     for file_path in file_paths:
         local_folder = Path.cwd() / file_path
@@ -73,7 +72,11 @@ def pretty_print_json(obj) -> str:
 
 
 def load_text(file_path: str) -> str:
-    """Load text file"""
+    """
+    Load text file
+
+    :raises EzeFileAccessError
+    """
     try:
         with open(file_path, "r", encoding="utf-8") as text_file:
             text_str = text_file.read()
@@ -81,42 +84,85 @@ def load_text(file_path: str) -> str:
         return text_str
 
     except PermissionError as not_permitted_err:
-        raise ClickManagedFileAccessError(f"Eze cannot access '{not_permitted_err.filename}', Permission was denied")
+        raise EzeFileAccessError(f"Eze cannot access '{not_permitted_err.filename}', Permission was denied")
     except FileNotFoundError as not_found_err:
-        raise ClickManagedFileAccessError(f"Eze cannot access '{not_found_err.filename}', File could not be found")
+        raise EzeFileAccessError(f"Eze cannot access '{not_found_err.filename}', File could not be found")
 
 
 def load_toml(file_path: str) -> str:
-    """Load toml file"""
+    """
+    Load toml file
+
+    :raises EzeFileAccessError
+    :raises EzeFileParsingError
+    """
     toml_str = load_text(file_path)
-    parsed_toml = toml.loads(toml_str)
-    return parsed_toml
+
+    try:
+        return toml.loads(toml_str)
+    except toml.TomlDecodeError as error:
+        raise EzeFileParsingError(
+            f"Unable to parse TOML file '{file_path}', message: '{error.msg}' (line {error.lineno})"
+        )
 
 
 def load_json(file_path: str):
-    """Load json file and convert to dict"""
+    """
+    Load json file and convert to dict
+
+    :raises EzeFileAccessError
+    :raises EzeFileParsingError
+    """
     json_str = load_text(file_path)
     if not json_str:
         return []
-    python_obj = json.loads(json_str)
-    return python_obj
+
+    try:
+        return json.loads(json_str)
+    except json.decoder.JSONDecodeError as error:
+        raise EzeFileParsingError(
+            f"Unable to parse JSON file '{file_path}', message: '{error.msg}' (line {error.lineno})"
+        )
 
 
-def create_folder(file_path: str):
-    """Create folder to location file"""
+def load_xml(file_path: str, force_list: dict = None):
+    """
+    Load xml file and convert to dict
+
+    :raises EzeFileAccessError
+    :raises EzeFileParsingError
+    """
+    xml_str = load_text(file_path)
+    try:
+        return xmltodict.parse(xml_str, force_list=force_list or {})
+    except xmltodict.ParsingInterrupted as error:
+        raise EzeFileParsingError(f"Unable to parse XML file '{file_path}', Error: {error}")
+    except ValueError as error:
+        raise EzeFileParsingError(f"Unable to parse XML file '{file_path}', Error: {error}")
+
+
+def create_folder(file_path: str, raise_error_on_fail: bool = True):
+    """
+    Create folder to location file
+
+    :raises EzeFileAccessError
+    """
     location = get_absolute_filename(file_path)
     path = os.path.dirname(location)
     try:
         os.makedirs(path, exist_ok=True)
-
     except PermissionError as not_permitted_err:
-        raise ClickManagedFileAccessError(
-            f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied"
-        )
+        if raise_error_on_fail:
+            raise EzeFileAccessError(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
+        click.echo(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_text(file_path: str, text: str) -> str:
-    """Save text file"""
+    """
+    Save text file
+
+    :raises EzeFileAccessError
+    """
     create_folder(file_path)
     location = get_absolute_filename(file_path)
     try:
@@ -125,18 +171,26 @@ def write_text(file_path: str, text: str) -> str:
         text_file.close()
         return location
     except PermissionError as not_permitted_err:
-        raise ClickManagedFileAccessError(f"Eze cannot write '{not_permitted_err.filename}', Permission was denied")
+        raise EzeFileAccessError(f"Eze cannot write '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_json(file_path: str, json_vo) -> str:
-    """Save json file"""
+    """
+    Save json file
+
+    :raises EzeFileAccessError
+    """
     json_str = pretty_print_json(json_vo)
     json_location = write_text(file_path, json_str)
     return json_location
 
 
 def write_sarif(file_path: str, json_vo) -> str:
-    """Save sarif file"""
+    """
+    Save sarif file
+
+    :raises EzeFileAccessError
+    """
     sarif_str = json.dumps(json_vo, default=vars, indent=2, sort_keys=False)
     sarif_location = write_text(file_path, sarif_str)
     return sarif_location
@@ -152,7 +206,11 @@ def xescape(fragment: str) -> str:
 
 
 def exit_app(error_message: str) -> str:
-    """Helper, will exit application with code and message"""
+    """
+    Helper, will exit application with code and message
+
+    :raises click.ClickException
+    """
     raise click.ClickException(error_message)
 
 

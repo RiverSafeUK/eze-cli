@@ -10,13 +10,11 @@ https://www.python.org/dev/peps/pep-0518/#overview-of-file-formats-considered
 Also handles debug mode
 (TODO: once logging plumbed in, look into debugging / log levels elsewhere)
 """
-from pydash import py_
 import click
-import toml
-
 from pathlib import Path
+from pydash import py_
 
-from eze.utils.io import load_toml, ClickManagedFileAccessError
+from eze.utils.io import load_toml
 from eze.utils.config import (
     extract_embedded_run_type,
     merge_from_root_base,
@@ -24,6 +22,7 @@ from eze.utils.config import (
     merge_from_root_nested,
     merge_configs,
 )
+from eze.utils.error import EzeFileAccessError, EzeFileParsingError, EzeConfigError
 
 
 class EzeConfig:
@@ -54,9 +53,9 @@ class EzeConfig:
                 return False
             load_toml(local_config)
             return True
-        except toml.TomlDecodeError:
+        except EzeFileParsingError:
             return True
-        except ClickManagedFileAccessError:
+        except EzeFileAccessError:
             return False
 
     @staticmethod
@@ -124,14 +123,12 @@ class EzeConfig:
                     continue
                 parsed_config = load_toml(config_file)
                 merge_configs(parsed_config, self.config)
-            except ClickManagedFileAccessError:
+            except EzeFileAccessError:
                 if EzeConfig.debug_mode:
-                    print(f"-- [CONFIG ENGINE] skipping file '{config_file}' as not found")
+                    print(f"-- [CONFIG ENGINE] skipping file as not found '{config_file}'")
                 continue
-            except toml.TomlDecodeError as err:
-                print(
-                    f"-- [CONFIG ENGINE] Error: skipping file '{config_file}' as toml is corrupted, message: '{err.msg}' (line {err.lineno})"
-                )
+            except EzeFileParsingError as error:
+                print(f"-- [CONFIG ENGINE] Error: skipping file as toml is corrupted, {error}")
                 continue
 
     def get_scan_config(self, scan_type: str = None) -> dict:
@@ -148,13 +145,13 @@ class EzeConfig:
         # Warnings for corrupted config
         if "tools" not in scan_config and "languages" not in scan_config:
             error_message = "The ./ezerc config missing required scan.tools/languages list, run 'eze housekeeping create-local-config' to create"
-            raise click.ClickException(error_message)
+            raise EzeConfigError(error_message)
 
         if "reporters" not in scan_config:
             error_message = (
                 "The ./ezerc config missing scan.reporters list, run 'eze housekeeping create-local-config' to create"
             )
-            raise click.ClickException(error_message)
+            raise EzeConfigError(error_message)
         return scan_config
 
     def get_plugin_config(
@@ -165,7 +162,7 @@ class EzeConfig:
         [plugin_name, run_type] = extract_embedded_run_type(plugin_name, run_type)
         # step 1) clone default plugin config
         # (normal tool <ROOT>.<tool>)
-        config_root = py_.get(self, f"""config""", None)
+        config_root = py_.get(self, "config", None)
         # step 2) clone default plugin config
         # (language tool <ROOT>.<language>.<tool>)
         language_root = py_.get(self, f"""config.{parent_container}""", None)

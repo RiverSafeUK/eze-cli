@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 import pytest
 from click import ClickException
 
@@ -31,7 +31,7 @@ class TestReporterManager:
         EzeConfig.reset_instance()
         EzeConfig.set_instance([])
 
-    def teardown_module(module):
+    def teardown_module(self):
         """teardown any state that was previously setup with a setup_module
         method.
         """
@@ -49,7 +49,7 @@ class TestReporterManager:
 
     def test_get_reporter__failure_invalid_reporter(self):
         # Given
-        expected_error_message = """The ./ezerc config references unknown reporter plugin 'non-existant-reporter', run 'eze reporters list' to see available reporters"""
+        expected_error_message = """[non-existant-reporter] The ./ezerc config references unknown reporter plugin 'non-existant-reporter', run 'eze reporters list' to see available reporters"""
         testee = ReporterManager({"dummy-plugin": get_dummy_plugin()})
         # When
         with pytest.raises(ClickException) as thrown_exception:

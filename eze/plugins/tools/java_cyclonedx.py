@@ -68,14 +68,17 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         cyclonedx_bom = load_json(self.config["MVN_REPORT_FILE"])
 
         write_json(self.config["REPORT_FILE"], cyclonedx_bom)
         report = self.parse_report(cyclonedx_bom)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 

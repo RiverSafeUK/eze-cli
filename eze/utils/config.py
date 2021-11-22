@@ -8,17 +8,12 @@ Actual logic inside EzeConfig
 """
 import json
 
-
-class ConfigException(Exception):
-    """Extended exception for all config handling"""
-
-    def __init__(self, message: str) -> None:
-        """Constructor"""
-        super().__init__(message)
-        self.message = message
+from eze.utils.error import EzeConfigError
 
 
 class PluginConfigField:
+    """Plugin field container"""
+
     def __init__(self, key: str, field_config: dict) -> None:
         self.key: str = key
         self.required: bool = field_config.get("required", False)
@@ -69,7 +64,7 @@ def get_config_keys(raw_config: dict, fields_config: dict, config: dict = None) 
             error_message: str = f"required param '{key}' missing from configuration"
             if plugin_field.help_text:
                 error_message += "\n" + plugin_field.help_text
-            raise ConfigException(error_message)
+            raise EzeConfigError(error_message)
     return config
 
 
@@ -89,7 +84,7 @@ def create_config_help(tool_name: str, plugin_fields_config: dict, common_fields
     config_help: str = f"""[{tool_name}]\n"""
     config_help += _create_config_help(plugin_fields_config)
     if common_fields_config:
-        config_help += f"""\n# Common Tool Config\n\n"""
+        config_help += """\n# Common Tool Config\n\n"""
         config_help += _create_config_help(common_fields_config)
     return config_help
 
@@ -106,7 +101,7 @@ def _create_config_help(fields_config: dict):
         if plugin_field.help_text:
             field_config_help += plugin_field.help_text + "\n"
         if plugin_field.default_help_value:
-            field_config_help += f"default value: \n"
+            field_config_help += "default value: \n"
             field_config_help += f"  {plugin_field.key} = {json.dumps(plugin_field.default_help_value, default=vars)}\n"
         field_config_help = "# " + "\n# ".join(field_config_help.split("\n")) + "\n"
         if plugin_field.help_example:

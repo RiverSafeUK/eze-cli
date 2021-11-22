@@ -58,11 +58,18 @@ EXCLUDE = [
 
 
 [trufflehog]
-SOURCE = ["eze/", "tests/"]
+SOURCE = ["."]
 IGNORED_FILES = [
-    "__fixtures__/",
-    "__snapshots__/",
-    "utils/test_git.py"
+    ".idea",
+    "eze_bom.json",
+    "eze_report.json",
+    "eze_report.sarif",
+    "reports",
+    "examples",
+    ".pytest_cache",
+    "tests/__fixtures__/",
+    "tests/__snapshots__/",
+    "tests/utils/test_git.py"
 ]
 REPORT_FILE = "reports/truffleHog-report.json"
 

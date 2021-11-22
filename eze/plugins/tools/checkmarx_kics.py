@@ -103,12 +103,15 @@ Warning: on production might want to set this to False to prevent found Secrets 
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 

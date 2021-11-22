@@ -14,6 +14,7 @@ from eze.core.tool import (
 from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
 from eze.utils.io import create_tempfile_path, write_text
 from eze.utils.language.node import install_node_dependencies
+from eze.utils.error import EzeFileParsingError
 
 
 class NpmAuditTool(ToolMeta):
@@ -75,7 +76,11 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
         install_node_dependencies()
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
@@ -118,8 +123,8 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
     def create_path_v7(self, vulnerability: dict):
         """convert vulnerability dict into recommendation"""
         # detected module from vulnerability details
-        module_name = py_.get(vulnerability, "via[0].name", False) or vulnerability["name"]
-        module_version = py_.get(vulnerability, "via[0].range", False) or vulnerability["range"]
+        module_name = py_.get(vulnerability, "via[0].name", False) or py_.get(vulnerability, "name")
+        module_version = py_.get(vulnerability, "via[0].range", False) or py_.get(vulnerability, "range")
 
         # create path
         module_path = ""
@@ -145,13 +150,16 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         # WARNING: npm v7 report format doesn't look complete
         #
         # wouldn't be surprised if there are future breaking changes to the format,
-        # at a grance the v2 reports looks less mature to v1 reports
-        # and looks like there are some quality and accurancy issues
+        # at a glance the v2 reports looks less mature to v1 reports
+        # and looks like there are some quality and accuracy issues
         # ("via" array doesn't always seem correct for complex dependency trees)
         #
         # Excellent commentary : https://uko.codes/dealing-with-npm-v7-audit-changes
-        vulnerabilities = parsed_json["vulnerabilities"]
+        vulnerabilities = py_.get(parsed_json, "vulnerabilities", None)
         vulnerabilities_list = []
+
+        if not vulnerabilities:
+            raise EzeFileParsingError("Error: unable to parse npm audit file correctly")
 
         for vulnerability_key in vulnerabilities:
             vulnerability = vulnerabilities[vulnerability_key]

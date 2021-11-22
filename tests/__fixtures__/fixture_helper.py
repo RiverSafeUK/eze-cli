@@ -22,19 +22,24 @@ def get_snapshot_directory() -> Path:
 
 
 def load_json_fixture(path_from_tests: str):
-    """load json fixture"""
-    try:
-        fixture_path = get_path_fixture(path_from_tests)
-        json_dict = load_json(str(fixture_path))
-        return json_dict
-    except json.decoder.JSONDecodeError as err:
-        raise Exception(f"JSON format error in file '{fixture_path}'")
+    """
+    load json fixture
+
+    :raises EzeError
+    """
+    fixture_path = get_path_fixture(path_from_tests)
+    json_dict = load_json(str(fixture_path))
+    return json_dict
 
 
 def load_text_fixture(path_from_tests: str):
-    """load json fixture"""
+    """
+    load json fixture
+
+    :raises EzeFileAccessError
+    """
     fixture_path = get_path_fixture(path_from_tests)
-    return load_text(fixture_path)
+    return load_text(str(fixture_path))
 
 
 def assert_deep_equal(output, expected_output):
@@ -52,7 +57,6 @@ def convert_to_std_object(input_object):
 def create_mocked_stream(path_from_tests):
     """setup mock open file/url steam"""
     mock_file = get_path_fixture(path_from_tests)
-    mock_data = None
     with open(mock_file) as mock_stream:
         mock_data = mock_stream.read()
 

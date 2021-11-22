@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 import os
 from unittest import mock
 from unittest.mock import patch
@@ -269,7 +269,7 @@ url_test_data = [
 ]
 
 
-@pytest.mark.parametrize("title,input,expected_output", url_test_data)
-def test_clean_url(title, input, expected_output):
-    output = clean_url(input)
+@pytest.mark.parametrize("title,test_input,expected_output", url_test_data)
+def test_clean_url(title, test_input, expected_output):
+    output = clean_url(test_input)
     assert output == expected_output

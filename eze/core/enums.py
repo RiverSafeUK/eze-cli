@@ -1,3 +1,5 @@
+# pylint: disable=invalid-name
+
 """Eze's core enums module"""
 from enum import Enum
 

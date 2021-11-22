@@ -116,12 +116,15 @@ default is 182 (half a year)""",
         return detect_pip_executable_version("piprot", "piprot")
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
         report = self.parse_report(report_text)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 

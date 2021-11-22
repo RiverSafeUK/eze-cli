@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
 
 import pytest
@@ -70,7 +71,7 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.utils.cve.urllib.request.urlopen")
+    @mock.patch("urllib.request.urlopen")
     def test_parse_report__snapshot(self, mock_urlopen, snapshot):
         # Given
         mock_urlopen.side_effect = create_mocked_stream("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")
@@ -81,7 +82,7 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 

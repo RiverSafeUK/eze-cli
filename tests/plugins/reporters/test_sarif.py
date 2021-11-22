@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import os
 import pathlib
@@ -11,9 +11,9 @@ from unittest import mock
 from pytest_snapshot.plugin import Snapshot
 from eze.core.tool import ScanResult
 from eze.plugins.reporters.sarif import SarifReporter
+from eze.utils.io import load_text
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 from tests.__fixtures__.fixture_helper import get_snapshot_directory, load_json_fixture
-from eze.utils.io import load_text
 
 
 class TestSarifReporter(ReporterMetaTestBase):

@@ -33,19 +33,14 @@ import subprocess  # nosec
 from eze.utils.io import is_windows_os
 from eze.core.config import EzeConfig
 import eze.utils.windowslex as windowslex
+from eze.utils.error import EzeExecutableNotFoundError, EzeExecutableStdErrError
 
 
-class ExecutableNotFoundException(Exception):
-    """Extended exception for missing executable handling"""
-
-    def __init__(self, message: str) -> None:
-        """Constructor"""
-        super().__init__(message)
-        self.message = message
-
-
-def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "") -> subprocess.CompletedProcess:
-    """Run tool cli command
+def run_cli_command(
+    cli_config: dict, config: dict = None, command_name: str = "", throw_error_on_stderr: bool = False
+) -> subprocess.CompletedProcess:
+    """
+    Run tool cli command
 
     cli_config: dict
         BASE_COMMAND command to start with
@@ -57,6 +52,9 @@ def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "
     config: dict
         config-key for FLAGS command
         + inbuilt key ADDITIONAL_ARGUMENTS
+
+    :raises EzeExecutableNotFoundError
+    :raises EzeExecutableStdErrError
     """
     if not config:
         config = {}
@@ -70,13 +68,14 @@ def run_cli_command(cli_config: dict, config: dict = None, command_name: str = "
         )
 
     if completed_process.stderr:
-        if EzeConfig.debug_mode:
-            sanitised_command_str = __sanitise_command(command_list)
-            print(
-                f"""{command_name} ran with warnings/errors:
+        sanitised_command_str = __sanitise_command(command_list)
+        message = f"""{command_name} ran with warnings/errors:
     Ran: '{sanitised_command_str}'
     Error: {completed_process.stderr}"""
-            )
+        if EzeConfig.debug_mode:
+            print(message)
+        if throw_error_on_stderr:
+            raise EzeExecutableStdErrError(message)
     return completed_process
 
 
@@ -174,9 +173,11 @@ def build_cli_command(cli_config: dict, config: dict) -> list:
 
 
 def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.CompletedProcess:
-    """Supply os.run_cmd() wrap with additional arguments
+    """
+    Supply os.run_cmd() wrap with additional arguments
 
-    throws ExecutableNotFoundException"""
+    :raises EzeExecutableNotFoundError
+    """
     if not isinstance(cmd, list):
         raise TypeError("invalid cmd type (%s, expected string)" % type(cmd))
 
@@ -195,22 +196,26 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
         # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
         # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
         proc = subprocess.run(
-            final_cmd, capture_output=True, universal_newlines=True, encoding="utf-8", shell=True  # nosec # nosemgrep
+            final_cmd,
+            check=False,
+            capture_output=True,
+            universal_newlines=True,
+            encoding="utf-8",
+            shell=True,  # nosec # nosemgrep
         )
     except FileNotFoundError:
         core_executable = _extract_executable(sanitised_command_str)
         error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
         if error_on_missing_executable:
-            raise ExecutableNotFoundException(error_str)
-        else:
-            return subprocess.CompletedProcess({}, 1, "", error_str)
+            raise EzeExecutableNotFoundError(error_str)
+        return subprocess.CompletedProcess({}, 1, "", error_str)
 
     if EzeConfig.debug_mode:
         print(f"command '{sanitised_command_str}' std output: '{proc.stdout}' error output: '{proc.stderr}'")
 
     if error_on_missing_executable and (_check_output_corrupt(proc.stderr) or _check_output_corrupt(proc.stdout)):
         core_executable = _extract_executable(sanitised_command_str)
-        raise ExecutableNotFoundException(
+        raise EzeExecutableNotFoundError(
             f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
         )
     return proc
@@ -259,7 +264,9 @@ def extract_version_from_pip(pip_package: str) -> str:
 
 
 def extract_cmd_version(command: list) -> str:
-    """Run pip for package and check for common version patterns"""
+    """
+    Run pip for package and check for common version patterns
+    """
     completed_process = run_cmd(command, False)
     output = completed_process.stdout
     error_output = completed_process.stderr
@@ -277,7 +284,9 @@ def cmd_exists(input_executable: str) -> str:
 
 
 def extract_version_from_maven(mvn_package: str) -> str:
-    """Take maven package and checks for Maven version"""
+    """
+    Take maven package and checks for Maven version
+    """
     command: list = ["mvn", f"-Dplugin={mvn_package}", "help:describe"]
     completed_process = run_cmd(command, False)
     output = completed_process.stdout

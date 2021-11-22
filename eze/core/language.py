@@ -20,7 +20,8 @@ from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.io import write_text
 from eze.utils.print import pretty_print_table
-from eze.utils.config import extract_embedded_run_type, ConfigException
+from eze.utils.config import extract_embedded_run_type
+from eze.utils.error import EzeConfigError
 
 
 class LanguageRunnerMeta(ABC):
@@ -149,7 +150,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
         ".pytest_cache"
     ]
 """,
-            "message": f"""Eze was unable to find what language the codebase is written in
+            "message": """Eze was unable to find what language the codebase is written in
 
 defaulted to generic SECRET and SAST scanning
 for SCA and SBOM tooling please look at what is available in eze
@@ -188,7 +189,7 @@ class LanguageDiscoveryVO:
                 self.folder_patterns[folder_type] = re.compile(current_regex)
                 self.folders[folder_type] = []
         except:
-            raise ConfigException(f"Unable to parse regex '{current_regex}'")
+            raise EzeConfigError(f"Unable to parse regex '{current_regex}'")
 
     def ingest_discovered_file(self, file_name: str) -> None:
         """Method ingesting file for discovery"""
@@ -317,7 +318,7 @@ class LanguageManager:
             output = language.create_ezerc()
             click.echo(f"Found Language '{language_key}':")
             click.echo(output["message"])
-            click.echo(f"\n")
+            click.echo("\n")
             eze_rc += output["fragment"]
             eze_rc += "\n\n"
             language_list.append('"' + language_key + '"')
@@ -412,18 +413,17 @@ Language '{language}' Help
         )
         language_version = language_class.check_installed()
         if language_version:
-            click.echo(f"Version: {language_version} Installed")
-            click.echo(f"""""")
+            click.echo(f"Version: {language_version} Installed\n")
         else:
             click.echo(
-                f"""Language Install Instructions:
+                """Language Install Instructions:
 ---------------------------------"""
             )
             click.echo(language_class.install_help())
-            click.echo(f"""""")
+            click.echo("")
 
         click.echo(
-            f"""Language More Info:
+            """Language More Info:
 ---------------------------------"""
         )
         click.echo(language_class.more_info())
@@ -448,37 +448,41 @@ Language '{language}' Help
                 continue
 
     def get_language_config(self, language_name: str, scan_type: str = None, run_type: str = None):
-        """Get Language Config, handle default config parameters"""
+        """
+        Get Language Config, handle default config parameters
+
+        :raises EzeConfigError
+        """
         eze_config = EzeConfig.get_instance()
         language_config = eze_config.get_plugin_config(language_name, scan_type, run_type)
 
         # Warnings for corrupted config
         if language_name not in self.languages:
-            error_message = f"The ./ezerc config references unknown language plugin '{language_name}', run 'eze languages list' to see available languages"
-            raise click.ClickException(error_message)
+            error_message = f"[{language_name}] The ./ezerc config references unknown language plugin '{language_name}', run 'eze languages list' to see available languages"
+            raise EzeConfigError(error_message)
 
         # Warnings for corrupted config
         if "tools" not in language_config:
-            error_message = f"The ./ezerc config missing required {language_name}.tools list, run 'eze housekeeping create-local-config' to recreate"
-            raise click.ClickException(error_message)
+            error_message = f"[{language_name}] The ./ezerc config missing required {language_name}.tools list, run 'eze housekeeping create-local-config' to recreate"
+            raise EzeConfigError(error_message)
 
         return language_config
 
     def get_language(self, language_name: str, scan_type: str = None, run_type: str = None) -> LanguageRunnerMeta:
-        """Gets a instance of a language, populated with it's configuration"""
+        """
+        Gets a instance of a language, populated with it's configuration
+
+        :raises EzeConfigError
+        """
 
         [language_name, run_type] = extract_embedded_run_type(language_name, run_type)
-        try:
-            language_config = self.get_language_config(language_name, scan_type, run_type)
-            language_class: LanguageRunnerMeta = self.languages[language_name]
-            language_instance = language_class(language_config)
-        except ConfigException as err:
-            raise click.ClickException(f"[{language_name}] {err.message}")
+        language_config = self.get_language_config(language_name, scan_type, run_type)
+        language_class: LanguageRunnerMeta = self.languages[language_name]
+        language_instance = language_class(language_config)
         return language_instance
 
     async def run_language(self, language_name: str, scan_type: str = None, run_type: str = None) -> list:
         """Runs a instance of a tool, populated with it's configuration"""
-        tic = time.perf_counter()
         [language_name, run_type] = extract_embedded_run_type(language_name, run_type)
         language_instance: LanguageRunnerMeta = self.get_language(language_name, scan_type, run_type)
         # get raw scan result
@@ -489,5 +493,4 @@ Language '{language}' Help
         for tool_name in tools:
             scan_result = await tool_manager.run_tool(tool_name, scan_type, None, language_name)
             results.append(scan_result)
-        toc = time.perf_counter()
         return results

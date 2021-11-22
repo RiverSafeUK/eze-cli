@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 from eze.utils.print import pretty_print_table
 from tests.__test_helpers__.mock_helper import unmock_print, mock_print
@@ -7,11 +7,11 @@ from tests.__test_helpers__.mock_helper import unmock_print, mock_print
 def test_pretty_print_table__empty():
     # Given
     mocked_print_output = mock_print()
-    input = []
+    test_input = []
     expected_output = """Nothing to display
 """
     # When
-    pretty_print_table(input)
+    pretty_print_table(test_input)
     # Then
     unmock_print()
     output = mocked_print_output.getvalue()
@@ -21,7 +21,7 @@ def test_pretty_print_table__empty():
 def test_pretty_print_table__std_case():
     # Given
     mocked_print_output = mock_print()
-    input = [
+    test_input = [
         {
             "Name": "Jimmy",
             "Age": "52",
@@ -42,7 +42,7 @@ def test_pretty_print_table__std_case():
  | Emmy  | 14  | 
 """
     # When
-    pretty_print_table(input)
+    pretty_print_table(test_input)
     # Then
     unmock_print()
     output = mocked_print_output.getvalue()

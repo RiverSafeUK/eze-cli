@@ -9,9 +9,9 @@ from eze.core.tool import (
     Vulnerability,
     ScanResult,
 )
-from eze.utils.config import ConfigException
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.error import EzeConfigError
 
 
 class TrivyTool(ToolMeta):
@@ -101,13 +101,16 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         return version
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
 
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 
@@ -122,7 +125,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         trivy_severity = trivy_severity.lower()
         has_severity = hasattr(VulnerabilitySeverityEnum, trivy_severity)
         if not has_severity:
-            if trivy_severity == "$unknown" or trivy_severity == "unknown":
+            if trivy_severity in ("$unknown", "unknown"):
                 # unknown trivy severity, defaulting to na
                 return VulnerabilitySeverityEnum.na.name
             return VulnerabilitySeverityEnum.na.name
@@ -184,7 +187,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
 
         # ADDITION PARSING: IMAGE_NAME or IMAGE_FILE
         if not parsed_config.get("IMAGE_NAME") and not parsed_config.get("IMAGE_FILE"):
-            raise ConfigException(f"required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration")
+            raise EzeConfigError("required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration")
 
         # ADDITION PARSING: VULNERABILITY_TYPES
         # convert to space seperated, clean os specific regex

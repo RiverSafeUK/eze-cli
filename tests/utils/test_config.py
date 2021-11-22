@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import copy
 
@@ -227,14 +227,6 @@ def test_merge_from_root_nested__std():
     # When
     merge_from_root_nested(input_dict, testee, input_plugin_name, input_run_type)
     # Then
-    assert testee == expected_config
-
-
-def test_merge_configs__simple_merging():
-    input_dict = {"hello": "world", "foo": {"bar": 1}}
-    expected_config = copy.deepcopy(input_dict)
-    testee = {}
-    merge_configs(input_dict, testee)
     assert testee == expected_config
 
 

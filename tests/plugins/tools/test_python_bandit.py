@@ -1,11 +1,11 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
 
 import pytest
 
 from eze.plugins.tools.python_bandit import BanditTool
-from eze.utils.config import ConfigException
 from eze.utils.io import create_tempfile_path
+from eze.utils.error import EzeConfigError
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -18,8 +18,8 @@ class TestBanditTool(ToolMetaTestBase):
         expected_error_message = """required param 'SOURCE' missing from configuration
 bandit source folder to scan for python files"""
         # When
-        with pytest.raises(ConfigException) as thrown_exception:
-            testee = BanditTool()
+        with pytest.raises(EzeConfigError) as thrown_exception:
+            BanditTool()
         # Then
         assert thrown_exception.value.message == expected_error_message
 
@@ -75,7 +75,7 @@ bandit source folder to scan for python files"""
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
         # Given
         input_config = {"SOURCE": "src", "REPORT_FILE": "foo_report.json"}
 

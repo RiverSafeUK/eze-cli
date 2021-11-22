@@ -1,6 +1,7 @@
 """TruffleHog Python tool class"""
 import shlex
 import time
+from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
@@ -16,7 +17,6 @@ from eze.utils.io import (
     normalise_windows_regex_file_path,
     remove_non_folders,
 )
-from pydash import py_
 
 
 class TruffleHogTool(ToolMeta):
@@ -108,7 +108,11 @@ Warning: on production might want to set this to False to prevent found Secrets 
         return detect_pip_executable_version("truffleHog3", "trufflehog3")
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
 
         tic = time.perf_counter()
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
@@ -121,7 +125,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
             )
         parsed_json = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(parsed_json)
-        report.warnings = []
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 

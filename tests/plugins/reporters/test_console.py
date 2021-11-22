@@ -1,10 +1,9 @@
-# pylint: disable=missing-module-docstring,missing-class-docstring
+# pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import os
 import re
 import shutil
 import tempfile
-from unittest import TestCase
 
 import pytest
 
@@ -13,8 +12,6 @@ from eze.plugins.reporters.console import ConsoleReporter
 from tests.__fixtures__.fixture_helper import load_json_fixture, get_snapshot_directory
 from tests.__test_helpers__.mock_helper import mock_print, unmock_print
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
-
-TestCase.maxDiff = None
 
 
 class TestConsoleReporter(ReporterMetaTestBase):
@@ -43,8 +40,6 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
     def append_console_output(self, text):
         self.console_output += text + "\n"
-
-    maxDiff = None
 
     @pytest.mark.asyncio
     async def test_run_report__snapshot(self, snapshot):
@@ -109,10 +104,9 @@ class TestConsoleReporter(ReporterMetaTestBase):
         snapshot,
         input_config: dict,
         expected_config: dict,
-        input_scan_result: dict,
+        input_scan_result: ScanResult,
         snapshot_location: str,
     ):
-        self.maxDiff = None
         # Given
         mocked_print_output = mock_print()
 

@@ -2,7 +2,6 @@
 import shlex
 import time
 
-import click
 from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
@@ -13,6 +12,7 @@ from eze.core.tool import (
 )
 from eze.utils.cli import run_cli_command, extract_cmd_version
 from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.error import EzeError
 
 
 class SemGrepTool(ToolMeta):
@@ -92,7 +92,7 @@ maps to semgrep flag --exclude""",
         },
         "PRINT_TIMING_INFO": {
             "type": bool,
-            "default": True,
+            "default": False,
             "help_text": """can be difficult to find which rules are running slowly, this outputs a small timing report""",
         },
         "REPORT_FILE": {
@@ -127,7 +127,11 @@ maps to semgrep flag --exclude""",
         return extract_cmd_version(["semgrep", "--version"])
 
     async def run_scan(self) -> ScanResult:
-        """Method for running a synchronous scan using tool"""
+        """
+        Method for running a synchronous scan using tool
+
+        :raises EzeError
+        """
         tic = time.perf_counter()
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         toc = time.perf_counter()
@@ -135,18 +139,17 @@ maps to semgrep flag --exclude""",
         if total_time > 60:
             print(
                 f"semgrep scan took a long time ({total_time:0.2f}s), "
-                f"you can often speed up signifantly by tailoring your rule configs to your language or sub-dependancies"
+                f"you can often speed up significantly by tailoring your rule configs to your language or sub-dependancies"
             )
         if "OSError: [WinError 193] %1 is not a valid Win32 application" in completed_process.stderr:
-            report = self.create_error_report(
+            raise EzeError(
                 f"""[{self.TOOL_NAME}] semgrep crashed while running, this is likely because semgrep doesn't support native windows yet
 
 As of 2021 semgrep support for windows is limited, until support added you can use eze inside wsl2 to run semgrep on windows
 https://github.com/returntocorp/semgrep/issues/1330"""
             )
-        else:
-            parsed_json = load_json(self.config["REPORT_FILE"])
-            report = self.parse_report(parsed_json)
+        parsed_json = load_json(self.config["REPORT_FILE"])
+        report = self.parse_report(parsed_json)
 
         return report
 
@@ -249,17 +252,6 @@ Top 10 slowest files
 
             warnings.append(error_text)
         return warnings
-
-    def create_error_report(self, error_message: str) -> ScanResult:
-        """create error report"""
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": [],
-                "fatal_errors": [error_message],
-            }
-        )
-        return report
 
     def parse_report(self, parsed_json: dict) -> ScanResult:
         """convert report json into ScanResult"""
