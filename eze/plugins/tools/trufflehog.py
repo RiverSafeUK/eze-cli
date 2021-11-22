@@ -48,6 +48,7 @@ Tips and Tricks
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": list,
+            "default": ".",
             "required": True,
             "help_text": """TruffleHog3 list of source folders to scan for secrets""",
         },
