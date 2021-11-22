@@ -8,7 +8,7 @@ from eze.utils.cli import run_cmd
 
 
 class Cache:
-    pass
+    """Cache class container"""
 
 
 __c = Cache()

@@ -125,7 +125,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         trivy_severity = trivy_severity.lower()
         has_severity = hasattr(VulnerabilitySeverityEnum, trivy_severity)
         if not has_severity:
-            if trivy_severity == "$unknown" or trivy_severity == "unknown":
+            if trivy_severity in ("$unknown", "unknown"):
                 # unknown trivy severity, defaulting to na
                 return VulnerabilitySeverityEnum.na.name
             return VulnerabilitySeverityEnum.na.name
@@ -187,7 +187,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
 
         # ADDITION PARSING: IMAGE_NAME or IMAGE_FILE
         if not parsed_config.get("IMAGE_NAME") and not parsed_config.get("IMAGE_FILE"):
-            raise EzeConfigError(f"required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration")
+            raise EzeConfigError("required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration")
 
         # ADDITION PARSING: VULNERABILITY_TYPES
         # convert to space seperated, clean os specific regex

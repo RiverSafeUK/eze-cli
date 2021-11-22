@@ -11,10 +11,10 @@ from pathlib import Path
 from xml.sax.saxutils import escape  # nosec # nosemgrep
 
 import xmltodict
-
-from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 import click
 import toml
+
+from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 
 
 def normalise_file_paths(file_paths: list) -> Path:
@@ -154,8 +154,7 @@ def create_folder(file_path: str, raise_error_on_fail: bool = True):
     except PermissionError as not_permitted_err:
         if raise_error_on_fail:
             raise EzeFileAccessError(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
-        else:
-            click.echo(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
+        click.echo(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_text(file_path: str, text: str) -> str:

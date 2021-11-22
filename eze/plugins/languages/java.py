@@ -89,6 +89,6 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{JavaDependen
     [{self.LANGUAGE_NAME}.{JavaCyclonedxTool.TOOL_NAME}]
     REPORT_FILE = "reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
 """,
-            "message": f"""requires "mvn install" ran before running maven tools,
+            "message": """requires "mvn install" ran before running maven tools,
 tools are expecting pom.xml at root level""",
         }

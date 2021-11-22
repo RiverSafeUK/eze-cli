@@ -3,10 +3,10 @@
 import urllib.request
 from urllib.error import HTTPError
 import urllib.parse
-import git
 import os
-import click
 import asyncio
+import git
+import click
 
 from eze.utils.io import pretty_print_json
 from eze.cli.utils.command_helpers import base_options, pass_state

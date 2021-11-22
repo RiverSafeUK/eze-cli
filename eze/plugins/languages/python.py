@@ -1,5 +1,6 @@
 """Python Language Runner module"""
 import click
+from pydash import py_
 
 from eze.core.enums import SourceType
 from eze.core.language import LanguageRunnerMeta
@@ -11,8 +12,6 @@ from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.cli import extract_cmd_version
 from eze.utils.io import pretty_print_json
-
-from pydash import py_
 
 
 class PythonRunner(LanguageRunnerMeta):
@@ -112,5 +111,5 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{BanditTool.T
     REPORT_FILE = "reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
     REQUIREMENTS_FILE = {requirement_txt_file}
 """,
-            "message": f"""Safety and Piprot work best when running against pip frozen requirements""",
+            "message": """Safety and Piprot work best when running against pip frozen requirements""",
         }

@@ -91,6 +91,6 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{NpmAuditTool
     [{self.LANGUAGE_NAME}.{NodeCyclonedxTool.TOOL_NAME}]
     REPORT_FILE = "reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
 """,
-            "message": f"""node will require "npm install" ran before running security tools,
+            "message": """node will require "npm install" ran before running security tools,
 tools are expecting package.json at root level""",
         }

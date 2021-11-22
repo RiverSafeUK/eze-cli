@@ -10,10 +10,9 @@ https://www.python.org/dev/peps/pep-0518/#overview-of-file-formats-considered
 Also handles debug mode
 (TODO: once logging plumbed in, look into debugging / log levels elsewhere)
 """
-from pydash import py_
 import click
-
 from pathlib import Path
+from pydash import py_
 
 from eze.utils.io import load_toml
 from eze.utils.config import (
@@ -163,7 +162,7 @@ class EzeConfig:
         [plugin_name, run_type] = extract_embedded_run_type(plugin_name, run_type)
         # step 1) clone default plugin config
         # (normal tool <ROOT>.<tool>)
-        config_root = py_.get(self, f"""config""", None)
+        config_root = py_.get(self, "config", None)
         # step 2) clone default plugin config
         # (language tool <ROOT>.<language>.<tool>)
         language_root = py_.get(self, f"""config.{parent_container}""", None)

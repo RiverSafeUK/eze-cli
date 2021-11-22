@@ -1,6 +1,7 @@
 """TruffleHog Python tool class"""
 import shlex
 import time
+from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
@@ -16,7 +17,6 @@ from eze.utils.io import (
     normalise_windows_regex_file_path,
     remove_non_folders,
 )
-from pydash import py_
 
 
 class TruffleHogTool(ToolMeta):

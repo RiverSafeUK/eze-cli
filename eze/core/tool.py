@@ -447,23 +447,22 @@ Tool '{tool}' Help
         click.echo(f"License: {tool_license}")
         tool_version = tool_class.check_installed()
         if tool_version:
-            click.echo(f"Version: {tool_version} Installed")
-            click.echo(f"""""")
+            click.echo(f"Version: {tool_version} Installed\n")
         else:
             click.echo(
-                f"""Tool Install Instructions:
+                """Tool Install Instructions:
 ---------------------------------"""
             )
             click.echo(tool_class.install_help())
-            click.echo(f"""""")
+            click.echo("")
         click.echo(
-            f"""Tool Configuration Instructions:
+            """Tool Configuration Instructions:
 ---------------------------------"""
         )
         click.echo(tool_class.config_help())
 
         click.echo(
-            f"""Tool More Info:
+            """Tool More Info:
 ---------------------------------"""
         )
         click.echo(tool_class.more_info())
@@ -594,7 +593,7 @@ Tool '{tool}' Help
         reporters = []
         try:
             reporters = EzeConfig.get_instance().get_scan_config(scan_type).get("reporters", [])
-        except Exception as e:
+        except Exception as error:
             pass
         reporter_manager = ReporterManager.get_instance()
         report_files = []

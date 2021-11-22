@@ -150,7 +150,7 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
         ".pytest_cache"
     ]
 """,
-            "message": f"""Eze was unable to find what language the codebase is written in
+            "message": """Eze was unable to find what language the codebase is written in
 
 defaulted to generic SECRET and SAST scanning
 for SCA and SBOM tooling please look at what is available in eze
@@ -318,7 +318,7 @@ class LanguageManager:
             output = language.create_ezerc()
             click.echo(f"Found Language '{language_key}':")
             click.echo(output["message"])
-            click.echo(f"\n")
+            click.echo("\n")
             eze_rc += output["fragment"]
             eze_rc += "\n\n"
             language_list.append('"' + language_key + '"')
@@ -413,18 +413,17 @@ Language '{language}' Help
         )
         language_version = language_class.check_installed()
         if language_version:
-            click.echo(f"Version: {language_version} Installed")
-            click.echo(f"""""")
+            click.echo(f"Version: {language_version} Installed\n")
         else:
             click.echo(
-                f"""Language Install Instructions:
+                """Language Install Instructions:
 ---------------------------------"""
             )
             click.echo(language_class.install_help())
-            click.echo(f"""""")
+            click.echo("")
 
         click.echo(
-            f"""Language More Info:
+            """Language More Info:
 ---------------------------------"""
         )
         click.echo(language_class.more_info())
@@ -484,7 +483,6 @@ Language '{language}' Help
 
     async def run_language(self, language_name: str, scan_type: str = None, run_type: str = None) -> list:
         """Runs a instance of a tool, populated with it's configuration"""
-        tic = time.perf_counter()
         [language_name, run_type] = extract_embedded_run_type(language_name, run_type)
         language_instance: LanguageRunnerMeta = self.get_language(language_name, scan_type, run_type)
         # get raw scan result
@@ -495,5 +493,4 @@ Language '{language}' Help
         for tool_name in tools:
             scan_result = await tool_manager.run_tool(tool_name, scan_type, None, language_name)
             results.append(scan_result)
-        toc = time.perf_counter()
         return results

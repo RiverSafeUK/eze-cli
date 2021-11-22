@@ -158,24 +158,23 @@ Reporter '{reporter}' Help
         )
         reporter_version = reporter_class.check_installed()
         if reporter_version:
-            click.echo(f"Version: {reporter_version} Installed")
-            click.echo(f"""""")
+            click.echo(f"Version: {reporter_version} Installed\n")
         else:
             click.echo(
-                f"""Reporter Install Instructions:
+                """Reporter Install Instructions:
 ---------------------------------"""
             )
             click.echo(reporter_class.install_help())
-            click.echo(f"""""")
+            click.echo("")
 
         click.echo(
-            f"""Reporter Configuration Instructions:
+            """Reporter Configuration Instructions:
 ---------------------------------"""
         )
         click.echo(reporter_class.config_help())
 
         click.echo(
-            f"""Reporter More Info:
+            """Reporter More Info:
 ---------------------------------"""
         )
         click.echo(reporter_class.more_info())

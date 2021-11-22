@@ -7,11 +7,13 @@ from json import JSONDecodeError
 from eze.utils.error import EzeNetworkingError
 
 
-def request_json(url: str, data=None, headers={}, method=None) -> dict:
+def request_json(url: str, data=None, headers=None, method=None) -> dict:
     """
     requests a url and convert return into json
 
     :raises EzeNetworkingError: on networking error or json decoding error"""
+    if not headers:
+        headers = {}
     contents = request(url, data=data, headers=headers, method=method)
     try:
         return json.loads(contents)
@@ -19,12 +21,14 @@ def request_json(url: str, data=None, headers={}, method=None) -> dict:
         raise EzeNetworkingError(f"Error in JSON response '{url}', {contents} ({error})")
 
 
-def request(url: str, data=None, headers={}, method=None) -> str:
+def request(url: str, data=None, headers=None, method=None) -> str:
     """
     requests a url and returns string
 
     :raises EzeNetworkingError: on networking error
     """
+    if not headers:
+        headers = {}
     try:
         req = urllib.request.Request(url, data=data, headers=headers, method=method)
         # nosec: Request is being built directly above as a explicit http request

@@ -203,8 +203,7 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
         error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
         if error_on_missing_executable:
             raise EzeExecutableNotFoundError(error_str)
-        else:
-            return subprocess.CompletedProcess({}, 1, "", error_str)
+        return subprocess.CompletedProcess({}, 1, "", error_str)
 
     if EzeConfig.debug_mode:
         print(f"command '{sanitised_command_str}' std output: '{proc.stdout}' error output: '{proc.stderr}'")

@@ -148,9 +148,8 @@ maps to semgrep flag --exclude""",
 As of 2021 semgrep support for windows is limited, until support added you can use eze inside wsl2 to run semgrep on windows
 https://github.com/returntocorp/semgrep/issues/1330"""
             )
-        else:
-            parsed_json = load_json(self.config["REPORT_FILE"])
-            report = self.parse_report(parsed_json)
+        parsed_json = load_json(self.config["REPORT_FILE"])
+        report = self.parse_report(parsed_json)
 
         return report
 

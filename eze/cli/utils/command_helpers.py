@@ -14,7 +14,7 @@ from eze.core.config import EzeConfig
 FILE_TYPE = click.Path(exists=True, file_okay=True, dir_okay=False, readable=True, resolve_path=True)
 
 
-class State(object):
+class State:
     """Core State object shared by all commands, via @pass_state decorator"""
 
     def __init__(self):
@@ -26,7 +26,7 @@ class State(object):
 pass_state = click.make_pass_decorator(State, ensure=True)
 
 
-def config_option(f):
+def config_option(decorated_function):
     """decorator from debug --config-file/-c option"""
 
     def callback(ctx, param, value):
@@ -43,10 +43,10 @@ def config_option(f):
         default=None,
         required=False,
         callback=callback,
-    )(f)
+    )(decorated_function)
 
 
-def debug_option(f):
+def debug_option(decorated_function):
     """decorator from debug --debug/--no-debug option"""
 
     def callback(ctx, param, value):
@@ -58,7 +58,7 @@ def debug_option(f):
 
     return click.option(
         "--debug/--no-debug", expose_value=False, help="Enables or disables debug mode", callback=callback
-    )(f)
+    )(decorated_function)
 
 
 def base_options(wrapped_func: Callable):

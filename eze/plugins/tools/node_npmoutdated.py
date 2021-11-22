@@ -4,7 +4,6 @@ import shlex
 
 import semantic_version
 
-from eze.core.config import EzeConfig
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
     ToolMeta,

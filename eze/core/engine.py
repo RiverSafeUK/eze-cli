@@ -33,13 +33,13 @@ class EzeCore:
         """detect if needs to build ezerc from scratch"""
         valid_config = EzeConfig.has_local_config()
         if not valid_config:
-            click.echo(f"unable to find valid local config auto generating new config file", err=True)
+            click.echo("unable to find valid local config auto generating new config file", err=True)
 
         build_ezerc = not valid_config or force_build_ezerc
         if not build_ezerc:
             return False
 
-        click.echo(f"Auto generating a new .ezerc.toml")
+        click.echo("Auto generating a new .ezerc.toml")
         language_manager = LanguageManager.get_instance()
         language_manager.create_local_ezerc_config()
         # reset stored eze config, to generated version

@@ -71,6 +71,7 @@ defaults to false""",
         self._print_scan_report_sbom(scan_results_with_sboms)
 
     def print_scan_summary_table(self, scan_results: list):
+        """Print scan summary as table"""
         boms = []
         summaries = []
         for scan_result in scan_results:
@@ -143,7 +144,7 @@ defaults to false""",
         if len(scan_results_with_vulnerabilities) <= 0:
             return
         click.echo(
-            f"""
+            """
 Vulnerabilities
 ================================="""
         )
@@ -193,7 +194,7 @@ Vulnerabilities
         if len(scan_results_with_sboms) <= 0:
             return
         click.echo(
-            f"""
+            """
 Bill of Materials
 ================================="""
         )
@@ -242,7 +243,7 @@ Bill of Materials
             return
 
         click.echo(
-            f"""
+            """
 Warnings
 ================================="""
         )
@@ -266,7 +267,7 @@ Warnings
             return
 
         click.echo(
-            f"""
+            """
 Errors
 ================================="""
         )
