@@ -1,8 +1,8 @@
 """NpmAudit tool class"""
-import json
 import shlex
 
 import semantic_version
+from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import (
@@ -11,7 +11,7 @@ from eze.core.tool import (
     ScanResult,
 )
 from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
-from eze.utils.io import create_tempfile_path, write_text
+from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.semvar import get_severity, get_recommendation
 from eze.utils.language.node import install_node_dependencies
 
@@ -97,7 +97,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         report_text = completed_process.stdout
 
         write_text(self.config["REPORT_FILE"], report_text)
-        parsed_json = json.loads(report_text)
+        parsed_json = parse_json(report_text)
         report = self.parse_report(parsed_json)
         return report
 
@@ -109,7 +109,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         for outdated_package in parsed_json:
             outdated_module = parsed_json[outdated_package]
 
-            current_installed_version = outdated_module.get("current")
+            current_installed_version = py_.get(outdated_module, "current")
             if not current_installed_version:
                 warnings.append(
                     f"{outdated_package}: package not locally installed, detecting outdated status from wanted version, fix with `npm install`"

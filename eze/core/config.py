@@ -10,8 +10,8 @@ https://www.python.org/dev/peps/pep-0518/#overview-of-file-formats-considered
 Also handles debug mode
 (TODO: once logging plumbed in, look into debugging / log levels elsewhere)
 """
-import click
 from pathlib import Path
+import click
 from pydash import py_
 
 from eze.utils.io import load_toml

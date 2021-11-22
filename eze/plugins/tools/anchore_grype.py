@@ -1,5 +1,4 @@
 """Grype SCA and Container tool class"""
-import json
 import shlex
 
 from pydash import py_
@@ -7,7 +6,7 @@ from pydash import py_
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
-from eze.utils.io import create_tempfile_path, write_text
+from eze.utils.io import create_tempfile_path, write_text, parse_json
 
 
 class GrypeTool(ToolMeta):
@@ -105,7 +104,7 @@ You can also explicitly specify the scheme to use:
         completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
-        report_events = json.loads(report_text)
+        report_events = parse_json(report_text)
         report = self.parse_report(report_events)
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)

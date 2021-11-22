@@ -22,6 +22,7 @@ from eze.utils.io import (
     normalise_windows_regex_file_path,
     delete_file,
     exit_app,
+    parse_json,
 )
 from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 from tests.__fixtures__.fixture_helper import get_path_fixture
@@ -176,6 +177,26 @@ def test_pretty_print_json():
 
     output = pretty_print_json(test_input)
     assert output == expected_output
+
+
+def test_parse_json__happy_path():
+    expected_output = {"Iam": "json", "someArray": [], "someInt": 1, "someNull": None, "someObject": {}}
+    input_json = pretty_print_json(expected_output)
+    output = parse_json(input_json)
+
+    assert output == expected_output
+
+
+def test_parse_json__sad_path__ab_898_json_error():
+    input_json = "NOT REAL JSON"
+    expected_error = "Unable to parse JSON fragment"
+
+    try:
+        parse_json(input_json)
+    except EzeFileParsingError as error:
+        raised_error = error
+    # Then
+    assert expected_error in str(raised_error)
 
 
 def test_load_json__happy_path():

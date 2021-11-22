@@ -106,6 +106,19 @@ def load_toml(file_path: str) -> str:
         )
 
 
+def parse_json(json_str: str):
+    """
+    Load json string and convert to dict
+
+    :raises EzeFileAccessError
+    :raises EzeFileParsingError
+    """
+    try:
+        return json.loads(json_str)
+    except json.decoder.JSONDecodeError as error:
+        raise EzeFileParsingError(f"Unable to parse JSON fragment, message: '{error.msg}' (line {error.lineno})")
+
+
 def load_json(file_path: str):
     """
     Load json file and convert to dict
@@ -116,7 +129,6 @@ def load_json(file_path: str):
     json_str = load_text(file_path)
     if not json_str:
         return []
-
     try:
         return json.loads(json_str)
     except json.decoder.JSONDecodeError as error:

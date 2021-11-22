@@ -1,5 +1,4 @@
 """NpmAudit tool class"""
-import json
 import shlex
 
 import semantic_version
@@ -12,7 +11,7 @@ from eze.core.tool import (
     ScanResult,
 )
 from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
-from eze.utils.io import create_tempfile_path, write_text
+from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.language.node import install_node_dependencies
 from eze.utils.error import EzeFileParsingError
 
@@ -88,13 +87,13 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
-        parsed_json = json.loads(report_text)
+        parsed_json = parse_json(report_text)
         report = self.parse_report(parsed_json)
         return report
 
     def parse_report(self, parsed_json: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        v6_vulnerability_container = parsed_json.get("advisories")
+        v6_vulnerability_container = py_.get(parsed_json, "advisories")
         # v6 npm audit
         if v6_vulnerability_container:
             return self.parse_npm_v6_report(parsed_json)
@@ -234,12 +233,12 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "metadata": None,
                 "file_location": None,
             }
-            cwe = advisory.get("cwe")
+            cwe = py_.get(advisory, "cwe")
             if cwe:
                 vulnerability_vo["identifiers"]["cwe"] = cwe
 
             # WARNING: AB-524: limitation, for know just showing first CVE
-            cves = advisory.get("cves")
+            cves = py_.get(advisory, "cves")
             if cves and len(cves) > 0:
                 vulnerability_vo["identifiers"]["cve"] = cves[0]
 
