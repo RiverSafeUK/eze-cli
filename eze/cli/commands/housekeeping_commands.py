@@ -10,6 +10,7 @@ from eze.core.language import LanguageManager
 from eze.core.reporter import ReporterManager
 from eze.core.tool import ToolManager
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
+from eze.utils.log import log, log_debug, log_error
 
 DEFAULT_GLOABL_CONFIG_COPY = """
 # ===================================
@@ -46,7 +47,8 @@ def housekeeping_group():
 @debug_option
 def create_local_config_command():
     """creates a default config for a user in their local location"""
-    click.echo("Auto generating a new .ezerc.toml")
+
+    log("Auto generating a new .ezerc.toml")
     language_manager = LanguageManager.get_instance()
     language_manager = language_manager.create_local_ezerc_config()
 
@@ -65,21 +67,21 @@ def list_locations_command():
     """created a default config for a user in their global location"""
     global_config_location = EzeConfig.get_global_config_filename()
     local_config_location = EzeConfig.get_local_config_filename()
-    click.echo(f"Global configuration file: '{global_config_location}'")
-    click.echo(f"Local configuration file: '{local_config_location}'")
+    log(f"Global configuration file: '{global_config_location}'")
+    log(f"Local configuration file: '{local_config_location}'")
 
 
 def _create_config_file(config_location: pathlib.Path, copy: str) -> None:
     """Create the path to create the config file at and creates file"""
     if config_location.is_file():
-        click.echo(f"unable to create config '{config_location}' as it already exists", err=True)
+        log_error(f"unable to create config '{config_location}' as it already exists")
         return
     config_path = os.path.dirname(config_location)
     os.makedirs(config_path, exist_ok=True)
     handler = open(config_location, mode="w")
     handler.write(copy)
     handler.close()
-    click.echo(f"Successfully written configuration file to '{config_location}'")
+    log(f"Successfully written configuration file to '{config_location}'")
 
 
 @click.command("get-repo", short_help="get current git repo folder is in")
@@ -89,7 +91,7 @@ def get_repo_command():
     git_dir = os.getcwd()
     uri = get_active_branch_uri(git_dir)
     branch = get_active_branch_name(git_dir)
-    click.echo(f"""Current Branch is uri:'{uri}' name:'{branch}'""")
+    log(f"""Current Branch is uri:'{uri}' name:'{branch}'""")
 
 
 @click.command("documentation", short_help="list all plugins installed and their documentation")
@@ -97,7 +99,7 @@ def get_repo_command():
 @debug_option
 def documentation_command(include_help: bool):
     """list all plugins (languages, tools, and reporters) then all their documentation"""
-    click.echo(
+    log(
         """Printing all eze plugins installed
 ======================="""
     )
@@ -106,7 +108,7 @@ def documentation_command(include_help: bool):
     tool_manager.print_tools_list()
     reporter_manager.print_reporters_list()
     if include_help:
-        click.echo(
+        log(
             """Printing all eze documentation
 ======================="""
         )
