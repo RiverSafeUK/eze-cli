@@ -23,6 +23,7 @@ from eze.utils.config import (
     extract_embedded_run_type,
 )
 from eze.utils.error import EzeError, EzeConfigError
+from eze.utils.log import log, log_debug, log_error
 
 
 class Vulnerability:
@@ -376,7 +377,7 @@ Looks like {tool_name} is not installed
         include_version: bool = None,
     ):
         """list available tools"""
-        click.echo(
+        log(
             """Available Tools are:
 ======================="""
         )
@@ -413,7 +414,7 @@ Looks like {tool_name} is not installed
 
     def print_tools_help(self, tool_type: str = None, source_type: str = None, include_source_type: bool = None):
         """print help for all tools"""
-        click.echo(
+        log(
             """Available Tools Help:
 ======================="""
         )
@@ -436,7 +437,7 @@ Looks like {tool_name} is not installed
         """print out tool help"""
         tool_class: ToolMeta = self.tools[tool]
         tool_description = tool_class.short_description()
-        click.echo(
+        log(
             f"""
 =================================
 Tool '{tool}' Help
@@ -444,28 +445,28 @@ Tool '{tool}' Help
 ================================="""
         )
         tool_license = tool_class.license()
-        click.echo(f"License: {tool_license}")
+        log(f"License: {tool_license}")
         tool_version = tool_class.check_installed()
         if tool_version:
-            click.echo(f"Version: {tool_version} Installed\n")
+            log(f"Version: {tool_version} Installed\n")
         else:
-            click.echo(
+            log(
                 """Tool Install Instructions:
 ---------------------------------"""
             )
-            click.echo(tool_class.install_help())
-            click.echo("")
-        click.echo(
+            log(tool_class.install_help())
+            log("")
+        log(
             """Tool Configuration Instructions:
 ---------------------------------"""
         )
-        click.echo(tool_class.config_help())
+        log(tool_class.config_help())
 
-        click.echo(
+        log(
             """Tool More Info:
 ---------------------------------"""
         )
-        click.echo(tool_class.more_info())
+        log(tool_class.more_info())
 
     def _normalise_vulnerabilities(self, vulnerabilities: list, tool_config: dict) -> list:
         """sort and normalise any corrupted values in vulnerabilities"""
