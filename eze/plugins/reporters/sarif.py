@@ -8,6 +8,7 @@ from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.core.tool import ScanResult, Vulnerability
 from eze.utils.io import write_sarif
+from eze.utils.log import log, log_debug, log_error
 
 
 class SarifReporter(ReporterMeta):
@@ -42,7 +43,7 @@ By default set to eze_report.sarif""",
         """Method for parsing the scans results into sarif format"""
         sarif_schema = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
         schema_version = "2.1.0"
-        click.echo("Eze report results:\n")
+        log("Eze report results:\n")
         scan_results_with_sboms = []
 
         sarif_dict = {"$schema": sarif_schema, "version": schema_version, "runs": []}
