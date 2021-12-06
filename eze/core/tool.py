@@ -303,7 +303,7 @@ class ToolManager:
             tool_class = self.tools[tool_name]
             is_installed = tool_class.check_installed()
             if not is_installed:
-                click.echo(
+                log(
                     f"""[{tool_name}] {error}
 
 Looks like {tool_name} is not installed
