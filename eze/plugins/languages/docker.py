@@ -8,6 +8,7 @@ from eze.plugins.tools.anchore_syft import SyftTool
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.cli import extract_cmd_version
+from eze.utils.log import log, log_debug, log_error
 
 
 class DockerRunner(LanguageRunnerMeta):
@@ -65,7 +66,7 @@ https://docs.docker.com/engine/reference/builder/
         """Method for running a pre test builds on project"""
         # AB#662: implement auto docker build
         # aka docker --file=xxx --tag=xxx
-        click.echo("Docker auto build not implemented yet, see AB#662: implement auto docker build")
+        log("Docker auto build not implemented yet, see AB#662: implement auto docker build")
 
     def create_ezerc(self) -> dict:
         """Method for building a dynamic ezerc.toml fragment"""
