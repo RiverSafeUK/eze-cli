@@ -10,6 +10,7 @@ from eze.core.config import EzeConfig
 from eze.utils.config import extract_embedded_run_type, get_config_keys, create_config_help
 from eze.utils.print import pretty_print_table
 from eze.utils.error import EzeConfigError
+from eze.utils.log import log, log_debug, log_error
 
 
 class ReporterManager:
@@ -117,7 +118,7 @@ class ReporterManager:
 
     def print_reporters_list(self):
         """list available reporters"""
-        click.echo(
+        log(
             """Available Reporters are:
 ======================="""
         )
@@ -139,7 +140,7 @@ class ReporterManager:
 
     def print_reporters_help(self):
         """print help for all Reporters"""
-        click.echo(
+        log(
             """Available Reporters Help:
 ======================="""
         )
@@ -150,7 +151,7 @@ class ReporterManager:
         """print out reporter help"""
         reporter_class: ReporterMeta = self.reporters[reporter]
         reporter_description = reporter_class.short_description()
-        click.echo(
+        log(
             f"""=================================
 Reporter '{reporter}' Help
 {reporter_description}
@@ -158,26 +159,26 @@ Reporter '{reporter}' Help
         )
         reporter_version = reporter_class.check_installed()
         if reporter_version:
-            click.echo(f"Version: {reporter_version} Installed\n")
+            log(f"Version: {reporter_version} Installed\n")
         else:
-            click.echo(
+            log(
                 """Reporter Install Instructions:
 ---------------------------------"""
             )
-            click.echo(reporter_class.install_help())
-            click.echo("")
+            log(reporter_class.install_help())
+            log("")
 
-        click.echo(
+        log(
             """Reporter Configuration Instructions:
 ---------------------------------"""
         )
-        click.echo(reporter_class.config_help())
+        log(reporter_class.config_help())
 
-        click.echo(
+        log(
             """Reporter More Info:
 ---------------------------------"""
         )
-        click.echo(reporter_class.more_info())
+        log(reporter_class.more_info())
 
 
 class ReporterMeta(ABC):
