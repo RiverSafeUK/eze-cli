@@ -11,6 +11,7 @@ from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.io import pretty_print_json
 from eze.utils.error import EzeConfigError, EzeNetworkingError, EzeError
 from eze.utils.http import request_json
+from eze.utils.log import log, log_debug, log_error
 
 
 class EzeReporter(ReporterMeta):
@@ -61,7 +62,7 @@ if not set, will be automatically determined via local git info""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        click.echo("Sending Eze scans to management console:\n")
+        log("Sending Eze scans to management console:\n")
         self.send_results(scan_results)
 
     def send_results(self, scan_results: list) -> None:
@@ -79,17 +80,17 @@ if not set, will be automatically determined via local git info""",
         api_url = f"{endpoint}/v1/api/scan/{encoded_codebase_id}/{encoded_codebase_name}"
 
         try:
-            click.echo(f"scan results to short term storage: {api_url}")
+            log(f"scan results to short term storage: {api_url}")
             short_storage_results = self._get_http_json(api_url, scan_results, apikey)
-            click.echo(pretty_print_json(short_storage_results))
+            log(pretty_print_json(short_storage_results))
             report_bucket_key = py_.get(short_storage_results, "result.scan.reportS3Key", None)
 
             if report_bucket_key:
                 encoded_report_bucket_key = urllib.parse.quote_plus(report_bucket_key)
                 long_term_storage_api_url = f"{endpoint}/v1/api/report/{encoded_report_bucket_key}"
-                click.echo(f"scan results to long term storage: {long_term_storage_api_url}")
+                log(f"scan results to long term storage: {long_term_storage_api_url}")
                 long_storage_results = self._get_http_json(long_term_storage_api_url, scan_results, apikey)
-                click.echo(pretty_print_json(long_storage_results))
+                log(pretty_print_json(long_storage_results))
         except EzeNetworkingError as error:
             raise EzeError(
                 f"""Eze Reporter failure to send report to management console
