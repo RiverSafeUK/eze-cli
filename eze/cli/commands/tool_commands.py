@@ -89,7 +89,7 @@ def run_command(state, config_file: str, tool: str, report: str = "console", sca
     eze tools run safety --debug
     """
     if EzeConfig.debug_mode:
-        print(
+        log_debug(
             f"""Running scan:
 =========================
     tool: {tool}
