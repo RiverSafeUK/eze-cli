@@ -115,7 +115,7 @@ defaults to false""",
                 summaries.append(entry)
         pretty_print_table(summaries, False)
         if len(boms) > 0:
-            print("\n".join(boms))
+            log("\n".join(boms))
 
     def print_scan_summary_title(self, scan_result: ScanResult, prefix: str = "") -> str:
         """Title of scan summary title"""

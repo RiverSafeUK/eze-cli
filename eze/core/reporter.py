@@ -45,8 +45,7 @@ class ReporterManager:
         for plugin_name in plugins:
             plugin = plugins[plugin_name]
             if not hasattr(plugin, "get_reporters") or not isinstance(plugin.get_reporters, Callable):
-                if EzeConfig.debug_mode:
-                    log_debug(f"'get_reporters' function missing from plugin '{plugin_name}'")
+                log_debug(f"'get_reporters' function missing from plugin '{plugin_name}'")
                 continue
             plugin_reporters = plugin.get_reporters()
             self._add_reporters(plugin_reporters)
@@ -65,8 +64,7 @@ class ReporterManager:
         await reporter_instance.run_report(scan_results)
         toc = time.perf_counter()
         duration_sec = toc - tic
-        if EzeConfig.debug_mode:
-            log_debug(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
+        log_debug(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
 
     def get_reporter(self, reporter_name: str, scan_type: str = None, run_type: str = None):
         """
@@ -88,17 +86,14 @@ class ReporterManager:
             reporter = reporters[reporter_name]
             if issubclass(reporter, ReporterMeta):
                 if not hasattr(self.reporters, reporter_name):
-                    if EzeConfig.debug_mode:
-                        log_debug(f"-- installing reporter '{reporter_name}'")
+                    log_debug(f"-- installing reporter '{reporter_name}'")
                     self.reporters[reporter_name] = reporter
                 else:
-                    if EzeConfig.debug_mode:
-                        log_debug(f"-- skipping '{reporter_name}' already defined")
+                    log_debug(f"-- skipping '{reporter_name}' already defined")
                     continue
             # TODO: else check public functions
             else:
-                if EzeConfig.debug_mode:
-                    log_debug(f"-- skipping invalid reporter '{reporter_name}'")
+                log_debug(f"-- skipping invalid reporter '{reporter_name}'")
                 continue
 
     def get_reporter_config(self, reporter_name: str, scan_type: str = None, run_type: str = None):

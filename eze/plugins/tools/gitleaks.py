@@ -13,6 +13,7 @@ from eze.utils.io import (
     load_json,
     create_tempfile_path,
 )
+from eze.utils.log import log
 
 
 class GitLeaksTool(ToolMeta):
@@ -101,7 +102,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 10:
-            print(
+            log(
                 f"gitleaks scan took a long time ({total_time:0.2f}s), "
                 "you can often speed up gitleaks significantly by excluding dependency folders like node_modules, "
                 "this can be achieved via adding a gitleaks config file using the CONFIG field in .ezerc.toml"

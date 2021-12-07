@@ -88,15 +88,14 @@ def run_command(state, config_file: str, tool: str, report: str = "console", sca
 
     eze tools run safety --debug
     """
-    if EzeConfig.debug_mode:
-        log_debug(
-            f"""Running scan:
+    log_debug(
+        f"""Running scan:
 =========================
     tool: {tool}
     report: {report}
     scan_type: {scan_type if scan_type else 'default'}
 """
-        )
+    )
 
     [tool_name, run_type] = extract_embedded_run_type(tool)
 

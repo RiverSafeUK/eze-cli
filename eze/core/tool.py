@@ -6,7 +6,6 @@ import time
 from abc import ABC, abstractmethod
 from typing import Callable
 
-import click
 from pydash import py_
 
 from eze.core.reporter import ReporterManager
@@ -253,7 +252,7 @@ class ToolManager:
     def get_instance() -> ToolManager:
         """Get previously set tools config"""
         if ToolManager._instance is None:
-            print("Error: ToolManager unable to get config before it is setup")
+            log_error("ToolManager unable to get config before it is setup")
         return ToolManager._instance
 
     @staticmethod
@@ -276,8 +275,7 @@ class ToolManager:
         for plugin_name in plugins:
             plugin = plugins[plugin_name]
             if not hasattr(plugin, "get_tools") or not isinstance(plugin.get_tools, Callable):
-                if EzeConfig.debug_mode:
-                    print(f"'get_tools' function missing from plugin '{plugin_name}'")
+                log_debug(f"'get_tools' function missing from plugin '{plugin_name}'")
                 continue
             plugin_tools = plugin.get_tools()
             self._add_tools(plugin_tools)
@@ -521,17 +519,14 @@ Tool '{tool}' Help
             tool = tools[tool_name]
             if issubclass(tool, ToolMeta):
                 if not hasattr(self.tools, tool_name):
-                    if EzeConfig.debug_mode:
-                        print(f"-- installing tool '{tool_name}'")
+                    log_debug(f"-- installing tool '{tool_name}'")
                     self.tools[tool_name] = tool
                 else:
-                    if EzeConfig.debug_mode:
-                        print(f"-- skipping '{tool_name}' already defined")
+                    log_debug(f"-- skipping '{tool_name}' already defined")
                     continue
             # TODO: else check public functions
             else:
-                if EzeConfig.debug_mode:
-                    print(f"-- skipping invalid tool '{tool_name}'")
+                log_debug(f"-- skipping invalid tool '{tool_name}'")
                 continue
 
     def _get_tool_config(
@@ -557,7 +552,7 @@ Tool '{tool}' Help
 
         tool_config["DEFAULT_SEVERITY"] = get_config_key(tool_config, "DEFAULT_SEVERITY", str, default_severity)
         if not hasattr(VulnerabilitySeverityEnum, tool_config["DEFAULT_SEVERITY"]):
-            print(
+            log_error(
                 f"{tool_name} configured with invalid DEFAULT_SEVERITY='{tool_config['DEFAULT_SEVERITY']}', defaulting to na"
             )
             tool_config["DEFAULT_SEVERITY"] = VulnerabilitySeverityEnum.na.name
@@ -575,7 +570,7 @@ Tool '{tool}' Help
             tool_config, "IGNORE_BELOW_SEVERITY", str, VulnerabilitySeverityEnum.na.name
         )
         if not hasattr(VulnerabilitySeverityEnum, ignore_below_severity_name):
-            print(f"ERROR: invalid IGNORE_BELOW_SEVERITY value '{ignore_below_severity_name}' given, defaulting to na")
+            log_error(f"invalid IGNORE_BELOW_SEVERITY value '{ignore_below_severity_name}' given, defaulting to na")
             ignore_below_severity_name = VulnerabilitySeverityEnum.na.name
         tool_config["IGNORE_BELOW_SEVERITY_INT"] = VulnerabilitySeverityEnum[ignore_below_severity_name].value
         return tool_config

@@ -240,8 +240,7 @@ class LanguageManager:
         for plugin_name in plugins:
             plugin = plugins[plugin_name]
             if not hasattr(plugin, "get_languages") or not isinstance(plugin.get_languages, Callable):
-                if EzeConfig.debug_mode:
-                    log_debug(f"'get_languages' function missing from plugin '{plugin_name}'")
+                log_debug(f"'get_languages' function missing from plugin '{plugin_name}'")
                 continue
             plugin_languages = plugin.get_languages()
             self._add_languages(plugin_languages)
@@ -434,17 +433,14 @@ Language '{language}' Help
             language = languages[language_name]
             if issubclass(language, LanguageRunnerMeta):
                 if not hasattr(self.languages, language_name):
-                    if EzeConfig.debug_mode:
-                        log_debug(f"-- installing language '{language_name}'")
+                    log_debug(f"-- installing language '{language_name}'")
                     self.languages[language_name] = language
                 else:
-                    if EzeConfig.debug_mode:
-                        log_debug(f"-- skipping '{language_name}' already defined")
+                    log_debug(f"-- skipping '{language_name}' already defined")
                     continue
             # TODO: else check public functions
             else:
-                if EzeConfig.debug_mode:
-                    log_debug(f"-- skipping invalid language '{language_name}'")
+                log_debug(f"-- skipping invalid language '{language_name}'")
                 continue
 
     def get_language_config(self, language_name: str, scan_type: str = None, run_type: str = None):

@@ -12,6 +12,7 @@ from eze.core.tool import (
 )
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.log import log
 
 
 class KicsTool(ToolMeta):
@@ -99,7 +100,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
     def check_installed() -> str:
         """Method for detecting tool installed and ready to run scan, returns version installed"""
         version = extract_cmd_version(["kics", "version"])
-        print(version)
+        log(version)
         return version
 
     async def run_scan(self) -> ScanResult:

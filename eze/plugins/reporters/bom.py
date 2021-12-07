@@ -31,7 +31,7 @@ By default set to eze_bom.json""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        print("Eze bom results:\n")
+        log("Eze bom results:\n")
         scan_results_with_sboms = []
         for scan_result in scan_results:
             if scan_result.bom:

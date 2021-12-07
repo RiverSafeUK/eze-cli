@@ -34,6 +34,7 @@ from eze.utils.io import is_windows_os
 from eze.core.config import EzeConfig
 import eze.utils.windowslex as windowslex
 from eze.utils.error import EzeExecutableNotFoundError, EzeExecutableStdErrError
+from eze.utils.log import log_debug
 
 
 def run_cli_command(
@@ -61,19 +62,17 @@ def run_cli_command(
     command_list = build_cli_command(cli_config, config)
     completed_process = run_cmd(command_list)
 
-    if EzeConfig.debug_mode:
-        print(
-            f"""{command_name} ran with output:
+    log_debug(
+        f"""{command_name} ran with output:
     {completed_process.stdout}"""
-        )
+    )
 
     if completed_process.stderr:
         sanitised_command_str = __sanitise_command(command_list)
         message = f"""{command_name} ran with warnings/errors:
     Ran: '{sanitised_command_str}'
     Error: {completed_process.stderr}"""
-        if EzeConfig.debug_mode:
-            print(message)
+        log_debug(message)
         if throw_error_on_stderr:
             raise EzeExecutableStdErrError(message)
     return completed_process
@@ -182,8 +181,7 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
         raise TypeError("invalid cmd type (%s, expected string)" % type(cmd))
 
     sanitised_command_str = __sanitise_command(cmd)
-    if EzeConfig.debug_mode:
-        print(f"running command '{sanitised_command_str}'")
+    log_debug(f"running command '{sanitised_command_str}'")
 
     # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
     # also map ADDITIONAL_ARGUMENTS to a dict which is "shlex.quote"
@@ -210,8 +208,7 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.C
             raise EzeExecutableNotFoundError(error_str)
         return subprocess.CompletedProcess({}, 1, "", error_str)
 
-    if EzeConfig.debug_mode:
-        print(f"command '{sanitised_command_str}' std output: '{proc.stdout}' error output: '{proc.stderr}'")
+    log_debug(f"command '{sanitised_command_str}' std output: '{proc.stdout}' error output: '{proc.stderr}'")
 
     if error_on_missing_executable and (_check_output_corrupt(proc.stderr) or _check_output_corrupt(proc.stdout)):
         core_executable = _extract_executable(sanitised_command_str)

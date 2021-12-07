@@ -37,7 +37,7 @@ By default set to eze_report.sarif""",
         """Method for taking scans and turning them into report output"""
         sarif_dict = await self._build_sarif_dict(scan_results)
         sarif_location = write_sarif(self.config["REPORT_FILE"], sarif_dict)
-        print(f"Written sarif report : {sarif_location}")
+        log(f"Written sarif report : {sarif_location}")
 
     async def _build_sarif_dict(self, scan_results: list):
         """Method for parsing the scans results into sarif format"""

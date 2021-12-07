@@ -28,6 +28,7 @@ def get_languages() -> dict[str,LanguageRunnerMeta]:
 import pkg_resources
 
 from eze.plugins import base_plugins
+from eze.utils.log import log
 
 EZE_ENTRY_POINT_PREFIX = "eze.plugins"
 
@@ -37,7 +38,7 @@ def get_plugins() -> dict:
     discovered_plugins = {"inbuilt": base_plugins}
     for entry_point in pkg_resources.iter_entry_points(EZE_ENTRY_POINT_PREFIX):
         if entry_point.name in discovered_plugins:
-            print(f"-- skipping plugin {entry_point.name} as already loaded")
+            log(f"-- skipping plugin {entry_point.name} as already loaded")
             continue
         discovered_plugins[entry_point.name] = entry_point.load()
 

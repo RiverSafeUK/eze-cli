@@ -17,6 +17,7 @@ from eze.utils.io import (
     normalise_windows_regex_file_path,
     remove_non_folders,
 )
+from eze.utils.log import log
 
 
 class TruffleHogTool(ToolMeta):
@@ -120,7 +121,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 10:
-            print(
+            log(
                 f"trufflehog scan took a long time ({total_time:0.2f}s), "
                 f"you can often speed up trufflehog significantly by excluding dependency folders like node_modules"
             )

@@ -13,6 +13,7 @@ from eze.core.tool import (
 from eze.utils.cli import run_cli_command, extract_cmd_version
 from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.error import EzeError
+from eze.utils.log import log
 
 
 class SemGrepTool(ToolMeta):
@@ -137,7 +138,7 @@ maps to semgrep flag --exclude""",
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 60:
-            print(
+            log(
                 f"semgrep scan took a long time ({total_time:0.2f}s), "
                 f"you can often speed up significantly by tailoring your rule configs to your language or sub-dependancies"
             )
@@ -188,20 +189,20 @@ https://github.com/returntocorp/semgrep/issues/1330"""
             files[file_name] = {"name": file_name, "time": file_time}
         rules = py_.sort_by(rules.values(), "time", reverse=True)
         files = py_.sort_by(files.values(), "time", reverse=True)
-        print(
+        log(
             """
 Top 10 slowest rules
 ======================"""
         )
         for rule in rules[0:10]:
-            print(f" {rule['name']}: {rule['time']:0.2f}s")
-        print(
+            log(f" {rule['name']}: {rule['time']:0.2f}s")
+        log(
             """
 Top 10 slowest files
 ======================"""
         )
         for rule in files[0:10]:
-            print(f" {rule['name']}: {rule['time']:0.2f}s")
+            log(f" {rule['name']}: {rule['time']:0.2f}s")
 
         return {"rules": rules, "files": files}
 

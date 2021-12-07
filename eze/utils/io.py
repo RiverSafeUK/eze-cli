@@ -32,11 +32,11 @@ def remove_non_folders(file_paths: list, default: list, subject: str) -> list:
         if not os.path.exists(local_folder):
             continue
         if not os.path.isdir(local_folder):
-            print(f"{subject}: Removing non folder '{local_folder}' from list '{file_paths}'")
+            log(f"{subject}: Removing non folder '{local_folder}' from list '{file_paths}'")
             continue
         cleaned.append(file_path)
     if len(cleaned) == 0:
-        print(f"{subject}: No valid paths left, defaulting to '{default}'")
+        log(f"{subject}: No valid paths left, defaulting to '{default}'")
         return default
     return cleaned
 

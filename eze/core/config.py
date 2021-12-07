@@ -30,7 +30,6 @@ class EzeConfig:
     """Singleton Class for accessing and merging multiple config files"""
 
     _instance = None
-    debug_mode: bool = False
 
     @staticmethod
     def get_global_config_filename() -> Path:
@@ -79,16 +78,15 @@ class EzeConfig:
         global_config_file = EzeConfig.get_global_config_filename()
         local_config_file = EzeConfig.get_local_config_filename()
 
-        if EzeConfig.debug_mode:
-            log_debug(
-                f"""Setting Eze's Config:
+        log_debug(
+            f"""Setting Eze's Config:
     =========================
     Locations Searching
         global_config_file: {global_config_file}
         local_config_file: {local_config_file}
         external_file: {external_file}
     """
-            )
+        )
         return EzeConfig.set_instance([global_config_file, local_config_file, external_file])
 
     @staticmethod
@@ -125,8 +123,7 @@ class EzeConfig:
                 parsed_config = load_toml(config_file)
                 merge_configs(parsed_config, self.config)
             except EzeFileAccessError:
-                if EzeConfig.debug_mode:
-                    log_debug(f"-- [CONFIG ENGINE] skipping file as not found '{config_file}'")
+                log_debug(f"-- [CONFIG ENGINE] skipping file as not found '{config_file}'")
                 continue
             except EzeFileParsingError as error:
                 log(f"-- [CONFIG ENGINE] Error: skipping file as toml is corrupted, {error}")
