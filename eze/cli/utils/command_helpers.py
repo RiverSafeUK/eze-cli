@@ -54,7 +54,7 @@ def debug_option(decorated_function):
         """option callback"""
         state = ctx.ensure_object(State)
         state.debug = value
-        LogLevel.level = LogLevel.DEBUG if value else LogLevel.LOG
+        LogLevel.set_level(LogLevel.DEBUG if value else LogLevel.LOG)
         return value
 
     return click.option(
