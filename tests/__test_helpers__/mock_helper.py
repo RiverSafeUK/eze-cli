@@ -209,9 +209,21 @@ def mock_print() -> StringIO:
     return mocked_print_output
 
 
+def mock_print_stderr() -> StringIO:
+    """Mock the print command to stderr"""
+    mocked_print_output_stderr = StringIO()
+    sys.stderr = mocked_print_output_stderr
+    return mocked_print_output_stderr
+
+
 def unmock_print():
     """Unmock the print command"""
     sys.stdout = sys.__stdout__
+
+
+def unmock_print_stderr():
+    """Unmock the print command to stderr"""
+    sys.stderr = sys.__stderr__
 
 
 def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = ""):
