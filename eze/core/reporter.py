@@ -22,7 +22,7 @@ class ReporterManager:
     def get_instance():
         """Get previously set global reporters"""
         if ReporterManager._instance is None:
-            log("Error: ReporterManager unable to get config before it is setup")
+            log_error("ReporterManager unable to get config before it is setup")
         return ReporterManager._instance
 
     @staticmethod
@@ -93,7 +93,7 @@ class ReporterManager:
                     continue
             # TODO: else check public functions
             else:
-                log_debug(f"-- skipping invalid reporter '{reporter_name}'")
+                log_error(f"-- skipping invalid reporter '{reporter_name}'")
                 continue
 
     def get_reporter_config(self, reporter_name: str, scan_type: str = None, run_type: str = None):

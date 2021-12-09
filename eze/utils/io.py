@@ -167,7 +167,7 @@ def create_folder(file_path: str, raise_error_on_fail: bool = True):
     except PermissionError as not_permitted_err:
         if raise_error_on_fail:
             raise EzeFileAccessError(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
-        log(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
+        log_error(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_text(file_path: str, text: str) -> str:

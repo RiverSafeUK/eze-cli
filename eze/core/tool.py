@@ -301,7 +301,7 @@ class ToolManager:
             tool_class = self.tools[tool_name]
             is_installed = tool_class.check_installed()
             if not is_installed:
-                log(
+                log_error(
                     f"""[{tool_name}] {error}
 
 Looks like {tool_name} is not installed
@@ -526,7 +526,7 @@ Tool '{tool}' Help
                     continue
             # TODO: else check public functions
             else:
-                log_debug(f"-- skipping invalid tool '{tool_name}'")
+                log_error(f"-- skipping invalid tool '{tool_name}'")
                 continue
 
     def _get_tool_config(

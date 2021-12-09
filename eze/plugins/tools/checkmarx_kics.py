@@ -100,7 +100,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
     def check_installed() -> str:
         """Method for detecting tool installed and ready to run scan, returns version installed"""
         version = extract_cmd_version(["kics", "version"])
-        log(version)
         return version
 
     async def run_scan(self) -> ScanResult:

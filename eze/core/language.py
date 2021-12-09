@@ -217,7 +217,7 @@ class LanguageManager:
     def get_instance() -> LanguageManager:
         """Get previously set languages config"""
         if LanguageManager._instance is None:
-            log("Error: LanguageManager unable to get config before it is setup")
+            log_error("LanguageManager unable to get config before it is setup")
         return LanguageManager._instance
 
     @staticmethod

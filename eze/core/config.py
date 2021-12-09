@@ -93,7 +93,7 @@ class EzeConfig:
     def get_instance():
         """Get previously set config"""
         if EzeConfig._instance is None:
-            log("EzeConfig unable to get config before it is setup")
+            log_error("EzeConfig unable to get config before it is setup")
         return EzeConfig._instance
 
     @staticmethod
@@ -126,7 +126,7 @@ class EzeConfig:
                 log_debug(f"-- [CONFIG ENGINE] skipping file as not found '{config_file}'")
                 continue
             except EzeFileParsingError as error:
-                log(f"-- [CONFIG ENGINE] Error: skipping file as toml is corrupted, {error}")
+                log_error(f"-- [CONFIG ENGINE] skipping file as toml is corrupted, {error}")
                 continue
 
     def get_scan_config(self, scan_type: str = None) -> dict:
