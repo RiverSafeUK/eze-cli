@@ -6,6 +6,7 @@ import click
 
 from eze.cli.utils.command_helpers import debug_option
 from eze.core.language import LanguageManager
+from eze.utils.log import log, log_debug, log_error
 
 
 @click.group("languages")
@@ -37,7 +38,7 @@ def help_command(language: str) -> None:
     """
     language_manager = LanguageManager.get_instance()
     if language not in language_manager.languages:
-        click.echo(f"Could not find language '{language}', use 'eze languages list' to get available languages")
+        log(f"Could not find language '{language}', use 'eze languages list' to get available languages")
         sys.exit(1)
     language_manager.print_language_help(language)
 

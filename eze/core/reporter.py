@@ -10,6 +10,7 @@ from eze.core.config import EzeConfig
 from eze.utils.config import extract_embedded_run_type, get_config_keys, create_config_help
 from eze.utils.print import pretty_print_table
 from eze.utils.error import EzeConfigError
+from eze.utils.log import log, log_debug, log_error
 
 
 class ReporterManager:
@@ -21,7 +22,7 @@ class ReporterManager:
     def get_instance():
         """Get previously set global reporters"""
         if ReporterManager._instance is None:
-            print("Error: ReporterManager unable to get config before it is setup")
+            log_error("ReporterManager unable to get config before it is setup")
         return ReporterManager._instance
 
     @staticmethod
@@ -44,8 +45,7 @@ class ReporterManager:
         for plugin_name in plugins:
             plugin = plugins[plugin_name]
             if not hasattr(plugin, "get_reporters") or not isinstance(plugin.get_reporters, Callable):
-                if EzeConfig.debug_mode:
-                    print(f"'get_reporters' function missing from plugin '{plugin_name}'")
+                log_debug(f"'get_reporters' function missing from plugin '{plugin_name}'")
                 continue
             plugin_reporters = plugin.get_reporters()
             self._add_reporters(plugin_reporters)
@@ -64,8 +64,7 @@ class ReporterManager:
         await reporter_instance.run_report(scan_results)
         toc = time.perf_counter()
         duration_sec = toc - tic
-        if EzeConfig.debug_mode:
-            print(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
+        log_debug(f"\nReport '{reporter_name}' took {duration_sec:0.1f} seconds")
 
     def get_reporter(self, reporter_name: str, scan_type: str = None, run_type: str = None):
         """
@@ -87,17 +86,14 @@ class ReporterManager:
             reporter = reporters[reporter_name]
             if issubclass(reporter, ReporterMeta):
                 if not hasattr(self.reporters, reporter_name):
-                    if EzeConfig.debug_mode:
-                        print(f"-- installing reporter '{reporter_name}'")
+                    log_debug(f"-- installing reporter '{reporter_name}'")
                     self.reporters[reporter_name] = reporter
                 else:
-                    if EzeConfig.debug_mode:
-                        print(f"-- skipping '{reporter_name}' already defined")
+                    log_debug(f"-- skipping '{reporter_name}' already defined")
                     continue
             # TODO: else check public functions
             else:
-                if EzeConfig.debug_mode:
-                    print(f"-- skipping invalid reporter '{reporter_name}'")
+                log_error(f"-- skipping invalid reporter '{reporter_name}'")
                 continue
 
     def get_reporter_config(self, reporter_name: str, scan_type: str = None, run_type: str = None):
@@ -117,7 +113,7 @@ class ReporterManager:
 
     def print_reporters_list(self):
         """list available reporters"""
-        click.echo(
+        log(
             """Available Reporters are:
 ======================="""
         )
@@ -139,7 +135,7 @@ class ReporterManager:
 
     def print_reporters_help(self):
         """print help for all Reporters"""
-        click.echo(
+        log(
             """Available Reporters Help:
 ======================="""
         )
@@ -150,7 +146,7 @@ class ReporterManager:
         """print out reporter help"""
         reporter_class: ReporterMeta = self.reporters[reporter]
         reporter_description = reporter_class.short_description()
-        click.echo(
+        log(
             f"""=================================
 Reporter '{reporter}' Help
 {reporter_description}
@@ -158,26 +154,26 @@ Reporter '{reporter}' Help
         )
         reporter_version = reporter_class.check_installed()
         if reporter_version:
-            click.echo(f"Version: {reporter_version} Installed\n")
+            log(f"Version: {reporter_version} Installed\n")
         else:
-            click.echo(
+            log(
                 """Reporter Install Instructions:
 ---------------------------------"""
             )
-            click.echo(reporter_class.install_help())
-            click.echo("")
+            log(reporter_class.install_help())
+            log("")
 
-        click.echo(
+        log(
             """Reporter Configuration Instructions:
 ---------------------------------"""
         )
-        click.echo(reporter_class.config_help())
+        log(reporter_class.config_help())
 
-        click.echo(
+        log(
             """Reporter More Info:
 ---------------------------------"""
         )
-        click.echo(reporter_class.more_info())
+        log(reporter_class.more_info())
 
 
 class ReporterMeta(ABC):

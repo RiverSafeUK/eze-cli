@@ -7,6 +7,7 @@ from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolTyp
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import create_tempfile_path, write_text, parse_json
+from eze.utils.log import log_error
 
 
 class GrypeTool(ToolMeta):
@@ -122,7 +123,7 @@ You can also explicitly specify the scheme to use:
         if not has_severity:
             if grype_severity == "negligible":
                 return VulnerabilitySeverityEnum.na.name
-            print(f"ERR: unknown trivy severity '${grype_severity}', defaulting to na")
+            log_error(f"unknown trivy severity '${grype_severity}', defaulting to na")
             return VulnerabilitySeverityEnum.na.name
 
         return VulnerabilitySeverityEnum[grype_severity].name

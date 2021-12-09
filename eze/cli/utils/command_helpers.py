@@ -9,6 +9,7 @@ from typing import Callable
 import click
 
 from eze.core.config import EzeConfig
+from eze.utils.log import LogLevel
 
 """spec https://click.palletsprojects.com/en/7.x/api/#click.File"""
 FILE_TYPE = click.Path(exists=True, file_okay=True, dir_okay=False, readable=True, resolve_path=True)
@@ -53,7 +54,7 @@ def debug_option(decorated_function):
         """option callback"""
         state = ctx.ensure_object(State)
         state.debug = value
-        EzeConfig.debug_mode = value
+        LogLevel.set_level(LogLevel.DEBUG if value else LogLevel.LOG)
         return value
 
     return click.option(

@@ -35,7 +35,7 @@ def setup_module(self):
 
 
 def teardown_module(self):
-    print("teardown any state that was previously setup with a setup_module method.")
+    pass
 
 
 class FakePermissionError(PermissionError):

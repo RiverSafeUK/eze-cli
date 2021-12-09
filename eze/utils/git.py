@@ -6,6 +6,8 @@ from pathlib import Path
 
 from pydash import py_
 
+from eze.utils.log import log_error
+
 MAX_RECURSION: int = 10
 
 try:
@@ -13,7 +15,7 @@ try:
 except ImportError:
     # WORKAROUND: see "ImportError: Bad git executable."
     # see https://github.com/gitpython-developers/GitPython/issues/816
-    print("Error: Git not installed, eze will not be able to detect git branches")
+    log_error("Git not installed, eze will not be able to detect git branches")
 
 
 def clean_url(url: str) -> str:

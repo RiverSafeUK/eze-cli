@@ -12,6 +12,7 @@ from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.utils.cli import extract_cmd_version
 from eze.utils.io import pretty_print_json
+from eze.utils.log import log, log_debug, log_error
 
 
 class PythonRunner(LanguageRunnerMeta):
@@ -47,8 +48,8 @@ Safety and Piprot work best when running against pip frozen requirements"""
         """Method for running a pre test builds on project"""
         # AB#662: implement auto builds
         # aka pip install
-        click.echo("Python auto build not implemented yet, see AB#662: implement auto python build")
-        click.echo("Will build frozen requirements file for safety and piprot")
+        log("Python auto build not implemented yet, see AB#662: implement auto python build")
+        log("Will build frozen requirements file for safety and piprot")
 
     def create_ezerc(self) -> dict:
         """Method for building a dynamic ezerc.toml fragment"""

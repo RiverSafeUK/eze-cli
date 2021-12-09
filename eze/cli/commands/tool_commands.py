@@ -11,6 +11,7 @@ from eze.core.engine import EzeCore
 from eze.core.enums import SourceType
 from eze.core.tool import ToolManager, ToolType
 from eze.utils.config import extract_embedded_run_type
+from eze.utils.log import log, log_debug, log_error
 
 
 @click.group("tools")
@@ -38,13 +39,13 @@ def list_command(
     list available tools
     """
     if tool_type and tool_type not in ToolType.__members__:
-        click.echo(f"Could not find tool type '{tool_type}'")
-        click.echo(f"Available tool types are ({','.join(ToolType.__members__)})")
+        log(f"Could not find tool type '{tool_type}'")
+        log(f"Available tool types are ({','.join(ToolType.__members__)})")
         sys.exit(1)
 
     if source_type and source_type not in SourceType.__members__:
-        click.echo(f"Could not find source type '{source_type}'")
-        click.echo(f"Available source types are ({','.join(SourceType.__members__)})")
+        log(f"Could not find source type '{source_type}'")
+        log(f"Available source types are ({','.join(SourceType.__members__)})")
         sys.exit(1)
 
     tool_manager: ToolManager = ToolManager.get_instance()
@@ -62,7 +63,7 @@ def help_command(tool: str) -> None:
     """
     tool_manager = ToolManager.get_instance()
     if tool not in tool_manager.tools:
-        click.echo(f"Could not find tool '{tool}', use 'eze tools list' to get available tools")
+        log(f"Could not find tool '{tool}', use 'eze tools list' to get available tools")
         sys.exit(1)
 
     tool_manager.print_tool_help(tool)
@@ -87,26 +88,25 @@ def run_command(state, config_file: str, tool: str, report: str = "console", sca
 
     eze tools run safety --debug
     """
-    if EzeConfig.debug_mode:
-        print(
-            f"""Running scan:
+    log_debug(
+        f"""Running scan:
 =========================
     tool: {tool}
     report: {report}
     scan_type: {scan_type if scan_type else 'default'}
 """
-        )
+    )
 
     [tool_name, run_type] = extract_embedded_run_type(tool)
 
     tool_manager = ToolManager.get_instance()
     if tool_name not in tool_manager.tools:
-        click.echo(f"Could not find tool '{tool_name}', use 'eze tools list' to get available tools")
+        log(f"Could not find tool '{tool_name}', use 'eze tools list' to get available tools")
         sys.exit(1)
     tool_class = tool_manager.tools[tool_name]
     tool_version = tool_class.check_installed()
     if not tool_version:
-        click.echo(
+        log(
             f"'{tool_name}' Tool not installed, use 'eze tools help --tool {tool_name}' to get help installing {tool_name}"
         )
         sys.exit(1)
