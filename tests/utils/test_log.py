@@ -15,6 +15,9 @@ def test_log():
 
     # Given
     mocked_print_output = mock_print()
+    mocked_print_output_stderr = mock_print_stderr()
+    expected_output = "Echo 123\n"
+    expected_output_stderr = ""
 
     # When
     test_input = "Echo 123"
@@ -22,33 +25,20 @@ def test_log():
 
     # Then
     output = mocked_print_output.getvalue()
-    expected_output = "Echo 123\n"
     assert output == expected_output
-
-
-def test_log_does_print_to_stderr():
-    """Test log output to stderr"""
-
-    # Given
-    mocked_print_output_stderr = mock_print_stderr()
-
-    # When
-    test_input = "Echo 123"
-    log(test_input)
-
-    # Then
     output_stderr = mocked_print_output_stderr.getvalue()
-    expected_output_stderr = ""
     assert output_stderr == expected_output_stderr
 
 
-# Not sure how to run test in --debug mode to get it to print to stdout
 def test_log_debug__in_debug_mode():
     """Test log_debug output to stdout in debug mode"""
 
     # Given
     LogLevel.set_level(LogLevel.DEBUG)
     mocked_print_output = mock_print()
+    mocked_print_output_stderr = mock_print_stderr()
+    expected_output = "Echo 123\n"
+    expected_output_stderr = ""
 
     # When
     test_input = "Echo 123"
@@ -56,15 +46,19 @@ def test_log_debug__in_debug_mode():
 
     # Then
     output = mocked_print_output.getvalue()
-    expected_output = "Echo 123\n"
     assert output == expected_output
+    output_stderr = mocked_print_output_stderr.getvalue()
+    assert output_stderr == expected_output_stderr
 
 
-def test_log_debug_not_in_debug_mode():
+def test_log_debug__not_in_debug_mode():
     """Test log_debug output to stdout when its not in debug mode"""
 
     # Given
     mocked_print_output = mock_print()
+    mocked_print_output_stderr = mock_print_stderr()
+    expected_output = ""
+    expected_output_stderr = ""
 
     # When
     test_input = "Echo 123"
@@ -72,37 +66,26 @@ def test_log_debug_not_in_debug_mode():
 
     # Then
     output = mocked_print_output.getvalue()
-    expected_output = ""
     assert output == expected_output
+    output_stderr = mocked_print_output_stderr.getvalue()
+    assert output_stderr == expected_output_stderr
 
 
 def test_log_error():
     """Test log_error output to stderr"""
 
     # Given
+    mocked_print_output = mock_print()
     mocked_print_output_stderr = mock_print_stderr()
-
-    # When
-    test_input = "Echo 123"
-    log_error(test_input)
-
-    # Then
-    output_stderr = mocked_print_output_stderr.getvalue()
+    expected_output = ""
     expected_output_stderr = "Echo 123\n"
-    assert output_stderr == expected_output_stderr
-
-
-def test_log_error_does_not_print_to_stdout():
-    """Test log_error output to stdout"""
-
-    # Given
-    mocked_print_output_stdout = mock_print()
 
     # When
     test_input = "Echo 123"
     log_error(test_input)
 
     # Then
-    output_stdout = mocked_print_output_stdout.getvalue()
-    expected_output_stdout = ""
-    assert output_stdout == expected_output_stdout
+    output = mocked_print_output.getvalue()
+    assert output == expected_output
+    output_stderr = mocked_print_output_stderr.getvalue()
+    assert output_stderr == expected_output_stderr
