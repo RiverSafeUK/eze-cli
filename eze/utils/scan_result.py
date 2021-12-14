@@ -2,6 +2,7 @@
 from pydash import py_
 
 from eze.core.tool import ScanResult
+from eze.utils.sbom import get_bom_license
 
 
 def name_and_time_summary(scan_result: ScanResult, indent: str = "    ") -> str:
@@ -42,18 +43,6 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
         totals_txt += ", ".join(breakdowns)
         totals_txt += ")"
     return totals_txt + "\n"
-
-
-def get_bom_license(license_dict: dict) -> str:
-    """Parse cyclonedx license object for normalised license"""
-    license_text = py_.get(license_dict, "license.name")
-    if not license_text:
-        license_text = py_.get(license_dict, "license.id")
-    if license_text:
-        # normalise upper and lower case unknown entries
-        if license_text.lower() == "unknown":
-            license_text = "unknown"
-    return license_text
 
 
 def vulnerabilities_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
