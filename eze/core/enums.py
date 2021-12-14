@@ -26,7 +26,7 @@ class VulnerabilityType(Enum):
     """Enum for Vulnerability Type"""
 
     generic = "GENERIC VULNERABILITY"
-    dependancy = "DEPENDANCY VULNERABILITY"
+    dependency = "DEPENDENCY VULNERABILITY"
     code = "CODE BEST PRACTICE OR VULNERABILITY"
     infrastructure = "INFRASTRUCTURE VULNERABILITY"
     secret = "SECRET VULNERABILITY"  # nosec

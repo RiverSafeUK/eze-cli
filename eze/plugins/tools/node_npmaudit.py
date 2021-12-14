@@ -172,7 +172,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 references.append(npm_reference)
 
             vulnerability_vo = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": name,
                 "version": "",
                 "overview": "",
@@ -221,7 +221,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 references.append(npm_reference)
 
             vulnerability_vo = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": f"{module_name}: {advisory['title']}",
                 "version": version,
                 "overview": advisory["overview"],

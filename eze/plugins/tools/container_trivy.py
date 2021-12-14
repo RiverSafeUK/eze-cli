@@ -160,7 +160,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
             severity = self.trivy_severity_to_cwe_severity(trivy_severity)
 
             vulnerability_raw = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": py_.get(report_event, "Title", py_.get(report_event, "PkgName", "unknown")),
                 "version": py_.get(report_event, "InstalledVersion", "unknown"),
                 "overview": py_.get(report_event, "Description", "unknown"),

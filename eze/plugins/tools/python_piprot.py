@@ -181,7 +181,7 @@ default is 182 (half a year)""",
                     outdated_package, installed_version, latest_version, package_outdated_in_days
                 )
                 vulnerability_raw = {
-                    "vulnerability_type": VulnerabilityType.dependancy.name,
+                    "vulnerability_type": VulnerabilityType.dependency.name,
                     "name": outdated_package,
                     "version": installed_version,
                     "overview": report_event,
@@ -198,7 +198,7 @@ default is 182 (half a year)""",
             if semver_severity:
                 semver_recommendation = get_recommendation(outdated_package, installed_version, latest_version)
                 vulnerability_raw = {
-                    "vulnerability_type": VulnerabilityType.dependancy.name,
+                    "vulnerability_type": VulnerabilityType.dependency.name,
                     "name": outdated_package,
                     "version": installed_version,
                     "overview": report_event,

@@ -30,7 +30,7 @@ class Vulnerability:
 
     def __init__(self, vo: dict):
         """constructor"""
-        # aka generic / dependancy / secret
+        # aka generic / dependency / secret
         self.vulnerability_type: str = get_config_key(vo, "vulnerability_type", str, VulnerabilityType.generic.name)
         self.name: str = get_config_key(vo, "name", str, "")
         self.severity: str = get_config_key(vo, "severity", str, "").lower()

@@ -19,7 +19,7 @@
       "references": [],
       "severity": "medium",
       "version": "2.3.0",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -35,7 +35,7 @@
       "references": [],
       "severity": "medium",
       "version": "2.3.0",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -51,7 +51,7 @@
       "references": [],
       "severity": "medium",
       "version": "2.5.3",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     }
   ],
   "warnings": [

@@ -3,6 +3,7 @@
 
 import re
 from eze.utils.http import request_json
+from pydash import py_
 
 
 class CVE:
@@ -51,11 +52,11 @@ class CVE:
         """
         cvss_report = self._get_raw()
         return {
-            "summary": cvss_report["summary"],
-            "severity": cvss_report["access"]["complexity"],
-            "rating": cvss_report["cvss"],
+            "summary": py_.get(cvss_report, "summary", None),
+            "severity": py_.get(cvss_report, "access.complexity", None),
+            "rating": py_.get(cvss_report, "cvss"),
             "url": self.to_url(),
             "id": self.cve_id,
-            "advisitory_modified": cvss_report["Modified"],
-            "advisitory_created": cvss_report["Published"],
+            "advisitory_modified": py_.get(cvss_report, "Modified", None),
+            "advisitory_created": py_.get(cvss_report, "Published", None),
         }
