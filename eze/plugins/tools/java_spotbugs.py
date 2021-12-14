@@ -4,8 +4,8 @@ import shlex
 
 import xmltodict
 
-from eze.core.enums import VulnerabilityType, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
+from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_cli_command
 from eze.utils.io import create_tempfile_path, write_json
 

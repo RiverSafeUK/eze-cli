@@ -3,9 +3,9 @@ import click
 from pydash import py_
 
 from eze import __version__
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, Vulnerability
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.log import log, log_debug, log_error
 from eze.utils.scan_result import (
     vulnerabilities_short_summary,

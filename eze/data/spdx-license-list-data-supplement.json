@@ -1,0 +1,4982 @@
+{
+  "licenseTypes": {
+    "unrestricted": {
+      "usageRestrictions": false,
+      "shareDerivedSource": false,
+      "shareLinkedSource": false,
+      "attributionRequired": false
+    },
+    "permissive": {
+      "usageRestrictions": false,
+      "shareDerivedSource": false,
+      "shareLinkedSource": false,
+      "attributionRequired": true
+    },
+    "permissive-with-conditions": {
+      "usageRestrictions": true,
+      "shareDerivedSource": false,
+      "shareLinkedSource": false,
+      "attributionRequired": true
+    },
+    "weak-copyleft": {
+      "usageRestrictions": true,
+      "shareLinkedSource": false,
+      "shareDerivedSource": true,
+      "attributionRequired": true
+    },
+    "source-available": {
+      "usageRestrictions": false,
+      "shareLinkedSource": true,
+      "shareDerivedSource": true,
+      "attributionRequired": true
+    },
+    "copyleft": {
+      "usageRestrictions": true,
+      "shareLinkedSource": true,
+      "shareDerivedSource": true,
+      "attributionRequired": true
+    },
+    "noncommercial": {
+      "usageRestrictions": true,
+      "shareLinkedSource": false,
+      "shareDerivedSource": false,
+      "attributionRequired": true
+    },
+    "proprietary": {
+      "usageRestrictions": true,
+      "shareLinkedSource": null,
+      "shareDerivedSource": null,
+      "attributionRequired": null
+    }
+  },
+  "licensesPatterns": {
+    "AFL-.*": {
+      "name": "Academic Free License",
+      "type": "permissive",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Academic_Free_License"
+    },
+    "AGPL-.*": {
+      "name": "GNU Affero General Public License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/GNU_Affero_General_Public_License"
+    },
+    "APL-.*": {
+      "name": "Adaptive Public License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Adaptive_Public_License"
+    },
+    "APSL-.*": {
+      "name": "Apple Public Source License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Apple_Public_Source_License"
+    },
+    "Apache-.*": {
+      "name": "Apache License",
+      "type": "permissive",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Apache_License"
+    },
+    "Artistic-.*": {
+      "name": "Artistic License",
+      "type": "source-available",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Artistic_License"
+    },
+    "BSD-.*": {
+      "name": "Berkeley Software Distribution",
+      "type": "permissive",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/BSD_licenses"
+    },
+    "BSL-.*": {
+      "name": "Boost Software License",
+      "type": "permissive",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Boost_(C%2B%2B_libraries)"
+    },
+    "BitTorrent-.*": {
+      "name": "BitTorrent Open Source License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/BitTorrent_Open_Source_License"
+    },
+    "CC-BY-.*": {
+      "name": "Creative Commons License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Creative_Commons_license"
+    },
+    "CECILL-.*": {
+      "name": "CeCILL Free Software License Agreement",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/CeCILL"
+    },
+    "ECL-.*": {
+      "name": "Educational Community License",
+      "type": "permissive",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Educational_Community_License"
+    },
+    "EFL-.*": {
+      "name": "Eiffel Forum License",
+      "type": "permissive",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Eiffel_Forum_License"
+    },
+    "EPL-.*": {
+      "name": "Eclipse Public License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Eclipse_Public_License"
+    },
+    "EUPL-.*": {
+      "name": "European Union Public License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/European_Union_Public_Licence"
+    },
+    "GFDL-.*": {
+      "name": "GNU Free Documentation License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/GNU_Free_Documentation_License"
+    },
+    "GPL-.*": {
+      "name": "GNU General Public License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/GNU_General_Public_License"
+    },
+    "Hippocratic-.*": {
+      "name": "Hippocratic License",
+      "type": "permissive-with-conditions",
+      "isProfessional": false,
+      "reference": "https://firstdonoharm.dev/",
+      "notes": "great idea, unfortunately license text has an overly broad and subjective non layman / intuitive redefinition of Human Rights, which could make it dangerous for professional use (aka malicious application by bad faith actors)"
+    },
+    "LAL-.*": {
+      "name": "Licence Art Libre",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Free_Art_License"
+    },
+    "LGPL-.*": {
+      "name": "GNU Library General Public License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License"
+    },
+    "LPPL-.*": {
+      "name": "LaTeX Project Public License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/LaTeX_Project_Public_License"
+    },
+    "MPL-.*": {
+      "name": "Mozilla Public License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "reference": "https://en.wikipedia.org/wiki/Mozilla_Public_License"
+    }
+  },
+  "licenses": {
+    "0BSD": {
+      "id": "0BSD",
+      "name": "BSD Zero Clause License",
+      "type": "unlicensed",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/0BSD.html"
+    },
+    "AAL": {
+      "id": "AAL",
+      "name": "Attribution Assurance License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AAL.html"
+    },
+    "ADSL": {
+      "id": "ADSL",
+      "name": "Amazon Digital Services License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ADSL.html"
+    },
+    "AFL-1.1": {
+      "id": "AFL-1.1",
+      "name": "Academic Free License v1.1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AFL-1.1.html"
+    },
+    "AFL-1.2": {
+      "id": "AFL-1.2",
+      "name": "Academic Free License v1.2",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AFL-1.2.html"
+    },
+    "AFL-2.0": {
+      "id": "AFL-2.0",
+      "name": "Academic Free License v2.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AFL-2.0.html"
+    },
+    "AFL-2.1": {
+      "id": "AFL-2.1",
+      "name": "Academic Free License v2.1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AFL-2.1.html"
+    },
+    "AFL-3.0": {
+      "id": "AFL-3.0",
+      "name": "Academic Free License v3.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AFL-3.0.html"
+    },
+    "AGPL-1.0": {
+      "id": "AGPL-1.0",
+      "name": "Affero General Public License v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/AGPL-1.0.html"
+    },
+    "AGPL-1.0-only": {
+      "id": "AGPL-1.0-only",
+      "name": "Affero General Public License v1.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AGPL-1.0-only.html"
+    },
+    "AGPL-1.0-or-later": {
+      "id": "AGPL-1.0-or-later",
+      "name": "Affero General Public License v1.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AGPL-1.0-or-later.html"
+    },
+    "AGPL-3.0": {
+      "id": "AGPL-3.0",
+      "name": "GNU Affero General Public License v3.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/AGPL-3.0.html"
+    },
+    "AGPL-3.0-only": {
+      "id": "AGPL-3.0-only",
+      "name": "GNU Affero General Public License v3.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AGPL-3.0-only.html"
+    },
+    "AGPL-3.0-or-later": {
+      "id": "AGPL-3.0-or-later",
+      "name": "GNU Affero General Public License v3.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AGPL-3.0-or-later.html"
+    },
+    "AMDPLPA": {
+      "id": "AMDPLPA",
+      "name": "AMD's plpa_map.c License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AMDPLPA.html"
+    },
+    "AML": {
+      "id": "AML",
+      "name": "Apple MIT License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AML.html"
+    },
+    "AMPAS": {
+      "id": "AMPAS",
+      "name": "Academy of Motion Picture Arts and Sciences BSD",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/AMPAS.html"
+    },
+    "ANTLR-PD": {
+      "id": "ANTLR-PD",
+      "name": "ANTLR Software Rights Notice",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ANTLR-PD.html"
+    },
+    "ANTLR-PD-fallback": {
+      "id": "ANTLR-PD-fallback",
+      "name": "ANTLR Software Rights Notice with license fallback",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ANTLR-PD-fallback.html"
+    },
+    "APAFML": {
+      "id": "APAFML",
+      "name": "Adobe Postscript AFM License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/APAFML.html"
+    },
+    "APL-1.0": {
+      "id": "APL-1.0",
+      "name": "Adaptive Public License 1.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/APL-1.0.html"
+    },
+    "APSL-1.0": {
+      "id": "APSL-1.0",
+      "name": "Apple Public Source License 1.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/APSL-1.0.html"
+    },
+    "APSL-1.1": {
+      "id": "APSL-1.1",
+      "name": "Apple Public Source License 1.1",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/APSL-1.1.html"
+    },
+    "APSL-1.2": {
+      "id": "APSL-1.2",
+      "name": "Apple Public Source License 1.2",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/APSL-1.2.html"
+    },
+    "APSL-2.0": {
+      "id": "APSL-2.0",
+      "name": "Apple Public Source License 2.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/APSL-2.0.html"
+    },
+    "Abstyles": {
+      "id": "Abstyles",
+      "name": "Abstyles License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Abstyles.html"
+    },
+    "Adobe-2006": {
+      "id": "Adobe-2006",
+      "name": "Adobe Systems Incorporated Source Code License Agreement",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Adobe-2006.html"
+    },
+    "Adobe-Glyph": {
+      "id": "Adobe-Glyph",
+      "name": "Adobe Glyph List License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Adobe-Glyph.html"
+    },
+    "Afmparse": {
+      "id": "Afmparse",
+      "name": "Afmparse License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Afmparse.html"
+    },
+    "Aladdin": {
+      "id": "Aladdin",
+      "name": "Aladdin Free Public License",
+      "type": "source-available",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Aladdin.html"
+    },
+    "Apache-1.0": {
+      "id": "Apache-1.0",
+      "name": "Apache License 1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Apache-1.0.html"
+    },
+    "Apache-1.1": {
+      "id": "Apache-1.1",
+      "name": "Apache License 1.1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Apache-1.1.html"
+    },
+    "Apache-2.0": {
+      "id": "Apache-2.0",
+      "name": "Apache License 2.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Apache-2.0.html"
+    },
+    "Artistic-1.0": {
+      "id": "Artistic-1.0",
+      "name": "Artistic License 1.0",
+      "type": "source-available",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Artistic-1.0.html"
+    },
+    "Artistic-1.0-Perl": {
+      "id": "Artistic-1.0-Perl",
+      "name": "Artistic License 1.0 (Perl)",
+      "type": "source-available",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Artistic-1.0-Perl.html"
+    },
+    "Artistic-1.0-cl8": {
+      "id": "Artistic-1.0-cl8",
+      "name": "Artistic License 1.0 w/clause 8",
+      "type": "source-available",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Artistic-1.0-cl8.html"
+    },
+    "Artistic-2.0": {
+      "id": "Artistic-2.0",
+      "name": "Artistic License 2.0",
+      "type": "source-available",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Artistic-2.0.html"
+    },
+    "BSD-1-Clause": {
+      "id": "BSD-1-Clause",
+      "name": "BSD 1-Clause License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-1-Clause.html"
+    },
+    "BSD-2-Clause": {
+      "id": "BSD-2-Clause",
+      "name": "BSD 2-Clause \"Simplified\" License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-2-Clause.html"
+    },
+    "BSD-2-Clause-FreeBSD": {
+      "id": "BSD-2-Clause-FreeBSD",
+      "name": "BSD 2-Clause FreeBSD License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/BSD-2-Clause-FreeBSD.html"
+    },
+    "BSD-2-Clause-NetBSD": {
+      "id": "BSD-2-Clause-NetBSD",
+      "name": "BSD 2-Clause NetBSD License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/BSD-2-Clause-NetBSD.html"
+    },
+    "BSD-2-Clause-Patent": {
+      "id": "BSD-2-Clause-Patent",
+      "name": "BSD-2-Clause Plus Patent License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-2-Clause-Patent.html"
+    },
+    "BSD-2-Clause-Views": {
+      "id": "BSD-2-Clause-Views",
+      "name": "BSD 2-Clause with views sentence",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-2-Clause-Views.html"
+    },
+    "BSD-3-Clause": {
+      "id": "BSD-3-Clause",
+      "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause.html"
+    },
+    "BSD-3-Clause-Attribution": {
+      "id": "BSD-3-Clause-Attribution",
+      "name": "BSD with attribution",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-Attribution.html"
+    },
+    "BSD-3-Clause-Clear": {
+      "id": "BSD-3-Clause-Clear",
+      "name": "BSD 3-Clause Clear License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-Clear.html"
+    },
+    "BSD-3-Clause-LBNL": {
+      "id": "BSD-3-Clause-LBNL",
+      "name": "Lawrence Berkeley National Labs BSD variant license",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-LBNL.html"
+    },
+    "BSD-3-Clause-Modification": {
+      "id": "BSD-3-Clause-Modification",
+      "name": "BSD 3-Clause Modification",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-Modification.html"
+    },
+    "BSD-3-Clause-No-Military-License": {
+      "id": "BSD-3-Clause-No-Military-License",
+      "name": "BSD 3-Clause No Military License",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-No-Military-License.html"
+    },
+    "BSD-3-Clause-No-Nuclear-License": {
+      "id": "BSD-3-Clause-No-Nuclear-License",
+      "name": "BSD 3-Clause No Nuclear License",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-No-Nuclear-License.html"
+    },
+    "BSD-3-Clause-No-Nuclear-License-2014": {
+      "id": "BSD-3-Clause-No-Nuclear-License-2014",
+      "name": "BSD 3-Clause No Nuclear License 2014",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-No-Nuclear-License-2014.html"
+    },
+    "BSD-3-Clause-No-Nuclear-Warranty": {
+      "id": "BSD-3-Clause-No-Nuclear-Warranty",
+      "name": "BSD 3-Clause No Nuclear Warranty",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-No-Nuclear-Warranty.html"
+    },
+    "BSD-3-Clause-Open-MPI": {
+      "id": "BSD-3-Clause-Open-MPI",
+      "name": "BSD 3-Clause Open MPI variant",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-3-Clause-Open-MPI.html"
+    },
+    "BSD-4-Clause": {
+      "id": "BSD-4-Clause",
+      "name": "BSD 4-Clause \"Original\" or \"Old\" License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-4-Clause.html"
+    },
+    "BSD-4-Clause-Shortened": {
+      "id": "BSD-4-Clause-Shortened",
+      "name": "BSD 4 Clause Shortened",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-4-Clause-Shortened.html"
+    },
+    "BSD-4-Clause-UC": {
+      "id": "BSD-4-Clause-UC",
+      "name": "BSD-4-Clause (University of California-Specific)",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-4-Clause-UC.html"
+    },
+    "BSD-Protection": {
+      "id": "BSD-Protection",
+      "name": "BSD Protection License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-Protection.html"
+    },
+    "BSD-Source-Code": {
+      "id": "BSD-Source-Code",
+      "name": "BSD Source Code Attribution",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSD-Source-Code.html"
+    },
+    "BSL-1.0": {
+      "id": "BSL-1.0",
+      "name": "Boost Software License 1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BSL-1.0.html"
+    },
+    "BUSL-1.1": {
+      "id": "BUSL-1.1",
+      "name": "Business Source License 1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BUSL-1.1.html"
+    },
+    "Bahyph": {
+      "id": "Bahyph",
+      "name": "Bahyph License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Bahyph.html"
+    },
+    "Barr": {
+      "id": "Barr",
+      "name": "Barr License",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Barr.html"
+    },
+    "Beerware": {
+      "id": "Beerware",
+      "name": "Beerware License",
+      "type": "permissive",
+      "isProfessional": false,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Beerware.html",
+      "notes":  "Self described Joke license, should be wary of using projects with joke licenses"
+    },
+    "BitTorrent-1.0": {
+      "id": "BitTorrent-1.0",
+      "name": "BitTorrent Open Source License v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BitTorrent-1.0.html"
+    },
+    "BitTorrent-1.1": {
+      "id": "BitTorrent-1.1",
+      "name": "BitTorrent Open Source License v1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BitTorrent-1.1.html"
+    },
+    "BlueOak-1.0.0": {
+      "id": "BlueOak-1.0.0",
+      "name": "Blue Oak Model License 1.0.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/BlueOak-1.0.0.html"
+    },
+    "Borceux": {
+      "id": "Borceux",
+      "name": "Borceux license",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Borceux.html"
+    },
+    "C-UDA-1.0": {
+      "id": "C-UDA-1.0",
+      "name": "Computational Use of Data Agreement v1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/C-UDA-1.0.html"
+    },
+    "CAL-1.0": {
+      "id": "CAL-1.0",
+      "name": "Cryptographic Autonomy License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CAL-1.0.html"
+    },
+    "CAL-1.0-Combined-Work-Exception": {
+      "id": "CAL-1.0-Combined-Work-Exception",
+      "name": "Cryptographic Autonomy License 1.0 (Combined Work Exception)",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CAL-1.0-Combined-Work-Exception.html"
+    },
+    "CATOSL-1.1": {
+      "id": "CATOSL-1.1",
+      "name": "Computer Associates Trusted Open Source License 1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CATOSL-1.1.html"
+    },
+    "CC-BY-1.0": {
+      "id": "CC-BY-1.0",
+      "name": "Creative Commons Attribution 1.0 Generic",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-1.0.html"
+    },
+    "CC-BY-2.0": {
+      "id": "CC-BY-2.0",
+      "name": "Creative Commons Attribution 2.0 Generic",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-2.0.html"
+    },
+    "CC-BY-2.5": {
+      "id": "CC-BY-2.5",
+      "name": "Creative Commons Attribution 2.5 Generic",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-2.5.html"
+    },
+    "CC-BY-2.5-AU": {
+      "id": "CC-BY-2.5-AU",
+      "name": "Creative Commons Attribution 2.5 Australia",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-2.5-AU.html"
+    },
+    "CC-BY-3.0": {
+      "id": "CC-BY-3.0",
+      "name": "Creative Commons Attribution 3.0 Unported",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-3.0.html"
+    },
+    "CC-BY-3.0-AT": {
+      "id": "CC-BY-3.0-AT",
+      "name": "Creative Commons Attribution 3.0 Austria",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-3.0-AT.html"
+    },
+    "CC-BY-3.0-DE": {
+      "id": "CC-BY-3.0-DE",
+      "name": "Creative Commons Attribution 3.0 Germany",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-3.0-DE.html"
+    },
+    "CC-BY-3.0-NL": {
+      "id": "CC-BY-3.0-NL",
+      "name": "Creative Commons Attribution 3.0 Netherlands",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-3.0-NL.html"
+    },
+    "CC-BY-3.0-US": {
+      "id": "CC-BY-3.0-US",
+      "name": "Creative Commons Attribution 3.0 United States",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-3.0-US.html"
+    },
+    "CC-BY-4.0": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-4.0.html"
+    },
+    "CC-BY-NC-1.0": {
+      "id": "CC-BY-NC-1.0",
+      "name": "Creative Commons Attribution Non Commercial 1.0 Generic",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-1.0.html"
+    },
+    "CC-BY-NC-2.0": {
+      "id": "CC-BY-NC-2.0",
+      "name": "Creative Commons Attribution Non Commercial 2.0 Generic",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-2.0.html"
+    },
+    "CC-BY-NC-2.5": {
+      "id": "CC-BY-NC-2.5",
+      "name": "Creative Commons Attribution Non Commercial 2.5 Generic",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-2.5.html"
+    },
+    "CC-BY-NC-3.0": {
+      "id": "CC-BY-NC-3.0",
+      "name": "Creative Commons Attribution Non Commercial 3.0 Unported",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-3.0.html"
+    },
+    "CC-BY-NC-3.0-DE": {
+      "id": "CC-BY-NC-3.0-DE",
+      "name": "Creative Commons Attribution Non Commercial 3.0 Germany",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-3.0-DE.html"
+    },
+    "CC-BY-NC-4.0": {
+      "id": "CC-BY-NC-4.0",
+      "name": "Creative Commons Attribution Non Commercial 4.0 International",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-4.0.html"
+    },
+    "CC-BY-NC-ND-1.0": {
+      "id": "CC-BY-NC-ND-1.0",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 1.0 Generic",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-1.0.html"
+    },
+    "CC-BY-NC-ND-2.0": {
+      "id": "CC-BY-NC-ND-2.0",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 2.0 Generic",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-2.0.html"
+    },
+    "CC-BY-NC-ND-2.5": {
+      "id": "CC-BY-NC-ND-2.5",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 2.5 Generic",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-2.5.html"
+    },
+    "CC-BY-NC-ND-3.0": {
+      "id": "CC-BY-NC-ND-3.0",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-3.0.html"
+    },
+    "CC-BY-NC-ND-3.0-DE": {
+      "id": "CC-BY-NC-ND-3.0-DE",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 3.0 Germany",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-3.0-DE.html"
+    },
+    "CC-BY-NC-ND-3.0-IGO": {
+      "id": "CC-BY-NC-ND-3.0-IGO",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-3.0-IGO.html"
+    },
+    "CC-BY-NC-ND-4.0": {
+      "id": "CC-BY-NC-ND-4.0",
+      "name": "Creative Commons Attribution Non Commercial No Derivatives 4.0 International",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-ND-4.0.html"
+    },
+    "CC-BY-NC-SA-1.0": {
+      "id": "CC-BY-NC-SA-1.0",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 1.0 Generic",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-1.0.html"
+    },
+    "CC-BY-NC-SA-2.0": {
+      "id": "CC-BY-NC-SA-2.0",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 2.0 Generic",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-2.0.html"
+    },
+    "CC-BY-NC-SA-2.0-FR": {
+      "id": "CC-BY-NC-SA-2.0-FR",
+      "name": "Creative Commons Attribution-NonCommercial-ShareAlike 2.0 France",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-FR.html"
+    },
+    "CC-BY-NC-SA-2.0-UK": {
+      "id": "CC-BY-NC-SA-2.0-UK",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 2.0 England and Wales",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-2.0-UK.html"
+    },
+    "CC-BY-NC-SA-2.5": {
+      "id": "CC-BY-NC-SA-2.5",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-2.5.html"
+    },
+    "CC-BY-NC-SA-3.0": {
+      "id": "CC-BY-NC-SA-3.0",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 3.0 Unported",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-3.0.html"
+    },
+    "CC-BY-NC-SA-3.0-DE": {
+      "id": "CC-BY-NC-SA-3.0-DE",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 3.0 Germany",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-3.0-DE.html"
+    },
+    "CC-BY-NC-SA-3.0-IGO": {
+      "id": "CC-BY-NC-SA-3.0-IGO",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 3.0 IGO",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-3.0-IGO.html"
+    },
+    "CC-BY-NC-SA-4.0": {
+      "id": "CC-BY-NC-SA-4.0",
+      "name": "Creative Commons Attribution Non Commercial Share Alike 4.0 International",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-NC-SA-4.0.html"
+    },
+    "CC-BY-ND-1.0": {
+      "id": "CC-BY-ND-1.0",
+      "name": "Creative Commons Attribution No Derivatives 1.0 Generic",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-ND-1.0.html"
+    },
+    "CC-BY-ND-2.0": {
+      "id": "CC-BY-ND-2.0",
+      "name": "Creative Commons Attribution No Derivatives 2.0 Generic",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-ND-2.0.html"
+    },
+    "CC-BY-ND-2.5": {
+      "id": "CC-BY-ND-2.5",
+      "name": "Creative Commons Attribution No Derivatives 2.5 Generic",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-ND-2.5.html"
+    },
+    "CC-BY-ND-3.0": {
+      "id": "CC-BY-ND-3.0",
+      "name": "Creative Commons Attribution No Derivatives 3.0 Unported",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-ND-3.0.html"
+    },
+    "CC-BY-ND-3.0-DE": {
+      "id": "CC-BY-ND-3.0-DE",
+      "name": "Creative Commons Attribution No Derivatives 3.0 Germany",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-ND-3.0-DE.html"
+    },
+    "CC-BY-ND-4.0": {
+      "id": "CC-BY-ND-4.0",
+      "name": "Creative Commons Attribution No Derivatives 4.0 International",
+      "type": "proprietary",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-ND-4.0.html"
+    },
+    "CC-BY-SA-1.0": {
+      "id": "CC-BY-SA-1.0",
+      "name": "Creative Commons Attribution Share Alike 1.0 Generic",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-1.0.html"
+    },
+    "CC-BY-SA-2.0": {
+      "id": "CC-BY-SA-2.0",
+      "name": "Creative Commons Attribution Share Alike 2.0 Generic",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-2.0.html"
+    },
+    "CC-BY-SA-2.0-UK": {
+      "id": "CC-BY-SA-2.0-UK",
+      "name": "Creative Commons Attribution Share Alike 2.0 England and Wales",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-2.0-UK.html"
+    },
+    "CC-BY-SA-2.1-JP": {
+      "id": "CC-BY-SA-2.1-JP",
+      "name": "Creative Commons Attribution Share Alike 2.1 Japan",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-2.1-JP.html"
+    },
+    "CC-BY-SA-2.5": {
+      "id": "CC-BY-SA-2.5",
+      "name": "Creative Commons Attribution Share Alike 2.5 Generic",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-2.5.html"
+    },
+    "CC-BY-SA-3.0": {
+      "id": "CC-BY-SA-3.0",
+      "name": "Creative Commons Attribution Share Alike 3.0 Unported",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-3.0.html"
+    },
+    "CC-BY-SA-3.0-AT": {
+      "id": "CC-BY-SA-3.0-AT",
+      "name": "Creative Commons Attribution Share Alike 3.0 Austria",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-3.0-AT.html"
+    },
+    "CC-BY-SA-3.0-DE": {
+      "id": "CC-BY-SA-3.0-DE",
+      "name": "Creative Commons Attribution Share Alike 3.0 Germany",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-3.0-DE.html"
+    },
+    "CC-BY-SA-4.0": {
+      "id": "CC-BY-SA-4.0",
+      "name": "Creative Commons Attribution Share Alike 4.0 International",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-BY-SA-4.0.html"
+    },
+    "CC-PDDC": {
+      "id": "CC-PDDC",
+      "name": "Creative Commons Public Domain Dedication and Certification",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC-PDDC.html"
+    },
+    "CC0-1.0": {
+      "id": "CC0-1.0",
+      "name": "Creative Commons Zero v1.0 Universal",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CC0-1.0.html"
+    },
+    "CDDL-1.0": {
+      "id": "CDDL-1.0",
+      "name": "Common Development and Distribution License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CDDL-1.0.html"
+    },
+    "CDDL-1.1": {
+      "id": "CDDL-1.1",
+      "name": "Common Development and Distribution License 1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CDDL-1.1.html"
+    },
+    "CDL-1.0": {
+      "id": "CDL-1.0",
+      "name": "Common Documentation License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CDL-1.0.html"
+    },
+    "CDLA-Permissive-1.0": {
+      "id": "CDLA-Permissive-1.0",
+      "name": "Community Data License Agreement Permissive 1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CDLA-Permissive-1.0.html"
+    },
+    "CDLA-Permissive-2.0": {
+      "id": "CDLA-Permissive-2.0",
+      "name": "Community Data License Agreement Permissive 2.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CDLA-Permissive-2.0.html"
+    },
+    "CDLA-Sharing-1.0": {
+      "id": "CDLA-Sharing-1.0",
+      "name": "Community Data License Agreement Sharing 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CDLA-Sharing-1.0.html"
+    },
+    "CECILL-1.0": {
+      "id": "CECILL-1.0",
+      "name": "CeCILL Free Software License Agreement v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CECILL-1.0.html"
+    },
+    "CECILL-1.1": {
+      "id": "CECILL-1.1",
+      "name": "CeCILL Free Software License Agreement v1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CECILL-1.1.html"
+    },
+    "CECILL-2.0": {
+      "id": "CECILL-2.0",
+      "name": "CeCILL Free Software License Agreement v2.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CECILL-2.0.html"
+    },
+    "CECILL-2.1": {
+      "id": "CECILL-2.1",
+      "name": "CeCILL Free Software License Agreement v2.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CECILL-2.1.html"
+    },
+    "CECILL-B": {
+      "id": "CECILL-B",
+      "name": "CeCILL-B Free Software License Agreement",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CECILL-B.html"
+    },
+    "CECILL-C": {
+      "id": "CECILL-C",
+      "name": "CeCILL-C Free Software License Agreement",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CECILL-C.html"
+    },
+    "CERN-OHL-1.1": {
+      "id": "CERN-OHL-1.1",
+      "name": "CERN Open Hardware Licence v1.1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CERN-OHL-1.1.html"
+    },
+    "CERN-OHL-1.2": {
+      "id": "CERN-OHL-1.2",
+      "name": "CERN Open Hardware Licence v1.2",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CERN-OHL-1.2.html"
+    },
+    "CERN-OHL-P-2.0": {
+      "id": "CERN-OHL-P-2.0",
+      "name": "CERN Open Hardware Licence Version 2 - Permissive",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CERN-OHL-P-2.0.html"
+    },
+    "CERN-OHL-S-2.0": {
+      "id": "CERN-OHL-S-2.0",
+      "name": "CERN Open Hardware Licence Version 2 - Strongly Reciprocal",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CERN-OHL-S-2.0.html"
+    },
+    "CERN-OHL-W-2.0": {
+      "id": "CERN-OHL-W-2.0",
+      "name": "CERN Open Hardware Licence Version 2 - Weakly Reciprocal",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CERN-OHL-W-2.0.html"
+    },
+    "CNRI-Jython": {
+      "id": "CNRI-Jython",
+      "name": "CNRI Jython License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CNRI-Jython.html"
+    },
+    "CNRI-Python": {
+      "id": "CNRI-Python",
+      "name": "CNRI Python License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CNRI-Python.html"
+    },
+    "CNRI-Python-GPL-Compatible": {
+      "id": "CNRI-Python-GPL-Compatible",
+      "name": "CNRI Python Open Source GPL Compatible License Agreement",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CNRI-Python-GPL-Compatible.html"
+    },
+    "COIL-1.0": {
+      "id": "COIL-1.0",
+      "name": "Copyfree Open Innovation License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/COIL-1.0.html"
+    },
+    "CPAL-1.0": {
+      "id": "CPAL-1.0",
+      "name": "Common Public Attribution License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CPAL-1.0.html"
+    },
+    "CPL-1.0": {
+      "id": "CPL-1.0",
+      "name": "Common Public License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CPL-1.0.html"
+    },
+    "CPOL-1.02": {
+      "id": "CPOL-1.02",
+      "name": "Code Project Open License 1.02",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CPOL-1.02.html"
+    },
+    "CUA-OPL-1.0": {
+      "id": "CUA-OPL-1.0",
+      "name": "CUA Office Public License v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CUA-OPL-1.0.html"
+    },
+    "Caldera": {
+      "id": "Caldera",
+      "name": "Caldera License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Caldera.html"
+    },
+    "ClArtistic": {
+      "id": "ClArtistic",
+      "name": "Clarified Artistic License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ClArtistic.html"
+    },
+    "Community-Spec-1.0": {
+      "id": "Community-Spec-1.0",
+      "name": "Community Specification License 1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Community-Spec-1.0.html"
+    },
+    "Condor-1.1": {
+      "id": "Condor-1.1",
+      "name": "Condor Public License v1.1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Condor-1.1.html"
+    },
+    "Crossword": {
+      "id": "Crossword",
+      "name": "Crossword License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Crossword.html"
+    },
+    "CrystalStacker": {
+      "id": "CrystalStacker",
+      "name": "CrystalStacker License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/CrystalStacker.html"
+    },
+    "Cube": {
+      "id": "Cube",
+      "name": "Cube License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Cube.html"
+    },
+    "D-FSL-1.0": {
+      "id": "D-FSL-1.0",
+      "name": "Deutsche Freie Software Lizenz",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/D-FSL-1.0.html"
+    },
+    "DOC": {
+      "id": "DOC",
+      "name": "DOC License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/DOC.html"
+    },
+    "DRL-1.0": {
+      "id": "DRL-1.0",
+      "name": "Detection Rule License 1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/DRL-1.0.html"
+    },
+    "DSDP": {
+      "id": "DSDP",
+      "name": "DSDP License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/DSDP.html"
+    },
+    "Dotseqn": {
+      "id": "Dotseqn",
+      "name": "Dotseqn License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Dotseqn.html"
+    },
+    "ECL-1.0": {
+      "id": "ECL-1.0",
+      "name": "Educational Community License v1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ECL-1.0.html"
+    },
+    "ECL-2.0": {
+      "id": "ECL-2.0",
+      "name": "Educational Community License v2.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ECL-2.0.html"
+    },
+    "EFL-1.0": {
+      "id": "EFL-1.0",
+      "name": "Eiffel Forum License v1.0",
+      "type": "source-available",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EFL-1.0.html"
+    },
+    "EFL-2.0": {
+      "id": "EFL-2.0",
+      "name": "Eiffel Forum License v2.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EFL-2.0.html"
+    },
+    "EPICS": {
+      "id": "EPICS",
+      "name": "EPICS Open License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EPICS.html"
+    },
+    "EPL-1.0": {
+      "id": "EPL-1.0",
+      "name": "Eclipse Public License 1.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EPL-1.0.html"
+    },
+    "EPL-2.0": {
+      "id": "EPL-2.0",
+      "name": "Eclipse Public License 2.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EPL-2.0.html"
+    },
+    "EUDatagrid": {
+      "id": "EUDatagrid",
+      "name": "EU DataGrid Software License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EUDatagrid.html"
+    },
+    "EUPL-1.0": {
+      "id": "EUPL-1.0",
+      "name": "European Union Public License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EUPL-1.0.html"
+    },
+    "EUPL-1.1": {
+      "id": "EUPL-1.1",
+      "name": "European Union Public License 1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EUPL-1.1.html"
+    },
+    "EUPL-1.2": {
+      "id": "EUPL-1.2",
+      "name": "European Union Public License 1.2",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/EUPL-1.2.html"
+    },
+    "Entessa": {
+      "id": "Entessa",
+      "name": "Entessa Public License v1.0",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Entessa.html"
+    },
+    "ErlPL-1.1": {
+      "id": "ErlPL-1.1",
+      "name": "Erlang Public License v1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ErlPL-1.1.html"
+    },
+    "Eurosym": {
+      "id": "Eurosym",
+      "name": "Eurosym License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Eurosym.html"
+    },
+    "FDK-AAC": {
+      "id": "FDK-AAC",
+      "name": "Fraunhofer FDK AAC Codec Library",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FDK-AAC.html"
+    },
+    "FSFAP": {
+      "id": "FSFAP",
+      "name": "FSF All Permissive License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FSFAP.html"
+    },
+    "FSFUL": {
+      "id": "FSFUL",
+      "name": "FSF Unlimited License",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FSFUL.html"
+    },
+    "FSFULLR": {
+      "id": "FSFULLR",
+      "name": "FSF Unlimited License (with License Retention)",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FSFULLR.html"
+    },
+    "FTL": {
+      "id": "FTL",
+      "name": "Freetype Project License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FTL.html"
+    },
+    "Fair": {
+      "id": "Fair",
+      "name": "Fair License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Fair.html"
+    },
+    "Frameworx-1.0": {
+      "id": "Frameworx-1.0",
+      "name": "Frameworx Open License 1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Frameworx-1.0.html"
+    },
+    "FreeBSD-DOC": {
+      "id": "FreeBSD-DOC",
+      "name": "FreeBSD Documentation License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FreeBSD-DOC.html"
+    },
+    "FreeImage": {
+      "id": "FreeImage",
+      "name": "FreeImage Public License v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/FreeImage.html"
+    },
+    "GD": {
+      "id": "GD",
+      "name": "GD License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GD.html"
+    },
+    "GFDL-1.1": {
+      "id": "GFDL-1.1",
+      "name": "GNU Free Documentation License v1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GFDL-1.1.html"
+    },
+    "GFDL-1.1-invariants-only": {
+      "id": "GFDL-1.1-invariants-only",
+      "name": "GNU Free Documentation License v1.1 only - invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.1-invariants-only.html"
+    },
+    "GFDL-1.1-invariants-or-later": {
+      "id": "GFDL-1.1-invariants-or-later",
+      "name": "GNU Free Documentation License v1.1 or later - invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.1-invariants-or-later.html"
+    },
+    "GFDL-1.1-no-invariants-only": {
+      "id": "GFDL-1.1-no-invariants-only",
+      "name": "GNU Free Documentation License v1.1 only - no invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.1-no-invariants-only.html"
+    },
+    "GFDL-1.1-no-invariants-or-later": {
+      "id": "GFDL-1.1-no-invariants-or-later",
+      "name": "GNU Free Documentation License v1.1 or later - no invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.1-no-invariants-or-later.html"
+    },
+    "GFDL-1.1-only": {
+      "id": "GFDL-1.1-only",
+      "name": "GNU Free Documentation License v1.1 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.1-only.html"
+    },
+    "GFDL-1.1-or-later": {
+      "id": "GFDL-1.1-or-later",
+      "name": "GNU Free Documentation License v1.1 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.1-or-later.html"
+    },
+    "GFDL-1.2": {
+      "id": "GFDL-1.2",
+      "name": "GNU Free Documentation License v1.2",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GFDL-1.2.html"
+    },
+    "GFDL-1.2-invariants-only": {
+      "id": "GFDL-1.2-invariants-only",
+      "name": "GNU Free Documentation License v1.2 only - invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.2-invariants-only.html"
+    },
+    "GFDL-1.2-invariants-or-later": {
+      "id": "GFDL-1.2-invariants-or-later",
+      "name": "GNU Free Documentation License v1.2 or later - invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.2-invariants-or-later.html"
+    },
+    "GFDL-1.2-no-invariants-only": {
+      "id": "GFDL-1.2-no-invariants-only",
+      "name": "GNU Free Documentation License v1.2 only - no invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.2-no-invariants-only.html"
+    },
+    "GFDL-1.2-no-invariants-or-later": {
+      "id": "GFDL-1.2-no-invariants-or-later",
+      "name": "GNU Free Documentation License v1.2 or later - no invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.2-no-invariants-or-later.html"
+    },
+    "GFDL-1.2-only": {
+      "id": "GFDL-1.2-only",
+      "name": "GNU Free Documentation License v1.2 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.2-only.html"
+    },
+    "GFDL-1.2-or-later": {
+      "id": "GFDL-1.2-or-later",
+      "name": "GNU Free Documentation License v1.2 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.2-or-later.html"
+    },
+    "GFDL-1.3": {
+      "id": "GFDL-1.3",
+      "name": "GNU Free Documentation License v1.3",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GFDL-1.3.html"
+    },
+    "GFDL-1.3-invariants-only": {
+      "id": "GFDL-1.3-invariants-only",
+      "name": "GNU Free Documentation License v1.3 only - invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.3-invariants-only.html"
+    },
+    "GFDL-1.3-invariants-or-later": {
+      "id": "GFDL-1.3-invariants-or-later",
+      "name": "GNU Free Documentation License v1.3 or later - invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.3-invariants-or-later.html"
+    },
+    "GFDL-1.3-no-invariants-only": {
+      "id": "GFDL-1.3-no-invariants-only",
+      "name": "GNU Free Documentation License v1.3 only - no invariants",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.3-no-invariants-only.html"
+    },
+    "GFDL-1.3-no-invariants-or-later": {
+      "id": "GFDL-1.3-no-invariants-or-later",
+      "name": "GNU Free Documentation License v1.3 or later - no invariants",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.3-no-invariants-or-later.html"
+    },
+    "GFDL-1.3-only": {
+      "id": "GFDL-1.3-only",
+      "name": "GNU Free Documentation License v1.3 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.3-only.html"
+    },
+    "GFDL-1.3-or-later": {
+      "id": "GFDL-1.3-or-later",
+      "name": "GNU Free Documentation License v1.3 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GFDL-1.3-or-later.html"
+    },
+    "GL2PS": {
+      "id": "GL2PS",
+      "name": "GL2PS License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GL2PS.html"
+    },
+    "GLWTPL": {
+      "id": "GLWTPL",
+      "name": "Good Luck With That Public License",
+      "type": "unrestricted",
+      "isProfessional": false,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GLWTPL.html","notes":  "Self described Joke license, should be wary of using projects with joke licenses"
+    },
+    "GPL-1.0": {
+      "id": "GPL-1.0",
+      "name": "GNU General Public License v1.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-1.0.html"
+    },
+    "GPL-1.0+": {
+      "id": "GPL-1.0+",
+      "name": "GNU General Public License v1.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-1.0+.html"
+    },
+    "GPL-1.0-only": {
+      "id": "GPL-1.0-only",
+      "name": "GNU General Public License v1.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GPL-1.0-only.html"
+    },
+    "GPL-1.0-or-later": {
+      "id": "GPL-1.0-or-later",
+      "name": "GNU General Public License v1.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GPL-1.0-or-later.html"
+    },
+    "GPL-2.0": {
+      "id": "GPL-2.0",
+      "name": "GNU General Public License v2.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0.html"
+    },
+    "GPL-2.0+": {
+      "id": "GPL-2.0+",
+      "name": "GNU General Public License v2.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0+.html"
+    },
+    "GPL-2.0-only": {
+      "id": "GPL-2.0-only",
+      "name": "GNU General Public License v2.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GPL-2.0-only.html"
+    },
+    "GPL-2.0-or-later": {
+      "id": "GPL-2.0-or-later",
+      "name": "GNU General Public License v2.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GPL-2.0-or-later.html"
+    },
+    "GPL-2.0-with-GCC-exception": {
+      "id": "GPL-2.0-with-GCC-exception",
+      "name": "GNU General Public License v2.0 w/GCC Runtime Library exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0-with-GCC-exception.html"
+    },
+    "GPL-2.0-with-autoconf-exception": {
+      "id": "GPL-2.0-with-autoconf-exception",
+      "name": "GNU General Public License v2.0 w/Autoconf exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0-with-autoconf-exception.html"
+    },
+    "GPL-2.0-with-bison-exception": {
+      "id": "GPL-2.0-with-bison-exception",
+      "name": "GNU General Public License v2.0 w/Bison exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0-with-bison-exception.html"
+    },
+    "GPL-2.0-with-classpath-exception": {
+      "id": "GPL-2.0-with-classpath-exception",
+      "name": "GNU General Public License v2.0 w/Classpath exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0-with-classpath-exception.html"
+    },
+    "GPL-2.0-with-font-exception": {
+      "id": "GPL-2.0-with-font-exception",
+      "name": "GNU General Public License v2.0 w/Font exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-2.0-with-font-exception.html"
+    },
+    "GPL-3.0": {
+      "id": "GPL-3.0",
+      "name": "GNU General Public License v3.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-3.0.html"
+    },
+    "GPL-3.0+": {
+      "id": "GPL-3.0+",
+      "name": "GNU General Public License v3.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-3.0+.html"
+    },
+    "GPL-3.0-only": {
+      "id": "GPL-3.0-only",
+      "name": "GNU General Public License v3.0 only",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GPL-3.0-only.html"
+    },
+    "GPL-3.0-or-later": {
+      "id": "GPL-3.0-or-later",
+      "name": "GNU General Public License v3.0 or later",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/GPL-3.0-or-later.html"
+    },
+    "GPL-3.0-with-GCC-exception": {
+      "id": "GPL-3.0-with-GCC-exception",
+      "name": "GNU General Public License v3.0 w/GCC Runtime Library exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-3.0-with-GCC-exception.html"
+    },
+    "GPL-3.0-with-autoconf-exception": {
+      "id": "GPL-3.0-with-autoconf-exception",
+      "name": "GNU General Public License v3.0 w/Autoconf exception",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/GPL-3.0-with-autoconf-exception.html"
+    },
+    "Giftware": {
+      "id": "Giftware",
+      "name": "Giftware License",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Giftware.html",
+      "notes": ""
+    },
+    "Glide": {
+      "id": "Glide",
+      "name": "3dfx Glide License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Glide.html"
+    },
+    "Glulxe": {
+      "id": "Glulxe",
+      "name": "Glulxe License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Glulxe.html"
+    },
+    "HPND": {
+      "id": "HPND",
+      "name": "Historical Permission Notice and Disclaimer",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/HPND.html"
+    },
+    "HPND-sell-variant": {
+      "id": "HPND-sell-variant",
+      "name": "Historical Permission Notice and Disclaimer - sell variant",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/HPND-sell-variant.html"
+    },
+    "HTMLTIDY": {
+      "id": "HTMLTIDY",
+      "name": "HTML Tidy License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/HTMLTIDY.html"
+    },
+    "HaskellReport": {
+      "id": "HaskellReport",
+      "name": "Haskell Language Report License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/HaskellReport.html"
+    },
+    "Hippocratic-2.1": {
+      "id": "Hippocratic-2.1",
+      "name": "Hippocratic License 2.1",
+      "type": "permissive-with-conditions",
+      "isProfessional": false,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Hippocratic-2.1.html",
+      "notes": "great idea, unfortunately license text has an overly broad and subjective non layman / intuitive redefinition of Human Rights, which could make it dangerous for professional use (aka malicious application by bad faith actors)"
+    },
+    "IBM-pibs": {
+      "id": "IBM-pibs",
+      "name": "IBM PowerPC Initialization and Boot Software",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/IBM-pibs.html"
+    },
+    "ICU": {
+      "id": "ICU",
+      "name": "ICU License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ICU.html"
+    },
+    "IJG": {
+      "id": "IJG",
+      "name": "Independent JPEG Group License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/IJG.html"
+    },
+    "IPA": {
+      "id": "IPA",
+      "name": "IPA Font License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/IPA.html"
+    },
+    "IPL-1.0": {
+      "id": "IPL-1.0",
+      "name": "IBM Public License v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/IPL-1.0.html"
+    },
+    "ISC": {
+      "id": "ISC",
+      "name": "ISC License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ISC.html"
+    },
+    "ImageMagick": {
+      "id": "ImageMagick",
+      "name": "ImageMagick License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ImageMagick.html"
+    },
+    "Imlib2": {
+      "id": "Imlib2",
+      "name": "Imlib2 License",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Imlib2.html"
+    },
+    "Info-ZIP": {
+      "id": "Info-ZIP",
+      "name": "Info-ZIP License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Info-ZIP.html"
+    },
+    "Intel": {
+      "id": "Intel",
+      "name": "Intel Open Source License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Intel.html"
+    },
+    "Intel-ACPI": {
+      "id": "Intel-ACPI",
+      "name": "Intel ACPI Software License Agreement",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Intel-ACPI.html"
+    },
+    "Interbase-1.0": {
+      "id": "Interbase-1.0",
+      "name": "Interbase Public License v1.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Interbase-1.0.html"
+    },
+    "JPNIC": {
+      "id": "JPNIC",
+      "name": "Japan Network Information Center License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/JPNIC.html"
+    },
+    "JSON": {
+      "id": "JSON",
+      "name": "JSON License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/JSON.html"
+    },
+    "JasPer-2.0": {
+      "id": "JasPer-2.0",
+      "name": "JasPer License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/JasPer-2.0.html"
+    },
+    "LAL-1.2": {
+      "id": "LAL-1.2",
+      "name": "Licence Art Libre 1.2",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LAL-1.2.html"
+    },
+    "LAL-1.3": {
+      "id": "LAL-1.3",
+      "name": "Licence Art Libre 1.3",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LAL-1.3.html"
+    },
+    "LGPL-2.0": {
+      "id": "LGPL-2.0",
+      "name": "GNU Library General Public License v2 only",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/LGPL-2.0.html"
+    },
+    "LGPL-2.0+": {
+      "id": "LGPL-2.0+",
+      "name": "GNU Library General Public License v2 or later",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/LGPL-2.0+.html"
+    },
+    "LGPL-2.0-only": {
+      "id": "LGPL-2.0-only",
+      "name": "GNU Library General Public License v2 only",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPL-2.0-only.html"
+    },
+    "LGPL-2.0-or-later": {
+      "id": "LGPL-2.0-or-later",
+      "name": "GNU Library General Public License v2 or later",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPL-2.0-or-later.html"
+    },
+    "LGPL-2.1": {
+      "id": "LGPL-2.1",
+      "name": "GNU Lesser General Public License v2.1 only",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/LGPL-2.1.html"
+    },
+    "LGPL-2.1+": {
+      "id": "LGPL-2.1+",
+      "name": "GNU Library General Public License v2.1 or later",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/LGPL-2.1+.html"
+    },
+    "LGPL-2.1-only": {
+      "id": "LGPL-2.1-only",
+      "name": "GNU Lesser General Public License v2.1 only",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPL-2.1-only.html"
+    },
+    "LGPL-2.1-or-later": {
+      "id": "LGPL-2.1-or-later",
+      "name": "GNU Lesser General Public License v2.1 or later",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPL-2.1-or-later.html"
+    },
+    "LGPL-3.0": {
+      "id": "LGPL-3.0",
+      "name": "GNU Lesser General Public License v3.0 only",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/LGPL-3.0.html"
+    },
+    "LGPL-3.0+": {
+      "id": "LGPL-3.0+",
+      "name": "GNU Lesser General Public License v3.0 or later",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/LGPL-3.0+.html"
+    },
+    "LGPL-3.0-only": {
+      "id": "LGPL-3.0-only",
+      "name": "GNU Lesser General Public License v3.0 only",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPL-3.0-only.html"
+    },
+    "LGPL-3.0-or-later": {
+      "id": "LGPL-3.0-or-later",
+      "name": "GNU Lesser General Public License v3.0 or later",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPL-3.0-or-later.html"
+    },
+    "LGPLLR": {
+      "id": "LGPLLR",
+      "name": "Lesser General Public License For Linguistic Resources",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LGPLLR.html"
+    },
+    "LPL-1.0": {
+      "id": "LPL-1.0",
+      "name": "Lucent Public License Version 1.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPL-1.0.html"
+    },
+    "LPL-1.02": {
+      "id": "LPL-1.02",
+      "name": "Lucent Public License v1.02",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPL-1.02.html"
+    },
+    "LPPL-1.0": {
+      "id": "LPPL-1.0",
+      "name": "LaTeX Project Public License v1.0",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPPL-1.0.html"
+    },
+    "LPPL-1.1": {
+      "id": "LPPL-1.1",
+      "name": "LaTeX Project Public License v1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPPL-1.1.html"
+    },
+    "LPPL-1.2": {
+      "id": "LPPL-1.2",
+      "name": "LaTeX Project Public License v1.2",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPPL-1.2.html"
+    },
+    "LPPL-1.3a": {
+      "id": "LPPL-1.3a",
+      "name": "LaTeX Project Public License v1.3a",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPPL-1.3a.html"
+    },
+    "LPPL-1.3c": {
+      "id": "LPPL-1.3c",
+      "name": "LaTeX Project Public License v1.3c",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LPPL-1.3c.html"
+    },
+    "Latex2e": {
+      "id": "Latex2e",
+      "name": "Latex2e License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Latex2e.html"
+    },
+    "Leptonica": {
+      "id": "Leptonica",
+      "name": "Leptonica License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Leptonica.html"
+    },
+    "LiLiQ-P-1.1": {
+      "id": "LiLiQ-P-1.1",
+      "name": "Licence Libre du Québec – Permissive version 1.1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LiLiQ-P-1.1.html"
+    },
+    "LiLiQ-R-1.1": {
+      "id": "LiLiQ-R-1.1",
+      "name": "Licence Libre du Québec – Réciprocité version 1.1",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LiLiQ-R-1.1.html"
+    },
+    "LiLiQ-Rplus-1.1": {
+      "id": "LiLiQ-Rplus-1.1",
+      "name": "Licence Libre du Québec – Réciprocité forte version 1.1",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/LiLiQ-Rplus-1.1.html"
+    },
+    "Libpng": {
+      "id": "Libpng",
+      "name": "libpng License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Libpng.html"
+    },
+    "Linux-OpenIB": {
+      "id": "Linux-OpenIB",
+      "name": "Linux Kernel Variant of OpenIB.org license",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Linux-OpenIB.html"
+    },
+    "Linux-man-pages-copyleft": {
+      "id": "Linux-man-pages-copyleft",
+      "name": "Linux man-pages Copyleft",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Linux-man-pages-copyleft.html"
+    },
+    "MIT": {
+      "id": "MIT",
+      "name": "MIT License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT.html"
+    },
+    "MIT-0": {
+      "id": "MIT-0",
+      "name": "MIT No Attribution",
+      "type": "unrestricted",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-0.html"
+    },
+    "MIT-CMU": {
+      "id": "MIT-CMU",
+      "name": "CMU License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-CMU.html"
+    },
+    "MIT-Modern-Variant": {
+      "id": "MIT-Modern-Variant",
+      "name": "MIT License Modern Variant",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-Modern-Variant.html"
+    },
+    "MIT-advertising": {
+      "id": "MIT-advertising",
+      "name": "Enlightenment License (e16)",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-advertising.html"
+    },
+    "MIT-enna": {
+      "id": "MIT-enna",
+      "name": "enna License",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-enna.html"
+    },
+    "MIT-feh": {
+      "id": "MIT-feh",
+      "name": "feh License",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-feh.html"
+    },
+    "MIT-open-group": {
+      "id": "MIT-open-group",
+      "name": "MIT Open Group variant",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MIT-open-group.html"
+    },
+    "MITNFA": {
+      "id": "MITNFA",
+      "name": "MIT +no-false-attribs license",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MITNFA.html"
+    },
+    "MPL-1.0": {
+      "id": "MPL-1.0",
+      "name": "Mozilla Public License 1.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MPL-1.0.html"
+    },
+    "MPL-1.1": {
+      "id": "MPL-1.1",
+      "name": "Mozilla Public License 1.1",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MPL-1.1.html"
+    },
+    "MPL-2.0": {
+      "id": "MPL-2.0",
+      "name": "Mozilla Public License 2.0",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MPL-2.0.html"
+    },
+    "MPL-2.0-no-copyleft-exception": {
+      "id": "MPL-2.0-no-copyleft-exception",
+      "name": "Mozilla Public License 2.0 (no copyleft exception)",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MPL-2.0-no-copyleft-exception.html"
+    },
+    "MS-PL": {
+      "id": "MS-PL",
+      "name": "Microsoft Public License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MS-PL.html"
+    },
+    "MS-RL": {
+      "id": "MS-RL",
+      "name": "Microsoft Reciprocal License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MS-RL.html"
+    },
+    "MTLL": {
+      "id": "MTLL",
+      "name": "Matrix Template Library License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MTLL.html"
+    },
+    "MakeIndex": {
+      "id": "MakeIndex",
+      "name": "MakeIndex License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MakeIndex.html"
+    },
+    "MirOS": {
+      "id": "MirOS",
+      "name": "The MirOS Licence",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MirOS.html"
+    },
+    "Motosoto": {
+      "id": "Motosoto",
+      "name": "Motosoto License",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Motosoto.html"
+    },
+    "MulanPSL-1.0": {
+      "id": "MulanPSL-1.0",
+      "name": "Mulan Permissive Software License, Version 1",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MulanPSL-1.0.html"
+    },
+    "MulanPSL-2.0": {
+      "id": "MulanPSL-2.0",
+      "name": "Mulan Permissive Software License, Version 2",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/MulanPSL-2.0.html"
+    },
+    "Multics": {
+      "id": "Multics",
+      "name": "Multics License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Multics.html"
+    },
+    "Mup": {
+      "id": "Mup",
+      "name": "Mup License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Mup.html"
+    },
+    "NAIST-2003": {
+      "id": "NAIST-2003",
+      "name": "Nara Institute of Science and Technology License (2003)",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NAIST-2003.html"
+    },
+    "NASA-1.3": {
+      "id": "NASA-1.3",
+      "name": "NASA Open Source Agreement 1.3",
+      "type": "copyleft",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NASA-1.3.html"
+    },
+    "NBPL-1.0": {
+      "id": "NBPL-1.0",
+      "name": "Net Boolean Public License v1",
+      "type": "weak-copyleft",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NBPL-1.0.html"
+    },
+    "NCGL-UK-2.0": {
+      "id": "NCGL-UK-2.0",
+      "name": "Non-Commercial Government Licence",
+      "type": "noncommercial",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NCGL-UK-2.0.html"
+    },
+    "NCSA": {
+      "id": "NCSA",
+      "name": "University of Illinois/NCSA Open Source License",
+      "type": "permissive",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NCSA.html"
+    },
+    "NGPL": {
+      "id": "NGPL",
+      "name": "Nethack General Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NGPL.html"
+    },
+    "NIST-PD": {
+      "id": "NIST-PD",
+      "name": "NIST Public Domain Notice",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NIST-PD.html"
+    },
+    "NIST-PD-fallback": {
+      "id": "NIST-PD-fallback",
+      "name": "NIST Public Domain Notice with license fallback",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NIST-PD-fallback.html"
+    },
+    "NLOD-1.0": {
+      "id": "NLOD-1.0",
+      "name": "Norwegian Licence for Open Government Data (NLOD) 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NLOD-1.0.html"
+    },
+    "NLOD-2.0": {
+      "id": "NLOD-2.0",
+      "name": "Norwegian Licence for Open Government Data (NLOD) 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NLOD-2.0.html"
+    },
+    "NLPL": {
+      "id": "NLPL",
+      "name": "No Limit Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NLPL.html"
+    },
+    "NOSL": {
+      "id": "NOSL",
+      "name": "Netizen Open Source License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NOSL.html"
+    },
+    "NPL-1.0": {
+      "id": "NPL-1.0",
+      "name": "Netscape Public License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NPL-1.0.html"
+    },
+    "NPL-1.1": {
+      "id": "NPL-1.1",
+      "name": "Netscape Public License v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NPL-1.1.html"
+    },
+    "NPOSL-3.0": {
+      "id": "NPOSL-3.0",
+      "name": "Non-Profit Open Software License 3.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NPOSL-3.0.html"
+    },
+    "NRL": {
+      "id": "NRL",
+      "name": "NRL License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NRL.html"
+    },
+    "NTP": {
+      "id": "NTP",
+      "name": "NTP License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NTP.html"
+    },
+    "NTP-0": {
+      "id": "NTP-0",
+      "name": "NTP No Attribution",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NTP-0.html"
+    },
+    "Naumen": {
+      "id": "Naumen",
+      "name": "Naumen Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Naumen.html"
+    },
+    "Net-SNMP": {
+      "id": "Net-SNMP",
+      "name": "Net-SNMP License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Net-SNMP.html"
+    },
+    "NetCDF": {
+      "id": "NetCDF",
+      "name": "NetCDF license",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/NetCDF.html"
+    },
+    "Newsletr": {
+      "id": "Newsletr",
+      "name": "Newsletr License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Newsletr.html"
+    },
+    "Nokia": {
+      "id": "Nokia",
+      "name": "Nokia Open Source License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Nokia.html"
+    },
+    "Noweb": {
+      "id": "Noweb",
+      "name": "Noweb License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Noweb.html"
+    },
+    "Nunit": {
+      "id": "Nunit",
+      "name": "Nunit License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/Nunit.html"
+    },
+    "O-UDA-1.0": {
+      "id": "O-UDA-1.0",
+      "name": "Open Use of Data Agreement v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/O-UDA-1.0.html"
+    },
+    "OCCT-PL": {
+      "id": "OCCT-PL",
+      "name": "Open CASCADE Technology Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OCCT-PL.html"
+    },
+    "OCLC-2.0": {
+      "id": "OCLC-2.0",
+      "name": "OCLC Research Public License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OCLC-2.0.html"
+    },
+    "ODC-By-1.0": {
+      "id": "ODC-By-1.0",
+      "name": "Open Data Commons Attribution License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ODC-By-1.0.html"
+    },
+    "ODbL-1.0": {
+      "id": "ODbL-1.0",
+      "name": "Open Data Commons Open Database License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ODbL-1.0.html"
+    },
+    "OFL-1.0": {
+      "id": "OFL-1.0",
+      "name": "SIL Open Font License 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OFL-1.0.html"
+    },
+    "OFL-1.0-RFN": {
+      "id": "OFL-1.0-RFN",
+      "name": "SIL Open Font License 1.0 with Reserved Font Name",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OFL-1.0-RFN.html"
+    },
+    "OFL-1.0-no-RFN": {
+      "id": "OFL-1.0-no-RFN",
+      "name": "SIL Open Font License 1.0 with no Reserved Font Name",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OFL-1.0-no-RFN.html"
+    },
+    "OFL-1.1": {
+      "id": "OFL-1.1",
+      "name": "SIL Open Font License 1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OFL-1.1.html"
+    },
+    "OFL-1.1-RFN": {
+      "id": "OFL-1.1-RFN",
+      "name": "SIL Open Font License 1.1 with Reserved Font Name",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OFL-1.1-RFN.html"
+    },
+    "OFL-1.1-no-RFN": {
+      "id": "OFL-1.1-no-RFN",
+      "name": "SIL Open Font License 1.1 with no Reserved Font Name",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OFL-1.1-no-RFN.html"
+    },
+    "OGC-1.0": {
+      "id": "OGC-1.0",
+      "name": "OGC Software License, Version 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGC-1.0.html"
+    },
+    "OGDL-Taiwan-1.0": {
+      "id": "OGDL-Taiwan-1.0",
+      "name": "Taiwan Open Government Data License, version 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGDL-Taiwan-1.0.html"
+    },
+    "OGL-Canada-2.0": {
+      "id": "OGL-Canada-2.0",
+      "name": "Open Government Licence - Canada",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGL-Canada-2.0.html"
+    },
+    "OGL-UK-1.0": {
+      "id": "OGL-UK-1.0",
+      "name": "Open Government Licence v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGL-UK-1.0.html"
+    },
+    "OGL-UK-2.0": {
+      "id": "OGL-UK-2.0",
+      "name": "Open Government Licence v2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGL-UK-2.0.html"
+    },
+    "OGL-UK-3.0": {
+      "id": "OGL-UK-3.0",
+      "name": "Open Government Licence v3.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGL-UK-3.0.html"
+    },
+    "OGTSL": {
+      "id": "OGTSL",
+      "name": "Open Group Test Suite License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OGTSL.html"
+    },
+    "OLDAP-1.1": {
+      "id": "OLDAP-1.1",
+      "name": "Open LDAP Public License v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-1.1.html"
+    },
+    "OLDAP-1.2": {
+      "id": "OLDAP-1.2",
+      "name": "Open LDAP Public License v1.2",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-1.2.html"
+    },
+    "OLDAP-1.3": {
+      "id": "OLDAP-1.3",
+      "name": "Open LDAP Public License v1.3",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-1.3.html"
+    },
+    "OLDAP-1.4": {
+      "id": "OLDAP-1.4",
+      "name": "Open LDAP Public License v1.4",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-1.4.html"
+    },
+    "OLDAP-2.0": {
+      "id": "OLDAP-2.0",
+      "name": "Open LDAP Public License v2.0 (or possibly 2.0A and 2.0B)",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.0.html"
+    },
+    "OLDAP-2.0.1": {
+      "id": "OLDAP-2.0.1",
+      "name": "Open LDAP Public License v2.0.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.0.1.html"
+    },
+    "OLDAP-2.1": {
+      "id": "OLDAP-2.1",
+      "name": "Open LDAP Public License v2.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.1.html"
+    },
+    "OLDAP-2.2": {
+      "id": "OLDAP-2.2",
+      "name": "Open LDAP Public License v2.2",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.2.html"
+    },
+    "OLDAP-2.2.1": {
+      "id": "OLDAP-2.2.1",
+      "name": "Open LDAP Public License v2.2.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.2.1.html"
+    },
+    "OLDAP-2.2.2": {
+      "id": "OLDAP-2.2.2",
+      "name": "Open LDAP Public License 2.2.2",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.2.2.html"
+    },
+    "OLDAP-2.3": {
+      "id": "OLDAP-2.3",
+      "name": "Open LDAP Public License v2.3",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.3.html"
+    },
+    "OLDAP-2.4": {
+      "id": "OLDAP-2.4",
+      "name": "Open LDAP Public License v2.4",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.4.html"
+    },
+    "OLDAP-2.5": {
+      "id": "OLDAP-2.5",
+      "name": "Open LDAP Public License v2.5",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.5.html"
+    },
+    "OLDAP-2.6": {
+      "id": "OLDAP-2.6",
+      "name": "Open LDAP Public License v2.6",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.6.html"
+    },
+    "OLDAP-2.7": {
+      "id": "OLDAP-2.7",
+      "name": "Open LDAP Public License v2.7",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.7.html"
+    },
+    "OLDAP-2.8": {
+      "id": "OLDAP-2.8",
+      "name": "Open LDAP Public License v2.8",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OLDAP-2.8.html"
+    },
+    "OML": {
+      "id": "OML",
+      "name": "Open Market License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OML.html"
+    },
+    "OPL-1.0": {
+      "id": "OPL-1.0",
+      "name": "Open Public License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OPL-1.0.html"
+    },
+    "OPUBL-1.0": {
+      "id": "OPUBL-1.0",
+      "name": "Open Publication License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OPUBL-1.0.html"
+    },
+    "OSET-PL-2.1": {
+      "id": "OSET-PL-2.1",
+      "name": "OSET Public License version 2.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OSET-PL-2.1.html"
+    },
+    "OSL-1.0": {
+      "id": "OSL-1.0",
+      "name": "Open Software License 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OSL-1.0.html"
+    },
+    "OSL-1.1": {
+      "id": "OSL-1.1",
+      "name": "Open Software License 1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OSL-1.1.html"
+    },
+    "OSL-2.0": {
+      "id": "OSL-2.0",
+      "name": "Open Software License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OSL-2.0.html"
+    },
+    "OSL-2.1": {
+      "id": "OSL-2.1",
+      "name": "Open Software License 2.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OSL-2.1.html"
+    },
+    "OSL-3.0": {
+      "id": "OSL-3.0",
+      "name": "Open Software License 3.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OSL-3.0.html"
+    },
+    "OpenSSL": {
+      "id": "OpenSSL",
+      "name": "OpenSSL License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/OpenSSL.html"
+    },
+    "PDDL-1.0": {
+      "id": "PDDL-1.0",
+      "name": "Open Data Commons Public Domain Dedication & License 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PDDL-1.0.html"
+    },
+    "PHP-3.0": {
+      "id": "PHP-3.0",
+      "name": "PHP License v3.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PHP-3.0.html"
+    },
+    "PHP-3.01": {
+      "id": "PHP-3.01",
+      "name": "PHP License v3.01",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PHP-3.01.html"
+    },
+    "PSF-2.0": {
+      "id": "PSF-2.0",
+      "name": "Python Software Foundation License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PSF-2.0.html"
+    },
+    "Parity-6.0.0": {
+      "id": "Parity-6.0.0",
+      "name": "The Parity Public License 6.0.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Parity-6.0.0.html"
+    },
+    "Parity-7.0.0": {
+      "id": "Parity-7.0.0",
+      "name": "The Parity Public License 7.0.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Parity-7.0.0.html"
+    },
+    "Plexus": {
+      "id": "Plexus",
+      "name": "Plexus Classworlds License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Plexus.html"
+    },
+    "PolyForm-Noncommercial-1.0.0": {
+      "id": "PolyForm-Noncommercial-1.0.0",
+      "name": "PolyForm Noncommercial License 1.0.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PolyForm-Noncommercial-1.0.0.html"
+    },
+    "PolyForm-Small-Business-1.0.0": {
+      "id": "PolyForm-Small-Business-1.0.0",
+      "name": "PolyForm Small Business License 1.0.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PolyForm-Small-Business-1.0.0.html"
+    },
+    "PostgreSQL": {
+      "id": "PostgreSQL",
+      "name": "PostgreSQL License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/PostgreSQL.html"
+    },
+    "Python-2.0": {
+      "id": "Python-2.0",
+      "name": "Python License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Python-2.0.html"
+    },
+    "QPL-1.0": {
+      "id": "QPL-1.0",
+      "name": "Q Public License 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/QPL-1.0.html"
+    },
+    "Qhull": {
+      "id": "Qhull",
+      "name": "Qhull License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Qhull.html"
+    },
+    "RHeCos-1.1": {
+      "id": "RHeCos-1.1",
+      "name": "Red Hat eCos Public License v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/RHeCos-1.1.html"
+    },
+    "RPL-1.1": {
+      "id": "RPL-1.1",
+      "name": "Reciprocal Public License 1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/RPL-1.1.html"
+    },
+    "RPL-1.5": {
+      "id": "RPL-1.5",
+      "name": "Reciprocal Public License 1.5",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/RPL-1.5.html"
+    },
+    "RPSL-1.0": {
+      "id": "RPSL-1.0",
+      "name": "RealNetworks Public Source License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/RPSL-1.0.html"
+    },
+    "RSA-MD": {
+      "id": "RSA-MD",
+      "name": "RSA Message-Digest License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/RSA-MD.html"
+    },
+    "RSCPL": {
+      "id": "RSCPL",
+      "name": "Ricoh Source Code Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/RSCPL.html"
+    },
+    "Rdisc": {
+      "id": "Rdisc",
+      "name": "Rdisc License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Rdisc.html"
+    },
+    "Ruby": {
+      "id": "Ruby",
+      "name": "Ruby License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Ruby.html"
+    },
+    "SAX-PD": {
+      "id": "SAX-PD",
+      "name": "Sax Public Domain Notice",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SAX-PD.html"
+    },
+    "SCEA": {
+      "id": "SCEA",
+      "name": "SCEA Shared Source License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SCEA.html"
+    },
+    "SGI-B-1.0": {
+      "id": "SGI-B-1.0",
+      "name": "SGI Free Software License B v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SGI-B-1.0.html"
+    },
+    "SGI-B-1.1": {
+      "id": "SGI-B-1.1",
+      "name": "SGI Free Software License B v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SGI-B-1.1.html"
+    },
+    "SGI-B-2.0": {
+      "id": "SGI-B-2.0",
+      "name": "SGI Free Software License B v2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SGI-B-2.0.html"
+    },
+    "SHL-0.5": {
+      "id": "SHL-0.5",
+      "name": "Solderpad Hardware License v0.5",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SHL-0.5.html"
+    },
+    "SHL-0.51": {
+      "id": "SHL-0.51",
+      "name": "Solderpad Hardware License, Version 0.51",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SHL-0.51.html"
+    },
+    "SISSL": {
+      "id": "SISSL",
+      "name": "Sun Industry Standards Source License v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SISSL.html"
+    },
+    "SISSL-1.2": {
+      "id": "SISSL-1.2",
+      "name": "Sun Industry Standards Source License v1.2",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SISSL-1.2.html"
+    },
+    "SMLNJ": {
+      "id": "SMLNJ",
+      "name": "Standard ML of New Jersey License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SMLNJ.html"
+    },
+    "SMPPL": {
+      "id": "SMPPL",
+      "name": "Secure Messaging Protocol Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SMPPL.html"
+    },
+    "SNIA": {
+      "id": "SNIA",
+      "name": "SNIA Public License 1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SNIA.html"
+    },
+    "SPL-1.0": {
+      "id": "SPL-1.0",
+      "name": "Sun Public License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SPL-1.0.html"
+    },
+    "SSH-OpenSSH": {
+      "id": "SSH-OpenSSH",
+      "name": "SSH OpenSSH license",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SSH-OpenSSH.html"
+    },
+    "SSH-short": {
+      "id": "SSH-short",
+      "name": "SSH short notice",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SSH-short.html"
+    },
+    "SSPL-1.0": {
+      "id": "SSPL-1.0",
+      "name": "Server Side Public License, v 1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SSPL-1.0.html"
+    },
+    "SWL": {
+      "id": "SWL",
+      "name": "Scheme Widget Library (SWL) Software License Agreement",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SWL.html"
+    },
+    "Saxpath": {
+      "id": "Saxpath",
+      "name": "Saxpath License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Saxpath.html"
+    },
+    "SchemeReport": {
+      "id": "SchemeReport",
+      "name": "Scheme Language Report License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SchemeReport.html"
+    },
+    "Sendmail": {
+      "id": "Sendmail",
+      "name": "Sendmail License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Sendmail.html"
+    },
+    "Sendmail-8.23": {
+      "id": "Sendmail-8.23",
+      "name": "Sendmail License 8.23",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Sendmail-8.23.html"
+    },
+    "SimPL-2.0": {
+      "id": "SimPL-2.0",
+      "name": "Simple Public License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SimPL-2.0.html"
+    },
+    "Sleepycat": {
+      "id": "Sleepycat",
+      "name": "Sleepycat License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Sleepycat.html"
+    },
+    "Spencer-86": {
+      "id": "Spencer-86",
+      "name": "Spencer License 86",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Spencer-86.html"
+    },
+    "Spencer-94": {
+      "id": "Spencer-94",
+      "name": "Spencer License 94",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Spencer-94.html"
+    },
+    "Spencer-99": {
+      "id": "Spencer-99",
+      "name": "Spencer License 99",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Spencer-99.html"
+    },
+    "StandardML-NJ": {
+      "id": "StandardML-NJ",
+      "name": "Standard ML of New Jersey License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/StandardML-NJ.html"
+    },
+    "SugarCRM-1.1.3": {
+      "id": "SugarCRM-1.1.3",
+      "name": "SugarCRM Public License v1.1.3",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/SugarCRM-1.1.3.html"
+    },
+    "TAPR-OHL-1.0": {
+      "id": "TAPR-OHL-1.0",
+      "name": "TAPR Open Hardware License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TAPR-OHL-1.0.html"
+    },
+    "TCL": {
+      "id": "TCL",
+      "name": "TCL/TK License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TCL.html"
+    },
+    "TCP-wrappers": {
+      "id": "TCP-wrappers",
+      "name": "TCP Wrappers License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TCP-wrappers.html"
+    },
+    "TMate": {
+      "id": "TMate",
+      "name": "TMate Open Source License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TMate.html"
+    },
+    "TORQUE-1.1": {
+      "id": "TORQUE-1.1",
+      "name": "TORQUE v2.5+ Software License v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TORQUE-1.1.html"
+    },
+    "TOSL": {
+      "id": "TOSL",
+      "name": "Trusster Open Source License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TOSL.html"
+    },
+    "TU-Berlin-1.0": {
+      "id": "TU-Berlin-1.0",
+      "name": "Technische Universitaet Berlin License 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TU-Berlin-1.0.html"
+    },
+    "TU-Berlin-2.0": {
+      "id": "TU-Berlin-2.0",
+      "name": "Technische Universitaet Berlin License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/TU-Berlin-2.0.html"
+    },
+    "UCL-1.0": {
+      "id": "UCL-1.0",
+      "name": "Upstream Compatibility License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/UCL-1.0.html"
+    },
+    "UPL-1.0": {
+      "id": "UPL-1.0",
+      "name": "Universal Permissive License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/UPL-1.0.html"
+    },
+    "Unicode-DFS-2015": {
+      "id": "Unicode-DFS-2015",
+      "name": "Unicode License Agreement - Data Files and Software (2015)",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Unicode-DFS-2015.html"
+    },
+    "Unicode-DFS-2016": {
+      "id": "Unicode-DFS-2016",
+      "name": "Unicode License Agreement - Data Files and Software (2016)",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Unicode-DFS-2016.html"
+    },
+    "Unicode-TOU": {
+      "id": "Unicode-TOU",
+      "name": "Unicode Terms of Use",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Unicode-TOU.html"
+    },
+    "Unlicense": {
+      "id": "Unlicense",
+      "name": "The Unlicense",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Unlicense.html"
+    },
+    "VOSTROM": {
+      "id": "VOSTROM",
+      "name": "VOSTROM Public License for Open Source",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/VOSTROM.html"
+    },
+    "VSL-1.0": {
+      "id": "VSL-1.0",
+      "name": "Vovida Software License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/VSL-1.0.html"
+    },
+    "Vim": {
+      "id": "Vim",
+      "name": "Vim License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Vim.html"
+    },
+    "W3C": {
+      "id": "W3C",
+      "name": "W3C Software Notice and License (2002-12-31)",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/W3C.html"
+    },
+    "W3C-19980720": {
+      "id": "W3C-19980720",
+      "name": "W3C Software Notice and License (1998-07-20)",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/W3C-19980720.html"
+    },
+    "W3C-20150513": {
+      "id": "W3C-20150513",
+      "name": "W3C Software Notice and Document License (2015-05-13)",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/W3C-20150513.html"
+    },
+    "WTFPL": {
+      "id": "WTFPL",
+      "name": "Do What The F*ck You Want To Public License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/WTFPL.html"
+    },
+    "Watcom-1.0": {
+      "id": "Watcom-1.0",
+      "name": "Sybase Open Watcom Public License 1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Watcom-1.0.html"
+    },
+    "Wsuipa": {
+      "id": "Wsuipa",
+      "name": "Wsuipa License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Wsuipa.html"
+    },
+    "X11": {
+      "id": "X11",
+      "name": "X11 License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/X11.html"
+    },
+    "XFree86-1.1": {
+      "id": "XFree86-1.1",
+      "name": "XFree86 License 1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/XFree86-1.1.html"
+    },
+    "XSkat": {
+      "id": "XSkat",
+      "name": "XSkat License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/XSkat.html"
+    },
+    "Xerox": {
+      "id": "Xerox",
+      "name": "Xerox License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Xerox.html"
+    },
+    "Xnet": {
+      "id": "Xnet",
+      "name": "X.Net License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Xnet.html"
+    },
+    "YPL-1.0": {
+      "id": "YPL-1.0",
+      "name": "Yahoo! Public License v1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/YPL-1.0.html"
+    },
+    "YPL-1.1": {
+      "id": "YPL-1.1",
+      "name": "Yahoo! Public License v1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/YPL-1.1.html"
+    },
+    "ZPL-1.1": {
+      "id": "ZPL-1.1",
+      "name": "Zope Public License 1.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ZPL-1.1.html"
+    },
+    "ZPL-2.0": {
+      "id": "ZPL-2.0",
+      "name": "Zope Public License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ZPL-2.0.html"
+    },
+    "ZPL-2.1": {
+      "id": "ZPL-2.1",
+      "name": "Zope Public License 2.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/ZPL-2.1.html"
+    },
+    "Zed": {
+      "id": "Zed",
+      "name": "Zed License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Zed.html"
+    },
+    "Zend-2.0": {
+      "id": "Zend-2.0",
+      "name": "Zend License v2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Zend-2.0.html"
+    },
+    "Zimbra-1.3": {
+      "id": "Zimbra-1.3",
+      "name": "Zimbra Public License v1.3",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Zimbra-1.3.html"
+    },
+    "Zimbra-1.4": {
+      "id": "Zimbra-1.4",
+      "name": "Zimbra Public License v1.4",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Zimbra-1.4.html"
+    },
+    "Zlib": {
+      "id": "Zlib",
+      "name": "zlib License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/Zlib.html"
+    },
+    "blessing": {
+      "id": "blessing",
+      "name": "SQLite Blessing",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/blessing.html"
+    },
+    "bzip2-1.0.5": {
+      "id": "bzip2-1.0.5",
+      "name": "bzip2 and libbzip2 License v1.0.5",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/bzip2-1.0.5.html"
+    },
+    "bzip2-1.0.6": {
+      "id": "bzip2-1.0.6",
+      "name": "bzip2 and libbzip2 License v1.0.6",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/bzip2-1.0.6.html"
+    },
+    "copyleft-next-0.3.0": {
+      "id": "copyleft-next-0.3.0",
+      "name": "copyleft-next 0.3.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/copyleft-next-0.3.0.html"
+    },
+    "copyleft-next-0.3.1": {
+      "id": "copyleft-next-0.3.1",
+      "name": "copyleft-next 0.3.1",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/copyleft-next-0.3.1.html"
+    },
+    "curl": {
+      "id": "curl",
+      "name": "curl License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/curl.html"
+    },
+    "diffmark": {
+      "id": "diffmark",
+      "name": "diffmark license",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/diffmark.html"
+    },
+    "dvipdfm": {
+      "id": "dvipdfm",
+      "name": "dvipdfm License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/dvipdfm.html"
+    },
+    "eCos-2.0": {
+      "id": "eCos-2.0",
+      "name": "eCos license version 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/eCos-2.0.html"
+    },
+    "eGenix": {
+      "id": "eGenix",
+      "name": "eGenix.com Public License 1.1.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/eGenix.html"
+    },
+    "etalab-2.0": {
+      "id": "etalab-2.0",
+      "name": "Etalab Open License 2.0",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/etalab-2.0.html"
+    },
+    "gSOAP-1.3b": {
+      "id": "gSOAP-1.3b",
+      "name": "gSOAP Public License v1.3b",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/gSOAP-1.3b.html"
+    },
+    "gnuplot": {
+      "id": "gnuplot",
+      "name": "gnuplot License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/gnuplot.html"
+    },
+    "iMatix": {
+      "id": "iMatix",
+      "name": "iMatix Standard Function Library Agreement",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/iMatix.html"
+    },
+    "libpng-2.0": {
+      "id": "libpng-2.0",
+      "name": "PNG Reference Library version 2",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/libpng-2.0.html"
+    },
+    "libselinux-1.0": {
+      "id": "libselinux-1.0",
+      "name": "libselinux public domain notice",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/libselinux-1.0.html"
+    },
+    "libtiff": {
+      "id": "libtiff",
+      "name": "libtiff License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/libtiff.html"
+    },
+    "mpich2": {
+      "id": "mpich2",
+      "name": "mpich2 License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/mpich2.html"
+    },
+    "psfrag": {
+      "id": "psfrag",
+      "name": "psfrag License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/psfrag.html"
+    },
+    "psutils": {
+      "id": "psutils",
+      "name": "psutils License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/psutils.html"
+    },
+    "wxWindows": {
+      "id": "wxWindows",
+      "name": "wxWindows Library License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": true,
+      "isFsfLibre": false,
+      "isDeprecated": true,
+      "reference": "https://spdx.org/licenses/wxWindows.html"
+    },
+    "xinetd": {
+      "id": "xinetd",
+      "name": "xinetd License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": true,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/xinetd.html"
+    },
+    "xpp": {
+      "id": "xpp",
+      "name": "XPP License",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/xpp.html"
+    },
+    "zlib-acknowledgement": {
+      "id": "zlib-acknowledgement",
+      "name": "zlib/libpng License with Acknowledgement",
+      "type": "",
+      "isProfessional": true,
+      "isOsiApproved": false,
+      "isFsfLibre": false,
+      "isDeprecated": false,
+      "reference": "https://spdx.org/licenses/zlib-acknowledgement.html"
+    }
+  }
+}

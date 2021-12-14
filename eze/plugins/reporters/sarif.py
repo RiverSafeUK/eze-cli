@@ -6,7 +6,8 @@ from pydash import py_
 import click
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.enums import Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.io import write_sarif
 from eze.utils.log import log, log_debug, log_error
 

@@ -3,8 +3,8 @@ import shlex
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.log import log_error

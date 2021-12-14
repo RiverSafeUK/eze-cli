@@ -4,10 +4,9 @@ import os
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
 from eze.utils.cli import extract_cmd_version, run_cli_command
