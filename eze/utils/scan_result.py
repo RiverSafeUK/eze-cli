@@ -1,12 +1,23 @@
 """Utilities for cyclone dx SBOM"""
 from pydash import py_
 
-from eze.core.tool import ScanResult
-from eze.utils.sbom import get_bom_license
+from eze.core.tool import ScanResult, ToolMeta
+from eze.utils.sbom import get_bom_license, check_licenses
+
+
+def convert_sbom_into_scan_result(tool:ToolMeta, cyclonedx_bom: dict):
+    """convert sbom into scan_result"""
+    [vulnerabilities, warnings] = check_licenses(cyclonedx_bom, tool.config["LICENSE_CHECK"], tool.config["LICENSE_ALLOWLIST"], tool.config["LICENSE_DENYLIST"])
+    return ScanResult({
+        "tool": tool.TOOL_NAME,
+        "bom": cyclonedx_bom,
+        "vulnerabilities": vulnerabilities,
+        "warnings": warnings
+    })
 
 
 def name_and_time_summary(scan_result: ScanResult, indent: str = "    ") -> str:
-    """convert bom into one line summary"""
+    """convert scan_result into one line summary"""
     run_details = scan_result.run_details
     #
     tool_name = py_.get(run_details, "tool_name", "unknown")

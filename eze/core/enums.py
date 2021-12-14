@@ -33,6 +33,7 @@ class VulnerabilityType(Enum):
 
     generic = "GENERIC VULNERABILITY"
     dependancy = "DEPENDANCY VULNERABILITY"
+    license = "LICENSE RISK"
     code = "CODE BEST PRACTICE OR VULNERABILITY"
     infrastructure = "INFRASTRUCTURE VULNERABILITY"
     secret = "SECRET VULNERABILITY"  # nosec
@@ -68,6 +69,53 @@ class SourceType(Enum):
     GO = "GO"  # Golang project
     PHP = "PHP"  # PHP project
     CONTAINER = "CONTAINER"  # Dockerfile / Container project
+
+
+class LicenseScanType(Enum):
+    """Enum for License Scan Type"""
+
+    PROPRIETARY = "PROPRIETARY"  # for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+    PERMISSIVE = "PERMISSIVE"  # for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+    OPENSOURCE = "OPENSOURCE"  # for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+    OFF = "OFF"  # no license checks
+
+LICENSE_CHECK_CONFIG = {
+    "type": str,
+    "default": LicenseScanType.PROPRIETARY.value,
+    "help_text": """available modes:
+- PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+- PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+- OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+- OFF : no license checks
+All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses""",
+    "help_example": "PROPRIETARY",
+}
+
+LICENSE_CHECK_CONFIG = {
+    "type": str,
+    "default": LicenseScanType.PROPRIETARY.value,
+    "help_text": """available modes:
+- PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+- PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+- OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+- OFF : no license checks
+All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses""",
+    "help_example": "PROPRIETARY",
+}
+
+LICENSE_ALLOWLIST_CONFIG = {
+    "type": list,
+    "default": [],
+    "help_text": """list of licenses to exempt from license checks""",
+    "help_example": ["MIT-enna"],
+}
+
+LICENSE_DENYLIST_CONFIG = {
+    "type": list,
+    "default": [],
+    "help_text": """list of licenses to always report usage as a error""",
+    "help_example": ["MIT-enna"],
+}
 
 
 class Vulnerability:

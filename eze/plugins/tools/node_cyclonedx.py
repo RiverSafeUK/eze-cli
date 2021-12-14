@@ -1,12 +1,13 @@
 """cyclonedx SBOM tool class"""
 import subprocess
 
-from eze.core.enums import ToolType, SourceType
+from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_cli_command
 from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.language.node import install_node_dependencies
 from eze.utils.error import EzeExecutableError
+from eze.utils.scan_result import convert_sbom_into_scan_result
 
 
 class NodeCyclonedxTool(ToolMeta):
@@ -39,14 +40,17 @@ $ npm install
 This will be ran automatically, if npm install fails this tool can't be run
 """
     # https://github.com/CycloneDX/cyclonedx-node-module/blob/master/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
             "default": create_tempfile_path("tmp-node-cyclonedx-bom.json"),
             "default_help_value": "<tempdir>/.eze-temp/tmp-node-cyclonedx-bom.json",
             "help_text": "output report location (will default to tmp file otherwise)",
-        }
+        },
+        "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
+        "LICENSE_ALLOWLIST": LICENSE_ALLOWLIST_CONFIG.copy(),
+        "LICENSE_DENYLIST": LICENSE_DENYLIST_CONFIG.copy(),
     }
 
     TOOL_CLI_CONFIG = {
@@ -93,6 +97,4 @@ This will be ran automatically, if npm install fails this tool can't be run
 
     def parse_report(self, cyclonedx_bom: dict) -> ScanResult:
         """convert report json into ScanResult"""
-
-        report = ScanResult({"tool": self.TOOL_NAME, "bom": cyclonedx_bom})
-        return report
+        return convert_sbom_into_scan_result(self, cyclonedx_bom)

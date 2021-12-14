@@ -42,7 +42,7 @@ Total: 101 (UNKNOWN: 2, LOW: 67, MEDIUM: 8, HIGH: 20, CRITICAL: 4)
 trivy image python:3.8-slim
 Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
     # https://github.com/aquasecurity/trivy/blob/main/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "IMAGE_NAME": {
             "type": str,

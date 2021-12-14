@@ -37,7 +37,7 @@ You can add suppression file to customise your output
 https://jeremylong.github.io/DependencyCheck/general/suppression.html
 """
     # https://github.com/jeremylong/DependencyCheck/blob/main/LICENSE.txt
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,

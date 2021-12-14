@@ -20,6 +20,9 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-python-cyclonedx-bom.json"),
             "REQUIREMENTS_FILE": "",
+            'LICENSE_ALLOWLIST': [],
+            'LICENSE_CHECK': 'PROPRIETARY',
+            'LICENSE_DENYLIST': [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -39,6 +42,9 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "REQUIREMENTS_FILE": "requirements-dev.txt",
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
+            'LICENSE_ALLOWLIST': [],
+            'LICENSE_CHECK': 'PROPRIETARY',
+            'LICENSE_DENYLIST': [],
         }
         expected_config = {
             "REQUIREMENTS_FILE": "requirements-dev.txt",

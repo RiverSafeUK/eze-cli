@@ -63,14 +63,14 @@ def run_cli_command(
     completed_process = run_cmd(command_list)
 
     log_debug(
-        f"""{command_name} ran with output:
-    {completed_process.stdout}"""
+        f"""ran command '{command_name}'"""
     )
 
     if completed_process.stderr:
         sanitised_command_str = __sanitise_command(command_list)
         message = f"""{command_name} ran with warnings/errors:
     Ran: '{sanitised_command_str}'
+    Output: {completed_process.stdout}
     Error: {completed_process.stderr}"""
         log_debug(message)
         if throw_error_on_stderr:

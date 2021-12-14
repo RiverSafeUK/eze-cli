@@ -47,7 +47,7 @@ or by using the command `docker pull checkmarx/kics:latest`
 Also you can define a custom config file and pass the --config flag.
 """
     # https://github.com/Checkmarx/kics/blob/master/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,

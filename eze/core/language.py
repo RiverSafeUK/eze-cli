@@ -13,7 +13,8 @@ import click
 from pydash import py_
 
 from eze.core.config import EzeConfig
-from eze.core.enums import SourceType
+from eze.core.enums import SourceType, LicenseScanType, LICENSE_DENYLIST_CONFIG, LICENSE_ALLOWLIST_CONFIG, \
+    LICENSE_CHECK_CONFIG
 from eze.core.tool import ToolManager
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
@@ -307,7 +308,23 @@ class LanguageManager:
         """Create new local ezerc file"""
         languages = self._discover(root_path)
         language_list = []
-        eze_rc = """# Ezerc auto generated
+        eze_rc = f"""# Ezerc auto generated
+# ===================================
+# GLOBAL CONFIG
+# ===================================
+[global]
+# LICENSE_CHECK, available modes:
+# - PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+LICENSE_CHECK = "{LICENSE_CHECK_CONFIG["default"]}"
+# LICENSE_ALLOWLIST, {LICENSE_ALLOWLIST_CONFIG["help_text"]}
+LICENSE_ALLOWLIST = []
+# LICENSE_DENYLIST, {LICENSE_DENYLIST_CONFIG["help_text"]}
+LICENSE_DENYLIST = []
+
 # ===================================
 # TOOL CONFIG
 # ===================================

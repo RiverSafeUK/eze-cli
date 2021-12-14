@@ -1,54 +1,4 @@
 {
-  "licenseTypes": {
-    "unrestricted": {
-      "usageRestrictions": false,
-      "shareDerivedSource": false,
-      "shareLinkedSource": false,
-      "attributionRequired": false
-    },
-    "permissive": {
-      "usageRestrictions": false,
-      "shareDerivedSource": false,
-      "shareLinkedSource": false,
-      "attributionRequired": true
-    },
-    "permissive-with-conditions": {
-      "usageRestrictions": true,
-      "shareDerivedSource": false,
-      "shareLinkedSource": false,
-      "attributionRequired": true
-    },
-    "weak-copyleft": {
-      "usageRestrictions": true,
-      "shareLinkedSource": false,
-      "shareDerivedSource": true,
-      "attributionRequired": true
-    },
-    "source-available": {
-      "usageRestrictions": false,
-      "shareLinkedSource": true,
-      "shareDerivedSource": true,
-      "attributionRequired": true
-    },
-    "copyleft": {
-      "usageRestrictions": true,
-      "shareLinkedSource": true,
-      "shareDerivedSource": true,
-      "attributionRequired": true
-    },
-    "noncommercial": {
-      "usageRestrictions": true,
-      "shareLinkedSource": false,
-      "shareDerivedSource": false,
-      "attributionRequired": true
-    },
-    "proprietary": {
-      "usageRestrictions": true,
-      "shareLinkedSource": null,
-      "shareDerivedSource": null,
-      "attributionRequired": null
-    }
-  },
   "licensesPatterns": {
     "AFL-.*": {
       "name": "Academic Free License",
@@ -163,7 +113,7 @@
       "type": "permissive-with-conditions",
       "isProfessional": false,
       "reference": "https://firstdonoharm.dev/",
-      "notes": "great idea, unfortunately license text has an non intuitive, overly broad and subjective redefinition of Human Rights, which could make it dangerous for professional use (aka malicious license revokes by bad faith actors)"
+      "notes": "well intentioned license, unfortunately license text has an overly broad / subjective definition of Human Rights (clause 2), which could make it dangerous for professional use (aka malicious license revocation/indemnity claims by bad faith actors, for non-Human Rights reasons)"
     },
     "LAL-.*": {
       "name": "Licence Art Libre",
@@ -2527,7 +2477,7 @@
       "isFsfLibre": false,
       "isDeprecated": false,
       "reference": "https://spdx.org/licenses/Hippocratic-2.1.html",
-      "notes": "great idea, unfortunately license text has an non intuitive, overly broad and subjective redefinition of Human Rights, which could make it dangerous for professional use (aka malicious license revokes by bad faith actors)"
+      "notes": "well intentioned license, unfortunately license text has an overly broad / subjective definition of Human Rights (clause 2), which could make it dangerous for professional use (aka malicious license revocation/indemnity claims by bad faith actors, for non-Human Rights reasons)"
     },
     "IBM-pibs": {
       "id": "IBM-pibs",

@@ -29,7 +29,7 @@ Gotchas
 Executable will need to be renamed after being downloaded
 """
     # https://github.com/CycloneDX/cyclonedx-cli/blob/main/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "OUTPUT_FORMAT": {
             "type": str,

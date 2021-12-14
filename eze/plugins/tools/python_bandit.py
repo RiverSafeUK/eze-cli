@@ -30,7 +30,7 @@ Tips and Tricks
 - use IGNORED_FILES to ignore false positives
 """
     # https://github.com/PyCQA/bandit/blob/master/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
 
     EZE_CONFIG: dict = {
         "SOURCE": {"type": str, "required": True, "help_text": """bandit source folder to scan for python files"""},

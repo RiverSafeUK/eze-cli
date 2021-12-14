@@ -20,6 +20,9 @@ class TestSyftTool(ToolMetaTestBase):
             "INTERMEDIATE_FILE": create_tempfile_path("tmp-syft-bom.xml"),
             "REPORT_FILE": create_tempfile_path("tmp-syft-bom.json"),
             "SOURCE": ".",
+            'LICENSE_ALLOWLIST': [],
+            'LICENSE_CHECK': 'PROPRIETARY',
+            'LICENSE_DENYLIST': [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -47,6 +50,9 @@ class TestSyftTool(ToolMetaTestBase):
             "INTERMEDIATE_FILE": "foo-syft-bom.xml",
             "REPORT_FILE": "foo-syft-bom.json",
             "SOURCE": "python:3.8-slim",
+            'LICENSE_ALLOWLIST': [],
+            'LICENSE_CHECK': 'PROPRIETARY',
+            'LICENSE_DENYLIST': [],
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "IGNORED_FILES": None,

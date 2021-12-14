@@ -4,35 +4,122 @@ from pathlib import Path
 import re
 from pydash import py_
 
-from eze.core.enums import Vulnerability, Component
+from eze.core.enums import Vulnerability, Component, LicenseScanType, VulnerabilitySeverityEnum, VulnerabilityType
 from eze.utils.io import load_json
 from eze.utils.log import log_error
 
-DEFAULT_PROPRIETARY_POLICY = {
-    "type": {
-        "error": ["proprietary", "source-available", "noncommercial", "copyleft"],
-        "warn": ["permissive-with-conditions"],
+LICENSE_TYPES = {
+    "unrestricted": {
+        "usageRestrictions": False,
+        "shareDerivedSource": False,
+        "shareLinkedSource": False,
+        "attributionRequired": False
     },
-    "licenses": {"error": [], "warn": []},
+    "permissive": {
+        "usageRestrictions": False,
+        "shareDerivedSource": False,
+        "shareLinkedSource": False,
+        "attributionRequired": True
+    },
+    "permissive-with-conditions": {
+        "usageRestrictions": True,
+        "shareDerivedSource": False,
+        "shareLinkedSource": False,
+        "attributionRequired": True
+    },
+    "weak-copyleft": {
+        "usageRestrictions": True,
+        "shareLinkedSource": False,
+        "shareDerivedSource": True,
+        "attributionRequired": True
+    },
+    "source-available": {
+        "usageRestrictions": False,
+        "shareLinkedSource": True,
+        "shareDerivedSource": True,
+        "attributionRequired": True
+    },
+    "copyleft": {
+        "usageRestrictions": True,
+        "shareLinkedSource": True,
+        "shareDerivedSource": True,
+        "attributionRequired": True
+    },
+    "noncommercial": {
+        "usageRestrictions": True,
+        "shareLinkedSource": False,
+        "shareDerivedSource": False,
+        "attributionRequired": True
+    },
+    "proprietary": {
+        "usageRestrictions": True,
+        "shareLinkedSource": None,
+        "shareDerivedSource": None,
+        "attributionRequired": None
+    }
+}
+
+LICENSE_PROPRIETARY_POLICY = {
+    "name": "proprietary",
+    "types_error": ["proprietary", "source-available", "noncommercial", "copyleft"],
+    "types_warn": ["permissive-with-conditions"],
+    "licenses": {"error": [], "warn": ["unknown"]},
     "warn_non_opensource_licenses": False,
     "warn_unprofessional_licenses": True,
     "warn_deprecated_licenses": True,
+    "reasons": {
+        "proprietary": "Proprietary licenses should not be used in Proprietary projects without explicit permission",
+        "source-available": "source-available licenses should not be used in Proprietary projects, unless you are sharing source",
+        "noncommercial": "Noncommercial licenses should not be used in Proprietary projects without explicit permission",
+        "copyleft": "Strong Copyleft licenses should not be used in Proprietary projects",
+        "permissive-with-conditions": "Permissive licenses with conditions should be manually checked to ensure compliance"
+    }
 }
 
-DEFAULT_PERMISSIVE_POLICY = {
-    "type": {"error": ["proprietary", "copyleft"], "warn": ["permissive-with-conditions"]},
-    "licenses": {"error": [], "warn": []},
+LICENSE_PERMISSIVE_POLICY = {
+    "name": "permissive opensource",
+    "types_error": ["proprietary", "copyleft"],
+    "types_warn": ["permissive-with-conditions"],
+    "licenses": {"error": [], "warn": ["unknown"]},
     "warn_non_opensource_licenses": False,
     "warn_unprofessional_licenses": True,
     "warn_deprecated_licenses": True,
+    "reasons": {
+        "proprietary": "Proprietary licenses should not be used in Opensource projects",
+        "copyleft": "Strong Copyleft licenses should not be used in permissive opensource projects",
+        "permissive-with-conditions": "Permissive licenses with conditions should be manually checked to ensure compliance"
+    }
 }
 
-DEFAULT_OPENSOURCE_POLICY = {
-    "type": {"error": ["proprietary"], "warn": ["permissive-with-conditions"]},
-    "licenses": {"error": [], "warn": []},
+LICENSE_OPENSOURCE_POLICY = {
+    "name": "copyleft opensource",
+    "types_error": ["proprietary"],
+    "types_warn": ["permissive-with-conditions"],
+    "licenses": {"error": ["unknown"], "warn": []},
     "warn_non_opensource_licenses": True,
     "warn_unprofessional_licenses": True,
     "warn_deprecated_licenses": True,
+    "reasons": {
+        "proprietary": "Proprietary licenses should not be used in Opensource projects",
+        "permissive-with-conditions": "Permissive licenses with conditions should be manually checked to ensure compliance"
+    }
+}
+
+LICENSE_OFF_POLICY = {
+    "name": "-",
+    "types_error": [],
+    "types_warn": [],
+    "warn_non_opensource_licenses": False,
+    "warn_unprofessional_licenses": False,
+    "warn_deprecated_licenses": False,
+}
+
+GLOBAL_REASONS = {
+    "license_type_unknown": "Components with unknown license types should be manually checked to ensure compliance",
+    "license_unknown": "Components with unknown licenses should be manually checked to ensure compliance",
+    "warn_non_opensource_licenses": "Unable to determine if license is fsf/osi opensource approved",
+    "warn_unprofessional_licenses": "Components with unprofessional licenses should be avoided in Professional projects",
+    "warn_deprecated_licenses": "Components with deprecated licenses should be avoided in Professional projects",
 }
 
 
@@ -146,6 +233,61 @@ def annotate_licenses(sbom: dict) -> list:
     return sbom_components
 
 
-def check_licenses(sbom: dict, license_policy: str = dict) -> list:
+def get_policy(license_policy: str) -> dict:
+    """get description violation of policies"""
+    # TODO: AB#943: auto detect project license from root LICENSE.md
+    policy = LICENSE_PROPRIETARY_POLICY
+    license_policy = license_policy.upper()
+    if license_policy == LicenseScanType.PROPRIETARY.value:
+        return LICENSE_PROPRIETARY_POLICY
+    if license_policy == LicenseScanType.PERMISSIVE.value:
+        return LICENSE_PERMISSIVE_POLICY
+    if license_policy == LicenseScanType.OPENSOURCE.value:
+        return LICENSE_OPENSOURCE_POLICY
+    if license_policy == LicenseScanType.OFF.value:
+        return LICENSE_OFF_POLICY
+    # Default
+    return LICENSE_PROPRIETARY_POLICY
+
+
+def check_licenses(sbom: dict, license_policy: str, allowlist:list = None, denylist:list = None) -> list:
     """check licenses for violations of policies"""
-    return []
+    allowlist = allowlist if allowlist else []
+    denylist = denylist if denylist else []
+    vulnerabilities = []
+    warnings = []
+    policy = get_policy(license_policy)
+    sbom_components = annotate_licenses(sbom)
+    for sbom_component in sbom_components:
+        sbom_component:Component = sbom_component
+        if sbom_component.license in allowlist:
+            continue
+        if sbom_component.license in denylist:
+            vulnerabilities.append(Vulnerability(
+                {
+                    "name": f"License {sbom_component.license}({sbom_component.name}), not allowed",
+                    "severity": VulnerabilitySeverityEnum.high.name,
+                    "overview": f"{sbom_component.license} in project license_denylist",
+                    "vulnerability_type": VulnerabilityType.license.name
+                }
+            ))
+            continue
+        if sbom_component.license_type in policy["types_error"]:
+            vulnerabilities.append(Vulnerability(
+                {
+                    "name": f"Invalid License {sbom_component.license}({sbom_component.name}), {sbom_component.license_type} license in {policy['name']} project",
+                    "severity": VulnerabilitySeverityEnum.high.name,
+                    "overview": policy["reasons"][sbom_component.license_type],
+                    "vulnerability_type": VulnerabilityType.license.name
+                }
+            ))
+        if sbom_component.license_type in policy["types_warn"]:
+            warnings.append(f"License {sbom_component.license}({sbom_component.name}), reason: {policy['reasons'][sbom_component.license_type]}")
+        if policy["warn_non_opensource_licenses"] and not sbom_component.license_is_fsf_libre and not sbom_component.license_is_osi_approved:
+            warnings.append(f"License {sbom_component.license}({sbom_component.name}), reason: {GLOBAL_REASONS['warn_non_opensource_licenses']}")
+        if policy["warn_unprofessional_licenses"] and not sbom_component.license_is_professional:
+            notes = py_.get(sbom_component, "notes", "")
+            warnings.append(f"License {sbom_component.license}({sbom_component.name}), reason: {GLOBAL_REASONS['warn_unprofessional_licenses']}{notes}")
+        if policy["warn_deprecated_licenses"] and sbom_component.license_is_deprecated:
+            warnings.append(f"License {sbom_component.license}({sbom_component.name}), reason: {GLOBAL_REASONS['warn_deprecated_licenses']}")
+    return [vulnerabilities, warnings]

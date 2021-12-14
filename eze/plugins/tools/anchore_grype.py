@@ -38,7 +38,7 @@ trivy image python:3.8-slim
 Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)
 """
     # https://github.com/anchore/grype/blob/main/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
 
     EZE_CONFIG: dict = {
         "SOURCE": {
