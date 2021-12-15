@@ -119,19 +119,13 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
                     "recommendation": recommendation,
                     "language": self.TOOL_LANGUAGE,
                     "severity": vulnerability["severity"],
-                    "identifiers": {
-                        "cve": vulnerability["name"]
-                    },
+                    "identifiers": {"cve": vulnerability["name"]},
                     "metadata": metadata,
                 }
                 vulnerability = Vulnerability(vulnerability_raw)
                 vulnerabilities_list.append(vulnerability)
 
-        report = ScanResult({
-            "tool": self.TOOL_NAME,
-            "vulnerabilities": vulnerabilities_list,
-            "warnings": warnings
-        })
+        report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings})
         return report
 
 
