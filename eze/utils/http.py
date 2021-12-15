@@ -5,6 +5,7 @@ import urllib.request
 import urllib.error
 from json import JSONDecodeError
 from eze.utils.error import EzeNetworkingError
+from eze.utils.log import log_debug
 
 
 def request_json(url: str, data=None, headers=None, method=None) -> dict:
@@ -12,6 +13,7 @@ def request_json(url: str, data=None, headers=None, method=None) -> dict:
     requests a url and convert return into json
 
     :raises EzeNetworkingError: on networking error or json decoding error"""
+    log_debug(f"calling url '{url}'")
     if not headers:
         headers = {}
     contents = request(url, data=data, headers=headers, method=method)

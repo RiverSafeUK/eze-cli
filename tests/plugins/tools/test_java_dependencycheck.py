@@ -71,13 +71,20 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("urllib.request.urlopen")
-    def test_parse_report__snapshot(self, mock_urlopen, snapshot):
+    def test_parse_report__snapshot(self, snapshot):
         # Given
-        mock_urlopen.side_effect = create_mocked_stream("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")
 
         # Test default fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
+
+    def test_parse_report__container_mode_snapshot(self, snapshot):
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            {},
+            "__fixtures__/plugins_tools/raw-java-dependencycheck-report--log4j-example.json",
+            "plugins_tools/raw-java-dependencycheck-report--log4j-example-output.json",
+        )
 
     @mock.patch("eze.utils.cli.subprocess.run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
@@ -86,7 +93,7 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = "mvn -Dmaven.test.skip=true clean install org.owasp:dependency-check-maven:check -Dformat=JSON -DprettyPrint"
+        expected_cmd = "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

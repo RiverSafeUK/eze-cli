@@ -120,7 +120,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
                 recommendation = f"Update {vulnerable_package} ({installed_version}) to a non vulnerable version, vulnerable versions: {vulnerable_versions}"
 
             vulnerability_raw = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": vulnerable_package,
                 "version": installed_version,
                 "overview": cve_data["summary"] if cve_data else summary,

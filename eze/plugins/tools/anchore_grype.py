@@ -180,7 +180,7 @@ You can also explicitly specify the scheme to use:
             dup_key_list[unique_key] = True
 
             vulnerability_raw = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": vulnerable_package,
                 "version": installed_version,
                 "overview": overview,

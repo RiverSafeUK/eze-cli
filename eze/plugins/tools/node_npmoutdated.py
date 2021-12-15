@@ -120,7 +120,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             semver_recommendation = get_recommendation(outdated_package, installed_version, latest_version)
 
             vulnerability_vo = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": outdated_package,
                 "version": installed_version,
                 "overview": "",
