@@ -19,7 +19,7 @@
           "id": "CVE-2008-0732"
         }
       },
-      "name": "CVE-2008-0732:maven/org.apache.geronimo.daytrader/daytrader-wsappclient",
+      "name": "maven/org.apache.geronimo.daytrader/daytrader-wsappclient",
       "overview": "The init script for Apache Geronimo on SUSE Linux follows symlinks when performing a chown operation, which might allow local users to obtain access to unspecified files or directories.",
       "recommendation": "Update maven/org.apache.geronimo.daytrader/daytrader-wsappclient (2.1.7) to a non vulnerable version, vulnerable versions: ['*']",
       "references": [],
@@ -41,7 +41,7 @@
           "id": "CVE-2011-5034"
         }
       },
-      "name": "CVE-2011-5034:maven/org.apache.geronimo.daytrader/daytrader-wsappclient",
+      "name": "maven/org.apache.geronimo.daytrader/daytrader-wsappclient",
       "overview": "Apache Geronimo 2.2.1 and earlier computes hash values for form parameters without restricting the ability to trigger hash collisions predictably, which allows remote attackers to cause a denial of service (CPU consumption) by sending many crafted parameters.  NOTE: this might overlap CVE-2011-4461.",
       "recommendation": "Update maven/org.apache.geronimo.daytrader/daytrader-wsappclient (2.1.7) to a non vulnerable version, vulnerable versions: ['*', '1.0', '1.1', '1.1.1', '1.2', '2.0.1', '2.0.2', '2.1', '2.1.1', '2.1.2', '2.1.3', '2.1.4', '2.1.5', '2.1.6', '2.1.7', '2.1.8', '2.2']",
       "references": [],

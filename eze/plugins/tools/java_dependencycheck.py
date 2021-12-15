@@ -111,19 +111,21 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
                 else:
                     recommendation = f"Update {pkg_name} ({pkg_version}) to a non vulnerable version"
 
-                vulnerability_raw = {
-                    "vulnerability_type": VulnerabilityType.dependency.name,
-                    "name": f"{vulnerability['name']}:{pkg_name}",
-                    "version": pkg_version,
-                    "overview": vulnerability["description"],
-                    "recommendation": recommendation,
-                    "language": self.TOOL_LANGUAGE,
-                    "severity": vulnerability["severity"],
-                    "identifiers": {"cve": vulnerability["name"]},
-                    "metadata": metadata,
-                }
-                vulnerability = Vulnerability(vulnerability_raw)
-                vulnerabilities_list.append(vulnerability)
+                vulnerabilities_list.append(
+                    Vulnerability(
+                        {
+                            "vulnerability_type": VulnerabilityType.dependency.name,
+                            "name": f"{pkg_name}",
+                            "version": pkg_version,
+                            "overview": vulnerability["description"],
+                            "recommendation": recommendation,
+                            "language": self.TOOL_LANGUAGE,
+                            "severity": vulnerability["severity"],
+                            "identifiers": {"cve": vulnerability["name"]},
+                            "metadata": metadata,
+                        }
+                    )
+                )
 
         report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings})
         return report
