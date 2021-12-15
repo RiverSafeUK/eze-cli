@@ -5,6 +5,7 @@ from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import run_cli_command, extract_version_from_maven
 from eze.utils.io import create_tempfile_path, load_json, write_json
+from eze.utils.language.java import ignore_groovy_errors
 
 
 class JavaCyclonedxTool(ToolMeta):
@@ -56,7 +57,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         "CMD_CONFIG": {
             # tool command prefix
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.test.skip=true clean install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
             )
         }
     }
@@ -80,7 +81,9 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         write_json(self.config["REPORT_FILE"], cyclonedx_bom)
         report = self.parse_report(cyclonedx_bom)
         if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+            warnings = ignore_groovy_errors(completed_process.stderr)
+            for warning in warnings:
+                report.warnings.append(warning)
 
         return report
 

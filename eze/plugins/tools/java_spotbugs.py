@@ -8,6 +8,7 @@ from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_cli_command
 from eze.utils.io import create_tempfile_path, write_json
+from eze.utils.language.java import ignore_groovy_errors
 
 
 class JavaSpotbugsTool(ToolMeta):
@@ -63,7 +64,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
             # tool command prefix
             # https://spotbugs.github.io/spotbugs-maven-plugin/check-mojo.html
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.test.skip=true clean install com.github.spotbugs:spotbugs-maven-plugin:check"
+                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install com.github.spotbugs:spotbugs-maven-plugin:check"
             )
         }
     }
@@ -89,7 +90,9 @@ Warning: on production might want to set this to False to prevent found Secrets 
         report = self.parse_report(spotbugs_report)
 
         if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+            warnings = ignore_groovy_errors(completed_process.stderr)
+            for warning in warnings:
+                report.warnings.append(warning)
 
         return report
 

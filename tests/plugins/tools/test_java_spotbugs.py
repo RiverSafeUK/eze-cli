@@ -88,7 +88,7 @@ class TestJavaSpotbugsTool(ToolMetaTestBase):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = "mvn -Dmaven.test.skip=true clean install com.github.spotbugs:spotbugs-maven-plugin:check"
+        expected_cmd = "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install com.github.spotbugs:spotbugs-maven-plugin:check"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)

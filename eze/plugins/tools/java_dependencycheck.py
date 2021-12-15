@@ -7,6 +7,7 @@ from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
+from eze.utils.language.java import ignore_groovy_errors
 
 
 class JavaDependencyCheckTool(ToolMeta):
@@ -56,7 +57,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
             # tool command prefix
             # https://jeremylong.github.io/DependencyCheck/dependency-check-cli/arguments.html
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.test.skip=true clean install org.owasp:dependency-check-maven:check -Dformat=JSON -DprettyPrint"
+                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
             )
         }
     }
@@ -80,7 +81,9 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         write_json(self.config["REPORT_FILE"], owasp_report)
         report = self.parse_report(owasp_report)
         if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+            warnings = ignore_groovy_errors(completed_process.stderr)
+            for warning in warnings:
+                report.warnings.append(warning)
 
         return report
 
