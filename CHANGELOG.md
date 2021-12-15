@@ -1,5 +1,15 @@
 # Eze Changelog
 
+## 0.12.0 - 15th December 2021
+Improvements:
+- ab-898 Graceful errors: failed http calls were crashing cli
+- ab-899 Truffle now auto configured to scan all source
+- ab-897 Improved console log colours
+- ab-945 Cleaned up java tooling / added test case for CVE-2021-4428
+
+Bugfixes:
+- ab-912 semgrep powershell console issues
+
 ## 0.11.0 - 22th October 2021
 Improvements:
 - ab-851 : updated python cyclonedx version
