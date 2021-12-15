@@ -16,3 +16,9 @@ def test_ignore_groovy_errors__keep_non_groovy_messages():
     test_input = """'safety' is not recognized as an internal or external command, operable program or batch file."""
     output = ignore_groovy_errors(test_input)
     assert output == [test_input]
+
+
+def test_ignore_groovy_errors__ignore_empty_messages():
+    test_input = """            """
+    output = ignore_groovy_errors(test_input)
+    assert output == []

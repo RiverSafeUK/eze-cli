@@ -21,61 +21,52 @@
 
 Eze is the one stop solution for security testing in modern development.
 
-This tool can be run locally on the cli by developers or security consultants, or deeply integrated into a team / organisations CI pipeline, with team and organisation management dashboards available for reviewing and monitoring the overall security of a organisation's estate.
+With one command, Eze will run SAST, SCA, Secret, and license scanning.
+
+This tool is designed to be run locally by developers, security consultants, and on a ci pipeline.
+
 
 **Features**:
 - Quick setup via Dockerfile with preinstalled tools
-- Simple multi-tool configuration via a single common configuration file
-  - Support for multiple targets: remote git repositories, containers
-  - Supports Python, Node and Java applications.
-- Run multiple tools with one command
-- Extendable plugin architecture for adding new security tools
-- Improve uptake of security testing in modern development.
-- Improve discovery and uptake of open source security tools
+- Auto-configures tools out the box, Supported languages: Python, Node and Java
+- Manual multi-tool configuration available via a single common configuration file
+- Runs SAST, SCA, Secret, and license scans with one command
 - Extends capabilities of raw opensource tools underneath
-  (adding missing features like ignore patterns, version detection, and cve metadata annotation, as needed)
+- Extendable plugin architecture for adding new security tools
 - Layering enterprise level reporting and auditing via the _Eze Management Console_ (PAID service offered by RiverSafe)
 
 
 # Eze Usage
 
-It is **strongly*** recommended most users run eze inside the docker image, this is the easiest way to get started with eze security scanning.
+It is **strongly*** recommended users run eze inside the docker image, this is the easiest way to get started with eze security scanning.
 
-_*_ For sysadmin and power users, see the [README-DEVELOPMENT.md](README-DEVELOPMENT.md)
+_*_ For sysadmin and power users wanting to build their own images, see the [README-DEVELOPMENT.md](README-DEVELOPMENT.md)
 
+## Requirements
+- Docker installed locally
 
-## Pull Docker image
-Eze is inside this [Docker image](https://hub.docker.com/r/riversafe/eze-cli), the default Dockerfile contains the `eze cli` running inside a default linux os with a selection of opensource security tools out of the box.
-
-```bash
-# Pull docker image
-docker pull riversafe/eze-cli:latest
-
-# Test docker running ok
-docker run riversafe/eze-cli --version
-```
-
+  _https://docs.docker.com/_
 
 ## Run security scan
 
 This command will run a security scan against the current folder. Results will be in eze_report.json
 
 ```bash
+# Pull docker image
+docker pull riversafe/eze-cli:latest
+
 # Scan code in current directory (cmd)
-docker run --rm -v %cd%:/data riversafe/eze-cli test
+docker run -v %cd%:/data riversafe/eze-cli test
 
 # Scan code in current directory (powershell)
-docker run --rm -v ${PWD}:/data riversafe/eze-cli test
+docker run -v ${PWD}:/data riversafe/eze-cli test
 
 # Scan code in current directory (git bash)
-docker run --rm -v $(pwd -W):/data riversafe/eze-cli test
+docker run -v $(pwd -W):/data riversafe/eze-cli test
 
 # Scan code in current directory (linux/mac os bash)
-docker run --rm -v "$(pwd)":/data riversafe/eze-cli test
+docker run -v "$(pwd)":/data riversafe/eze-cli test
 ```
-
-_*For advanced users this Dockerfile image can be downloaded and tailored to optimise the size of the image / versions of tools._
-
 
 # Other Common commands
 

@@ -1,3 +1,6 @@
+import re
+
+
 def is_groovy_errors(warning_text: str) -> bool:
     """detect https://issues.apache.org/jira/browse/GROOVY-8339 error messages"""
     return (
@@ -6,6 +9,7 @@ def is_groovy_errors(warning_text: str) -> bool:
         and not warning_text.startswith("WARNING: Please consider reporting")
         and not warning_text.startswith("WARNING: All illegal access operations")
         and not warning_text.startswith("WARNING: Use --illegal-access=warn")
+        and not re.match("^\\s*$", warning_text)
     )
 
 
