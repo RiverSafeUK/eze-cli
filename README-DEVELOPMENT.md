@@ -105,13 +105,13 @@ _Some tools, for example semgrep are upto 200mb by themselves, tailoring the ima
 make docker
 
 # Run Eze in docker (cmd)
-docker run --rm -v %cd%:/data eze-cli --version
+docker run -t --rm -v %cd%:/data eze-cli --version
 
 # Run Eze in docker (powershell)
-docker run --rm -v ${PWD}:/data eze-cli --version
+docker run -t --rm -v ${PWD}:/data eze-cli --version
 
 # Run Eze in docker (git bash)
-docker run --rm -v $(pwd -W):/data eze-cli --version
+docker run -t--rm -v $(pwd -W):/data eze-cli --version
 ```
 
 ## Build Release Docker Image

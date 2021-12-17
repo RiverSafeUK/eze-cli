@@ -1,8 +1,10 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
 
+import asyncio
 import os
 import time
+import math
 from abc import ABC, abstractmethod
 from typing import Callable
 
@@ -22,7 +24,7 @@ from eze.utils.config import (
     extract_embedded_run_type,
 )
 from eze.utils.error import EzeError, EzeConfigError
-from eze.utils.log import log, log_debug, log_error
+from eze.utils.log import log, log_debug, log_error, status_message
 
 
 class Vulnerability:
@@ -293,7 +295,31 @@ class ToolManager:
         tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
         tool_instance.prepare_folder()
         try:
-            scan_result: ScanResult = await tool_instance.run_scan()
+            process = {"scan_result": None}
+
+            async def run_counter(what: str, delay: int = 1):
+                status_message(what)
+                while True:
+                    toc = time.perf_counter()
+                    status_message(what + " (" + str(math.ceil(toc - tic)) + " secs)")
+                    await asyncio.sleep(delay)
+
+            run_counter_task = asyncio.create_task(run_counter(f"running tool '{tool_name}'"))
+
+            async def run_process():
+                try:
+                    process["scan_result"] = await tool_instance.run_scan()
+                finally:
+                    run_counter_task.cancel()
+
+            task_run_process = asyncio.create_task(run_process())
+            try:
+                await asyncio.gather(run_counter_task, task_run_process)
+            except RuntimeError:
+                pass
+            except asyncio.exceptions.CancelledError:
+                pass
+            scan_result: ScanResult = process["scan_result"]
         except EzeExecutableNotFoundError as error:
             # Special Case:
             # If executable not installed print "install help"
@@ -327,6 +353,13 @@ Looks like {tool_name} is not installed
 
         toc = time.perf_counter()
         # annotation raw scan result
+        if not scan_result:
+            scan_result = ScanResult(
+                {
+                    "tool": tool_instance.TOOL_NAME,
+                    "fatal_errors": [f"Not scan result received"],
+                }
+            )
         if not scan_result.tool:
             scan_result.tool = tool_instance.TOOL_NAME
 

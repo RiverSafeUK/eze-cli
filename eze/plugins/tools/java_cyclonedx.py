@@ -3,7 +3,7 @@ import shlex
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import run_cli_command, extract_version_from_maven
+from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
 from eze.utils.language.java import ignore_groovy_errors
 
@@ -75,7 +75,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         cyclonedx_bom = load_json(self.config["MVN_REPORT_FILE"])
 
         write_json(self.config["REPORT_FILE"], cyclonedx_bom)

@@ -22,7 +22,7 @@ Parts of a cli command
 aka
 ls . -man
 """
-
+import asyncio
 import re
 import shlex
 import shutil
@@ -31,7 +31,6 @@ import shutil
 import subprocess  # nosec
 
 from eze.utils.io import is_windows_os
-from eze.core.config import EzeConfig
 import eze.utils.windowslex as windowslex
 from eze.utils.error import EzeExecutableNotFoundError, EzeExecutableStdErrError
 from eze.utils.log import log_debug
@@ -61,6 +60,47 @@ def run_cli_command(
         config = {}
     command_list = build_cli_command(cli_config, config)
     completed_process = run_cmd(command_list)
+
+    log_debug(
+        f"""{command_name} ran with output:
+    {completed_process.stdout}"""
+    )
+
+    if completed_process.stderr:
+        sanitised_command_str = __sanitise_command(command_list)
+        message = f"""{command_name} ran with warnings/errors:
+    Ran: '{sanitised_command_str}'
+    Error: {completed_process.stderr}"""
+        log_debug(message)
+        if throw_error_on_stderr:
+            raise EzeExecutableStdErrError(message)
+    return completed_process
+
+
+async def run_async_cli_command(
+    cli_config: dict, config: dict = None, command_name: str = "", throw_error_on_stderr: bool = False
+) -> subprocess.CompletedProcess:
+    """
+    Run tool cli command
+
+    cli_config: dict
+        BASE_COMMAND command to start with
+        ARGUMENTS list of arguments to add (at start)
+        TAIL_ARGUMENTS list of arguments to add (at end)
+        FLAGS config-key flag-value pairs
+        SHORT_FLAGS config-key flag (value if truthy will set flag)
+
+    config: dict
+        config-key for FLAGS command
+        + inbuilt key ADDITIONAL_ARGUMENTS
+
+    :raises EzeExecutableNotFoundError
+    :raises EzeExecutableStdErrError
+    """
+    if not config:
+        config = {}
+    command_list = build_cli_command(cli_config, config)
+    completed_process = await run_async_cmd(command_list)
 
     log_debug(
         f"""{command_name} ran with output:
@@ -171,51 +211,131 @@ def build_cli_command(cli_config: dict, config: dict) -> list:
     return command_list
 
 
-def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> subprocess.CompletedProcess:
+class CompletedProcess:
+    """completed process output container"""
+
+    def __init__(self, stdout: str, stderr: str = ""):
+        """constructor"""
+        self.stdout = stdout
+        self.stderr = stderr
+
+
+
+def crossos_shlex_join(cmd:list) -> list:
+    """creates safe cmd string from a list of arguments, due to windows and unix require different shlex.join commands"""
+    if is_windows_os():
+        final_cmd = windowslex.join(cmd)
+    else:
+        final_cmd = shlex.join(cmd)
+    return final_cmd
+
+async def async_subprocess_run(cmd: list) -> CompletedProcess:
+    """runs a subprocess asynchronously via asyncio.create_subprocess_shell"""
+    final_cmd = crossos_shlex_join(cmd)
+    # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
+    # WORKAROUND: many programming tools failing without shell=true
+    # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
+    # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
+    process = await asyncio.create_subprocess_shell(
+        final_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    await process.wait()
+    stdout, stderr = await process.communicate()
+    process_output = CompletedProcess(stdout.decode(), stderr.decode())
+    return process_output
+
+
+def subprocess_run(cmd: list) -> CompletedProcess:
+    """runs a subprocess synchronously via subprocess.run"""
+    final_cmd = crossos_shlex_join(cmd)
+    # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
+    # also map ADDITIONAL_ARGUMENTS to a dict which is "shlex.quote"
+    # WORKAROUND: many programming tools failing without shell=true
+    # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
+    # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
+    process = subprocess.run(
+        final_cmd,
+        check=False,
+        capture_output=True,
+        universal_newlines=True,
+        encoding="utf-8",
+        shell=True,  # nosec # nosemgrep
+    )
+    process_output = CompletedProcess(process.stdout, process.stderr)
+    return process_output
+
+
+def _raise_exe_not_found(sanitised_command_str: str, error_on_missing_executable: bool = True):
     """
-    Supply os.run_cmd() wrap with additional arguments
+    handle when run command fails with file not found
 
     :raises EzeExecutableNotFoundError
     """
-    if not isinstance(cmd, list):
-        raise TypeError("invalid cmd type (%s, expected string)" % type(cmd))
+    core_executable = _extract_executable(sanitised_command_str)
+    error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
+    if error_on_missing_executable:
+        raise EzeExecutableNotFoundError(error_str)
+    return CompletedProcess("", error_str)
 
+
+def _detect_output_errors(
+    sanitised_command_str: str, process_output: CompletedProcess, error_on_missing_executable: bool = True
+):
+    """
+    detect errors in process output
+
+    :raises EzeExecutableNotFoundError
+    """
+    if not error_on_missing_executable:
+        return
+    is_exe_not_found = _has_missing_exe_output(process_output.stderr) or _has_missing_exe_output(process_output.stdout)
+    if is_exe_not_found:
+        _raise_exe_not_found(sanitised_command_str, True)
+
+
+async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True) -> CompletedProcess:
+    """
+    Supply asyncio.create_subprocess_shell() wrap with additional arguments
+    + security: handles shlex parsing of lists to prevent expansion attacks
+    + exe not found: handles eze not found error raising EzeExecutableNotFoundError
+
+    :raises EzeExecutableNotFoundError
+    """
     sanitised_command_str = __sanitise_command(cmd)
     log_debug(f"running command '{sanitised_command_str}'")
 
-    # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
-    # also map ADDITIONAL_ARGUMENTS to a dict which is "shlex.quote"
     try:
-        if is_windows_os():
-            final_cmd = windowslex.join(cmd)
-        else:
-            final_cmd = shlex.join(cmd)
-        # WORKAROUND: many programming tools failing without shell=true
-        # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
-        # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
-        proc = subprocess.run(
-            final_cmd,
-            check=False,
-            capture_output=True,
-            universal_newlines=True,
-            encoding="utf-8",
-            shell=True,  # nosec # nosemgrep
-        )
+        process_output = await async_subprocess_run(cmd)
     except FileNotFoundError:
-        core_executable = _extract_executable(sanitised_command_str)
-        error_str: str = f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
-        if error_on_missing_executable:
-            raise EzeExecutableNotFoundError(error_str)
-        return subprocess.CompletedProcess({}, 1, "", error_str)
+        return _raise_exe_not_found(sanitised_command_str, error_on_missing_executable)
+    log_debug(
+        f"command '{sanitised_command_str}' std output: '{process_output.stdout}' error output: '{process_output.stderr}'"
+    )
+    _detect_output_errors(sanitised_command_str, process_output, error_on_missing_executable)
+    return process_output
 
-    log_debug(f"command '{sanitised_command_str}' std output: '{proc.stdout}' error output: '{proc.stderr}'")
 
-    if error_on_missing_executable and (_check_output_corrupt(proc.stderr) or _check_output_corrupt(proc.stdout)):
-        core_executable = _extract_executable(sanitised_command_str)
-        raise EzeExecutableNotFoundError(
-            f"Executable not found '{core_executable}', when running command {sanitised_command_str}"
-        )
-    return proc
+def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> CompletedProcess:
+    """
+    Supply subprocess.run() wrap with additional arguments
+    + security: handles shlex parsing of lists to prevent expansion attacks
+    + exe not found: handles eze not found error raising EzeExecutableNotFoundError
+
+    :raises EzeExecutableNotFoundError
+    """
+    sanitised_command_str = __sanitise_command(cmd)
+    log_debug(f"running command '{sanitised_command_str}'")
+
+    try:
+        process_output = subprocess_run(cmd)
+    except FileNotFoundError:
+        return _raise_exe_not_found(sanitised_command_str, error_on_missing_executable)
+
+    log_debug(
+        f"command '{sanitised_command_str}' std output: '{process_output.stdout}' error output: '{process_output.stderr}'"
+    )
+    _detect_output_errors(sanitised_command_str, process_output, error_on_missing_executable)
+    return process_output
 
 
 def __sanitise_command(command_parts: list):
@@ -267,7 +387,7 @@ def extract_cmd_version(command: list) -> str:
     completed_process = run_cmd(command, False)
     output = completed_process.stdout
     error_output = completed_process.stderr
-    if _check_output_corrupt(output):
+    if _has_missing_exe_output(output):
         return ""
     version = _extract_version(output)
     if version == output or error_output:
@@ -288,7 +408,7 @@ def extract_version_from_maven(mvn_package: str) -> str:
     completed_process = run_cmd(command, False)
     output = completed_process.stdout
     error_output = completed_process.stderr
-    if _check_output_corrupt(output):
+    if _has_missing_exe_output(output):
         return ""
     version = _extract_maven_version(output)
     if not version or error_output:
@@ -296,8 +416,8 @@ def extract_version_from_maven(mvn_package: str) -> str:
     return version
 
 
-def _check_output_corrupt(output: str) -> bool:
-    """Take output and check for common errors"""
+def _has_missing_exe_output(output: str) -> bool:
+    """Take output and check for exe missing errors"""
     if "is not recognized as an internal or external command" in output:
         return True
 

@@ -51,21 +51,23 @@ _*_ For sysadmin and power users wanting to build their own images, see the [REA
 
 This command will run a security scan against the current folder. Results will be in eze_report.json
 
+_add -t to docker to enable terminal colours_
+
 ```bash
 # Pull docker image
 docker pull riversafe/eze-cli:latest
 
 # Scan code in current directory (cmd)
-docker run -v %cd%:/data riversafe/eze-cli test
+docker run -t -v %cd%:/data riversafe/eze-cli test
 
 # Scan code in current directory (powershell)
-docker run -v ${PWD}:/data riversafe/eze-cli test
+docker run -t -v ${PWD}:/data riversafe/eze-cli test
 
 # Scan code in current directory (git bash)
-docker run -v $(pwd -W):/data riversafe/eze-cli test
+docker run -t -v $(pwd -W):/data riversafe/eze-cli test
 
 # Scan code in current directory (linux/mac os bash)
-docker run -v "$(pwd)":/data riversafe/eze-cli test
+docker run -t -v "$(pwd)":/data riversafe/eze-cli test
 ```
 
 # Other Common commands
@@ -73,7 +75,7 @@ docker run -v "$(pwd)":/data riversafe/eze-cli test
 ## Detect tools locally installed
 
 ```bash
-docker run riversafe/eze-cli tools list
+docker run -t riversafe/eze-cli tools list
 ```
 
 <details>
@@ -106,13 +108,13 @@ To show information about a specific tool:
 - Instructions how-to install it and configure
 
 ```bash
-docker run riversafe/eze-cli tools help <TOOL>
+docker run -t riversafe/eze-cli tools help <TOOL>
 ```
 <details>
 <summary>Result</summary>
 
 ```bash
-$ docker run riversafe/eze-cli tools help semgrep
+$ docker run -t riversafe/eze-cli tools help semgrep
 
 Tool 'semgrep' Help
 opensource multi language SAST scanner

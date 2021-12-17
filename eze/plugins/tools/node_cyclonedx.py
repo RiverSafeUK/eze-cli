@@ -1,9 +1,8 @@
 """cyclonedx SBOM tool class"""
-import subprocess
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.language.node import install_node_dependencies
 from eze.utils.error import EzeExecutableError
@@ -65,7 +64,7 @@ This will be ran automatically, if npm install fails this tool can't be run
         return version
 
     @staticmethod
-    def get_process_fatal_errors(completed_process: subprocess.CompletedProcess) -> str:
+    def get_process_fatal_errors(completed_process) -> str:
         """Take output and check for common errors"""
         if "node_modules does not exist." in completed_process.stdout:
             return completed_process.stdout
@@ -79,7 +78,9 @@ This will be ran automatically, if npm install fails this tool can't be run
         """
         # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
         install_node_dependencies()
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, True)
+        completed_process = await run_async_cli_command(
+            self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, True
+        )
         fatal_errors = self.get_process_fatal_errors(completed_process)
         if fatal_errors:
             raise EzeExecutableError(fatal_errors)

@@ -6,7 +6,7 @@ import xmltodict
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
-from eze.utils.cli import extract_version_from_maven, run_cli_command
+from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, write_json
 from eze.utils.language.java import ignore_groovy_errors
 
@@ -82,7 +82,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         with open(self.config["MVN_REPORT_FILE"]) as xml_file:
             spotbugs_report = xmltodict.parse(xml_file.read(), force_list={"BugInstance", "BugPattern"})
 
@@ -117,7 +117,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
                 raw_code = bug_instance["LongMessage"]
                 name = reason
                 summary = f"'{reason}', in {path}"
-                details = re.sub("\\<[^>]*>", "", bug_patterns[bug_instance["@type"]])
+                details = re.sub("<[^>]*>", "", bug_patterns[bug_instance["@type"]])
 
                 recommendation = f"Investigate '{path}' Lines {line} for '{reason}' \n  {details}"
 

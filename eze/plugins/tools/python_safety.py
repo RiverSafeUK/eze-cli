@@ -4,7 +4,7 @@ import shlex
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.cve import CVE
 from eze.utils.io import load_json, create_tempfile_path
 from eze.utils.error import EzeError
@@ -86,7 +86,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
 
         :raises EzeError
         """
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
@@ -109,6 +109,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             safety_id = report_event[4]
             cve = CVE.detect_cve(summary)
             cve_data = None
+            recommendation = None
             metadata = {"safety": {"id": safety_id}}
             if cve:
                 try:
