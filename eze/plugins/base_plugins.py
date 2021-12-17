@@ -8,6 +8,7 @@ from eze.plugins.reporters.bom_formatted import BomFormattedReporter
 from eze.plugins.reporters.console import ConsoleReporter
 from eze.plugins.reporters.eze import EzeReporter
 from eze.plugins.reporters.json import JsonReporter
+from eze.plugins.reporters.json_s3 import JsonS3Reporter
 from eze.plugins.reporters.junit import JunitReporter
 from eze.plugins.reporters.quality import QualityReporter
 from eze.plugins.reporters.sarif import SarifReporter
@@ -46,6 +47,7 @@ def get_reporters() -> dict:
     return {
         "console": ConsoleReporter,
         "json": JsonReporter,
+        "json-s3": JsonS3Reporter,
         "junit": JunitReporter,
         "quality": QualityReporter,
         "eze": EzeReporter,

@@ -1,0 +1,41 @@
+short_description:
+======================
+json file into s3 reporter
+
+config_help:
+======================
+[json-s3]
+# REPORT_FILE str [OPTIONAL]
+# report file location
+# By default set to eze_report.json
+# default value: 
+#   REPORT_FILE = "eze_report.json"
+# 
+REPORT_FILE = "..."
+
+
+# AWS_ACCESS_KEY str [OPTIONAL]
+# aws access key of user authorized to upload files in bucket
+# 
+AWS_ACCESS_KEY = "..."
+
+
+# AWS_SECRET_KEY str [OPTIONAL]
+# aws secret key of user authorized to upload files in bucket
+# 
+AWS_SECRET_KEY = "..."
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+inbuilt
