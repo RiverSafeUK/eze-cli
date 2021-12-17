@@ -77,6 +77,8 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(cyclonedx_bom)
+        if "Some of your dependencies do not have pinned version" in completed_process.stdout:
+            report.warnings.append(completed_process.stdout)
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 
