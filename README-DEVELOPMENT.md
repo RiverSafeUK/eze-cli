@@ -111,7 +111,7 @@ docker run -t --rm -v %cd%:/data eze-cli --version
 docker run -t --rm -v ${PWD}:/data eze-cli --version
 
 # Run Eze in docker (git bash)
-docker run -t--rm -v $(pwd -W):/data eze-cli --version
+docker run -t --rm -v $(pwd -W):/data eze-cli --version
 ```
 
 ## Build Release Docker Image

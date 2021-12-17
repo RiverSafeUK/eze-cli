@@ -105,15 +105,15 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Then
         assert expected_output in output
 
-    @mock.patch("eze.utils.cli.run_cmd")
+    @mock.patch("eze.utils.cli.run_async_cmd")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_without_semgrep_locally_installed_raise_eze_error(self, mocked_run_cmd):
+    async def test_run_scan_without_semgrep_locally_installed_raise_eze_error(self, mocked_run_async_cmd):
         # Given
         input_config = {}
         input_stdout = "Semgrep ran into an issue"
         # When
-        mock_run_cmd(mocked_run_cmd, input_stdout, "ModuleNotFoundError: No module named 'resource'")
+        mock_run_cmd(mocked_run_async_cmd, input_stdout, "ModuleNotFoundError: No module named 'resource'")
         expected_error_message = """[semgrep] semgrep crashed while running, this is likely because semgrep doesn't support native windows yet
 
 As of 2021 semgrep support for windows is limited, until support added you can use eze inside wsl2 to run semgrep on windows
