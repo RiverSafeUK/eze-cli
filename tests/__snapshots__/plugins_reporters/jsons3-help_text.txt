@@ -14,7 +14,7 @@ BUCKET_NAME = "..."
 
 
 # OBJECT_KEY str
-# object key used to store the report json in s3 bucket
+# object key used to store the report json in s3 bucket. ex random_key.json
 # 
 OBJECT_KEY = "..."
 

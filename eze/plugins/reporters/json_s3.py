@@ -30,7 +30,7 @@ class JsonS3Reporter(ReporterMeta):
         "OBJECT_KEY": {
             "type": str,
             "required": True,
-            "help_text": """object key used to store the report json in s3 bucket""",
+            "help_text": """object key used to store the report json in s3 bucket. ex random_key.json""",
         },
         "AWS_ACCESS_KEY": {
             "type": str,
