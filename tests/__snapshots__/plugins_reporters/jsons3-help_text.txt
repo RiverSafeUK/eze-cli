@@ -5,13 +5,18 @@ json file into s3 reporter
 config_help:
 ======================
 [json-s3]
-# REPORT_FILE str [OPTIONAL]
-# report file location
-# By default set to eze_report.json
+# BUCKET_NAME str [OPTIONAL]
+# bucket name of bucket to upload the json report
 # default value: 
-#   REPORT_FILE = "eze_report.json"
+#   BUCKET_NAME = "ezemc-reporters"
 # 
-REPORT_FILE = "..."
+BUCKET_NAME = "..."
+
+
+# OBJECT_KEY str
+# object key used to store the report json in s3 bucket
+# 
+OBJECT_KEY = "..."
 
 
 # AWS_ACCESS_KEY str [OPTIONAL]

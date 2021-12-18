@@ -1,13 +1,16 @@
 """JSON reporter exported to S3 bucket class implementation"""
 
 import json
+import os
+from datetime import datetime
+
+import boto3
 import click
+from botocore.exceptions import ClientError
+
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.utils.io import write_json
-import boto3
-import os
-from botocore.exceptions import ClientError
+from eze.utils.io import create_tempfile_path, write_json
 
 
 class JsonS3Reporter(ReporterMeta):
@@ -19,11 +22,15 @@ class JsonS3Reporter(ReporterMeta):
     MORE_INFO: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
     EZE_CONFIG: dict = {
-        "REPORT_FILE": {
+        "BUCKET_NAME": {
             "type": str,
-            "default": "eze_report.json",
-            "help_text": """report file location
-By default set to eze_report.json""",
+            "default": "ezemc-reporters",
+            "help_text": """bucket name of bucket to upload the json report""",
+        },
+        "OBJECT_KEY": {
+            "type": str,
+            "required": True,
+            "help_text": """object key used to store the report json in s3 bucket""",
         },
         "AWS_ACCESS_KEY": {
             "type": str,
@@ -33,7 +40,7 @@ By default set to eze_report.json""",
         "AWS_SECRET_KEY": {
             "type": str,
             "default": "",
-            "help_text": """aws secret key of user authorized to upload files in bucket""",
+            "help_text": "aws secret key of user authorized to upload files in bucket",
         },
     }
 
@@ -44,8 +51,10 @@ By default set to eze_report.json""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        json_location = write_json(self.config["REPORT_FILE"], scan_results)
-        print(f"written json report : {json_location}")
+        json_location = write_json(
+            create_tempfile_path(f"eze-report-{datetime.now().strftime('%Y-%m-%d-%H%M%S')}.json"), scan_results
+        )
+        print(f"json report generated")
         self.upload_files(json_location)
 
     def upload_files(self, json_file: str) -> str:
@@ -71,10 +80,10 @@ By default set to eze_report.json""",
         try:
             client.put_object(
                 Body=str(json_file),
-                Bucket="ezemc-reporters",
-                Key=os.path.basename(json_file),
+                Bucket=self.config["BUCKET_NAME"],
+                Key=self.config["OBJECT_KEY"],
             )
-            click.echo(f"""{"    "}Json Report file was uploaded successfully""")
+            click.echo(f"""    Json Report file was uploaded successfully""")
 
         except ClientError as error:
-            click.echo(f"""{"    "}Error trying to upload in S3: {error}""", err=True)
+            click.echo(f"""    Error trying to upload in S3: {error}""", err=True)
