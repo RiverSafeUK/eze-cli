@@ -76,8 +76,11 @@ class LicenseScanType(Enum):
 
     PROPRIETARY = "PROPRIETARY"  # for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
     PERMISSIVE = "PERMISSIVE"  # for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
-    OPENSOURCE = "OPENSOURCE"  # for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+    OPENSOURCE = (
+        "OPENSOURCE"  # for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+    )
     OFF = "OFF"  # no license checks
+
 
 LICENSE_CHECK_CONFIG = {
     "type": str,
@@ -117,12 +120,13 @@ LICENSE_DENYLIST_CONFIG = {
     "help_example": ["MIT-enna"],
 }
 
+
 class Vulnerability:
     """Wrapper around raw dict to provide easy code typing"""
 
     def __init__(self, vo: dict):
         """constructor"""
-        # aka generic / dependancy / secret
+        # aka generic / dependency / secret
         self.vulnerability_type: str = get_config_key(vo, "vulnerability_type", str, VulnerabilityType.generic.name)
         self.name: str = get_config_key(vo, "name", str, "")
         self.severity: str = get_config_key(vo, "severity", str, "").lower()

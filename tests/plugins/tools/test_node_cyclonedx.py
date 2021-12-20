@@ -19,9 +19,9 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-node-cyclonedx-bom.json"),
-            'LICENSE_ALLOWLIST': [],
-            'LICENSE_CHECK': 'PROPRIETARY',
-            'LICENSE_DENYLIST': [],
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -40,9 +40,9 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
         input_config = {"ADDITIONAL_ARGUMENTS": "--foo", "REPORT_FILE": "tmp-node-cyclonedx-bom.json"}
         expected_config = {
             "REPORT_FILE": "tmp-node-cyclonedx-bom.json",
-            'LICENSE_ALLOWLIST': [],
-            'LICENSE_CHECK': 'PROPRIETARY',
-            'LICENSE_DENYLIST': [],
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
             #
             "ADDITIONAL_ARGUMENTS": "--foo",
             "IGNORED_FILES": None,

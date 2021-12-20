@@ -13,8 +13,13 @@ import click
 from pydash import py_
 
 from eze.core.config import EzeConfig
-from eze.core.enums import SourceType, LicenseScanType, LICENSE_DENYLIST_CONFIG, LICENSE_ALLOWLIST_CONFIG, \
-    LICENSE_CHECK_CONFIG
+from eze.core.enums import (
+    SourceType,
+    LicenseScanType,
+    LICENSE_DENYLIST_CONFIG,
+    LICENSE_ALLOWLIST_CONFIG,
+    LICENSE_CHECK_CONFIG,
+)
 from eze.core.tool import ToolManager
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool

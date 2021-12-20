@@ -9,7 +9,6 @@ from eze.utils.scan_result import convert_sbom_into_scan_result
 from eze.utils.language.java import ignore_groovy_errors
 
 
-
 class JavaCyclonedxTool(ToolMeta):
     """cyclonedx java bill of materials generator tool (SBOM) tool class"""
 

@@ -9,7 +9,7 @@ class TestVulnerability:
     def test_serialisation_test(self):
         old_vulnerability = Vulnerability(
             {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "severity": "low",
                 "is_ignored": False,
                 "name": "foo",

@@ -160,26 +160,27 @@ def test_check_licenses__happy_path_PROPRIETARY_policy__permissive_ok():
     assert convert_to_std_object(vulnerabilities) == []
     assert convert_to_std_object(warnings) == []
 
+
 def test_check_licenses__sad_path_PROPRIETARY_policy__copyleft_not_ok():
     # Given
-    expected_vulnerabilities = [{
-        'confidence': '',
-        'file_location': None,
-        'identifiers': {},
-        'is_excluded': False,
-        'is_ignored': False,
-        'language': '',
-        'metadata': None,
-        'name': 'Invalid License GPL-2.0-only(x-xss-protection), copyleft license in '
-                'proprietary project',
-        'overview': 'Strong Copyleft licenses should not be used in Proprietary '
-                    'projects',
-        'recommendation': '',
-        'references': [],
-        'severity': 'high',
-        'version': '',
-        'vulnerability_type': 'license'
-    }]
+    expected_vulnerabilities = [
+        {
+            "confidence": "",
+            "file_location": None,
+            "identifiers": {},
+            "is_excluded": False,
+            "is_ignored": False,
+            "language": "",
+            "metadata": None,
+            "name": "Invalid License GPL-2.0-only(x-xss-protection), copyleft license in " "proprietary project",
+            "overview": "Strong Copyleft licenses should not be used in Proprietary " "projects",
+            "recommendation": "",
+            "references": [],
+            "severity": "high",
+            "version": "",
+            "vulnerability_type": "license",
+        }
+    ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-copyleft-report.json")
     # When
     [vulnerabilities, warnings] = check_licenses(input_sbom, LicenseScanType.PROPRIETARY.value)
@@ -197,26 +198,28 @@ def test_check_licenses__happy_path_PERMISSIVE_policy__permissive_ok():
     assert convert_to_std_object(vulnerabilities) == []
     assert convert_to_std_object(warnings) == []
 
+
 def test_check_licenses__sad_path_PERMISSIVE_policy__copyleft_not_ok():
     # Given
-    expected_vulnerabilities = [{
-        'confidence': '',
-        'file_location': None,
-        'identifiers': {},
-        'is_excluded': False,
-        'is_ignored': False,
-        'language': '',
-        'metadata': None,
-        'name': 'Invalid License GPL-2.0-only(x-xss-protection), copyleft license in '
-                'permissive opensource project',
-        'overview': 'Strong Copyleft licenses should not be used in permissive '
-                    'opensource projects',
-        'recommendation': '',
-        'references': [],
-        'severity': 'high',
-        'version': '',
-        'vulnerability_type': 'license'
-    }]
+    expected_vulnerabilities = [
+        {
+            "confidence": "",
+            "file_location": None,
+            "identifiers": {},
+            "is_excluded": False,
+            "is_ignored": False,
+            "language": "",
+            "metadata": None,
+            "name": "Invalid License GPL-2.0-only(x-xss-protection), copyleft license in "
+            "permissive opensource project",
+            "overview": "Strong Copyleft licenses should not be used in permissive " "opensource projects",
+            "recommendation": "",
+            "references": [],
+            "severity": "high",
+            "version": "",
+            "vulnerability_type": "license",
+        }
+    ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-copyleft-report.json")
     # When
     [vulnerabilities, warnings] = check_licenses(input_sbom, LicenseScanType.PERMISSIVE.value)
@@ -234,6 +237,7 @@ def test_check_licenses__happy_path_OPENSOURCE_policy__permissive_ok():
     assert convert_to_std_object(vulnerabilities) == []
     assert convert_to_std_object(warnings) == []
 
+
 def test_check_licenses__happy_path_OPENSOURCE_policy__copyleft_ok():
     # Given
     expected_vulnerabilities = []
@@ -244,14 +248,14 @@ def test_check_licenses__happy_path_OPENSOURCE_policy__copyleft_ok():
     assert convert_to_std_object(vulnerabilities) == expected_vulnerabilities
     assert convert_to_std_object(warnings) == []
 
+
 def test_check_licenses__sad_path_OPENSOURCE_policy__non_fsf_osi_warns():
     # Given
     expected_vulnerabilities = []
     expected_warnings = [
-        'License MIT-enna(x-xss-protection), reason: Permissive licenses with '
-        'conditions should be manually checked to ensure compliance',
-        'License MIT-enna(x-xss-protection), reason: Unable to determine if license '
-        'is fsf/osi opensource approved'
+        "License MIT-enna(x-xss-protection), reason: Permissive licenses with "
+        "conditions should be manually checked to ensure compliance",
+        "License MIT-enna(x-xss-protection), reason: Unable to determine if license " "is fsf/osi opensource approved",
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-with-conditions-report.json")
     # When
@@ -276,27 +280,41 @@ def test_check_licenses__allowlist():
 
 def test_check_licenses__denylist():
     # Given
-    expected_vulnerabilities = [{
-        'confidence': '',
-        'file_location': None,
-        'identifiers': {},
-        'is_excluded': False,
-        'is_ignored': False,
-        'language': '',
-        'metadata': None,
-        'name': 'License MIT-enna(x-xss-protection), not allowed',
-        'overview': 'MIT-enna in project license_denylist',
-        'recommendation': '',
-        'references': [],
-        'severity': 'high',
-        'version': '',
-        'vulnerability_type': 'license'
-    }]
+    expected_vulnerabilities = [
+        {
+            "confidence": "",
+            "file_location": None,
+            "identifiers": {},
+            "is_excluded": False,
+            "is_ignored": False,
+            "language": "",
+            "metadata": None,
+            "name": "License MIT-enna(x-xss-protection), not allowed",
+            "overview": "MIT-enna in project license_denylist",
+            "recommendation": "",
+            "references": [],
+            "severity": "high",
+            "version": "",
+            "vulnerability_type": "license",
+        }
+    ]
     expected_warnings = []
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-with-conditions-report.json")
     input_denylist = ["MIT-enna"]
     # When
     [vulnerabilities, warnings] = check_licenses(input_sbom, LicenseScanType.OPENSOURCE.value, None, input_denylist)
+    # Then
+    assert convert_to_std_object(vulnerabilities) == expected_vulnerabilities
+    assert convert_to_std_object(warnings) == expected_warnings
+
+
+def test_check_licenses__no_data():
+    # Given
+    expected_vulnerabilities = []
+    expected_warnings = ["unable to check licenses, no valid license information in sboms"]
+    input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-no-license-data-report.json")
+    # When
+    [vulnerabilities, warnings] = check_licenses(input_sbom, LicenseScanType.OPENSOURCE.value)
     # Then
     assert convert_to_std_object(vulnerabilities) == expected_vulnerabilities
     assert convert_to_std_object(warnings) == expected_warnings

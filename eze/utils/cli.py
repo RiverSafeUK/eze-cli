@@ -61,9 +61,7 @@ def run_cli_command(
     command_list = build_cli_command(cli_config, config)
     completed_process = run_cmd(command_list)
 
-    log_debug(
-        f"""ran command '{command_name}'"""
-    )
+    log_debug(f"""ran command '{command_name}'""")
 
     if completed_process.stderr:
         sanitised_command_str = __sanitise_command(command_list)
@@ -220,14 +218,14 @@ class CompletedProcess:
         self.stderr = stderr
 
 
-
-def crossos_shlex_join(cmd:list) -> list:
+def crossos_shlex_join(cmd: list) -> list:
     """creates safe cmd string from a list of arguments, due to windows and unix require different shlex.join commands"""
     if is_windows_os():
         final_cmd = windowslex.join(cmd)
     else:
         final_cmd = shlex.join(cmd)
     return final_cmd
+
 
 async def async_subprocess_run(cmd: list) -> CompletedProcess:
     """runs a subprocess asynchronously via asyncio.create_subprocess_shell"""
