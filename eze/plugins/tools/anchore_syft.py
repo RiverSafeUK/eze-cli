@@ -3,7 +3,7 @@ import shlex
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_cli_command, run_async_cli_command
 from eze.utils.io import create_tempfile_path, write_text, load_json
 
 
@@ -115,7 +115,7 @@ From syft help
         """
 
         # create xml cyclonedx using syft
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["INTERMEDIATE_FILE"], report_text)
 

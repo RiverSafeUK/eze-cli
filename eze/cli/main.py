@@ -15,6 +15,7 @@ from eze.core.reporter import ReporterManager
 from eze.core.tool import ToolManager
 from eze.utils.package import get_plugins
 
+
 # see https://click.palletsprojects.com/en/7.x/api/#click.Context
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 

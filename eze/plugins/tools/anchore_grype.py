@@ -5,7 +5,7 @@ from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
 from eze.core.tool import ToolMeta, Vulnerability, ScanResult
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.log import log_error
 
@@ -102,7 +102,7 @@ You can also explicitly specify the scheme to use:
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
         report_events = parse_json(report_text)

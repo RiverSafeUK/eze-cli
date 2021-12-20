@@ -9,7 +9,7 @@ from eze.core.tool import (
     Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import load_json, create_tempfile_path
 from eze.utils.error import EzeConfigError
 
@@ -107,7 +107,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)

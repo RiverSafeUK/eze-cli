@@ -7,7 +7,7 @@ from eze.core.tool import (
     Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
+from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
 from eze.utils.io import load_json, create_tempfile_path
 
 
@@ -101,7 +101,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         :raises EzeError
         """
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        run_cmd(command_str)
+        await run_async_cmd(command_str)
 
         parsed_json = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(parsed_json)

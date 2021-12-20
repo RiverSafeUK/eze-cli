@@ -11,16 +11,16 @@ Simple usage, mount your codebase into volume **/data**, then run docker with "t
 docker pull riversafe/eze-cli:latest
 
 # 2) [in cmd] Run pulled image in docker
-docker run --rm -v %cd%:/data riversafe/eze-cli test
+docker run -t --rm -v %cd%:/data riversafe/eze-cli test
 
 # 2) [in powershell] Run pulled image in docker
-docker run --rm -v ${PWD}:/data riversafe/eze-cli test
+docker run -t --rm -v ${PWD}:/data riversafe/eze-cli test
 
 # 2) [in git bash] Run pulled image in docker
-docker run --rm -v $(pwd -W):/data riversafe/eze-cli test
+docker run -t --rm -v $(pwd -W):/data riversafe/eze-cli test
 
 # 2) [in linux/mac os bash] Run pulled image in docker
-docker run --rm -v "$(pwd)":/data riversafe/eze-cli test
+docker run -t --rm -v "$(pwd)":/data riversafe/eze-cli test
 ```
 
 # Configuring Eze
@@ -35,9 +35,9 @@ https://github.com/RiverSafeUK/eze-cli
 List of tools, licenses, and sizes pre-installed in latest Eze Cli Dockerimage can be found using the command
 
 ```bash
-docker run --rm riversafe/eze-cli tools list --include-source-type
-docker run --rm riversafe/eze-cli tools help <tool-name>
-aka docker run --rm riversafe/eze-cli tools help trufflehog
+docker run -t --rm riversafe/eze-cli tools list --include-source-type
+docker run -t --rm riversafe/eze-cli tools help <tool-name>
+aka docker run -t --rm riversafe/eze-cli tools help trufflehog
 ```
 
 _Updated: 26/07/2021_
