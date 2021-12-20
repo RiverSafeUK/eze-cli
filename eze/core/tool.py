@@ -34,7 +34,7 @@ class ScanResult:
         self.summary: dict = get_config_key(vo, "summary", dict, {})
         self.run_details: dict = get_config_key(vo, "run_details", dict, {})
 
-        # bom in Cyconedx format
+        # bom in Cyclonedx format
         # https://cyclonedx.org/
         self.bom: dict = get_config_key(vo, "bom", dict, None)
 
