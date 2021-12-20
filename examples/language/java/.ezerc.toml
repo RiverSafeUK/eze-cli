@@ -1,53 +1,85 @@
- # ========================================
-# EXAMPLE JAVA TOOL CONFIG
-# ========================================
+# Ezerc auto generated
+# ===================================
+# TOOL CONFIG
+# ===================================
 
-[semgrep]
-PRINT_TIMING_INFO = false
-REPORT_FILE = "../reports/java/semgrep-report.json"
-CONFIGS = [
-    "p/ci",
-    "p/java",
-]
+[java]
+# Java codebase
+tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java-cyclonedx']
+    [java.semgrep]
+    REPORT_FILE = "reports/semgrep-java-report.json"
+    PRINT_TIMING_INFO = false
+    CONFIGS = [
+        "p/ci",
+        "p/java",
+    ]
+    EXCLUDE = [
+        "tests"
+    ]
+    [java.trufflehog]
+    REPORT_FILE = "reports/truffleHog-java-report.json"
+    SOURCE = ["."]
+    NO_ENTROPY = false
+    INCLUDE_FULL_REASON = true
+    IGNORED_FILES = [
+        ".gradle",
+        ".aws",
+        ".idea"
+    ]
+    EXCLUDE = [
+        ".*(node_modules|target|build|dist)$",
+        ".*\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
+        ".*//trufflehog-report.json$",
+        ".*\\.DS_Store"
+    ]
+    [java.java-dependencycheck]
+    REPORT_FILE = "reports/dependencycheck-java-report.json"
+    
+    [java.java-spotbugs]
+    REPORT_FILE = "reports/spotbugs-java-report.json"
+    
+    [java.java-cyclonedx]
+    REPORT_FILE = "reports/cyclonedx-java-bom.json"
 
-[trufflehog]
-SOURCE = "."
-EXCLUDE = [
-]
-INCLUDE_FULL_REASON = true
-REPORT_FILE = "../reports/java/trufflehog-report.json"
 
-[trufflehog.ci]
-INCLUDE_FULL_REASON = false
+# ===================================
+# REPORTER CONFIG
+# ===================================
+[json]
+# Optional JSON_FILE
+# By default set to eze_report.json
+# REPORT_FILE: XXX-XXX
 
-[java-cyclonedx]
-REPORT_FILE = "../reports/java/java-cyclonedx-bom.json"
-
-[java-dependencycheck]
-REPORT_FILE = "../reports/java/java-dependencycheck.json"
-
-[java-spotbugs]
-INCLUDE_FULL_REASON = true
-REPORT_FILE = "../reports/java/java-spotbugs.json"
-
-# ========================================
-# REPORT CONFIG
-# ========================================
 [bom]
-REPORT_FILE = "../reports/java/report-spdx-sbom.json"
+# Optional JSON_FILE
+# By default set to eze_report.json
+# REPORT_FILE: XXX-XXX
+
+[junit]
+# Optional XML_FILE
+# By default set to eze_junit_report.xml
+# REPORT_FILE: XXX-XXX
+
+[quality]
+# Will exit when total number of vulnerabilities in all tools over VULNERABILITY_SEVERITY_THRESHOLD exceeds VULNERABILITY_COUNT_THRESHOLD
+# [Optional] defaults to 0
+# VULNERABILITY_COUNT_THRESHOLD = 0
+# [Optional] defaults to "medium"
+# VULNERABILITY_SEVERITY_THRESHOLD = "xxx"
+#
+# Set Explicit limits for each type of vulnerability
+# [Optional] Will when errors of type over limit, not set by default
+# VULNERABILITY_CRITICAL_SEVERITY_LIMIT = xxx
+# VULNERABILITY_HIGH_SEVERITY_LIMIT = xxx
+# VULNERABILITY_MEDIUM_SEVERITY_LIMIT = xxx
+# VULNERABILITY_LOW_SEVERITY_LIMIT = xxx
+# VULNERABILITY_NONE_SEVERITY_LIMIT = xxx
+# VULNERABILITY_NA_SEVERITY_LIMIT = xxx
 
 [console]
-PRINT_SUMMARY_ONLY = true
+PRINT_SUMMARY_ONLY = false
+PRINT_IGNORED = false
 
-[json]
-REPORT_FILE = "../reports/java/eze_report.json"
-
-# ========================================
-# SCAN CONFIG
-# ========================================
 [scan]
-tools = ["trufflehog", "java-cyclonedx", "java-dependencycheck", "java-spotbugs"]
-reporters = ["json", "console", "bom"]
-
-[scan.linux]
-tools = ["semgrep", "java-cyclonedx", "trufflehog"]
+reporters = ["console", "bom", "json", "junit", "quality"]
+languages = ["java"]

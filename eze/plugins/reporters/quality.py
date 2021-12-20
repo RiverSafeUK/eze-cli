@@ -3,6 +3,7 @@ from eze import __version__
 from eze.core.enums import VulnerabilitySeverityEnum
 from eze.core.reporter import ReporterMeta
 from eze.utils.io import exit_app
+from eze.utils.log import log_error
 
 
 class QualityReporter(ReporterMeta):
@@ -148,7 +149,7 @@ of severity NA exceeds VULNERABILITY_NA_SEVERITY_LIMIT""",
         # ADDITION PARSING: VULNERABILITY_SEVERITY_THRESHOLD
         # if invalid value, default to medium
         if not hasattr(VulnerabilitySeverityEnum, parsed_config["VULNERABILITY_SEVERITY_THRESHOLD"]):
-            print(
+            log_error(
                 f'ERROR: invalid VULNERABILITY_SEVERITY_THRESHOLD:{parsed_config["VULNERABILITY_SEVERITY_THRESHOLD"]}, defaulting to {VulnerabilitySeverityEnum.medium.name}'
             )
             parsed_config["VULNERABILITY_SEVERITY_THRESHOLD"] = VulnerabilitySeverityEnum.medium.name

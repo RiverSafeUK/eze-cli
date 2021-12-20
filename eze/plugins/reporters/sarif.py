@@ -6,8 +6,10 @@ from pydash import py_
 import click
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.enums import Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.io import write_sarif
+from eze.utils.log import log, log_debug, log_error
 
 
 class SarifReporter(ReporterMeta):
@@ -36,13 +38,13 @@ By default set to eze_report.sarif""",
         """Method for taking scans and turning them into report output"""
         sarif_dict = await self._build_sarif_dict(scan_results)
         sarif_location = write_sarif(self.config["REPORT_FILE"], sarif_dict)
-        print(f"Written sarif report : {sarif_location}")
+        log(f"Written sarif report : {sarif_location}")
 
     async def _build_sarif_dict(self, scan_results: list):
         """Method for parsing the scans results into sarif format"""
         sarif_schema = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
         schema_version = "2.1.0"
-        click.echo("Eze report results:\n")
+        log("Eze report results:\n")
         scan_results_with_sboms = []
 
         sarif_dict = {"$schema": sarif_schema, "version": schema_version, "runs": []}

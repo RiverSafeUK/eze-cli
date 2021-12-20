@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.2",
+  "serialNumber": "urn:uuid:851f3468-ff2f-4bfd-80ac-5d8c91b8ff3a",
+  "version": 1,
+  "metadata": {},
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/x-xss-protection@1.0.0",
+      "name": "x-xss-protection",
+      "version": "1.0.0",
+      "description": "Middleware to set the X-XSS-Protection header",
+      "licenses": [
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:npm/x-xss-protection@1.0.0",
+      "externalReferences": [
+      ]
+    }
+  ]
+}

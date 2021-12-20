@@ -12,6 +12,7 @@ from eze.utils.io import pretty_print_json
 from eze.cli.utils.command_helpers import base_options, pass_state
 from eze.core.engine import EzeCore
 from eze.core.config import EzeConfig
+from eze.utils.log import log, log_debug, log_error
 
 
 @click.command("test")
@@ -57,7 +58,7 @@ def test_online_command(state, config_file: str, url: str) -> None:
         )
         with urllib.request.urlopen(req) as response:  # nosec # nosemgrep # using urllib.request.Request
             url_response = response.read()
-            print(url_response)
+            log(url_response)
     except HTTPError as err:
         error_text = err.read().decode()
         raise click.ClickException(f"""Error in request: {error_text}""")

@@ -5,6 +5,7 @@ import click
 
 from eze.cli.utils.command_helpers import debug_option
 from eze.core.reporter import ReporterManager
+from eze.utils.log import log, log_debug, log_error
 
 
 @click.group("reporters")
@@ -35,7 +36,7 @@ def help_command(reporter: str) -> None:
     """
     reporter_manager = ReporterManager.get_instance()
     if reporter not in reporter_manager.reporters:
-        click.echo(f"Could not find reporter '{reporter}', use 'eze reporters list' to get available reporters")
+        log(f"Could not find reporter '{reporter}', use 'eze reporters list' to get available reporters")
         sys.exit(1)
     reporter_manager.print_reporter_help(reporter)
 

@@ -1,11 +1,22 @@
 """Utilities for cyclone dx SBOM"""
 from pydash import py_
 
-from eze.core.tool import ScanResult
+from eze.core.tool import ScanResult, ToolMeta
+from eze.utils.sbom import get_bom_license, check_licenses
+
+
+def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict):
+    """convert sbom into scan_result"""
+    [vulnerabilities, warnings] = check_licenses(
+        cyclonedx_bom, tool.config["LICENSE_CHECK"], tool.config["LICENSE_ALLOWLIST"], tool.config["LICENSE_DENYLIST"]
+    )
+    return ScanResult(
+        {"tool": tool.TOOL_NAME, "bom": cyclonedx_bom, "vulnerabilities": vulnerabilities, "warnings": warnings}
+    )
 
 
 def name_and_time_summary(scan_result: ScanResult, indent: str = "    ") -> str:
-    """convert bom into one line summary"""
+    """convert scan_result into one line summary"""
     run_details = scan_result.run_details
     #
     tool_name = py_.get(run_details, "tool_name", "unknown")
@@ -42,18 +53,6 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
         totals_txt += ", ".join(breakdowns)
         totals_txt += ")"
     return totals_txt + "\n"
-
-
-def get_bom_license(license_dict: dict) -> str:
-    """Parse cyclonedx license object for normalised license"""
-    license_text = py_.get(license_dict, "license.name")
-    if not license_text:
-        license_text = py_.get(license_dict, "license.id")
-    if license_text:
-        # normalise upper and lower case unknown entries
-        if license_text.lower() == "unknown":
-            license_text = "unknown"
-    return license_text
 
 
 def vulnerabilities_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:

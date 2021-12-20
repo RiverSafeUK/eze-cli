@@ -39,5 +39,7 @@
   "summary": {},
   "tool": "anchore-syft",
   "vulnerabilities": [],
-  "warnings": []
+  "warnings": [
+    "unable to check licenses, no valid license information in sboms"
+  ]
 }

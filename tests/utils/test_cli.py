@@ -7,7 +7,7 @@ from pydash import trim
 
 from tests.__test_helpers__.mock_helper import mock_run_cmd
 from eze.utils.cli import (
-    _check_output_corrupt,
+    _has_missing_exe_output,
     _extract_version,
     _extract_executable,
     build_cli_command,
@@ -22,23 +22,23 @@ from eze.utils.cli import (
 )
 
 
-def test_check_output_corrupt__linux_bash_file_missing():
+def test_is_missing_exe_output__linux_bash_file_missing():
     test_input = """/bin/sh: 1: non-existant.sh: not found\n"""
-    output = _check_output_corrupt(test_input)
+    output = _has_missing_exe_output(test_input)
     assert output is True
 
 
-def test_check_output_corrupt__windows_bash_file_missing():
+def test_is_missing_exe_output__windows_bash_file_missing():
     test_input = """
 'safety' is not recognized as an internal or external command,
 operable program or batch file."""
-    output = _check_output_corrupt(test_input)
+    output = _has_missing_exe_output(test_input)
     assert output is True
 
 
-def test_check_output_corrupt__normal_output():
+def test_is_missing_exe_output__normal_output():
     test_input = """safety, version 1.10.3"""
-    output = _check_output_corrupt(test_input)
+    output = _has_missing_exe_output(test_input)
     assert output is False
 
 

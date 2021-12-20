@@ -3,10 +3,11 @@ import shlex
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.io import create_tempfile_path, write_text, parse_json
+from eze.utils.log import log_error
 
 
 class GrypeTool(ToolMeta):
@@ -28,7 +29,7 @@ Tips
 
 Common Gotchas
 ===========================
-Worth mentioning vulnerability counts are quite high for offical out the box docker images
+Worth mentioning vulnerability counts are quite high for official out the box docker images
 
 trivy image node:slim
 Total: 101 (UNKNOWN: 2, LOW: 67, MEDIUM: 8, HIGH: 20, CRITICAL: 4)
@@ -37,7 +38,7 @@ trivy image python:3.8-slim
 Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)
 """
     # https://github.com/anchore/grype/blob/main/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
 
     EZE_CONFIG: dict = {
         "SOURCE": {
@@ -101,7 +102,7 @@ You can also explicitly specify the scheme to use:
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
         report_events = parse_json(report_text)
@@ -122,7 +123,7 @@ You can also explicitly specify the scheme to use:
         if not has_severity:
             if grype_severity == "negligible":
                 return VulnerabilitySeverityEnum.na.name
-            print(f"ERR: unknown trivy severity '${grype_severity}', defaulting to na")
+            log_error(f"unknown trivy severity '${grype_severity}', defaulting to na")
             return VulnerabilitySeverityEnum.na.name
 
         return VulnerabilitySeverityEnum[grype_severity].name
@@ -179,7 +180,7 @@ You can also explicitly specify the scheme to use:
             dup_key_list[unique_key] = True
 
             vulnerability_raw = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": vulnerable_package,
                 "version": installed_version,
                 "overview": overview,

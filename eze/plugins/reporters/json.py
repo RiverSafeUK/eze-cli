@@ -3,6 +3,7 @@
 from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.utils.io import write_json
+from eze.utils.log import log
 
 
 class JsonReporter(ReporterMeta):
@@ -30,4 +31,4 @@ By default set to eze_report.json""",
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
         json_location = write_json(self.config["REPORT_FILE"], scan_results)
-        print(f"written json report : {json_location}")
+        log(f"written json report : {json_location}")

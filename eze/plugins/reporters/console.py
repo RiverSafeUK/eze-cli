@@ -3,16 +3,17 @@ import click
 from pydash import py_
 
 from eze import __version__
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, Vulnerability
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.tool import ScanResult
+from eze.utils.log import log, log_debug, log_error
 from eze.utils.scan_result import (
     vulnerabilities_short_summary,
     bom_short_summary,
     name_and_time_summary,
-    get_bom_license,
 )
 from eze.utils.print import pretty_print_table
+from eze.utils.sbom import get_bom_license, annotate_licenses
 
 
 class ConsoleReporter(ReporterMeta):
@@ -45,7 +46,7 @@ defaults to false""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        click.echo("Eze report results:\n")
+        log("Eze report results:\n")
         scan_results_with_vulnerabilities = []
         scan_results_with_sboms = []
         scan_results_with_warnings = []
@@ -114,7 +115,7 @@ defaults to false""",
                 summaries.append(entry)
         pretty_print_table(summaries, False)
         if len(boms) > 0:
-            print("\n".join(boms))
+            log("\n".join(boms))
 
     def print_scan_summary_title(self, scan_result: ScanResult, prefix: str = "") -> str:
         """Title of scan summary title"""
@@ -128,7 +129,7 @@ defaults to false""",
         # if bom only scan, do not print vulnerability count
         if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
             scan_summary += vulnerabilities_short_summary(scan_result, prefix + "    ")
-        click.echo(scan_summary)
+        log(scan_summary)
 
     def _has_printable_vulnerabilities(self, scan_result: ScanResult) -> bool:
         """Method for taking scan vulnerabilities return True if anything to print"""
@@ -143,7 +144,7 @@ defaults to false""",
 
         if len(scan_results_with_vulnerabilities) <= 0:
             return
-        click.echo(
+        log(
             """
 Vulnerabilities
 ================================="""
@@ -154,7 +155,7 @@ Vulnerabilities
             run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
             small_indent = "    "
             indent = "        "
-            click.echo(
+            log(
                 f"""
 {small_indent}[{tool_name}{run_type}] Vulnerabilities
 {small_indent}================================="""
@@ -165,7 +166,7 @@ Vulnerabilities
                 if vulnerability.is_ignored:
                     # INFO: By Default ignore "ignored vulnerabilities"
                     if self.config["PRINT_IGNORED"]:
-                        click.echo(f"""{indent}(ignored)""")
+                        log(f"""{indent}(ignored)""")
                     else:
                         continue
 
@@ -174,26 +175,26 @@ Vulnerabilities
                 first_line = f"""{indent}[{severity} {vulnerability_type}] : {vulnerability.name}"""
                 if vulnerability.version:
                     first_line += f" ({vulnerability.version})"
-                click.echo(first_line)
-                click.echo(f"""{indent}overview: {vulnerability.overview}""")
+                log(first_line)
+                log(f"""{indent}overview: {vulnerability.overview}""")
                 for identifier_key in vulnerability.identifiers:
                     identifier_value = vulnerability.identifiers[identifier_key]
-                    click.echo(f"""{indent}{identifier_key}: {identifier_value}""")
+                    log(f"""{indent}{identifier_key}: {identifier_value}""")
 
                 if vulnerability.recommendation:
-                    click.echo(f"""{indent}recommendation: {vulnerability.recommendation}""")
+                    log(f"""{indent}recommendation: {vulnerability.recommendation}""")
 
                 if vulnerability.file_location:
-                    click.echo(
+                    log(
                         f"""{indent}file: {vulnerability.file_location.get('path')} (line {vulnerability.file_location.get('line')})"""
                     )
-                click.echo("")
+                log("")
 
     def _print_scan_report_sbom(self, scan_results_with_sboms: list):
         """print scan sbom"""
         if len(scan_results_with_sboms) <= 0:
             return
-        click.echo(
+        log(
             """
 Bill of Materials
 ================================="""
@@ -202,37 +203,22 @@ Bill of Materials
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
             run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
-            click.echo(
+            log(
                 f"""
 [{tool_name}{run_type}] SBOM
 ================================="""
             )
+            sbom_components = annotate_licenses(scan_result.bom)
             sboms = []
-            for component in scan_result.bom["components"]:
-                licenses = component.get("licenses", [])
-
-                license_txt = "unknown"
-                # manual parsing for name and id
-                if licenses and len(licenses) > 0:
-                    license_texts = []
-                    for license_obj in licenses:
-                        license_text = get_bom_license(license_obj)
-                        if license_text:
-                            license_texts.append(license_text)
-                    license_txt = ", ".join(license_texts)
-
-                component_name = component["name"]
-                component_group = component.get("group")
-                if component_group:
-                    component_name = f"{component_group}.{component_name}"
-
+            for sbom_component in sbom_components:
                 sboms.append(
                     {
-                        "type": component["type"],
-                        "name": component_name,
-                        "version": component["version"],
-                        "license": license_txt,
-                        "description": component.get("description", ""),
+                        "type": sbom_component.type,
+                        "name": sbom_component.name,
+                        "version": sbom_component.version,
+                        "license": sbom_component.license,
+                        "license type": sbom_component.license_type,
+                        "description": sbom_component.description,
                     }
                 )
             pretty_print_table(sboms)
@@ -242,7 +228,7 @@ Bill of Materials
         if len(scan_results_with_warnings) <= 0:
             return
 
-        click.echo(
+        log(
             """
 Warnings
 ================================="""
@@ -253,20 +239,20 @@ Warnings
             run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
             small_indent = "    "
             indent = "        "
-            click.echo(
+            log(
                 f"""
 {small_indent}[{tool_name}{run_type}] Warnings
 {small_indent}================================="""
             )
             for warning in scan_result.warnings:
-                click.echo(f"""{indent}{warning}""")
+                log(f"""{indent}{warning}""")
 
     def _print_scan_report_errors(self, scan_results_with_errors: list):
         """print scan errors"""
         if len(scan_results_with_errors) <= 0:
             return
 
-        click.echo(
+        log(
             """
 Errors
 ================================="""
@@ -277,10 +263,10 @@ Errors
             run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
             small_indent = "    "
             indent = "        "
-            click.echo(
+            log(
                 f"""
 {small_indent}[{tool_name}{run_type}] Errors
 {small_indent}================================="""
             )
             for fatal_error in scan_result.fatal_errors:
-                click.echo(f"""{indent}{fatal_error}""")
+                log(f"""{indent}{fatal_error}""")

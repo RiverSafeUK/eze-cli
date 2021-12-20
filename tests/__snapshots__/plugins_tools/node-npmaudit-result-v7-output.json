@@ -19,7 +19,7 @@
       "references": [],
       "severity": "low",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -39,7 +39,7 @@
       ],
       "severity": "low",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -59,7 +59,7 @@
       ],
       "severity": "high",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -75,7 +75,7 @@
       "references": [],
       "severity": "low",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -91,7 +91,7 @@
       "references": [],
       "severity": "high",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -111,7 +111,7 @@
       ],
       "severity": "critical",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -127,7 +127,7 @@
       "references": [],
       "severity": "moderate",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -147,7 +147,7 @@
       ],
       "severity": "moderate",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -167,7 +167,7 @@
       ],
       "severity": "high",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -187,7 +187,7 @@
       ],
       "severity": "low",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -203,7 +203,7 @@
       "references": [],
       "severity": "low",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -219,7 +219,7 @@
       "references": [],
       "severity": "critical",
       "version": "",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     }
   ],
   "warnings": []

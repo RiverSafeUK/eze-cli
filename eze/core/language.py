@@ -13,7 +13,13 @@ import click
 from pydash import py_
 
 from eze.core.config import EzeConfig
-from eze.core.enums import SourceType
+from eze.core.enums import (
+    SourceType,
+    LicenseScanType,
+    LICENSE_DENYLIST_CONFIG,
+    LICENSE_ALLOWLIST_CONFIG,
+    LICENSE_CHECK_CONFIG,
+)
 from eze.core.tool import ToolManager
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
@@ -21,6 +27,7 @@ from eze.utils.io import write_text
 from eze.utils.print import pretty_print_table
 from eze.utils.config import extract_embedded_run_type
 from eze.utils.error import EzeConfigError
+from eze.utils.log import log, log_debug, log_error
 
 
 class LanguageRunnerMeta(ABC):
@@ -216,7 +223,7 @@ class LanguageManager:
     def get_instance() -> LanguageManager:
         """Get previously set languages config"""
         if LanguageManager._instance is None:
-            print("Error: LanguageManager unable to get config before it is setup")
+            log_error("LanguageManager unable to get config before it is setup")
         return LanguageManager._instance
 
     @staticmethod
@@ -239,8 +246,7 @@ class LanguageManager:
         for plugin_name in plugins:
             plugin = plugins[plugin_name]
             if not hasattr(plugin, "get_languages") or not isinstance(plugin.get_languages, Callable):
-                if EzeConfig.debug_mode:
-                    print(f"'get_languages' function missing from plugin '{plugin_name}'")
+                log_debug(f"'get_languages' function missing from plugin '{plugin_name}'")
                 continue
             plugin_languages = plugin.get_languages()
             self._add_languages(plugin_languages)
@@ -301,13 +307,29 @@ class LanguageManager:
     def _create_config_file(self, config_location: pathlib.Path, config_yaml_str: str) -> None:
         """Create the path to create the config file at and creates file"""
         write_text(config_location, config_yaml_str)
-        click.echo(f"Successfully written configuration file to '{config_location}'")
+        log(f"Successfully written configuration file to '{config_location}'")
 
     def create_local_ezerc_config(self, root_path: str = None) -> bool:
         """Create new local ezerc file"""
         languages = self._discover(root_path)
         language_list = []
-        eze_rc = """# Ezerc auto generated
+        eze_rc = f"""# Ezerc auto generated
+# ===================================
+# GLOBAL CONFIG
+# ===================================
+[global]
+# LICENSE_CHECK, available modes:
+# - PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+LICENSE_CHECK = "{LICENSE_CHECK_CONFIG["default"]}"
+# LICENSE_ALLOWLIST, {LICENSE_ALLOWLIST_CONFIG["help_text"]}
+LICENSE_ALLOWLIST = []
+# LICENSE_DENYLIST, {LICENSE_DENYLIST_CONFIG["help_text"]}
+LICENSE_DENYLIST = []
+
 # ===================================
 # TOOL CONFIG
 # ===================================
@@ -315,9 +337,9 @@ class LanguageManager:
         for language_key in languages:
             language: LanguageRunnerMeta = languages[language_key]
             output = language.create_ezerc()
-            click.echo(f"Found Language '{language_key}':")
-            click.echo(output["message"])
-            click.echo("\n")
+            log(f"Found Language '{language_key}':")
+            log(output["message"])
+            log("\n")
             eze_rc += output["fragment"]
             eze_rc += "\n\n"
             language_list.append('"' + language_key + '"')
@@ -365,13 +387,13 @@ languages = [{",".join(language_list)}]
 """
         local_config_location = EzeConfig.get_local_config_filename()
         self._create_config_file(local_config_location, eze_rc)
-        click.echo(f"Written local configuration file: '{local_config_location}'")
+        log(f"Written local configuration file: '{local_config_location}'")
 
         return True
 
     def print_languages_list(self):
         """list available languages"""
-        click.echo(
+        log(
             """Available Languages are:
 ======================="""
         )
@@ -393,7 +415,7 @@ languages = [{",".join(language_list)}]
 
     def print_languages_help(self):
         """print help for all Languages"""
-        click.echo(
+        log(
             """Available Languages Help:
 ======================="""
         )
@@ -404,7 +426,7 @@ languages = [{",".join(language_list)}]
         """print out language help"""
         language_class: LanguageRunnerMeta = self.languages[language]
         language_description = language_class.short_description()
-        click.echo(
+        log(
             f"""=================================
 Language '{language}' Help
 {language_description}
@@ -412,20 +434,20 @@ Language '{language}' Help
         )
         language_version = language_class.check_installed()
         if language_version:
-            click.echo(f"Version: {language_version} Installed\n")
+            log(f"Version: {language_version} Installed\n")
         else:
-            click.echo(
+            log(
                 """Language Install Instructions:
 ---------------------------------"""
             )
-            click.echo(language_class.install_help())
-            click.echo("")
+            log(language_class.install_help())
+            log("")
 
-        click.echo(
+        log(
             """Language More Info:
 ---------------------------------"""
         )
-        click.echo(language_class.more_info())
+        log(language_class.more_info())
 
     def _add_languages(self, languages: dict):
         """adds new languages to languages registry"""
@@ -433,17 +455,14 @@ Language '{language}' Help
             language = languages[language_name]
             if issubclass(language, LanguageRunnerMeta):
                 if not hasattr(self.languages, language_name):
-                    if EzeConfig.debug_mode:
-                        print(f"-- installing language '{language_name}'")
+                    log_debug(f"-- installing language '{language_name}'")
                     self.languages[language_name] = language
                 else:
-                    if EzeConfig.debug_mode:
-                        print(f"-- skipping '{language_name}' already defined")
+                    log_debug(f"-- skipping '{language_name}' already defined")
                     continue
             # TODO: else check public functions
             else:
-                if EzeConfig.debug_mode:
-                    print(f"-- skipping invalid language '{language_name}'")
+                log_debug(f"-- skipping invalid language '{language_name}'")
                 continue
 
     def get_language_config(self, language_name: str, scan_type: str = None, run_type: str = None):

@@ -15,6 +15,7 @@ import click
 import toml
 
 from eze.utils.error import EzeFileAccessError, EzeFileParsingError
+from eze.utils.log import log, log_debug, log_error
 
 
 def normalise_file_paths(file_paths: list) -> Path:
@@ -31,11 +32,11 @@ def remove_non_folders(file_paths: list, default: list, subject: str) -> list:
         if not os.path.exists(local_folder):
             continue
         if not os.path.isdir(local_folder):
-            print(f"{subject}: Removing non folder '{local_folder}' from list '{file_paths}'")
+            log(f"{subject}: Removing non folder '{local_folder}' from list '{file_paths}'")
             continue
         cleaned.append(file_path)
     if len(cleaned) == 0:
-        print(f"{subject}: No valid paths left, defaulting to '{default}'")
+        log(f"{subject}: No valid paths left, defaulting to '{default}'")
         return default
     return cleaned
 
@@ -166,7 +167,7 @@ def create_folder(file_path: str, raise_error_on_fail: bool = True):
     except PermissionError as not_permitted_err:
         if raise_error_on_fail:
             raise EzeFileAccessError(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
-        click.echo(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
+        log_error(f"Eze cannot create folder '{not_permitted_err.filename}', Permission was denied")
 
 
 def write_text(file_path: str, text: str) -> str:

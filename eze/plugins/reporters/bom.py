@@ -5,6 +5,7 @@ from pydash import py_
 from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.utils.io import write_json
+from eze.utils.log import log, log_debug, log_error
 
 
 class BomReporter(ReporterMeta):
@@ -30,7 +31,7 @@ By default set to eze_bom.json""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        print("Eze bom results:\n")
+        log("Eze bom results:\n")
         scan_results_with_sboms = []
         for scan_result in scan_results:
             if scan_result.bom:
@@ -42,11 +43,11 @@ By default set to eze_bom.json""",
         """convert scan sboms into bom files"""
         small_indent = "    "
         if len(scan_results_with_sboms) <= 0:
-            click.echo(f"""{small_indent}Reporter couldn't find any input sboms to convert into report files""")
+            log(f"""{small_indent}Reporter couldn't find any input sboms to convert into report files""")
             return
         for scan_result in scan_results_with_sboms:
             report_file = self.config["REPORT_FILE"]
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            click.echo(f"""{small_indent}Writing [{tool_name}] json dx SBOM to {report_file}""")
+            log(f"""{small_indent}Writing [{tool_name}] json dx SBOM to {report_file}""")
             write_json(report_file, scan_result.bom)

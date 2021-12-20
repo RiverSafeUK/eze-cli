@@ -4,3 +4,4 @@ include README.md
 include README-DEVELOPMENT.md
 include Dockerfile
 include requirements.txt
+include eze/data/spdx-license-list-data-supplement.json

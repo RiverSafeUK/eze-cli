@@ -1,20 +1,19 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
 
+import asyncio
 import os
 import time
+import math
 from abc import ABC, abstractmethod
 from typing import Callable
 
-import click
-from pydash import py_
-
 from eze.core.reporter import ReporterManager
 from eze.core.config import EzeConfig
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType
+from eze.core.enums import VulnerabilitySeverityEnum, ToolType, Vulnerability
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.cli import EzeExecutableNotFoundError
-from eze.utils.io import normalise_file_paths, normalise_linux_file_path, create_folder
+from eze.utils.io import normalise_file_paths, create_folder
 from eze.utils.print import pretty_print_table
 from eze.utils.config import (
     get_config_key,
@@ -23,79 +22,7 @@ from eze.utils.config import (
     extract_embedded_run_type,
 )
 from eze.utils.error import EzeError, EzeConfigError
-
-
-class Vulnerability:
-    """Wrapper around raw dict to provide easy code typing"""
-
-    def __init__(self, vo: dict):
-        """constructor"""
-        # aka generic / dependancy / secret
-        self.vulnerability_type: str = get_config_key(vo, "vulnerability_type", str, VulnerabilityType.generic.name)
-        self.name: str = get_config_key(vo, "name", str, "")
-        self.severity: str = get_config_key(vo, "severity", str, "").lower()
-        self.confidence: str = get_config_key(vo, "confidence", str, "").lower()
-        self.overview: str = get_config_key(vo, "overview", str, "")
-        self.is_ignored: bool = get_config_key(vo, "is_ignored", bool, False)
-        self.is_excluded: bool = get_config_key(vo, "is_excluded", bool, False)
-        # [optional] containers cve/cwe info
-        self.identifiers: dict = get_config_key(vo, "identifiers", dict, {})
-        # [optional] mitigation recommendations
-        self.recommendation: str = get_config_key(vo, "recommendation", str, "")
-        # [optional] language of Vulnerability found in
-        self.language: str = get_config_key(vo, "language", str, "")
-        # [optional] pair of File/Line
-        self.file_location: dict = get_config_key(vo, "file_location", dict, None)
-        # [optional] version of object under test
-        self.version: str = get_config_key(vo, "version", str, "")
-        # [optional] list of reference urls
-        self.references: list = get_config_key(vo, "references", list, [])
-        # misc container
-        self.metadata: dict = get_config_key(vo, "metadata", dict, None)
-
-    def update_ignored(self, tool_config: dict) -> bool:
-        """detect if vulnerability is to be ignored"""
-        if self.is_ignored:
-            self.is_ignored = True
-            return True
-        if self.name in tool_config["IGNORED_VULNERABILITIES"]:
-            self.is_ignored = True
-            return True
-        for identifier_key in self.identifiers:
-            identifier_value = self.identifiers[identifier_key]
-            if identifier_value in tool_config["IGNORED_VULNERABILITIES"]:
-                self.is_ignored = True
-                return True
-        file_location = py_.get(self, "file_location.path", False)
-        if file_location:
-            file_location = normalise_linux_file_path(file_location)
-            for ignored_path in tool_config["IGNORED_FILES"]:
-                if file_location.startswith(ignored_path):
-                    self.is_ignored = True
-                    return True
-        severity_level = VulnerabilitySeverityEnum[self.severity].value
-        if severity_level > tool_config["IGNORE_BELOW_SEVERITY_INT"]:
-            self.is_ignored = True
-            return True
-        self.is_ignored = False
-        return False
-
-    def update_excluded(self, tool_config: dict) -> bool:
-        """detect if vulnerability is to be excluded"""
-        if self.is_excluded:
-            self.is_excluded = True
-            return True
-
-        file_location = py_.get(self, "file_location.path", False)
-        if file_location:
-            file_location = normalise_linux_file_path(file_location)
-            for excluded_path in tool_config["EXCLUDE"]:
-                if file_location.startswith(excluded_path):
-                    self.is_excluded = True
-                    return True
-
-        self.is_excluded = False
-        return False
+from eze.utils.log import log, log_debug, log_error, status_message
 
 
 class ScanResult:
@@ -107,7 +34,7 @@ class ScanResult:
         self.summary: dict = get_config_key(vo, "summary", dict, {})
         self.run_details: dict = get_config_key(vo, "run_details", dict, {})
 
-        # bom in Cyconedx format
+        # bom in Cyclonedx format
         # https://cyclonedx.org/
         self.bom: dict = get_config_key(vo, "bom", dict, None)
 
@@ -252,7 +179,7 @@ class ToolManager:
     def get_instance() -> ToolManager:
         """Get previously set tools config"""
         if ToolManager._instance is None:
-            print("Error: ToolManager unable to get config before it is setup")
+            log_error("ToolManager unable to get config before it is setup")
         return ToolManager._instance
 
     @staticmethod
@@ -275,8 +202,7 @@ class ToolManager:
         for plugin_name in plugins:
             plugin = plugins[plugin_name]
             if not hasattr(plugin, "get_tools") or not isinstance(plugin.get_tools, Callable):
-                if EzeConfig.debug_mode:
-                    print(f"'get_tools' function missing from plugin '{plugin_name}'")
+                log_debug(f"'get_tools' function missing from plugin '{plugin_name}'")
                 continue
             plugin_tools = plugin.get_tools()
             self._add_tools(plugin_tools)
@@ -294,7 +220,31 @@ class ToolManager:
         tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
         tool_instance.prepare_folder()
         try:
-            scan_result: ScanResult = await tool_instance.run_scan()
+            process = {"scan_result": None}
+
+            async def run_counter(what: str, delay: int = 1):
+                status_message(what)
+                while True:
+                    toc = time.perf_counter()
+                    status_message(what + " (" + str(math.ceil(toc - tic)) + " secs)")
+                    await asyncio.sleep(delay)
+
+            run_counter_task = asyncio.create_task(run_counter(f"running tool '{tool_name}'"))
+
+            async def run_process():
+                try:
+                    process["scan_result"] = await tool_instance.run_scan()
+                finally:
+                    run_counter_task.cancel()
+
+            task_run_process = asyncio.create_task(run_process())
+            try:
+                await asyncio.gather(run_counter_task, task_run_process)
+            except RuntimeError:
+                pass
+            except asyncio.exceptions.CancelledError:
+                pass
+            scan_result: ScanResult = process["scan_result"]
         except EzeExecutableNotFoundError as error:
             # Special Case:
             # If executable not installed print "install help"
@@ -302,7 +252,7 @@ class ToolManager:
             tool_class = self.tools[tool_name]
             is_installed = tool_class.check_installed()
             if not is_installed:
-                click.echo(
+                log_error(
                     f"""[{tool_name}] {error}
 
 Looks like {tool_name} is not installed
@@ -328,6 +278,13 @@ Looks like {tool_name} is not installed
 
         toc = time.perf_counter()
         # annotation raw scan result
+        if not scan_result:
+            scan_result = ScanResult(
+                {
+                    "tool": tool_instance.TOOL_NAME,
+                    "fatal_errors": [f"Not scan result received"],
+                }
+            )
         if not scan_result.tool:
             scan_result.tool = tool_instance.TOOL_NAME
 
@@ -376,7 +333,7 @@ Looks like {tool_name} is not installed
         include_version: bool = None,
     ):
         """list available tools"""
-        click.echo(
+        log(
             """Available Tools are:
 ======================="""
         )
@@ -413,7 +370,7 @@ Looks like {tool_name} is not installed
 
     def print_tools_help(self, tool_type: str = None, source_type: str = None, include_source_type: bool = None):
         """print help for all tools"""
-        click.echo(
+        log(
             """Available Tools Help:
 ======================="""
         )
@@ -436,7 +393,7 @@ Looks like {tool_name} is not installed
         """print out tool help"""
         tool_class: ToolMeta = self.tools[tool]
         tool_description = tool_class.short_description()
-        click.echo(
+        log(
             f"""
 =================================
 Tool '{tool}' Help
@@ -444,28 +401,28 @@ Tool '{tool}' Help
 ================================="""
         )
         tool_license = tool_class.license()
-        click.echo(f"License: {tool_license}")
+        log(f"License: {tool_license}")
         tool_version = tool_class.check_installed()
         if tool_version:
-            click.echo(f"Version: {tool_version} Installed\n")
+            log(f"Version: {tool_version} Installed\n")
         else:
-            click.echo(
+            log(
                 """Tool Install Instructions:
 ---------------------------------"""
             )
-            click.echo(tool_class.install_help())
-            click.echo("")
-        click.echo(
+            log(tool_class.install_help())
+            log("")
+        log(
             """Tool Configuration Instructions:
 ---------------------------------"""
         )
-        click.echo(tool_class.config_help())
+        log(tool_class.config_help())
 
-        click.echo(
+        log(
             """Tool More Info:
 ---------------------------------"""
         )
-        click.echo(tool_class.more_info())
+        log(tool_class.more_info())
 
     def _normalise_vulnerabilities(self, vulnerabilities: list, tool_config: dict) -> list:
         """sort and normalise any corrupted values in vulnerabilities"""
@@ -520,17 +477,14 @@ Tool '{tool}' Help
             tool = tools[tool_name]
             if issubclass(tool, ToolMeta):
                 if not hasattr(self.tools, tool_name):
-                    if EzeConfig.debug_mode:
-                        print(f"-- installing tool '{tool_name}'")
+                    log_debug(f"-- installing tool '{tool_name}'")
                     self.tools[tool_name] = tool
                 else:
-                    if EzeConfig.debug_mode:
-                        print(f"-- skipping '{tool_name}' already defined")
+                    log_debug(f"-- skipping '{tool_name}' already defined")
                     continue
             # TODO: else check public functions
             else:
-                if EzeConfig.debug_mode:
-                    print(f"-- skipping invalid tool '{tool_name}'")
+                log_error(f"-- skipping invalid tool '{tool_name}'")
                 continue
 
     def _get_tool_config(
@@ -556,7 +510,7 @@ Tool '{tool}' Help
 
         tool_config["DEFAULT_SEVERITY"] = get_config_key(tool_config, "DEFAULT_SEVERITY", str, default_severity)
         if not hasattr(VulnerabilitySeverityEnum, tool_config["DEFAULT_SEVERITY"]):
-            print(
+            log_error(
                 f"{tool_name} configured with invalid DEFAULT_SEVERITY='{tool_config['DEFAULT_SEVERITY']}', defaulting to na"
             )
             tool_config["DEFAULT_SEVERITY"] = VulnerabilitySeverityEnum.na.name
@@ -574,7 +528,7 @@ Tool '{tool}' Help
             tool_config, "IGNORE_BELOW_SEVERITY", str, VulnerabilitySeverityEnum.na.name
         )
         if not hasattr(VulnerabilitySeverityEnum, ignore_below_severity_name):
-            print(f"ERROR: invalid IGNORE_BELOW_SEVERITY value '{ignore_below_severity_name}' given, defaulting to na")
+            log_error(f"invalid IGNORE_BELOW_SEVERITY value '{ignore_below_severity_name}' given, defaulting to na")
             ignore_below_severity_name = VulnerabilitySeverityEnum.na.name
         tool_config["IGNORE_BELOW_SEVERITY_INT"] = VulnerabilitySeverityEnum[ignore_below_severity_name].value
         return tool_config

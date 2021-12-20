@@ -8,6 +8,8 @@ from eze.plugins.tools.java_dependencycheck import JavaDependencyCheckTool
 from eze.plugins.tools.java_spotbugs import JavaSpotbugsTool
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
+from eze.utils.log import log, log_debug, log_error
+
 from eze.utils.cli import extract_cmd_version
 
 
@@ -45,7 +47,7 @@ tools are expecting pom.xml at root level"""
         """Method for running a pre test builds on project"""
         # AB#662: implement auto builds
         # aka mvn build
-        click.echo("Java auto build not implemented yet, see AB#662: implement auto maven build")
+        log("Java auto build not implemented yet, see AB#662: implement auto maven build")
 
     def create_ezerc(self) -> dict:
         """Method for building a dynamic ezerc.toml fragment"""

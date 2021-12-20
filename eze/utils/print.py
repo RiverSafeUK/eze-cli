@@ -4,7 +4,7 @@
 
 def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
     """given kv with print it as a pretty printed table"""
-
+    # WARNING: special print functions
     if len(table) == 0:
         if has_nothing_message:
             print("Nothing to display")

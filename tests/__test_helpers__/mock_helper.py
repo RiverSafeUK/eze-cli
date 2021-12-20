@@ -3,6 +3,10 @@
 import sys
 from io import StringIO
 
+from eze.utils.cli import CompletedProcess
+
+from eze.utils.log import LogLevel
+
 from eze.utils.io import pretty_print_json
 
 from eze.utils.scan_result import name_and_time_summary, vulnerabilities_short_summary, bom_short_summary
@@ -192,6 +196,8 @@ def setup_mock(eze_config: dict = None, tools: dict = None, reporters: dict = No
     ReporterManager.set_instance({"dummy-plugin": dummy_plugin_class})
     LanguageManager.set_instance({"dummy-plugin": dummy_plugin_class})
 
+    LogLevel.print_status_messages(False)
+
 
 def teardown_mock():
     """Unmock the services being used in app"""
@@ -200,6 +206,7 @@ def teardown_mock():
     ToolManager.reset_instance()
     ReporterManager.reset_instance()
     LanguageManager.reset_instance()
+    LogLevel.reset_instance()
 
 
 def mock_print() -> StringIO:
@@ -209,11 +216,33 @@ def mock_print() -> StringIO:
     return mocked_print_output
 
 
+def mock_print_stderr() -> StringIO:
+    """Mock the print command to stderr"""
+    mocked_print_output_stderr = StringIO()
+    sys.stderr = mocked_print_output_stderr
+    return mocked_print_output_stderr
+
+
 def unmock_print():
     """Unmock the print command"""
     sys.stdout = sys.__stdout__
 
 
+def unmock_print_stderr():
+    """Unmock the print command to stderr"""
+    sys.stderr = sys.__stderr__
+
+
 def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = ""):
     """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
     mocked_run_cmd.return_value = MockSuccessfullyCompletedProcess(stdout, stderr)
+
+
+def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = ""):
+    """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
+    mocked_run_cmd.return_value = MockSuccessfullyCompletedProcess(stdout, stderr)
+
+
+def mock_run_async_cmd(mocked_run_async_cmd, stdout: str, stderr: str = "") -> CompletedProcess:
+    """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
+    mocked_run_async_cmd.return_value = CompletedProcess(stdout, stderr)

@@ -3,13 +3,12 @@
 import re
 import shlex
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import run_cli_command, detect_pip_executable_version
+from eze.utils.cli import detect_pip_executable_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, write_text
 from eze.utils.semvar import get_severity, get_recommendation
 
@@ -121,7 +120,7 @@ default is 182 (half a year)""",
 
         :raises EzeError
         """
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
         report = self.parse_report(report_text)
@@ -181,7 +180,7 @@ default is 182 (half a year)""",
                     outdated_package, installed_version, latest_version, package_outdated_in_days
                 )
                 vulnerability_raw = {
-                    "vulnerability_type": VulnerabilityType.dependancy.name,
+                    "vulnerability_type": VulnerabilityType.dependency.name,
                     "name": outdated_package,
                     "version": installed_version,
                     "overview": report_event,
@@ -198,7 +197,7 @@ default is 182 (half a year)""",
             if semver_severity:
                 semver_recommendation = get_recommendation(outdated_package, installed_version, latest_version)
                 vulnerability_raw = {
-                    "vulnerability_type": VulnerabilityType.dependancy.name,
+                    "vulnerability_type": VulnerabilityType.dependency.name,
                     "name": outdated_package,
                     "version": installed_version,
                     "overview": report_event,

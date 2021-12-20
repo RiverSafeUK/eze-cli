@@ -23,13 +23,13 @@ from eze.utils.config import (
     merge_configs,
 )
 from eze.utils.error import EzeFileAccessError, EzeFileParsingError, EzeConfigError
+from eze.utils.log import log, log_debug, log_error
 
 
 class EzeConfig:
     """Singleton Class for accessing and merging multiple config files"""
 
     _instance = None
-    debug_mode: bool = False
 
     @staticmethod
     def get_global_config_filename() -> Path:
@@ -78,23 +78,22 @@ class EzeConfig:
         global_config_file = EzeConfig.get_global_config_filename()
         local_config_file = EzeConfig.get_local_config_filename()
 
-        if EzeConfig.debug_mode:
-            print(
-                f"""Setting Eze's Config:
+        log_debug(
+            f"""Setting Eze's Config:
     =========================
     Locations Searching
         global_config_file: {global_config_file}
         local_config_file: {local_config_file}
         external_file: {external_file}
     """
-            )
+        )
         return EzeConfig.set_instance([global_config_file, local_config_file, external_file])
 
     @staticmethod
     def get_instance():
         """Get previously set config"""
         if EzeConfig._instance is None:
-            print("EzeConfig unable to get config before it is setup")
+            log_error("EzeConfig unable to get config before it is setup")
         return EzeConfig._instance
 
     @staticmethod
@@ -124,11 +123,10 @@ class EzeConfig:
                 parsed_config = load_toml(config_file)
                 merge_configs(parsed_config, self.config)
             except EzeFileAccessError:
-                if EzeConfig.debug_mode:
-                    print(f"-- [CONFIG ENGINE] skipping file as not found '{config_file}'")
+                log_debug(f"-- [CONFIG ENGINE] skipping file as not found '{config_file}'")
                 continue
             except EzeFileParsingError as error:
-                print(f"-- [CONFIG ENGINE] Error: skipping file as toml is corrupted, {error}")
+                log_error(f"-- [CONFIG ENGINE] skipping file as toml is corrupted, {error}")
                 continue
 
     def get_scan_config(self, scan_type: str = None) -> dict:

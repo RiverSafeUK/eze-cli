@@ -8,8 +8,10 @@ from pydash import py_
 
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.enums import Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.io import xescape, write_text
+from eze.utils.log import log
 
 
 class JunitReporter(ReporterMeta):
@@ -38,7 +40,7 @@ By default set to eze_junit_report.xml""",
         """Method for taking scans and turning then into report output"""
         xml_str = self._build_xml_str(scan_results)
         xml_location = write_text(self.config["REPORT_FILE"], xml_str)
-        print(f"written junit report : {xml_location}")
+        log(f"written junit report : {xml_location}")
 
     def _build_xml_str(self, scan_results: list) -> str:
         """build junit xml str
