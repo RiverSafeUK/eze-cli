@@ -46,7 +46,7 @@
             "references": [],
             "severity": "high",
             "version": "2.4.0",
-            "vulnerability_type": "dependancy"
+            "vulnerability_type": "dependency"
         },
         {
             "confidence": "",
@@ -62,7 +62,7 @@
             "references": [],
             "severity": "none",
             "version": "2.4.0",
-            "vulnerability_type": "dependancy"
+            "vulnerability_type": "dependency"
         }
     ],
     "warnings": []

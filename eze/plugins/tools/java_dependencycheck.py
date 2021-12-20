@@ -3,12 +3,12 @@
 import re
 import shlex
 
+
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_version_from_maven, run_cli_command
-from eze.utils.cve import CVE
+from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
-from eze.utils.error import EzeError
+from eze.utils.language.java import ignore_groovy_errors
 
 
 class JavaDependencyCheckTool(ToolMeta):
@@ -58,7 +58,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
             # tool command prefix
             # https://jeremylong.github.io/DependencyCheck/dependency-check-cli/arguments.html
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.test.skip=true clean install org.owasp:dependency-check-maven:check -Dformat=JSON -DprettyPrint"
+                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
             )
         }
     }
@@ -76,13 +76,15 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         owasp_report = load_json(self.config["MVN_REPORT_FILE"])
 
         write_json(self.config["REPORT_FILE"], owasp_report)
         report = self.parse_report(owasp_report)
         if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+            warnings = ignore_groovy_errors(completed_process.stderr)
+            for warning in warnings:
+                report.warnings.append(warning)
 
         return report
 
@@ -96,42 +98,35 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
             if "vulnerabilities" not in dependency:
                 continue
 
-            [_, pkg_name, pkg_version] = re.split("@|:", remove_backslash(dependency["packages"][0]["id"]))
+            [_, pkg_name, pkg_version] = re.split("[@:]", remove_backslash(dependency["packages"][0]["id"]))
             for vulnerability in dependency["vulnerabilities"]:
 
                 vulnerable_versions = []
                 for vulnerable_software in vulnerability["vulnerableSoftware"]:
                     vulnerable_versions.append(vulnerable_software["software"]["id"].split(":")[5])
 
-                summary = vulnerability["description"]
-                cve = CVE.detect_cve(vulnerability["name"])
-                cve_data = None
                 metadata = {"vulnerability": {"id": vulnerability["name"]}}
-                if cve:
-                    try:
-                        cve_data = cve.get_metadata()
-                        metadata["cves"] = [cve_data]
-                    except EzeError as error:
-                        warnings.append(f"{error}")
 
                 if vulnerable_versions:
                     recommendation = f"Update {pkg_name} ({pkg_version}) to a non vulnerable version, vulnerable versions: {vulnerable_versions}"
+                else:
+                    recommendation = f"Update {pkg_name} ({pkg_version}) to a non vulnerable version"
 
-                vulnerability_raw = {
-                    "vulnerability_type": VulnerabilityType.dependancy.name,
-                    "name": pkg_name,
-                    "version": pkg_version,
-                    "overview": cve_data["summary"] if cve_data else summary,
-                    "recommendation": recommendation,
-                    "language": self.TOOL_LANGUAGE,
-                    "severity": cve_data["severity"] if cve_data else None,
-                    "identifiers": {},
-                    "metadata": metadata,
-                }
-                if cve_data:
-                    vulnerability_raw["identifiers"]["cve"] = cve_data["id"]
-                vulnerability = Vulnerability(vulnerability_raw)
-                vulnerabilities_list.append(vulnerability)
+                vulnerabilities_list.append(
+                    Vulnerability(
+                        {
+                            "vulnerability_type": VulnerabilityType.dependency.name,
+                            "name": f"{pkg_name}",
+                            "version": pkg_version,
+                            "overview": vulnerability["description"],
+                            "recommendation": recommendation,
+                            "language": self.TOOL_LANGUAGE,
+                            "severity": vulnerability["severity"],
+                            "identifiers": {"cve": vulnerability["name"]},
+                            "metadata": metadata,
+                        }
+                    )
+                )
 
         report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings})
         return report

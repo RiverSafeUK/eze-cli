@@ -30,7 +30,7 @@
       ],
       "severity": "high",
       "version": "7.64.0-r3",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     },
     {
       "confidence": "",
@@ -56,7 +56,7 @@
       ],
       "severity": "medium",
       "version": "3.28.0-r1",
-      "vulnerability_type": "dependancy"
+      "vulnerability_type": "dependency"
     }
   ],
   "warnings": []

@@ -76,14 +76,14 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         # Test default fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = "mvn -Dmaven.test.skip=true clean install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+        expected_cmd = "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

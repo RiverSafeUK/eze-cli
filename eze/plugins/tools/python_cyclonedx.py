@@ -3,7 +3,7 @@ import shlex
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import run_cli_command, detect_pip_executable_version
+from eze.utils.cli import detect_pip_executable_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.scan_result import convert_sbom_into_scan_result
 
@@ -77,7 +77,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(cyclonedx_bom)

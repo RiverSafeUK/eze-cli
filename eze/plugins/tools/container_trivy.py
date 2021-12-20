@@ -8,7 +8,7 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import load_json, create_tempfile_path
 from eze.utils.error import EzeConfigError
 
@@ -106,7 +106,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
@@ -159,7 +159,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
             severity = self.trivy_severity_to_cwe_severity(trivy_severity)
 
             vulnerability_raw = {
-                "vulnerability_type": VulnerabilityType.dependancy.name,
+                "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": py_.get(report_event, "Title", py_.get(report_event, "PkgName", "unknown")),
                 "version": py_.get(report_event, "InstalledVersion", "unknown"),
                 "overview": py_.get(report_event, "Description", "unknown"),

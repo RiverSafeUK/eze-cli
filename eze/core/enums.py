@@ -32,7 +32,7 @@ class VulnerabilityType(Enum):
     """Enum for Vulnerability Type"""
 
     generic = "GENERIC VULNERABILITY"
-    dependancy = "DEPENDANCY VULNERABILITY"
+    dependency = "DEPENDENCY VULNERABILITY"
     license = "LICENSE RISK"
     code = "CODE BEST PRACTICE OR VULNERABILITY"
     infrastructure = "INFRASTRUCTURE VULNERABILITY"
@@ -116,7 +116,6 @@ LICENSE_DENYLIST_CONFIG = {
     "help_text": """list of licenses to always report usage as a error""",
     "help_example": ["MIT-enna"],
 }
-
 
 class Vulnerability:
     """Wrapper around raw dict to provide easy code typing"""

@@ -79,10 +79,10 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"ADDITIONAL_ARGUMENTS": "--something foo", "REPORT_FILE": "foo_report.json"}
 
@@ -91,7 +91,7 @@ class TestSemGrepTool(ToolMetaTestBase):
         )
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
     @mock.patch(
         "eze.plugins.tools.semgrep.extract_cmd_version",
@@ -105,15 +105,15 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Then
         assert expected_output in output
 
-    @mock.patch("eze.utils.cli.run_cmd")
+    @mock.patch("eze.utils.cli.run_async_cmd")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan_without_semgrep_locally_installed_raise_eze_error(self, mocked_run_cmd):
+    async def test_run_scan_without_semgrep_locally_installed_raise_eze_error(self, mocked_run_async_cmd):
         # Given
         input_config = {}
         input_stdout = "Semgrep ran into an issue"
         # When
-        mock_run_cmd(mocked_run_cmd, input_stdout, "ModuleNotFoundError: No module named 'resource'")
+        mock_run_cmd(mocked_run_async_cmd, input_stdout, "ModuleNotFoundError: No module named 'resource'")
         expected_error_message = """[semgrep] semgrep crashed while running, this is likely because semgrep doesn't support native windows yet
 
 As of 2021 semgrep support for windows is limited, until support added you can use eze inside wsl2 to run semgrep on windows
