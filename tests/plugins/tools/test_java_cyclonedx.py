@@ -18,6 +18,9 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         expected_config = {
             "MVN_REPORT_FILE": "target/bom.json",
             "REPORT_FILE": create_tempfile_path("tmp-java-cyclonedx-bom.json"),
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -37,6 +40,9 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         expected_config = {
             "MVN_REPORT_FILE": "target/bom.json",
             "REPORT_FILE": "tmp-java-cyclonedx-bom.json",
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
             #
             "ADDITIONAL_ARGUMENTS": "--foo",
             "IGNORED_FILES": None,

@@ -106,7 +106,7 @@ Tips
 
 Common Gotchas
 ===========================
-Worth mentioning vulnerability counts are quite high for offical out the box docker images
+Worth mentioning vulnerability counts are quite high for official out the box docker images
 
 trivy image node:slim
 Total: 101 (UNKNOWN: 2, LOW: 67, MEDIUM: 8, HIGH: 20, CRITICAL: 4)

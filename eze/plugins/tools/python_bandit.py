@@ -1,10 +1,9 @@
 """Bandit Python tool class"""
 import shlex
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
 from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
@@ -31,7 +30,7 @@ Tips and Tricks
 - use IGNORED_FILES to ignore false positives
 """
     # https://github.com/PyCQA/bandit/blob/master/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
 
     EZE_CONFIG: dict = {
         "SOURCE": {"type": str, "required": True, "help_text": """bandit source folder to scan for python files"""},

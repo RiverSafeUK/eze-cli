@@ -3,8 +3,9 @@
 import re
 import shlex
 
-from eze.core.enums import VulnerabilityType, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
+
+from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
 from eze.utils.language.java import ignore_groovy_errors
@@ -36,7 +37,7 @@ You can add suppression file to customise your output
 https://jeremylong.github.io/DependencyCheck/general/suppression.html
 """
     # https://github.com/jeremylong/DependencyCheck/blob/main/LICENSE.txt
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,

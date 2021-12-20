@@ -3,9 +3,9 @@ import shlex
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.utils.cli import extract_cmd_version, run_async_cli_command
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.log import log_error
 
@@ -29,7 +29,7 @@ Tips
 
 Common Gotchas
 ===========================
-Worth mentioning vulnerability counts are quite high for offical out the box docker images
+Worth mentioning vulnerability counts are quite high for official out the box docker images
 
 trivy image node:slim
 Total: 101 (UNKNOWN: 2, LOW: 67, MEDIUM: 8, HIGH: 20, CRITICAL: 4)
@@ -38,7 +38,7 @@ trivy image python:3.8-slim
 Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)
 """
     # https://github.com/anchore/grype/blob/main/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
 
     EZE_CONFIG: dict = {
         "SOURCE": {

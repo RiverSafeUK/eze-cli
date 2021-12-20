@@ -20,6 +20,9 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-python-cyclonedx-bom.json"),
             "REQUIREMENTS_FILE": "",
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -50,6 +53,9 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
         }
         # When
         testee = PythonCyclonedxTool(input_config)

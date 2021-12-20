@@ -48,6 +48,28 @@ REPORT_FILE = "..."
 INTERMEDIATE_FILE = "..."
 
 
+# LICENSE_CHECK str [OPTIONAL]
+# available modes:
+# - PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+# default value: 
+#   LICENSE_CHECK = "PROPRIETARY"
+# 
+LICENSE_CHECK = "PROPRIETARY"
+
+# LICENSE_ALLOWLIST list [OPTIONAL]
+# list of licenses to exempt from license checks
+# 
+LICENSE_ALLOWLIST = ["MIT-enna"]
+
+# LICENSE_DENYLIST list [OPTIONAL]
+# list of licenses to always report usage as a error
+# 
+LICENSE_DENYLIST = ["MIT-enna"]
+
 
 # Common Tool Config
 

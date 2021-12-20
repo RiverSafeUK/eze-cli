@@ -8,7 +8,8 @@ from pydash import py_
 
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.enums import Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.io import xescape, write_text
 from eze.utils.log import log
 

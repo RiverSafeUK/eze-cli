@@ -2,8 +2,9 @@
 import os
 import shlex
 
-from eze.core.enums import VulnerabilityType, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
+
+from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
+from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.cve import CVE
 from eze.utils.io import load_json, create_tempfile_path

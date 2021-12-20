@@ -3,10 +3,9 @@ import shlex
 import time
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
 from eze.utils.cli import extract_leading_number, detect_pip_executable_version, run_async_cli_command
