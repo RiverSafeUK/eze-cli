@@ -1,4 +1,5 @@
 """Bandit Python tool class"""
+import json
 import shlex
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
@@ -144,11 +145,12 @@ Warning: on production might want to set this to False to prevent found Secrets 
                 )
             )
 
+        errors = list(map(json.dumps, parsed_json["errors"]))
         report = ScanResult(
             {
                 "tool": self.TOOL_NAME,
                 "vulnerabilities": vulnerabilities_list,
-                "warnings": parsed_json["errors"],
+                "warnings": errors,
             }
         )
         return report
