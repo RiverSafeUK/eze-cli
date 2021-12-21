@@ -36,9 +36,18 @@ from eze.utils.error import EzeExecutableNotFoundError, EzeExecutableStdErrError
 from eze.utils.log import log_debug
 
 
+class CompletedProcess:
+    """completed process output container"""
+
+    def __init__(self, stdout: str, stderr: str = ""):
+        """constructor"""
+        self.stdout = stdout
+        self.stderr = stderr
+
+
 def run_cli_command(
     cli_config: dict, config: dict = None, command_name: str = "", throw_error_on_stderr: bool = False
-) -> subprocess.CompletedProcess:
+) -> CompletedProcess:
     """
     Run tool cli command
 
@@ -77,7 +86,7 @@ def run_cli_command(
 
 async def run_async_cli_command(
     cli_config: dict, config: dict = None, command_name: str = "", throw_error_on_stderr: bool = False
-) -> subprocess.CompletedProcess:
+) -> CompletedProcess:
     """
     Run tool cli command
 
@@ -207,15 +216,6 @@ def build_cli_command(cli_config: dict, config: dict) -> list:
     if additional_args:
         command_list += shlex.split(additional_args)
     return command_list
-
-
-class CompletedProcess:
-    """completed process output container"""
-
-    def __init__(self, stdout: str, stderr: str = ""):
-        """constructor"""
-        self.stdout = stdout
-        self.stderr = stderr
 
 
 def crossos_shlex_join(cmd: list) -> list:

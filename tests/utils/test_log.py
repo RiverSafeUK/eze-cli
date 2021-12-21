@@ -1,12 +1,11 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long,unused-argument
 from eze.utils.log import log, log_debug, log_error, LogLevel, status_message, clear_status_message
-from tests.__test_helpers__.mock_helper import mock_print, unmock_print, mock_print_stderr, unmock_print_stderr
+from tests.__test_helpers__.mock_helper import mock_print, unmock_print, mock_print_stderr
 
 
 def teardown_function(function):
     """Teardown function"""
     unmock_print()
-    unmock_print_stderr()
     LogLevel.reset_instance()
 
 

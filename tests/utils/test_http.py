@@ -5,7 +5,7 @@ from unittest import mock
 from io import StringIO
 import pytest
 
-from eze.utils.http import request, request_json
+from eze.utils.http import request, request_json, spine_case_url
 from eze.utils.error import EzeNetworkingError
 from eze.utils.io import pretty_print_json
 
@@ -27,10 +27,10 @@ def test_request_json__sad_path__bad_json(mock_urlopen):
     expected_error = "Error in JSON response 'https://someurl.com', NOTJSON (Expecting value: line 1 column 1 (char 0))"
     mock_urlopen.return_value = StringIO("NOTJSON")
     # When
-    with pytest.raises(EzeNetworkingError) as captured_exception:
+    with pytest.raises(EzeNetworkingError) as raised_error:
         request_json("https://someurl.com")
     # Then
-    assert captured_exception.value.message == expected_error
+    assert raised_error.value.message == expected_error
 
 
 @mock.patch("urllib.request.urlopen")
@@ -49,10 +49,10 @@ def test_request__sad_path_bad_url(mock_urlopen):
     expected_error = "Error accessing url 'https://someurl.com', Error: <urlopen error http://example.com>"
     mock_urlopen.side_effect = urllib.error.URLError("http://example.com")
     # When
-    with pytest.raises(EzeNetworkingError) as captured_exception:
+    with pytest.raises(EzeNetworkingError) as raised_error:
         request("https://someurl.com")
     # Then
-    assert captured_exception.value.message == expected_error
+    assert raised_error.value.message == expected_error
 
 
 @mock.patch("urllib.request.urlopen")
@@ -64,7 +64,47 @@ def test_request__sad_path(mock_urlopen):
         "http://example.com", 500, "Internal Error", {}, mocked_open_function()
     )
     # When
-    with pytest.raises(EzeNetworkingError) as captured_exception:
+    with pytest.raises(EzeNetworkingError) as raised_error:
         request("https://someurl.com")
     # Then
-    assert captured_exception.value.message == expected_error
+    assert raised_error.value.message == expected_error
+
+
+def test_spine_case_url__std_case_ssh():
+    # Given
+    expected_output = "RiverSafeUK-eze-cli"
+    input = "git@github.com:RiverSafeUK/eze-cli.git"
+    # When
+    output = spine_case_url(input)
+    # Then
+    assert output == expected_output
+
+
+def test_spine_case_url__std_case_http():
+    # Given
+    expected_output = "github-com-RiverSafeUK-eze-cli"
+    input = "http://github.com/RiverSafeUK/eze-cli.git"
+    # When
+    output = spine_case_url(input)
+    # Then
+    assert output == expected_output
+
+
+def test_spine_case_url__std_case_https():
+    # Given
+    expected_output = "github-com-RiverSafeUK-eze-cli"
+    input = "https://github.com/RiverSafeUK/eze-cli.git"
+    # When
+    output = spine_case_url(input)
+    # Then
+    assert output == expected_output
+
+
+def test_spine_case_url__std_case_https():
+    # Given
+    expected_output = "RiverSafeUK-eze-cli"
+    input = "RiverSafeUK/eze-cli.git"
+    # When
+    output = spine_case_url(input)
+    # Then
+    assert output == expected_output

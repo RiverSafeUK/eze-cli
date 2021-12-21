@@ -6,7 +6,6 @@ from tests.__test_helpers__.mock_helper import (
     DummySuccessTool,
     DummyReporter,
     unmock_print,
-    unmock_print_stderr,
     mock_print_stderr,
     mock_print,
 )
@@ -17,7 +16,6 @@ from tests.plugins.tools.tool_helper import ToolMetaTestBase
 def teardown_function(function):
     """Teardown function"""
     unmock_print()
-    unmock_print_stderr()
 
 
 class TestDummyFailureTool(ToolMetaTestBase):
