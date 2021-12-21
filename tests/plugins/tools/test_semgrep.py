@@ -123,4 +123,4 @@ https://github.com/returntocorp/semgrep/issues/1330"""
         # Then
         with pytest.raises(EzeError) as raised_error:
             await testee.run_scan()
-        assert expected_error_message == raised_error.value.message
+        assert raised_error.value.message == expected_error_message
