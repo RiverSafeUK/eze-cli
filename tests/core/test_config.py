@@ -267,10 +267,10 @@ class TestEzeConfig(TestCase):
         expected_error_message = """The ./ezerc config missing required scan.tools/languages list, run 'eze housekeeping create-local-config' to create"""
         # When
         testee = EzeConfig([external_file])
-        with pytest.raises(ClickException) as thrown_exception:
+        with pytest.raises(ClickException) as raised_error:
             testee.get_scan_config()
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     def test_get_plugin_config__real_toml_no_reporters_scan_type_plugin(self):
         # Given
@@ -280,7 +280,7 @@ class TestEzeConfig(TestCase):
         )
         testee = EzeConfig([external_file])
         # When
-        with pytest.raises(ClickException) as thrown_exception:
+        with pytest.raises(ClickException) as raised_error:
             testee.get_scan_config()
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message

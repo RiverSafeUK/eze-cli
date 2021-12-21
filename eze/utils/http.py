@@ -4,6 +4,9 @@ import json
 import urllib.request
 import urllib.error
 from json import JSONDecodeError
+
+import re
+
 from eze.utils.error import EzeNetworkingError
 from eze.utils.log import log_debug
 
@@ -45,3 +48,13 @@ def request(url: str, data=None, headers=None, method=None) -> str:
         raise EzeNetworkingError(f"Error accessing url '{url}', Error: {error_message}")
     except urllib.error.URLError as error:
         raise EzeNetworkingError(f"Error accessing url '{url}', Error: {error}")
+
+
+def spine_case_url(url: str) -> str:
+    """convert url into spine case, file name safe version"""
+    cleaned_url = re.sub("^https?:?[/][/]", "", url)
+    cleaned_url = re.sub("^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+:", "", cleaned_url)
+    cleaned_url = re.sub("\\.[a-z]{,4}$", "", cleaned_url)
+    cleaned_url = re.sub("[^a-zA-Z0-9]+", "-", cleaned_url)
+    cleaned_url = re.sub("[-]+", "-", cleaned_url)
+    return cleaned_url

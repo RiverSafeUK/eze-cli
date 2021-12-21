@@ -224,12 +224,8 @@ def mock_print_stderr() -> StringIO:
 
 
 def unmock_print():
-    """Unmock the print command"""
+    """Unmock the print command and stderr"""
     sys.stdout = sys.__stdout__
-
-
-def unmock_print_stderr():
-    """Unmock the print command to stderr"""
     sys.stderr = sys.__stderr__
 
 

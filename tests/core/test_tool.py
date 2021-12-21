@@ -152,10 +152,10 @@ class TestToolManager:
         }
         testee = ToolManager(input_plugin)
         # When
-        with pytest.raises(ClickException) as thrown_exception:
+        with pytest.raises(ClickException) as raised_error:
             testee.get_tool("non-existant-tool")
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     @patch("git.Repo")
     @pytest.mark.asyncio

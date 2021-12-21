@@ -31,23 +31,23 @@ By default set to eze_bom.json""",
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
-        log("Eze bom results:\n")
+        self._output_sboms(scan_results)
+
+    def _output_sboms(self, scan_results: list):
+        """convert scan sboms into bom files"""
         scan_results_with_sboms = []
         for scan_result in scan_results:
             if scan_result.bom:
                 scan_results_with_sboms.append(scan_result)
 
-        self._output_sboms(scan_results_with_sboms)
-
-    def _output_sboms(self, scan_results_with_sboms: list):
-        """convert scan sboms into bom files"""
-        small_indent = "    "
         if len(scan_results_with_sboms) <= 0:
-            log(f"""{small_indent}Reporter couldn't find any input sboms to convert into report files""")
+            log_error(
+                f"""[{self.REPORTER_NAME}] couldn't find any SBOM data in tool output to convert into SBOM files"""
+            )
             return
         for scan_result in scan_results_with_sboms:
             report_file = self.config["REPORT_FILE"]
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            log(f"""{small_indent}Writing [{tool_name}] json dx SBOM to {report_file}""")
             write_json(report_file, scan_result.bom)
+            log(f"""Written [{tool_name}] SBOM to {report_file}""")

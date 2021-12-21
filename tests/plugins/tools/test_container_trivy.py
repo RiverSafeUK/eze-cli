@@ -17,10 +17,10 @@ class TestTrivyTool(ToolMetaTestBase):
         # Given
         expected_error_message = "required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration"
         # When
-        with pytest.raises(EzeConfigError) as thrown_exception:
+        with pytest.raises(EzeConfigError) as raised_error:
             TrivyTool()
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     def test_creation__with_IMAGE_FILE_config(self):
         # Given

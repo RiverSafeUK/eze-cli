@@ -132,7 +132,7 @@ Will install mocha@8.4.0"""
 
     def test_create_recommendation_v7__no_fix_available(self):
         # Given
-        expected_output = """no fix available"""
+        expected_output = "no fix available"
         input_vulnerability = {"fixAvailable": False}
         testee = NpmAuditTool()
         # When

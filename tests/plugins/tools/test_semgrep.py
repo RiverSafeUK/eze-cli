@@ -121,6 +121,6 @@ https://github.com/returntocorp/semgrep/issues/1330"""
         # Test run calls correct program
         testee = self.ToolMetaClass(input_config)
         # Then
-        with pytest.raises(EzeError) as thrown_exception:
+        with pytest.raises(EzeError) as raised_error:
             await testee.run_scan()
-        assert expected_error_message == thrown_exception.value.message
+        assert raised_error.value.message == expected_error_message

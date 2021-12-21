@@ -52,7 +52,7 @@ class TestReporterManager:
         expected_error_message = """[non-existant-reporter] The ./ezerc config references unknown reporter plugin 'non-existant-reporter', run 'eze reporters list' to see available reporters"""
         testee = ReporterManager({"dummy-plugin": get_dummy_plugin()})
         # When
-        with pytest.raises(ClickException) as thrown_exception:
+        with pytest.raises(ClickException) as raised_error:
             testee.get_reporter("non-existant-reporter")
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message

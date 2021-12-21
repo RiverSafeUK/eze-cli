@@ -66,10 +66,10 @@ class TestEzeReporter(ReporterMetaTestBase):
             "CODEBASE_ID": "MOCK_CODEBASE_ID",
         }
         # When
-        with pytest.raises(EzeConfigError) as thrown_exception:
+        with pytest.raises(EzeConfigError) as raised_error:
             EzeReporter(input_config)
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     @mock.patch.dict(os.environ, {"BUILD_SOURCEBRANCHNAME": "", "AWS_BRANCH": ""})
     @patch("git.Repo")
@@ -88,10 +88,10 @@ get EZE_APIKEY from eze console profile page"""
             "APIKEY": "",
         }
         # When
-        with pytest.raises(EzeConfigError) as thrown_exception:
+        with pytest.raises(EzeConfigError) as raised_error:
             EzeReporter(input_config)
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     def test_creation__simple_config_parsing(self):
         # Given

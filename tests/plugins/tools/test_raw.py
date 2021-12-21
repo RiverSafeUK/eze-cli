@@ -24,10 +24,10 @@ class TestRawTool(ToolMetaTestBase):
 Eze report file to ingest
 normally REPORT_FILE: eze_report.json"""
         # When
-        with pytest.raises(EzeConfigError) as thrown_exception:
+        with pytest.raises(EzeConfigError) as raised_error:
             RawTool()
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     def test_creation__with_config(self):
         # Given
@@ -76,8 +76,8 @@ normally REPORT_FILE: eze_report.json"""
         }
         expected_error_message = "Eze Raw tool can not find 'REPORT_FILE' non-existant-eze-report.json"
         # When
-        with pytest.raises(ClickException) as thrown_exception:
+        with pytest.raises(ClickException) as raised_error:
             testee = RawTool(input_config)
             await testee.run_scan()
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message

@@ -19,6 +19,6 @@ def test_ignore_groovy_errors__keep_non_groovy_messages():
 
 
 def test_ignore_groovy_errors__ignore_empty_messages():
-    test_input = """            """
+    test_input = "            "
     output = ignore_groovy_errors(test_input)
     assert output == []

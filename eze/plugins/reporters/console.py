@@ -73,7 +73,7 @@ defaults to false""",
 
     def print_scan_summary_table(self, scan_results: list):
         """Print scan summary as table"""
-        boms = []
+        sboms = []
         summaries = []
         for scan_result in scan_results:
             run_details = scan_result.run_details
@@ -85,8 +85,8 @@ defaults to false""",
             duration_sec = py_.get(run_details, "duration_sec", "unknown")
 
             if scan_result.bom:
-                boms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
-                boms.append(f"    {bom_short_summary(scan_result)}")
+                sboms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
+                sboms.append(f"    {bom_short_summary(scan_result)}")
 
             entry = {
                 "Name": tool_name + run_type,
@@ -114,8 +114,8 @@ defaults to false""",
                     entry["Low"] = "Error"
                 summaries.append(entry)
         pretty_print_table(summaries, False)
-        if len(boms) > 0:
-            log("\n".join(boms))
+        if len(sboms) > 0:
+            log("\n".join(sboms))
 
     def print_scan_summary_title(self, scan_result: ScanResult, prefix: str = "") -> str:
         """Title of scan summary title"""

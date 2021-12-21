@@ -104,11 +104,9 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
         mock_run_async_cmd(mocked_run_cmd, input_broken_package_stdout)
 
         # Test run calls correct program
-        try:
+        with pytest.raises(EzeError) as raised_error:
             testee = self.ToolMetaClass(input_config)
             # When
             await testee.run_scan()
-            assert "Was expecting run_scan to exception" == "..."
-        except EzeError as error:
-            # Then
-            assert error.args[0] == input_broken_package_stdout
+        # Then
+        assert raised_error.value.args[0] == input_broken_package_stdout

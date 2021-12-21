@@ -140,7 +140,7 @@ You can also explicitly specify the scheme to use:
         "ADDITIONAL_ARGUMENTS": {
             "type": str,
             "default": "",
-            "help_text": """common field that can be used to postfix arbitrary arguments onto any plugin cli tooling""",
+            "help_text": "common field that can be used to postfix arbitrary arguments onto any plugin cli tooling",
         },
         "IGNORE_BELOW_SEVERITY": {
             "type": str,
