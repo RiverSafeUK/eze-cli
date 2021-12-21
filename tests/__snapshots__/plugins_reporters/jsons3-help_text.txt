@@ -1,34 +1,21 @@
 short_description:
 ======================
-json file into s3 reporter
+s3 uploader reporter
 
 config_help:
 ======================
-[json-s3]
-# BUCKET_NAME str [OPTIONAL]
-# bucket name of bucket to upload the json report
-# default value: 
-#   BUCKET_NAME = "ezemc-reporters"
+[s3]
+# BUCKET_NAME str
+# name of s3 bucket to upload the json report
 # 
-BUCKET_NAME = "..."
+BUCKET_NAME = "ezemc-reporters"
 
-
-# OBJECT_KEY str
-# object key used to store the report json in s3 bucket. ex random_key.json
+# OBJECT_KEY str [OPTIONAL]
+# object key used to store the report json in s3 bucket
+# default value: 
+#   OBJECT_KEY = "<GIT_NAME>-<BRANCH_NAME>-<YYYY>-<MM>-<DD>-eze-report.json"
 # 
 OBJECT_KEY = "..."
-
-
-# AWS_ACCESS_KEY str [OPTIONAL]
-# aws access key of user authorized to upload files in bucket
-# 
-AWS_ACCESS_KEY = "..."
-
-
-# AWS_SECRET_KEY str [OPTIONAL]
-# aws secret key of user authorized to upload files in bucket
-# 
-AWS_SECRET_KEY = "..."
 
 
 
@@ -43,4 +30,13 @@ inbuilt
 
 more_info:
 ======================
-inbuilt
+S3 reporters uses the boto3 library
+
+Configure your AWS credentials as you would for other boto3 products, such as the AWS cli
+
+shared credentials location: ~/.aws/credentials
+
+more details:
+https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#configuration
+https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
+

@@ -91,7 +91,7 @@ def test_status_message():
     expected_output_stderr = ""
 
     # When
-    test_input = """Echo 123"""
+    test_input = "Echo 123"
     status_message(test_input)
     status_message(test_input)
 
@@ -111,7 +111,7 @@ def test_clear_status_message():
     expected_output_stderr = ""
 
     # When
-    test_input = """Echo 123"""
+    test_input = "Echo 123"
     status_message(test_input)
     clear_status_message()
 

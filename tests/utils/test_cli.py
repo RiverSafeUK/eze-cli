@@ -190,7 +190,7 @@ def test_build_command__tail_argument():
 
 def test_run_cmd__success():
     # Given
-    expected_output_contains = """helloworld"""
+    expected_output_contains = "helloworld"
     expected_error = """"""
     input_cmd = shlex.split("echo 'helloworld'")
     # When

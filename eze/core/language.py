@@ -251,7 +251,7 @@ class LanguageManager:
             plugin_languages = plugin.get_languages()
             self._add_languages(plugin_languages)
 
-    def _discover(self, root_path: str = None) -> list:
+    def _discover(self, root_path: str = None) -> dict:
         """Discover languages in codebase"""
         ignored_directories = [
             ".git",
@@ -304,14 +304,9 @@ class LanguageManager:
 
         return languages
 
-    def _create_config_file(self, config_location: pathlib.Path, config_yaml_str: str) -> None:
-        """Create the path to create the config file at and creates file"""
-        write_text(config_location, config_yaml_str)
-        log(f"Successfully written configuration file to '{config_location}'")
-
     def create_local_ezerc_config(self, root_path: str = None) -> bool:
         """Create new local ezerc file"""
-        languages = self._discover(root_path)
+        languages: dict = self._discover(root_path)
         language_list = []
         eze_rc = f"""# Ezerc auto generated
 # ===================================
@@ -386,8 +381,8 @@ reporters = ["console", "bom", "json", "junit", "quality"]
 languages = [{",".join(language_list)}]
 """
         local_config_location = EzeConfig.get_local_config_filename()
-        self._create_config_file(local_config_location, eze_rc)
-        log(f"Written local configuration file: '{local_config_location}'")
+        write_text(str(local_config_location), eze_rc)
+        log(f"Successfully written configuration file to '{local_config_location}'")
 
         return True
 
