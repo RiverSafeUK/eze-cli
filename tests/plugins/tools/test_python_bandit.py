@@ -72,6 +72,17 @@ bandit source folder to scan for python files"""
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot, input_config)
 
+    def test_parse_report__error_case_snapshot(self, snapshot):
+        # Given
+        input_config = {"SOURCE": "src"}
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            input_config,
+            "__fixtures__/plugins_tools/raw-python-bandit-with-errors-report.json",
+            "plugins_tools/python-bandit-with-errors-output.json",
+        )
+
     @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio

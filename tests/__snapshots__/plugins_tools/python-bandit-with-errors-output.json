@@ -1,0 +1,11 @@
+{
+  "bom": null,
+  "fatal_errors": [],
+  "run_details": {},
+  "summary": {},
+  "tool": "python-bandit",
+  "vulnerabilities": [],
+  "warnings": [
+    "{\"filename\": \"ezefoo\", \"reason\": \"No such file or directory\"}"
+  ]
+}

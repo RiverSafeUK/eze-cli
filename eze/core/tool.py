@@ -22,7 +22,7 @@ from eze.utils.config import (
     extract_embedded_run_type,
 )
 from eze.utils.error import EzeError, EzeConfigError
-from eze.utils.log import log, log_debug, log_error, status_message
+from eze.utils.log import log, log_debug, log_error, status_message, clear_status_message
 
 
 class ScanResult:
@@ -338,7 +338,10 @@ Looks like {tool_name} is not installed
 ======================="""
         )
         tools = []
+        tools_counter = 0
+        tools_length = len(self.tools)
         for current_tool_name in self.tools:
+            tools_counter += 1
             current_tool_class = self.tools[current_tool_name]
             current_tool_type = current_tool_class.tool_type().name
             current_source_support = current_tool_class.source_support()
@@ -358,6 +361,7 @@ Looks like {tool_name} is not installed
             tool_entry["Type"] = current_tool_type
             tool_entry["Name"] = current_tool_name
             if include_version:
+                status_message(f"({tools_counter}/{tools_length}) obtaining '{current_tool_name}' tool version")
                 current_tool_version = current_tool_class.check_installed() or "Not Installed"
                 tool_entry["Version"] = current_tool_version
             tool_entry["License"] = current_tool_license
@@ -366,6 +370,7 @@ Looks like {tool_name} is not installed
             tool_entry["Description"] = current_tool_description
             tools.append(tool_entry)
 
+        clear_status_message()
         pretty_print_table(tools)
 
     def print_tools_help(self, tool_type: str = None, source_type: str = None, include_source_type: bool = None):
