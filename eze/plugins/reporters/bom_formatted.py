@@ -1,7 +1,6 @@
 """Bill of Materials reporter class implementation"""
 import shlex
 
-import click
 from pydash import py_
 
 from eze.core.reporter import ReporterMeta

@@ -2,7 +2,7 @@
 from pydash import py_
 
 from eze.core.tool import ScanResult, ToolMeta
-from eze.utils.sbom import get_bom_license, check_licenses
+from eze.utils.license import get_bom_license, check_licenses
 
 
 def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict):

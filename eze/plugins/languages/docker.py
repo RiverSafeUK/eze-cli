@@ -1,5 +1,4 @@
 """Dockerfile Language Runner module"""
-import click
 
 from eze.core.enums import SourceType
 from eze.core.language import LanguageRunnerMeta

@@ -1,5 +1,4 @@
 """Console reporter class implementation"""
-import click
 from pydash import py_
 
 from eze import __version__
@@ -13,7 +12,7 @@ from eze.utils.scan_result import (
     name_and_time_summary,
 )
 from eze.utils.print import pretty_print_table
-from eze.utils.sbom import get_bom_license, annotate_licenses
+from eze.utils.license import annotate_licenses
 
 
 class ConsoleReporter(ReporterMeta):

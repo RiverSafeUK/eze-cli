@@ -2,8 +2,11 @@
 """
 
 import re
-from eze.utils.http import request_json
+from urllib.parse import quote
+
 from pydash import py_
+from eze.utils.http import request_json
+from eze.utils.error import EzeNetworkingError
 
 
 class CVE:
@@ -19,18 +22,38 @@ class CVE:
             return CVE(cve_id)
         return None
 
+    @staticmethod
+    def extract_cve_data(raw_data) -> dict:
+        """Extract CVE data from nist JSON data"""
+        return py_.get(raw_data, "result.CVE_Items[0]", None)
+
+    @staticmethod
+    def to_url(cve_id) -> str:
+        """Get url to CVE"""
+        return f"https://nvd.nist.gov/vuln/detail/{quote(cve_id)}"
+
+    @staticmethod
+    def to_api(cve_id) -> str:
+        """Get api url to CVE"""
+        return f"https://services.nvd.nist.gov/rest/json/cve/1.0/{quote(cve_id)}"
+
+    @staticmethod
+    def get_cve_api(cve_id) -> dict:
+        """Get CVE data from nist API
+
+        :raises EzeNetworkingError: on networking error or json decoding error
+        """
+        api_url = CVE.to_api(cve_id)
+        raw_data = request_json(api_url)
+        cve_data = CVE.extract_cve_data(raw_data)
+        if not cve_data:
+            raise EzeNetworkingError(f"unable to find CVE '{cve_id}' data")
+        return cve_data
+
     def __init__(self, cve_id: str):
         """constructor"""
         self.cve_id = cve_id.upper()
         self._cache = None
-
-    def to_url(self) -> str:
-        """Get url to CVE"""
-        return f"https://nvd.nist.gov/vuln/detail/{self.cve_id}"
-
-    def to_api(self) -> str:
-        """Get api url to CVE"""
-        return f"https://cve.circl.lu/api/cve/{self.cve_id}"
 
     def _get_raw(self):
         """
@@ -39,8 +62,7 @@ class CVE:
         :raises EzeNetworkingError: on networking error or json decoding error
         """
         if not self._cache:
-            api_url = self.to_api()
-            self._cache = request_json(api_url)
+            self._cache = CVE.get_cve_api(self.cve_id)
 
         return self._cache
 
@@ -51,12 +73,17 @@ class CVE:
         :raises EzeNetworkingError: on networking error or json decoding error
         """
         cvss_report = self._get_raw()
+        severity = py_.get(
+            cvss_report,
+            "impact.baseMetricV3.cvssV3.baseSeverity",
+            py_.get(cvss_report, "impact.baseMetricV2.severity", None),
+        )
         return {
             "summary": py_.get(cvss_report, "summary", None),
-            "severity": py_.get(cvss_report, "access.complexity", None),
+            "severity": severity,
             "rating": py_.get(cvss_report, "cvss"),
-            "url": self.to_url(),
+            "url": CVE.to_url(self.cve_id),
             "id": self.cve_id,
-            "advisitory_modified": py_.get(cvss_report, "Modified", None),
-            "advisitory_created": py_.get(cvss_report, "Published", None),
+            "advisitory_modified": py_.get(cvss_report, "lastModifiedDate", None),
+            "advisitory_created": py_.get(cvss_report, "publishedDate", None),
         }

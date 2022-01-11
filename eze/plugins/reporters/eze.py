@@ -3,8 +3,6 @@ import os
 import urllib.request
 from pydash import py_
 
-import click
-
 from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.utils.git import get_active_branch_name, get_active_branch_uri

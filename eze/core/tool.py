@@ -282,7 +282,7 @@ Looks like {tool_name} is not installed
             scan_result = ScanResult(
                 {
                     "tool": tool_instance.TOOL_NAME,
-                    "fatal_errors": [f"Not scan result received"],
+                    "fatal_errors": ["Not scan result received"],
                 }
             )
         if not scan_result.tool:
@@ -547,7 +547,7 @@ Tool '{tool}' Help
         reporters = []
         try:
             reporters = EzeConfig.get_instance().get_scan_config(scan_type).get("reporters", [])
-        except Exception as error:
+        except Exception:
             pass
         reporter_manager = ReporterManager.get_instance()
         report_files = []

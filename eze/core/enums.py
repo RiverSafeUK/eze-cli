@@ -2,12 +2,9 @@
 
 """Eze's core enums module"""
 from enum import Enum
-
-from eze.utils.config import (
-    get_config_key,
-)
-from eze.utils.io import normalise_linux_file_path
 from pydash import py_
+from eze.utils.config import get_config_key
+from eze.utils.io import normalise_linux_file_path
 
 
 class VulnerabilitySeverityEnum(Enum):

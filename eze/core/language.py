@@ -8,14 +8,11 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Callable
 
-import click
-
 from pydash import py_
 
 from eze.core.config import EzeConfig
 from eze.core.enums import (
     SourceType,
-    LicenseScanType,
     LICENSE_DENYLIST_CONFIG,
     LICENSE_ALLOWLIST_CONFIG,
     LICENSE_CHECK_CONFIG,

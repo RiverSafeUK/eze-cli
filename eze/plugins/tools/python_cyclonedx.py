@@ -88,4 +88,6 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
     def parse_report(self, cyclonedx_bom: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        return convert_sbom_into_scan_result(self, cyclonedx_bom)
+        scan_result: ScanResult = convert_sbom_into_scan_result(self, cyclonedx_bom)
+
+        return scan_result

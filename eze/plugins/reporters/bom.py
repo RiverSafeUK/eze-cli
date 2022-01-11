@@ -1,5 +1,5 @@
 """Bill of Materials reporter class implementation"""
-import click
+
 from pydash import py_
 
 from eze import __version__

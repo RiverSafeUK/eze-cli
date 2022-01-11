@@ -87,7 +87,10 @@ def _create_config_file(config_location: pathlib.Path, copy: str) -> None:
 @click.command("get-repo", short_help="get current git repo folder is in")
 @debug_option
 def get_repo_command():
-    """Utility function for detecting current git repo, supports HEAD checked out codebases on CI servers"""
+    """
+    Utility function for detecting current git repo,
+    supports HEAD checked out codebases on CI servers
+    """
     git_dir = os.getcwd()
     uri = get_active_branch_uri(git_dir)
     branch = get_active_branch_name(git_dir)

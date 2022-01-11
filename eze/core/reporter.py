@@ -4,8 +4,6 @@ import time
 from abc import ABC, abstractmethod
 from typing import Callable
 
-import click
-
 from eze.core.config import EzeConfig
 from eze.utils.config import extract_embedded_run_type, get_config_keys, create_config_help
 from eze.utils.print import pretty_print_table
