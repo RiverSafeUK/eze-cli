@@ -263,9 +263,10 @@ def test_check_licenses__sad_path_OPENSOURCE_policy__non_fsf_osi_warns():
     # Given
     expected_vulnerabilities = []
     expected_warnings = [
-        "License MIT-enna(x-xss-protection), reason: Permissive licenses with "
+        "License 'MIT-enna'(x-xss-protection), reason: Permissive licenses with "
         "conditions should be manually checked to ensure compliance",
-        "License MIT-enna(x-xss-protection), reason: Unable to determine if license " "is fsf/osi opensource approved",
+        "License 'MIT-enna'(x-xss-protection), reason: Unable to determine if license "
+        "is fsf/osi opensource approved",
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-with-conditions-report.json")
     # When
@@ -408,6 +409,25 @@ def test_get_license__pypi_happy_case():
     output = get_license(pypi_license)
     # Then
     assert output["id"] == expected_license
+
+
+def test_get_license__pypi_via_patternhappy_case():
+    # Given
+    pypi_license = "License :: OSI Approved :: BSD License"
+    expected_license = {
+        "id": "BSD",
+        "isDeprecated": None,
+        "isFsfLibre": None,
+        "isOsiApproved": True,
+        "isProfessional": True,
+        "name": "Berkeley Software Distribution",
+        "reference": "https://en.wikipedia.org/wiki/BSD_licenses",
+        "type": "permissive",
+    }
+    # When
+    output = get_license(pypi_license)
+    # Then
+    assert output == expected_license
 
 
 def test_get_license__spdx_happy_case():

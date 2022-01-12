@@ -14,6 +14,18 @@ LICENSE_CLASSIFIER = re.compile("license :: ", re.IGNORECASE)
 CVE_CLASSIFIER = re.compile("^CVE-[0-9-]+$", re.IGNORECASE)
 
 
+class PypiPackageVO:
+    """Wrapper around pypi data to provide easy code typing"""
+
+    def __init__(self, vo: dict):
+        """constructor"""
+        self.package_name: str = py_.get(vo, "package_name", None)
+        self.package_version: str = py_.get(vo, "package_version", None)
+        self.licenses: str = py_.get(vo, "licenses", [])
+        self.vulnerabilities: str = py_.get(vo, "vulnerabilities", [])
+        self.warnings: str = py_.get(vo, "warnings", [])
+
+
 def filter_license_classifiers(classifiers):
     """filter list of pypi classifiers for licenses only"""
     license_classifiers = list(filter(LICENSE_CLASSIFIER.match, classifiers)) if classifiers else []
@@ -28,7 +40,7 @@ def get_recommendation(vulnerability):
     return f"Update package to non-vulnerable version {','.join(fix_versions)}"
 
 
-def convert_vulnerability(vulnerability:dict, warnings: list) -> Vulnerability:
+def convert_vulnerability(vulnerability: dict, warnings: list) -> Vulnerability:
     """
     convert pypi vulnerbaility into a Vulnerability object
     will obtain CVE severity
@@ -56,7 +68,7 @@ def convert_vulnerability(vulnerability:dict, warnings: list) -> Vulnerability:
     )
 
 
-def get_pypi_package_data(package_name: str, package_version: str) -> dict:
+def get_pypi_package_data(package_name: str, package_version: str) -> PypiPackageVO:
     """
     download and extract license and vulnerability information for package
 
@@ -72,10 +84,19 @@ def get_pypi_package_data(package_name: str, package_version: str) -> dict:
         warnings.append(f"unable to get pypi data for {package_name}:{package_version}, Error: {error}")
 
     classifiers = py_.get(package_metadata, "info.classifiers", [])
-    vulnerabilities = list(map(lambda raw_vulnerability: convert_vulnerability(raw_vulnerability, warnings), py_.get(package_metadata, "vulnerabilities", [])))
+    vulnerabilities = list(
+        map(
+            lambda raw_vulnerability: convert_vulnerability(raw_vulnerability, warnings),
+            py_.get(package_metadata, "vulnerabilities", []),
+        )
+    )
 
-    return {
-        "license": filter_license_classifiers(classifiers),
-        "vulnerabilities": vulnerabilities,
-        "warnings": warnings
-    }
+    return PypiPackageVO(
+        {
+            "package_name": package_name,
+            "package_version": package_version,
+            "licenses": filter_license_classifiers(classifiers),
+            "vulnerabilities": vulnerabilities,
+            "warnings": warnings,
+        }
+    )
