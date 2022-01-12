@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
+from unittest.mock import Mock
 
 import pytest
 
@@ -97,3 +98,40 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+
+    @mock.patch("eze.plugins.tools.python_cyclonedx.load_json")
+    @mock.patch("eze.plugins.tools.python_cyclonedx.run_cli_command")
+    @pytest.mark.asyncio
+    async def test_run_scan_with_unpinned_requirments(self, mocked_run_cli_cmd, mocked_load_json):
+        # Given
+        run_cli_command_response = Mock()
+        run_cli_command_response.stderr = ""
+        run_cli_command_response.stdout = """
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Some of your dependencies do not have pinned version !!
+!! numbers in your requirements.txt                     !!
+!!                                                      !!
+!! -> semantic-version                                  !!
+!! -> toml                                              !!
+!! -> xmltodict                                         !!
+!!                                                      !!
+!! The above will NOT be included in the generated      !!
+!! CycloneDX as version is a mandatory field.           !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+"""
+        mocked_run_cli_cmd.return_value = run_cli_command_response
+
+        input_config = {}
+
+        expected_output = [
+            "Warning: unpinned requirement 'semantic-version' found in requirements.txt, unable to check",
+            "Warning: unpinned requirement 'toml' found in requirements.txt, unable to check",
+            "Warning: unpinned requirement 'xmltodict' found in requirements.txt, unable to check",
+        ]
+
+        # When
+        testee = self.ToolMetaClass(input_config)
+        report = await testee.run_scan()
+
+        # Then
+        assert expected_output == report.warnings
