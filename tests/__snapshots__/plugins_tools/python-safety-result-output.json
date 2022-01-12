@@ -37,8 +37,8 @@
       "metadata": {
         "cves": [
           {
-            "advisitory_created": "2014-11-24T15:59:00",
-            "advisitory_modified": "2021-03-15T16:17:00",
+            "advisory_created": "2014-11-24T15:59:00",
+            "advisory_modified": "2021-03-15T16:17:00",
             "id": "CVE-2013-5123",
             "rating": 2.1,
             "severity": "LOW",

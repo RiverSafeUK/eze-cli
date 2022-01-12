@@ -79,7 +79,9 @@ class TestSafetyTool(ToolMetaTestBase):
     @mock.patch("urllib.request.urlopen")
     def test_parse_report__snapshot(self, mock_request_json, snapshot):
         # Given
-        mock_request_json.side_effect = create_mocked_stream("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")
+        mock_request_json.side_effect = create_mocked_stream(
+            "__fixtures__/cve/services_nvd_nist_gov_rest_json_cve_1_0_CVE_2014_8991.json"
+        )
 
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
