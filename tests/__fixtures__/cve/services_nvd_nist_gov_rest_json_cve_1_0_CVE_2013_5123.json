@@ -1,4 +1,8 @@
 {
+  "__debug": {
+    "created_by": "Anthony McKale",
+    "from": "https://services.nvd.nist.gov/rest/json/cve/1.0/CVE-2013-5123"
+  },
   "resultsPerPage": 1,
   "startIndex": 0,
   "totalResults": 1,

@@ -1,4 +1,8 @@
 {
+  "__debug": {
+    "created_by": "Anthony McKale",
+    "from": "https://services.nvd.nist.gov/rest/json/cve/1.0/CVE-2014-8991"
+  },
   "resultsPerPage": 1,
   "startIndex": 0,
   "totalResults": 1,

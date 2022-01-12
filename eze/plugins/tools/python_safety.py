@@ -109,13 +109,14 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             summary = report_event[3]
             safety_id = report_event[4]
             cve_id = detect_cve(summary)
+            cve_data = None
             recommendation = None
             metadata = {"safety": {"id": safety_id}}
             if cve_id:
                 try:
                     cve_data = get_cve_data(cve_id)
                 except EzeError as error:
-                    warnings.append(f"unable to get cve data for {cve_id.cve_id}, Error: {error}")
+                    warnings.append(f"unable to get cve data for {cve_id}, Error: {error}")
             if vulnerable_versions:
                 recommendation = f"Update {vulnerable_package} ({installed_version}) to a non vulnerable version, vulnerable versions: {vulnerable_versions}"
 

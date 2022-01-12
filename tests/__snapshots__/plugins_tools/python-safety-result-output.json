@@ -35,17 +35,6 @@
       "is_ignored": false,
       "language": "python",
       "metadata": {
-        "cves": [
-          {
-            "advisory_created": "2014-11-24T15:59:00",
-            "advisory_modified": "2021-03-15T16:17:00",
-            "id": "CVE-2013-5123",
-            "rating": 2.1,
-            "severity": "LOW",
-            "summary": "pip 1.3 through 1.5.6 allows local users to cause a denial of service (prevention of package installation) by creating a /tmp/pip-build-* file for another user.",
-            "url": "https://nvd.nist.gov/vuln/detail/CVE-2013-5123"
-          }
-        ],
         "safety": {
           "id": "37752"
         }
