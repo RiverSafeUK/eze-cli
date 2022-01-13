@@ -2,13 +2,12 @@
 import shlex
 import time
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import (
     load_json,
     create_tempfile_path,
@@ -98,7 +97,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         """
 
         tic = time.perf_counter()
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 10:

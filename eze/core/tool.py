@@ -1,19 +1,19 @@
 """Eze's Scan Tools module"""
 from __future__ import annotations
 
+import asyncio
 import os
 import time
+import math
 from abc import ABC, abstractmethod
 from typing import Callable
 
-from pydash import py_
-
 from eze.core.reporter import ReporterManager
 from eze.core.config import EzeConfig
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType
+from eze.core.enums import VulnerabilitySeverityEnum, ToolType, Vulnerability
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.cli import EzeExecutableNotFoundError
-from eze.utils.io import normalise_file_paths, normalise_linux_file_path, create_folder
+from eze.utils.io import normalise_file_paths, create_folder
 from eze.utils.print import pretty_print_table
 from eze.utils.config import (
     get_config_key,
@@ -22,80 +22,7 @@ from eze.utils.config import (
     extract_embedded_run_type,
 )
 from eze.utils.error import EzeError, EzeConfigError
-from eze.utils.log import log, log_debug, log_error
-
-
-class Vulnerability:
-    """Wrapper around raw dict to provide easy code typing"""
-
-    def __init__(self, vo: dict):
-        """constructor"""
-        # aka generic / dependency / secret
-        self.vulnerability_type: str = get_config_key(vo, "vulnerability_type", str, VulnerabilityType.generic.name)
-        self.name: str = get_config_key(vo, "name", str, "")
-        self.severity: str = get_config_key(vo, "severity", str, "").lower()
-        self.confidence: str = get_config_key(vo, "confidence", str, "").lower()
-        self.overview: str = get_config_key(vo, "overview", str, "")
-        self.is_ignored: bool = get_config_key(vo, "is_ignored", bool, False)
-        self.is_excluded: bool = get_config_key(vo, "is_excluded", bool, False)
-        # [optional] containers cve/cwe info
-        self.identifiers: dict = get_config_key(vo, "identifiers", dict, {})
-        # [optional] mitigation recommendations
-        self.recommendation: str = get_config_key(vo, "recommendation", str, "")
-        # [optional] language of Vulnerability found in
-        self.language: str = get_config_key(vo, "language", str, "")
-        # [optional] pair of File/Line
-        self.file_location: dict = get_config_key(vo, "file_location", dict, None)
-        # [optional] version of object under test
-        self.version: str = get_config_key(vo, "version", str, "")
-        # [optional] list of reference urls
-        self.references: list = get_config_key(vo, "references", list, [])
-        # misc container
-        self.metadata: dict = get_config_key(vo, "metadata", dict, None)
-
-    def update_ignored(self, tool_config: dict) -> bool:
-        """detect if vulnerability is to be ignored"""
-        if self.is_ignored:
-            self.is_ignored = True
-            return True
-        if self.name in tool_config["IGNORED_VULNERABILITIES"]:
-            self.is_ignored = True
-            return True
-        for identifier_key in self.identifiers:
-            identifier_value = self.identifiers[identifier_key]
-            if identifier_value in tool_config["IGNORED_VULNERABILITIES"]:
-                self.is_ignored = True
-                return True
-        file_location = py_.get(self, "file_location.path", False)
-        if file_location:
-            file_location = normalise_linux_file_path(file_location)
-            for ignored_path in tool_config["IGNORED_FILES"]:
-                if file_location.startswith(ignored_path):
-                    self.is_ignored = True
-                    return True
-        severity_level = VulnerabilitySeverityEnum[self.severity].value
-        if severity_level > tool_config["IGNORE_BELOW_SEVERITY_INT"]:
-            self.is_ignored = True
-            return True
-        self.is_ignored = False
-        return False
-
-    def update_excluded(self, tool_config: dict) -> bool:
-        """detect if vulnerability is to be excluded"""
-        if self.is_excluded:
-            self.is_excluded = True
-            return True
-
-        file_location = py_.get(self, "file_location.path", False)
-        if file_location:
-            file_location = normalise_linux_file_path(file_location)
-            for excluded_path in tool_config["EXCLUDE"]:
-                if file_location.startswith(excluded_path):
-                    self.is_excluded = True
-                    return True
-
-        self.is_excluded = False
-        return False
+from eze.utils.log import log, log_debug, log_error, status_message, clear_status_message
 
 
 class ScanResult:
@@ -107,7 +34,7 @@ class ScanResult:
         self.summary: dict = get_config_key(vo, "summary", dict, {})
         self.run_details: dict = get_config_key(vo, "run_details", dict, {})
 
-        # bom in Cyconedx format
+        # bom in Cyclonedx format
         # https://cyclonedx.org/
         self.bom: dict = get_config_key(vo, "bom", dict, None)
 
@@ -293,7 +220,31 @@ class ToolManager:
         tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
         tool_instance.prepare_folder()
         try:
-            scan_result: ScanResult = await tool_instance.run_scan()
+            process = {"scan_result": None}
+
+            async def run_counter(what: str, delay: int = 1):
+                status_message(what)
+                while True:
+                    toc = time.perf_counter()
+                    status_message(what + " (" + str(math.ceil(toc - tic)) + " secs)")
+                    await asyncio.sleep(delay)
+
+            run_counter_task = asyncio.create_task(run_counter(f"running tool '{tool_name}'"))
+
+            async def run_process():
+                try:
+                    process["scan_result"] = await tool_instance.run_scan()
+                finally:
+                    run_counter_task.cancel()
+
+            task_run_process = asyncio.create_task(run_process())
+            try:
+                await asyncio.gather(run_counter_task, task_run_process)
+            except RuntimeError:
+                pass
+            except asyncio.exceptions.CancelledError:
+                pass
+            scan_result: ScanResult = process["scan_result"]
         except EzeExecutableNotFoundError as error:
             # Special Case:
             # If executable not installed print "install help"
@@ -327,6 +278,13 @@ Looks like {tool_name} is not installed
 
         toc = time.perf_counter()
         # annotation raw scan result
+        if not scan_result:
+            scan_result = ScanResult(
+                {
+                    "tool": tool_instance.TOOL_NAME,
+                    "fatal_errors": [f"Not scan result received"],
+                }
+            )
         if not scan_result.tool:
             scan_result.tool = tool_instance.TOOL_NAME
 
@@ -380,7 +338,10 @@ Looks like {tool_name} is not installed
 ======================="""
         )
         tools = []
+        tools_counter = 0
+        tools_length = len(self.tools)
         for current_tool_name in self.tools:
+            tools_counter += 1
             current_tool_class = self.tools[current_tool_name]
             current_tool_type = current_tool_class.tool_type().name
             current_source_support = current_tool_class.source_support()
@@ -400,6 +361,7 @@ Looks like {tool_name} is not installed
             tool_entry["Type"] = current_tool_type
             tool_entry["Name"] = current_tool_name
             if include_version:
+                status_message(f"({tools_counter}/{tools_length}) obtaining '{current_tool_name}' tool version")
                 current_tool_version = current_tool_class.check_installed() or "Not Installed"
                 tool_entry["Version"] = current_tool_version
             tool_entry["License"] = current_tool_license
@@ -408,6 +370,7 @@ Looks like {tool_name} is not installed
             tool_entry["Description"] = current_tool_description
             tools.append(tool_entry)
 
+        clear_status_message()
         pretty_print_table(tools)
 
     def print_tools_help(self, tool_type: str = None, source_type: str = None, include_source_type: bool = None):

@@ -86,15 +86,15 @@ class TestNpmOutdatedTool(ToolMetaTestBase):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"SOURCE": "src", "REPORT_FILE": "foo_report.json"}
 
         expected_cmd = "npm outdated --json"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

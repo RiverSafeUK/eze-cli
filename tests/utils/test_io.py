@@ -191,12 +191,10 @@ def test_parse_json__sad_path__ab_898_json_error():
     input_json = "NOT REAL JSON"
     expected_error = "Unable to parse JSON fragment"
 
-    try:
+    with pytest.raises(EzeFileParsingError) as raised_error:
         parse_json(input_json)
-    except EzeFileParsingError as error:
-        raised_error = error
     # Then
-    assert expected_error in str(raised_error)
+    assert expected_error in str(raised_error.value)
 
 
 def test_load_json__happy_path():
@@ -211,12 +209,10 @@ def test_load_json__sad_path__ab_898_json_error():
     sample_json_path = get_path_fixture("__fixtures__/io/sample_broken_json.json")
     expected_error = "Unable to parse JSON file"
 
-    try:
-        load_json(sample_json_path)
-    except EzeFileParsingError as error:
-        raised_error = error
+    with pytest.raises(EzeFileParsingError) as raised_error:
+        load_json(str(sample_json_path))
     # Then
-    assert expected_error in str(raised_error)
+    assert expected_error in str(raised_error.value)
 
 
 @mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
@@ -225,12 +221,10 @@ def test_load_json__sad_path__ab_688_permission_error(mock_write_text):
     input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "report.json"
     expected_error = "Eze cannot access 'some-mocked-file.json', Permission was denied"
 
-    try:
+    with pytest.raises(EzeFileAccessError) as raised_error:
         load_json(input_report_location)
-    except EzeFileAccessError as error:
-        raised_error = error
     # Then
-    assert str(expected_error) == str(raised_error)
+    assert str(expected_error) == str(raised_error.value)
 
 
 def test_load_json__sad_path__empty_case(tmp_path):
@@ -268,13 +262,11 @@ def test_write_json__ab_688_makedirs_exception(mock_make_dirs):
     input_vo = [1, 2, 3, 4, 5]
     expected_error = "Eze cannot create folder 'some-mocked-file.json', Permission was denied"
 
-    try:
+    with pytest.raises(EzeFileAccessError) as raised_error:
         write_json(input_report_location / "report.json", input_vo)
-    except EzeFileAccessError as error:
-        raised_error = error
 
     # Then
-    assert str(expected_error) == str(raised_error)
+    assert str(expected_error) == str(raised_error.value)
 
 
 @mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
@@ -286,12 +278,10 @@ def test_write_json__ab_688_write_exception(mock_write_text):
     input_vo = [1, 2, 3, 4, 5]
     expected_error = "Eze cannot write 'some-mocked-file.json', Permission was denied"
 
-    try:
+    with pytest.raises(Exception) as raised_error:
         write_json(input_report_location, input_vo)
-    except Exception as error:
-        raised_error = error
     # Then
-    assert str(expected_error) == str(raised_error)
+    assert str(expected_error) == str(raised_error.value)
 
 
 def test_load_toml():
@@ -356,6 +346,6 @@ def test_delete_file(tmp_path):
 
 def test_exit_app():
     expected_error = "There was an error"
-    with pytest.raises(Exception, match=expected_error) as captured_exception:
+    with pytest.raises(Exception, match=expected_error) as raised_error:
         exit_app(expected_error)
-    assert captured_exception.value.message == expected_error
+    assert raised_error.value.message == expected_error

@@ -3,13 +3,12 @@ import shlex
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import load_json, create_tempfile_path
 from eze.utils.error import EzeConfigError
 
@@ -35,7 +34,7 @@ Tips
 
 Common Gotchas
 ===========================
-Worth mentioning vulnerability counts are quite high for offical out the box docker images
+Worth mentioning vulnerability counts are quite high for official out the box docker images
 
 trivy image node:slim
 Total: 101 (UNKNOWN: 2, LOW: 67, MEDIUM: 8, HIGH: 20, CRITICAL: 4)
@@ -43,7 +42,7 @@ Total: 101 (UNKNOWN: 2, LOW: 67, MEDIUM: 8, HIGH: 20, CRITICAL: 4)
 trivy image python:3.8-slim
 Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
     # https://github.com/aquasecurity/trivy/blob/main/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "IMAGE_NAME": {
             "type": str,
@@ -107,7 +106,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)

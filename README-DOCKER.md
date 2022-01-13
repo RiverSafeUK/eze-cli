@@ -30,7 +30,7 @@ List of tools, licenses, and sizes pre-installed in latest Eze Cli Dockerimage c
 ```bash
 docker run -t --rm riversafe/eze-cli tools list --include-source-type
 docker run -t --rm riversafe/eze-cli tools help <tool-name>
-aka docker run -t --rm riversafe/eze-cli tools help trufflehog
+# aka docker run -t --rm riversafe/eze-cli tools help trufflehog
 ```
 
 _Updated: 13/01/2022_

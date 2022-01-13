@@ -18,10 +18,10 @@ class TestBanditTool(ToolMetaTestBase):
         expected_error_message = """required param 'SOURCE' missing from configuration
 bandit source folder to scan for python files"""
         # When
-        with pytest.raises(EzeConfigError) as thrown_exception:
+        with pytest.raises(EzeConfigError) as raised_error:
             BanditTool()
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     def test_creation__with_config(self):
         # Given
@@ -72,14 +72,25 @@ bandit source folder to scan for python files"""
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot, input_config)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    def test_parse_report__error_case_snapshot(self, snapshot):
+        # Given
+        input_config = {"SOURCE": "src"}
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            input_config,
+            "__fixtures__/plugins_tools/raw-python-bandit-with-errors-report.json",
+            "plugins_tools/python-bandit-with-errors-output.json",
+        )
+
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"SOURCE": "src", "REPORT_FILE": "foo_report.json"}
 
         expected_cmd = "bandit -f json -o foo_report.json -r src"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

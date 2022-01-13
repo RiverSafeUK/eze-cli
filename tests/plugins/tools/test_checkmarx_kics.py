@@ -76,10 +76,12 @@ class TestKicsTool(ToolMetaTestBase):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__multi_value_flag_exclude_and_no_folder_path_given(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__multi_value_flag_exclude_and_no_folder_path_given(
+        self, mock_async_subprocess_run
+    ):
         # Given
         input_config = {
             "SOURCE": "eze",
@@ -94,11 +96,11 @@ class TestKicsTool(ToolMetaTestBase):
         expected_cmd = 'kics scan -s -p eze --output-path . --output-name tmp-kics-report.json -e= "PATH-TO-EXCLUDED-FOLDER/.*" "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*" PATH-TO-EXCLUDED-FILE.js'
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command_with_multi_sources_and_report(self, mock_subprocess_run):
+    async def test_run_scan__cli_command_with_multi_sources_and_report(self, mock_async_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "Dockerfile,azure-pipelines.yml",
@@ -106,4 +108,4 @@ class TestKicsTool(ToolMetaTestBase):
         }
         expected_cmd = "kics scan -s -p Dockerfile,azure-pipelines.yml --output-path C:/Users/User1 --output-name tmp-kics-report.json"
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

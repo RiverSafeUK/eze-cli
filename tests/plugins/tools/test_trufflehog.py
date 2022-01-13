@@ -169,21 +169,21 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "plugins_tools/trufflehog-result-v3-output.json",
         )
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command(self, mock_subprocess_run):
+    async def test_run_scan__cli_command(self, mock_async_subprocess_run):
         # Given
         input_config = {"SOURCE": "eze", "REPORT_FILE": "tmp-truffleHog-report.json"}
         expected_cmd = "trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json"
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__windows_ab_699_multi_value_flag_with_windows_path_escaping(
-        self, mock_subprocess_run
+        self, mock_async_subprocess_run
     ):
         # Given
         input_config = {
@@ -195,17 +195,16 @@ class TestTruffleHogTool(ToolMetaTestBase):
                 "PATH-TO-EXCLUDED-FILE.js",
             ],
         }
-
-        expected_cmd = 'trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json --exclude "PATH-TO-EXCLUDED-FOLDER\\\\.*" "PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*" PATH-TO-EXCLUDED-FILE.js'
+        expected_cmd = "trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json --exclude 'PATH-TO-EXCLUDED-FOLDER\\\\.*' 'PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*' PATH-TO-EXCLUDED-FILE.js"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__ab_699_multi_value_flag_with_linux(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__ab_699_multi_value_flag_with_linux(self, mock_async_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "eze",
@@ -220,15 +219,15 @@ class TestTruffleHogTool(ToolMetaTestBase):
 
         expected_cmd = "trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json --exclude 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*' PATH-TO-EXCLUDED-FILE.js 'FILE WITH SPACES.js'"
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__ab_699_short_flag(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__ab_699_short_flag(self, mock_async_subprocess_run):
         # Given
         input_config = {"SOURCE": "eze", "REPORT_FILE": "tmp-truffleHog-report.json", "NO_ENTROPY": True}
         expected_cmd = "trufflehog3 --no-history -f json eze --no-entropy -o tmp-truffleHog-report.json"
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

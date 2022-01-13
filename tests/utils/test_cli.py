@@ -7,7 +7,7 @@ from pydash import trim
 
 from tests.__test_helpers__.mock_helper import mock_run_cmd
 from eze.utils.cli import (
-    _check_output_corrupt,
+    _has_missing_exe_output,
     _extract_version,
     _extract_executable,
     build_cli_command,
@@ -22,23 +22,23 @@ from eze.utils.cli import (
 )
 
 
-def test_check_output_corrupt__linux_bash_file_missing():
+def test_is_missing_exe_output__linux_bash_file_missing():
     test_input = """/bin/sh: 1: non-existant.sh: not found\n"""
-    output = _check_output_corrupt(test_input)
+    output = _has_missing_exe_output(test_input)
     assert output is True
 
 
-def test_check_output_corrupt__windows_bash_file_missing():
+def test_is_missing_exe_output__windows_bash_file_missing():
     test_input = """
 'safety' is not recognized as an internal or external command,
 operable program or batch file."""
-    output = _check_output_corrupt(test_input)
+    output = _has_missing_exe_output(test_input)
     assert output is True
 
 
-def test_check_output_corrupt__normal_output():
+def test_is_missing_exe_output__normal_output():
     test_input = """safety, version 1.10.3"""
-    output = _check_output_corrupt(test_input)
+    output = _has_missing_exe_output(test_input)
     assert output is False
 
 
@@ -190,7 +190,7 @@ def test_build_command__tail_argument():
 
 def test_run_cmd__success():
     # Given
-    expected_output_contains = """helloworld"""
+    expected_output_contains = "helloworld"
     expected_error = """"""
     input_cmd = shlex.split("echo 'helloworld'")
     # When
@@ -209,10 +209,9 @@ def test_run_cmd__escape_arguments_with_spaces__ab_724_linux(mock_subprocess_run
     mock_subprocess_run.reset_mock()
     mock_subprocess_run.side_effect = Exception("Expected Exception")
     # When
-    try:
+    with pytest.raises(Exception) as raised_error:
         run_cmd(input_cmd, False)
-    except Exception as err:
-        assert err.args[0] == "Expected Exception"
+    assert raised_error.value.args[0] == "Expected Exception"
     # Then
     cmd_arg = str(mock_subprocess_run.call_args.args[0])
     assert cmd_arg == expected_command
@@ -227,10 +226,9 @@ def test_run_cmd__escape_shell_attacks__ab_724_linux(mock_subprocess_run):
     mock_subprocess_run.reset_mock()
     mock_subprocess_run.side_effect = Exception("Expected Exception")
     # When
-    try:
+    with pytest.raises(Exception) as raised_error:
         run_cmd(input_cmd, False)
-    except Exception as err:
-        assert err.args[0] == "Expected Exception"
+    assert raised_error.value.args[0] == "Expected Exception"
     # Then
     cmd_arg = str(mock_subprocess_run.call_args.args[0])
     assert cmd_arg == expected_command
@@ -245,10 +243,9 @@ def test_run_cmd__fixme__ab_724__windows(mock_subprocess_run):
     mock_subprocess_run.reset_mock()
     mock_subprocess_run.side_effect = Exception("Expected Exception")
     # When
-    try:
+    with pytest.raises(Exception) as raised_error:
         run_cmd(input_cmd, False)
-    except Exception as err:
-        assert err.args[0] == "Expected Exception"
+    assert raised_error.value.args[0] == "Expected Exception"
     # Then
     cmd_arg = str(mock_subprocess_run.call_args.args[0])
     assert cmd_arg == expected_command
@@ -266,10 +263,9 @@ def test_run_cmd__fixme__ab_724__windows__Powershell_expansion_attacks(mock_subp
     mock_subprocess_run.reset_mock()
     mock_subprocess_run.side_effect = Exception("Expected Exception")
     # When
-    try:
+    with pytest.raises(Exception) as raised_error:
         run_cmd(input_cmd, False)
-    except Exception as err:
-        assert err.args[0] == "Expected Exception"
+    assert raised_error.value.args[0] == "Expected Exception"
     # Then
     cmd_arg = str(mock_subprocess_run.call_args.args[0])
     assert cmd_arg == expected_command
@@ -297,10 +293,10 @@ def test_run_cmd__failure_throw_case():
     expected_error_message = """Executable not found 'non-existant.sh', when running command non-existant.sh some random arguments --api <xxx>"""
     input_cmd = shlex.split("non-existant.sh some random arguments --api super-secret-apikey")
     # When
-    with pytest.raises(EzeExecutableNotFoundError) as thrown_exception:
+    with pytest.raises(EzeExecutableNotFoundError) as raised_error:
         run_cmd(input_cmd)
     # Then
-    assert thrown_exception.value.message == expected_error_message
+    assert raised_error.value.message == expected_error_message
 
 
 def test_cmd_exists__success():

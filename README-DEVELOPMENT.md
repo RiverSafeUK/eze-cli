@@ -106,7 +106,7 @@ _Some tools, for example semgrep are upto 200mb by themselves, tailoring the ima
 make docker
 
 # Test Eze in docker
-docker run --rm -v LOCAL_FOLDER:/data eze-cli --version
+docker run -t --rm -v LOCAL_FOLDER:/data eze-cli --version
 ```
 
 ## Build Release Docker Image

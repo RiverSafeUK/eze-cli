@@ -132,7 +132,7 @@ Will install mocha@8.4.0"""
 
     def test_create_recommendation_v7__no_fix_available(self):
         # Given
-        expected_output = """no fix available"""
+        expected_output = "no fix available"
         input_vulnerability = {"fixAvailable": False}
         testee = NpmAuditTool()
         # When
@@ -188,28 +188,28 @@ Will install mocha@8.4.0"""
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 
         expected_cmd = "npm audit --json --only=prod"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__non_prod(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__non_prod(self, mock_async_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json", "ONLY_PROD": False}
 
         expected_cmd = "npm audit --json"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

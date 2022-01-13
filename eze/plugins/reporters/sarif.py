@@ -3,12 +3,12 @@
 from typing import List
 import uuid
 from pydash import py_
-import click
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.enums import Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.io import write_sarif
-from eze.utils.log import log, log_debug, log_error
+from eze.utils.log import log
 
 
 class SarifReporter(ReporterMeta):
@@ -43,7 +43,6 @@ By default set to eze_report.sarif""",
         """Method for parsing the scans results into sarif format"""
         sarif_schema = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
         schema_version = "2.1.0"
-        log("Eze report results:\n")
         scan_results_with_sboms = []
 
         sarif_dict = {"$schema": sarif_schema, "version": schema_version, "runs": []}
@@ -81,7 +80,7 @@ By default set to eze_report.sarif""",
             return False
         return True
 
-    def _group_vulnerabilities_into_rules(self, vulnerabilities: List[Vulnerability]) -> list:
+    def _group_vulnerabilities_into_rules(self, vulnerabilities: List[Vulnerability]) -> tuple:
         """Method for summarizing vulnerabilities and grouping into rules"""
         if len(vulnerabilities) <= 0:
             return {}, {}
@@ -90,16 +89,15 @@ By default set to eze_report.sarif""",
         results = []
         severity_counters = {}
         for idx, vulnerability in enumerate(vulnerabilities):
-            rule = {}
-            rule["id"] = str(uuid.uuid4())
-            rule["name"] = vulnerability.name
-            rule["shortDescription"] = {"text": vulnerability.overview}
-            rule["fullDescription"] = {"text": vulnerability.overview + ". " + vulnerability.recommendation}
+            rule = {
+                "id": str(uuid.uuid4()),
+                "name": vulnerability.name,
+                "shortDescription": {"text": vulnerability.overview},
+                "fullDescription": {"text": vulnerability.overview + ". " + vulnerability.recommendation},
+            }
             rules.append(rule)
 
-            result = {"ruleId": "", "ruleIndex": -1, "level": "", "message": {"text": ""}, "locations": []}
-            result["ruleId"] = rule["id"]
-            result["ruleIndex"] = idx
+            result = {"ruleId": rule["id"], "ruleIndex": idx, "level": "", "message": {"text": ""}, "locations": []}
 
             if (
                 vulnerability.severity == "critical"

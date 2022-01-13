@@ -5,8 +5,8 @@ from unittest.mock import patch
 import pytest
 from click import ClickException
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
-from eze.core.tool import ToolManager, ToolMeta, Vulnerability, ScanResult
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, Vulnerability
+from eze.core.tool import ToolManager, ToolMeta, ScanResult
 from tests.__fixtures__.fixture_helper import assert_deep_equal, get_snapshot_directory
 from tests.__test_helpers__.mock_helper import (
     setup_mock,
@@ -152,10 +152,10 @@ class TestToolManager:
         }
         testee = ToolManager(input_plugin)
         # When
-        with pytest.raises(ClickException) as thrown_exception:
+        with pytest.raises(ClickException) as raised_error:
             testee.get_tool("non-existant-tool")
         # Then
-        assert thrown_exception.value.message == expected_error_message
+        assert raised_error.value.message == expected_error_message
 
     @patch("git.Repo")
     @pytest.mark.asyncio
@@ -397,112 +397,3 @@ class TestToolManager:
         # Then
         output = tool_manager_instance._sort_vulnerabilities(test_input)
         assert output == expected_output
-
-
-class TestVulnerability:
-    def test_seralisation_test(self):
-        old_vulnerability = Vulnerability(
-            {
-                "vulnerability_type": VulnerabilityType.dependency.name,
-                "severity": "low",
-                "is_ignored": False,
-                "name": "foo",
-                "identifiers": {"CVE": "cve-something"},
-            }
-        )
-        dehydrated_vulnerability_json = json.loads(json.dumps(old_vulnerability, default=vars))
-        new_rehyrdated_vulnerability = Vulnerability(dehydrated_vulnerability_json)
-
-        assert_deep_equal(old_vulnerability, new_rehyrdated_vulnerability)
-
-    def test_update_ignored__false(self):
-        # Given
-        expected_ignored_status = False
-        input_vulnerability = Vulnerability(
-            {
-                "name": "foo",
-                "identifiers": {"CVE": "cve-xxxx"},
-                "severity": VulnerabilitySeverityEnum.medium.name,
-                "is_ignored": False,
-            }
-        )
-
-        input_config = {
-            "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VULNERABILITIES": [],
-            "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
-        }
-
-        # When
-        input_vulnerability.update_ignored(input_config)
-        # Then
-        assert input_vulnerability.is_ignored == expected_ignored_status
-
-    def test_update_ignored__by_severity(self):
-        # Given
-        expected_ignored_status = True
-        input_vulnerability = Vulnerability(
-            {
-                "name": "foo",
-                "identifiers": {"CVE": "cve-xxxx"},
-                "severity": VulnerabilitySeverityEnum.medium.name,
-                "is_ignored": False,
-            }
-        )
-
-        input_config = {
-            "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VULNERABILITIES": [],
-            "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.high.value,
-        }
-
-        # When
-        input_vulnerability.update_ignored(input_config)
-        # Then
-        assert input_vulnerability.is_ignored == expected_ignored_status
-
-    def test_update_ignored__by_name(self):
-        # Given
-        expected_ignored_status = True
-        input_vulnerability = Vulnerability(
-            {
-                "name": "foo",
-                "identifiers": {"CVE": "cve-xxxx"},
-                "severity": VulnerabilitySeverityEnum.medium.name,
-                "is_ignored": False,
-            }
-        )
-
-        input_config = {
-            "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VULNERABILITIES": ["foo"],
-            "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
-        }
-
-        # When
-        input_vulnerability.update_ignored(input_config)
-        # Then
-        assert input_vulnerability.is_ignored == expected_ignored_status
-
-    def test_update_ignored__by_cve(self):
-        # Given
-        expected_ignored_status = True
-        input_vulnerability = Vulnerability(
-            {
-                "name": "foo",
-                "identifiers": {"CVE": "cve-xxxx"},
-                "severity": VulnerabilitySeverityEnum.medium.name,
-                "is_ignored": False,
-            }
-        )
-
-        input_config = {
-            "DEFAULT_SEVERITY": "medium",
-            "IGNORED_VULNERABILITIES": ["cve-xxxx"],
-            "IGNORE_BELOW_SEVERITY_INT": VulnerabilitySeverityEnum.na.value,
-        }
-
-        # When
-        input_vulnerability.update_ignored(input_config)
-        # Then
-        assert input_vulnerability.is_ignored == expected_ignored_status
