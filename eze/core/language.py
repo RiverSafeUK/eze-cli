@@ -13,7 +13,13 @@ import click
 from pydash import py_
 
 from eze.core.config import EzeConfig
-from eze.core.enums import SourceType
+from eze.core.enums import (
+    SourceType,
+    LicenseScanType,
+    LICENSE_DENYLIST_CONFIG,
+    LICENSE_ALLOWLIST_CONFIG,
+    LICENSE_CHECK_CONFIG,
+)
 from eze.core.tool import ToolManager
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
@@ -245,7 +251,7 @@ class LanguageManager:
             plugin_languages = plugin.get_languages()
             self._add_languages(plugin_languages)
 
-    def _discover(self, root_path: str = None) -> list:
+    def _discover(self, root_path: str = None) -> dict:
         """Discover languages in codebase"""
         ignored_directories = [
             ".git",
@@ -298,16 +304,27 @@ class LanguageManager:
 
         return languages
 
-    def _create_config_file(self, config_location: pathlib.Path, config_yaml_str: str) -> None:
-        """Create the path to create the config file at and creates file"""
-        write_text(config_location, config_yaml_str)
-        log(f"Successfully written configuration file to '{config_location}'")
-
     def create_local_ezerc_config(self, root_path: str = None) -> bool:
         """Create new local ezerc file"""
-        languages = self._discover(root_path)
+        languages: dict = self._discover(root_path)
         language_list = []
-        eze_rc = """# Ezerc auto generated
+        eze_rc = f"""# Ezerc auto generated
+# ===================================
+# GLOBAL CONFIG
+# ===================================
+[global]
+# LICENSE_CHECK, available modes:
+# - PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+LICENSE_CHECK = "{LICENSE_CHECK_CONFIG["default"]}"
+# LICENSE_ALLOWLIST, {LICENSE_ALLOWLIST_CONFIG["help_text"]}
+LICENSE_ALLOWLIST = []
+# LICENSE_DENYLIST, {LICENSE_DENYLIST_CONFIG["help_text"]}
+LICENSE_DENYLIST = []
+
 # ===================================
 # TOOL CONFIG
 # ===================================
@@ -364,8 +381,8 @@ reporters = ["console", "bom", "json", "junit", "quality"]
 languages = [{",".join(language_list)}]
 """
         local_config_location = EzeConfig.get_local_config_filename()
-        self._create_config_file(local_config_location, eze_rc)
-        log(f"Written local configuration file: '{local_config_location}'")
+        write_text(str(local_config_location), eze_rc)
+        log(f"Successfully written configuration file to '{local_config_location}'")
 
         return True
 

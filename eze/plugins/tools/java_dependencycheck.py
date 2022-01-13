@@ -3,9 +3,10 @@
 import re
 import shlex
 
-from eze.core.enums import VulnerabilityType, ToolType, SourceType
-from eze.core.tool import ToolMeta, Vulnerability, ScanResult
-from eze.utils.cli import extract_version_from_maven, run_cli_command
+
+from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
+from eze.core.tool import ToolMeta, ScanResult
+from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
 from eze.utils.language.java import ignore_groovy_errors
 
@@ -36,7 +37,7 @@ You can add suppression file to customise your output
 https://jeremylong.github.io/DependencyCheck/general/suppression.html
 """
     # https://github.com/jeremylong/DependencyCheck/blob/main/LICENSE.txt
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -75,7 +76,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         owasp_report = load_json(self.config["MVN_REPORT_FILE"])
 
         write_json(self.config["REPORT_FILE"], owasp_report)

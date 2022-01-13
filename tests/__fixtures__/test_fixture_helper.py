@@ -67,7 +67,7 @@ def test_assert_valid_sarif_sanity_failure_case():
     example_sarif = load_json_fixture("__fixtures__/sarif/broken-example.sarif")
     expected_error_message = "Additional properties are not allowed ('schema' was unexpected)"
 
-    with pytest.raises(ValidationError) as thrown_exception:
+    with pytest.raises(ValidationError) as raised_error:
         assert_valid_sarif(example_sarif)
     # Then
-    assert thrown_exception.value.message == expected_error_message
+    assert raised_error.value.message == expected_error_message

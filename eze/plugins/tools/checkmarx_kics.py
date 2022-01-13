@@ -4,15 +4,13 @@ import os
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_cli_command
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import load_json, create_tempfile_path
-from eze.utils.log import log
 
 
 class KicsTool(ToolMeta):
@@ -48,7 +46,7 @@ or by using the command `docker pull checkmarx/kics:latest`
 Also you can define a custom config file and pass the --config flag.
 """
     # https://github.com/Checkmarx/kics/blob/master/LICENSE
-    LICENSE: str = """Apache 2.0"""
+    LICENSE: str = """Apache-2.0"""
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,
@@ -109,7 +107,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         :raises EzeError
         """
 
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
         if completed_process.stderr:

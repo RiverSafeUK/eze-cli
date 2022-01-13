@@ -4,13 +4,12 @@ import time
 
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import run_cli_command, extract_cmd_version
+from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.error import EzeError
 from eze.utils.log import log
@@ -134,7 +133,7 @@ maps to semgrep flag --exclude""",
         :raises EzeError
         """
         tic = time.perf_counter()
-        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 60:
@@ -235,7 +234,7 @@ Top 10 slowest files
                 identifiers[key] = value
         return identifiers
 
-    def extract_semgrep_warnings(self, parsed_json: dict) -> dict:
+    def extract_semgrep_warnings(self, parsed_json: dict) -> list:
         """extract semgrep warnings"""
         warnings = []
         errors = parsed_json.get("errors", [])

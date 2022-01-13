@@ -3,17 +3,17 @@ import click
 from pydash import py_
 
 from eze import __version__
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, Vulnerability
 from eze.core.reporter import ReporterMeta
-from eze.core.tool import ScanResult, Vulnerability
+from eze.core.tool import ScanResult
 from eze.utils.log import log, log_debug, log_error
 from eze.utils.scan_result import (
     vulnerabilities_short_summary,
     bom_short_summary,
     name_and_time_summary,
-    get_bom_license,
 )
 from eze.utils.print import pretty_print_table
+from eze.utils.sbom import get_bom_license, annotate_licenses
 
 
 class ConsoleReporter(ReporterMeta):
@@ -73,7 +73,7 @@ defaults to false""",
 
     def print_scan_summary_table(self, scan_results: list):
         """Print scan summary as table"""
-        boms = []
+        sboms = []
         summaries = []
         for scan_result in scan_results:
             run_details = scan_result.run_details
@@ -85,8 +85,8 @@ defaults to false""",
             duration_sec = py_.get(run_details, "duration_sec", "unknown")
 
             if scan_result.bom:
-                boms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
-                boms.append(f"    {bom_short_summary(scan_result)}")
+                sboms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
+                sboms.append(f"    {bom_short_summary(scan_result)}")
 
             entry = {
                 "Name": tool_name + run_type,
@@ -114,8 +114,8 @@ defaults to false""",
                     entry["Low"] = "Error"
                 summaries.append(entry)
         pretty_print_table(summaries, False)
-        if len(boms) > 0:
-            log("\n".join(boms))
+        if len(sboms) > 0:
+            log("\n".join(sboms))
 
     def print_scan_summary_title(self, scan_result: ScanResult, prefix: str = "") -> str:
         """Title of scan summary title"""
@@ -208,32 +208,17 @@ Bill of Materials
 [{tool_name}{run_type}] SBOM
 ================================="""
             )
+            sbom_components = annotate_licenses(scan_result.bom)
             sboms = []
-            for component in scan_result.bom["components"]:
-                licenses = component.get("licenses", [])
-
-                license_txt = "unknown"
-                # manual parsing for name and id
-                if licenses and len(licenses) > 0:
-                    license_texts = []
-                    for license_obj in licenses:
-                        license_text = get_bom_license(license_obj)
-                        if license_text:
-                            license_texts.append(license_text)
-                    license_txt = ", ".join(license_texts)
-
-                component_name = component["name"]
-                component_group = component.get("group")
-                if component_group:
-                    component_name = f"{component_group}.{component_name}"
-
+            for sbom_component in sbom_components:
                 sboms.append(
                     {
-                        "type": component["type"],
-                        "name": component_name,
-                        "version": component["version"],
-                        "license": license_txt,
-                        "description": component.get("description", ""),
+                        "type": sbom_component.type,
+                        "name": sbom_component.name,
+                        "version": sbom_component.version,
+                        "license": sbom_component.license,
+                        "license type": sbom_component.license_type,
+                        "description": sbom_component.description,
                     }
                 )
             pretty_print_table(sboms)

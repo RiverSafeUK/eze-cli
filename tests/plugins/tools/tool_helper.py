@@ -97,26 +97,29 @@ more_info:
         return output
 
     async def assert_run_scan_command(
-        self, input_config: dict = None, expected_command: str = None, mock_subprocess_run=None
+        self, input_config: dict = None, expected_command: str = None, mock_async_subprocess_run=None
     ):
-        """Help function to take a input config, and test command ran from commandline"""
-        mock_subprocess_run.reset_mock()
-        mock_subprocess_run.side_effect = Exception("Expected Exception")
+        """Help function to take a input config, and test command ran from commandline
+        async_subprocess_run = @mock.patch("eze.utils.cli.async_subprocess_run")
+        """
+        exception_message = "Expected async_subprocess_run called"
+        mock_async_subprocess_run.reset_mock()
+        mock_async_subprocess_run.side_effect = Exception(exception_message)
         testee = self.ToolMetaClass(input_config)
         # When
         try:
             await testee.run_scan()
-            assert "Was expecting run_scan to exception" == "..."
+            assert "Was expecting run_scan to exception, async_subprocess_run not called" == "..."
         except Exception as err:
-            assert err.args[0] == "Expected Exception"
+            assert err.args[0] == exception_message
 
-        cmd_arg = str(mock_subprocess_run.call_args.args[0])
+        cmd_as_str = shlex.join(mock_async_subprocess_run.call_args.args[0])
+        expected_command_as_list = shlex.split(expected_command)
+
+        # Workaround: DIFF IS TERRIBLE FOR xxx.assert_called_with
+        # print assertion fail for debugging
         # see https://github.com/pytest-dev/pytest-asyncio/issues/218
-        try:
-            assert cmd_arg == expected_command
-        except Exception as err:
-            print(f"""assert error "{cmd_arg}" != "{expected_command}" """)
-            raise err
-        mock_subprocess_run.assert_called_with(
-            expected_command, check=False, capture_output=True, universal_newlines=True, encoding="utf-8", shell=True
-        )
+        if cmd_as_str != expected_command:
+            print(f"""assert error "{cmd_as_str}" != "{expected_command}" """)
+        # Way that assertion should be done, but message is hard to understand
+        mock_async_subprocess_run.assert_called_with(expected_command_as_list)

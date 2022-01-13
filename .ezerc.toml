@@ -1,3 +1,16 @@
+# ===================================
+# GLOBAL CONFIG
+# ===================================
+[global]
+# license_mode
+# available modes:
+# - PROPRIETARY (default) : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+license_mode = "PROPRIETARY"
+
 # ========================================
 # TOOL CONFIG
 # ========================================

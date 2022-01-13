@@ -31,4 +31,4 @@ By default set to eze_report.json""",
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""
         json_location = write_json(self.config["REPORT_FILE"], scan_results)
-        log(f"written json report : {json_location}")
+        log(f"Written json report : {json_location}")

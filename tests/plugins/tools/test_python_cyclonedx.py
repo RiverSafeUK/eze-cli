@@ -21,6 +21,9 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-python-cyclonedx-bom.json"),
             "REQUIREMENTS_FILE": "",
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -51,6 +54,9 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "LICENSE_ALLOWLIST": [],
+            "LICENSE_CHECK": "PROPRIETARY",
+            "LICENSE_DENYLIST": [],
         }
         # When
         testee = PythonCyclonedxTool(input_config)
@@ -83,10 +89,10 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.subprocess.run")
+    @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {
             "REQUIREMENTS_FILE": "requirements-dev.txt",
@@ -97,7 +103,8 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         expected_cmd = "cyclonedx-py -r --format=json --force -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
+
+         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
     @mock.patch("eze.plugins.tools.python_cyclonedx.load_json")
     @mock.patch("eze.plugins.tools.python_cyclonedx.run_cli_command")

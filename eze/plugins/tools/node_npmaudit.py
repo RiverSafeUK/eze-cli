@@ -4,13 +4,12 @@ import shlex
 import semantic_version
 from pydash import py_
 
-from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType
+from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
-    Vulnerability,
     ScanResult,
 )
-from eze.utils.cli import run_cmd, build_cli_command, extract_cmd_version
+from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
 from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.language.node import install_node_dependencies
 from eze.utils.error import EzeFileParsingError
@@ -83,7 +82,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
         install_node_dependencies()
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        completed_process = run_cmd(command_str, True)
+        completed_process = await run_async_cmd(command_str, True)
 
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
