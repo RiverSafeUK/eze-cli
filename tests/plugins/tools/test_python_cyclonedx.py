@@ -104,12 +104,12 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
 
         # Test run calls correct program
 
-         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
     @mock.patch("eze.plugins.tools.python_cyclonedx.load_json")
-    @mock.patch("eze.plugins.tools.python_cyclonedx.run_cli_command")
+    @mock.patch("eze.plugins.tools.python_cyclonedx.run_async_cli_command")
     @pytest.mark.asyncio
-    async def test_run_scan_with_unpinned_requirments(self, mocked_run_cli_cmd, mocked_load_json):
+    async def test_run_scan_with_unpinned_requirments(self, mocked_run_async_cli_command, mocked_load_json):
         # Given
         run_cli_command_response = Mock()
         run_cli_command_response.stderr = ""
@@ -126,7 +126,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
 !! CycloneDX as version is a mandatory field.           !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 """
-        mocked_run_cli_cmd.return_value = run_cli_command_response
+        mocked_run_async_cli_command.return_value = run_cli_command_response
 
         input_config = {}
 
@@ -141,4 +141,6 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         report = await testee.run_scan()
 
         # Then
-        assert expected_output == report.warnings
+        # https://www.w3schools.com/python/ref_set_issubset.asp
+        # report.warnings may contain other warnings so we can't assert by "=="
+        assert set(expected_output).issubset(set(report.warnings))

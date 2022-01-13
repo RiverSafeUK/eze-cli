@@ -95,8 +95,8 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(cyclonedx_bom)
         if "Some of your dependencies do not have pinned version" in completed_process.stdout:
-            results = self.extract_unpinned_requirements(completed_process.stdout)
-            for unpinned_requirement in results:
+            unpinned_requirements_list = self.extract_unpinned_requirements(completed_process.stdout)
+            for unpinned_requirement in unpinned_requirements_list:
                 report.warnings.append(unpinned_requirement)
 
         if completed_process.stderr:
