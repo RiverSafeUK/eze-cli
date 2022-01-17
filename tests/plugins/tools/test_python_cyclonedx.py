@@ -1,5 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
+from unittest.mock import Mock
 
 import pytest
 
@@ -102,4 +103,44 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         expected_cmd = "cyclonedx-py -r --format=json --force -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
 
         # Test run calls correct program
+
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+
+    @mock.patch("eze.plugins.tools.python_cyclonedx.load_json")
+    @mock.patch("eze.plugins.tools.python_cyclonedx.run_async_cli_command")
+    @pytest.mark.asyncio
+    async def test_run_scan_with_unpinned_requirments(self, mocked_run_async_cli_command, mocked_load_json):
+        # Given
+        run_cli_command_response = Mock()
+        run_cli_command_response.stderr = ""
+        run_cli_command_response.stdout = """
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Some of your dependencies do not have pinned version !!
+!! numbers in your requirements.txt                     !!
+!!                                                      !!
+!! -> semantic-version                                  !!
+!! -> toml                                              !!
+!! -> xmltodict                                         !!
+!!                                                      !!
+!! The above will NOT be included in the generated      !!
+!! CycloneDX as version is a mandatory field.           !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+"""
+        mocked_run_async_cli_command.return_value = run_cli_command_response
+
+        input_config = {}
+
+        expected_output = [
+            "Warning: unpinned requirement 'semantic-version' found in requirements.txt, unable to check",
+            "Warning: unpinned requirement 'toml' found in requirements.txt, unable to check",
+            "Warning: unpinned requirement 'xmltodict' found in requirements.txt, unable to check",
+        ]
+
+        # When
+        testee = self.ToolMetaClass(input_config)
+        report = await testee.run_scan()
+
+        # Then
+        # https://www.w3schools.com/python/ref_set_issubset.asp
+        # report.warnings may contain other warnings so we can't assert by "=="
+        assert set(expected_output).issubset(set(report.warnings))

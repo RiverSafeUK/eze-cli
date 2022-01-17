@@ -1,4 +1,5 @@
 """cyclonedx SBOM tool class"""
+import re
 import shlex
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
@@ -70,6 +71,18 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
         return detect_pip_executable_version("cyclonedx-bom", "cyclonedx-py")
 
+    def extract_unpinned_requirements(self, stdout_output: str) -> list:
+        """Extract the unpinned requirement from stdout of python-cyclonedx"""
+        pattern = re.compile(r"(?<=->\s)(.*?)(?=\s*!!)")
+        matches = pattern.finditer(stdout_output)
+
+        results = []
+        for match in matches:
+            results.append(
+                f"Warning: unpinned requirement '{match.group()}' found in requirements.txt, unable to check"
+            )
+        return results
+
     async def run_scan(self) -> ScanResult:
         """
         Method for running a synchronous scan using tool
@@ -81,6 +94,11 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(cyclonedx_bom)
+        if "Some of your dependencies do not have pinned version" in completed_process.stdout:
+            unpinned_requirements_list = self.extract_unpinned_requirements(completed_process.stdout)
+            for unpinned_requirement in unpinned_requirements_list:
+                report.warnings.append(unpinned_requirement)
+
         if completed_process.stderr:
             report.warnings.append(completed_process.stderr)
 
