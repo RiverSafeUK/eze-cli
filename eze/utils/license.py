@@ -1,3 +1,5 @@
+"""Helper functions for manipulating license data for SBOMs"""
+
 import os
 from pathlib import Path
 
@@ -149,8 +151,15 @@ def normalise_license_id(license_text: str) -> str:
     return re.sub("^\\s*([a-zA-Z]+)[- _]+([0-9]+(?:[.][0-9.]+)?)\\s*$", _normalise_license_id, license_text)
 
 
+def convert_pypi_to_spdx(pypi_license: str) -> str:
+    """convert pypi license code aka "License :: OSI Approved :: BSD License" into spdx code "BSD" """
+    licenses_data = get_licenses_data()
+    pypi_lookup_table: dict = py_.get(licenses_data, "pypiToSpdxLookup", {})
+    return pypi_lookup_table.get(pypi_license) or None
+
+
 def get_bom_license(license_dict: dict) -> str:
-    """Parse cyclonedx license object for normalised license"""
+    """Parse cyclonedx component object for normalised license"""
     license_text = py_.get(license_dict, "license.name")
     if not license_text:
         license_text = py_.get(license_dict, "license.id")
@@ -165,16 +174,28 @@ def get_license(license_text: str) -> dict:
     """get license data from eze/data/spdx-license-list-data-supplement.json"""
     licenses_data = get_licenses_data()
 
-    # by spdx short code
+    # by spdx short code, aka "MIT"
     license_id = normalise_license_id(license_text)
     if license_id in licenses_data["licenses"]:
         return licenses_data["licenses"][license_id]
-    # by name
+    # by pypi long code, aka "License :: OSI Approved :: MIT License"
+    pypi_license_id = convert_pypi_to_spdx(license_text)
+    if pypi_license_id and pypi_license_id in licenses_data["licenses"]:
+        return licenses_data["licenses"][pypi_license_id]
+    if pypi_license_id and pypi_license_id in licenses_data["licensesPatterns"]:
+        license_data = licenses_data["licensesPatterns"][pypi_license_id]
+        created_license_data = license_data.copy()
+        created_license_data["id"] = pypi_license_id
+        created_license_data["isOsiApproved"] = ":: OSI Approved ::" in license_text
+        created_license_data["isFsfLibre"] = None
+        created_license_data["isDeprecated"] = None
+        return created_license_data
+    # by name, aka "MIT License"
     for key in licenses_data["licenses"]:
         license_data = licenses_data["licenses"][key]
         if license_text == license_data["name"]:
             return license_data
-    # by pattern
+    # by pattern, aka "Apache-X.X lorem ipsum facto"
     for license_pattern in licenses_data["licensesPatterns"]:
         license_data = licenses_data["licensesPatterns"][license_pattern]
         if re.match(license_pattern, license_text):
@@ -236,7 +257,6 @@ def annotate_licenses(sbom: dict) -> list:
 def get_policy(license_policy: str) -> dict:
     """get description violation of policies"""
     # TODO: AB#943: auto detect project license from root LICENSE.md
-    policy = LICENSE_PROPRIETARY_POLICY
     license_policy = license_policy.upper()
     if license_policy == LicenseScanType.PROPRIETARY.value:
         return LICENSE_PROPRIETARY_POLICY
@@ -299,7 +319,7 @@ def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, deny
             )
         if sbom_component.license_type in policy["types_warn"]:
             warnings.append(
-                f"License {sbom_component.license}({sbom_component.name}), reason: {policy['reasons'][sbom_component.license_type]}"
+                f"License '{sbom_component.license}'({sbom_component.name}), reason: {policy['reasons'][sbom_component.license_type]}"
             )
         if (
             policy["warn_non_opensource_licenses"]
@@ -307,15 +327,15 @@ def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, deny
             and not sbom_component.license_is_osi_approved
         ):
             warnings.append(
-                f"License {sbom_component.license}({sbom_component.name}), reason: {GLOBAL_REASONS['warn_non_opensource_licenses']}"
+                f"License '{sbom_component.license}'({sbom_component.name}), reason: {GLOBAL_REASONS['warn_non_opensource_licenses']}"
             )
         if policy["warn_unprofessional_licenses"] and not sbom_component.license_is_professional:
             notes = py_.get(sbom_component, "notes", "")
             warnings.append(
-                f"License {sbom_component.license}({sbom_component.name}), reason: {GLOBAL_REASONS['warn_unprofessional_licenses']}{notes}"
+                f"License '{sbom_component.license}'({sbom_component.name}), reason: {GLOBAL_REASONS['warn_unprofessional_licenses']}{notes}"
             )
         if policy["warn_deprecated_licenses"] and sbom_component.license_is_deprecated:
             warnings.append(
-                f"License {sbom_component.license}({sbom_component.name}), reason: {GLOBAL_REASONS['warn_deprecated_licenses']}"
+                f"License '{sbom_component.license}'({sbom_component.name}), reason: {GLOBAL_REASONS['warn_deprecated_licenses']}"
             )
     return [vulnerabilities, warnings]

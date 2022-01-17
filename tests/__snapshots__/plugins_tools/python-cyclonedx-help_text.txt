@@ -1,6 +1,6 @@
 short_description:
 ======================
-opensource python bill of materials (SBOM) generation utility
+opensource python bill of materials (SBOM) generation utility, also runs SCA via pypi
 
 config_help:
 ======================
@@ -17,6 +17,14 @@ REQUIREMENTS_FILE = "requirements.txt"
 #   REPORT_FILE = "<tempdir>/.eze-temp/tmp-python-cyclonedx-bom.json"
 # 
 REPORT_FILE = "..."
+
+
+# SCA_ENABLED bool [OPTIONAL]
+# use pypi and nvd data feeds to detect vulnerabilities
+# default value: 
+#   SCA_ENABLED = true
+# 
+SCA_ENABLED = true / false
 
 
 # LICENSE_CHECK str [OPTIONAL]

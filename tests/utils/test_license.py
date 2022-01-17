@@ -1,6 +1,16 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+import pytest
+
 from eze.core.enums import LicenseScanType
-from eze.utils.sbom import check_licenses, annotate_licenses, get_bom_license, get_licenses_data, normalise_license_id
+from eze.utils.license import (
+    check_licenses,
+    annotate_licenses,
+    get_bom_license,
+    get_licenses_data,
+    normalise_license_id,
+    get_license,
+    convert_pypi_to_spdx,
+)
 
 from tests.__fixtures__.fixture_helper import load_json_fixture, convert_to_std_object
 
@@ -253,9 +263,10 @@ def test_check_licenses__sad_path_OPENSOURCE_policy__non_fsf_osi_warns():
     # Given
     expected_vulnerabilities = []
     expected_warnings = [
-        "License MIT-enna(x-xss-protection), reason: Permissive licenses with "
+        "License 'MIT-enna'(x-xss-protection), reason: Permissive licenses with "
         "conditions should be manually checked to ensure compliance",
-        "License MIT-enna(x-xss-protection), reason: Unable to determine if license " "is fsf/osi opensource approved",
+        "License 'MIT-enna'(x-xss-protection), reason: Unable to determine if license "
+        "is fsf/osi opensource approved",
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-with-conditions-report.json")
     # When
@@ -368,3 +379,84 @@ def test_normalise_license_id__sad_path():
     output = normalise_license_id(test_input)
     # Then
     assert output == expected_output
+
+
+def test_convert_pypi_to_spdx__happy_case():
+    # Given
+    pypi_license = "License :: CeCILL-C Free Software License Agreement (CECILL-C)"
+    expected_license = "CECILL-C"
+    # When
+    output = convert_pypi_to_spdx(pypi_license)
+    # Then
+    assert output == expected_license
+
+
+def test_convert_pypi_to_spdx__sad_case():
+    # Given
+    pypi_license = "CECILL-C"
+    expected_license = None
+    # When
+    output = convert_pypi_to_spdx(pypi_license)
+    # Then
+    assert output == expected_license
+
+
+def test_get_license__pypi_happy_case():
+    # Given
+    pypi_license = "License :: CeCILL-C Free Software License Agreement (CECILL-C)"
+    expected_license = "CECILL-C"
+    # When
+    output = get_license(pypi_license)
+    # Then
+    assert output["id"] == expected_license
+
+
+def test_get_license__pypi_via_patternhappy_case():
+    # Given
+    pypi_license = "License :: OSI Approved :: BSD License"
+    expected_license = {
+        "id": "BSD",
+        "isDeprecated": None,
+        "isFsfLibre": None,
+        "isOsiApproved": True,
+        "isProfessional": True,
+        "name": "Berkeley Software Distribution",
+        "reference": "https://en.wikipedia.org/wiki/BSD_licenses",
+        "type": "permissive",
+    }
+    # When
+    output = get_license(pypi_license)
+    # Then
+    assert output == expected_license
+
+
+def test_get_license__spdx_happy_case():
+    # Given
+    spdx_license = "CECILL-C"
+    expected_license = "CECILL-C"
+    # When
+    output = get_license(spdx_license)
+    # Then
+    assert output["id"] == expected_license
+
+
+def test_get_license__pattern_happy_case():
+    # Given
+    long_english_license = "Apache-X.X.X.X-Lorem"
+    expected_license_id = long_english_license
+    expected_license_name = "Apache License"
+    # When
+    output = get_license(long_english_license)
+    # Then
+    assert output["name"] == expected_license_name
+    assert output["id"] == expected_license_id
+
+
+def test_get_license__sad_case():
+    # Given
+    non_license = "So for license, I put unknown"
+    expected_license = None
+    # When
+    output = get_license(non_license)
+    # Then
+    assert output == expected_license

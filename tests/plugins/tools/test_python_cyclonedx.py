@@ -8,6 +8,7 @@ from eze.plugins.tools.python_cyclonedx import PythonCyclonedxTool
 from eze.utils.io import create_tempfile_path
 from tests.__fixtures__.fixture_helper import (
     create_mocked_stream,
+    load_json_fixture,
 )
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
@@ -31,6 +32,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "SCA_ENABLED": True,
         }
         # When
         testee = PythonCyclonedxTool()
@@ -57,6 +59,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "LICENSE_ALLOWLIST": [],
             "LICENSE_CHECK": "PROPRIETARY",
             "LICENSE_DENYLIST": [],
+            "SCA_ENABLED": True,
         }
         # When
         testee = PythonCyclonedxTool(input_config)
@@ -81,13 +84,30 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("urllib.request.urlopen")
-    def test_parse_report__snapshot(self, mock_urlopen, snapshot):
-        # Given
-        mock_urlopen.side_effect = create_mocked_stream("__fixtures__/cve/cve_circl_lu_api_cve_cve_2014_8991.json")
-
+    @mock.patch("eze.utils.pypi.request_json")
+    @mock.patch("eze.utils.cve.request_json")
+    def test_parse_report__sca_enabled_snapshot(self, mock_cve_request_json, mock_pypi_request_json, snapshot):
+        # Given, mocked the pypi and cve results
+        mock_pypi_request_json.return_value = load_json_fixture(
+            "__fixtures__/pypi/pypi_org_pypi_aws-encryption-sdk_1_2_0.json"
+        )
+        mock_cve_request_json.return_value = load_json_fixture(
+            "__fixtures__/cve/services_nvd_nist_gov_rest_json_cve_1_0_CVE_2013_5123.json"
+        )
         # Test container fixture and snapshot
-        self.assert_parse_report_snapshot_test(snapshot)
+        self.assert_parse_report_snapshot_test(
+            snapshot, {"SCA_ENABLED": True}, None, f"plugins_tools/{self.SNAPSHOT_PREFIX}-result-with-sca-output.json"
+        )
+
+    def test_parse_report__sca_disabled_snapshot(self, snapshot):
+        # Given
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            {"SCA_ENABLED": False},
+            None,
+            f"plugins_tools/{self.SNAPSHOT_PREFIX}-result-without-sca-output.json",
+        )
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))

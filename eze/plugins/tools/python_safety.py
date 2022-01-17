@@ -6,7 +6,7 @@ import shlex
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.cve import CVE
+from eze.utils.cve import detect_cve, get_cve_data
 from eze.utils.io import load_json, create_tempfile_path
 from eze.utils.error import EzeError
 
@@ -108,16 +108,15 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             installed_version = report_event[2]
             summary = report_event[3]
             safety_id = report_event[4]
-            cve = CVE.detect_cve(summary)
+            cve_id = detect_cve(summary)
             cve_data = None
             recommendation = None
             metadata = {"safety": {"id": safety_id}}
-            if cve:
+            if cve_id:
                 try:
-                    cve_data = cve.get_metadata()
-                    metadata["cves"] = [cve_data]
+                    cve_data = get_cve_data(cve_id)
                 except EzeError as error:
-                    warnings.append(f"unable to get cve data for {cve.cve_id}, Error: {error}")
+                    warnings.append(f"unable to get cve data for {cve_id}, Error: {error}")
             if vulnerable_versions:
                 recommendation = f"Update {vulnerable_package} ({installed_version}) to a non vulnerable version, vulnerable versions: {vulnerable_versions}"
 

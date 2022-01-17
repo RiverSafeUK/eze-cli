@@ -184,10 +184,10 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "file_location": None,
             }
 
-            # WARNING: AB-524: limitation, for know just showing first advisitory
-            advisitory_source = py_.get(vulnerability, "via[0].source", False)
-            if advisitory_source:
-                vulnerability_vo["identifiers"]["npm"] = advisitory_source
+            # WARNING: AB-524: limitation, for now just showing first advisory
+            advisory_source = py_.get(vulnerability, "via[0].source", False)
+            if advisory_source:
+                vulnerability_vo["identifiers"]["npm"] = advisory_source
 
             vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 

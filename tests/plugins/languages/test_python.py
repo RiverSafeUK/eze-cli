@@ -19,7 +19,7 @@ class TestDefaultRunner(LanguageMetaTestBase):
 
     def test_create_ezerc__snapshot(self, snapshot):
         # Test container fixture and snapshot
-        config = {"files": {"REQUIREMENTS": ["requirements.txt"]}, "folders": {}}
+        config = {"files": {"REQUIREMENTS": ["requirements.txt"], "POETRY_LOCKFILES": []}, "folders": {}}
         self.assert_create_ezerc_snapshot_test(snapshot, config)
 
     @mock.patch("eze.plugins.languages.python.extract_cmd_version", mock.MagicMock(return_value="X.X.X"))

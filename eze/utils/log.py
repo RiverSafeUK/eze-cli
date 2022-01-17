@@ -1,5 +1,4 @@
 """Logging refactor"""
-import time
 import click
 
 
