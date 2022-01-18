@@ -63,19 +63,6 @@ These commands will run a security scan against code in the current folder
 | windows git bash    | ```docker run -t -v $(pwd -W):/data riversafe/eze-cli test```|
 | windows powershell  | ```docker run -t -v ${PWD}:/data riversafe/eze-cli test```|
 | windows cmd         | ```docker run -t -v %cd%:/data riversafe/eze-cli test```|
-=======
-# Scan code in current directory (cmd)
-docker run -t -v %cd%:/data riversafe/eze-cli test
-
-# Scan code in current directory (powershell)
-docker run -t -v ${PWD}:/data riversafe/eze-cli test
-
-# Scan code in current directory (git bash)
-docker run -t -v $(pwd -W):/data riversafe/eze-cli test
-
-# Scan code in current directory (linux/mac os bash)
-docker run -t -v "$(pwd)":/data riversafe/eze-cli test
-```
 
 # Other Common commands
 
@@ -84,9 +71,6 @@ docker run -t -v "$(pwd)":/data riversafe/eze-cli test
 ```bash
 docker run -t riversafe/eze-cli tools list
 ```
-
-<details>
-<summary>Example</summary>
 
 ```
 $ eze tools list
@@ -97,7 +81,6 @@ trufflehog            2.0.5             opensource secret scanner
 semgrep               0.53.0            opensource multi language SAST scanner
 ...
 ```
-</details>
 
 
 # Configuring Eze

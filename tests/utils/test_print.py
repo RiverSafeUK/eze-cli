@@ -35,11 +35,11 @@ def test_pretty_print_table__std_case():
             "Age": "14",
         },
     ]
-    expected_output = """ | Name  | Age | 
-*|*******|*****|*
- | Jimmy | 52  | 
- | Timmy | 7   | 
- | Emmy  | 14  | 
+    expected_output = """| Name  | Age |
+| ***** | *** |
+| Jimmy | 52  |
+| Timmy | 7   |
+| Emmy  | 14  |
 """
     # When
     pretty_print_table(test_input)
