@@ -361,6 +361,63 @@ def test_run_cli_command__sanity():
 
 
 @mock.patch("eze.utils.cli.run_cmd")
+def test_extract_version_from_maven_from_maven__ab_720_java_Dependency_Check_no_version_bug(mocked_run_cmd):
+    expected_output = "6.5.3"
+    mock_stderr = """WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDo
+main)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+"""
+    mock_stdout = """
+[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-common-artifact-filters/3.1.0/maven-common-artifact-filters-3.1.0.jar
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.4.1/plexus-utils-3.4.1.jar (264 kB at 53 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-io/2.0.4/plexus-io-2.0.4.jar (58 kB at 12 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-archiver/2.2/plexus-archiver-2.2.jar (185 kB at 37 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-common-artifact-filters/3.1.0/maven-common-artifact-filters-3.1.0.jar (61 kB at 12 kB/s)
+[INFO] Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/shared/maven-artifact-transfer/0.13.1/maven-artifact-transfer-0.13.1.jar (159 kB at 31 kB/s)
+[INFO] org.owasp:dependency-check-maven:6.5.3
+
+Name: Dependency-Check Maven Plugin
+Description: dependency-check-maven is a Maven Plugin that uses
+  dependency-check-core to detect publicly disclosed vulnerabilities associated
+  with the project's dependencies. The plugin will generate a report listing
+  the dependency, any identified Common Platform Enumeration (CPE) identifiers,
+  and the associated Common Vulnerability and Exposure (CVE) entries.
+Group Id: org.owasp
+Artifact Id: dependency-check-maven
+Version: 6.5.3
+Goal Prefix: dependency-check
+
+This plugin has 5 goals:
+
+dependency-check:aggregate
+  xxxx
+
+For more information, run 'mvn help:describe [...] -Ddetail'
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  48.616 s
+[INFO] Finished at: 2022-01-18T13:44:53Z
+[INFO] ------------------------------------------------------------------------
+' error output: 'WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.inject.internal.cglib.core.$ReflectUtils$1 (file:/usr/share/maven/lib/guice.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDo
+main)
+WARNING: Please consider reporting this to the maintainers of com.google.inject.internal.cglib.core.$ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+'
+running command 'mvn -B -Dplugin=com.github.spotbugs:spotbugs-maven-plugin help:describe'
+"""
+    mock_run_cmd(mocked_run_cmd, mock_stdout, mock_stderr)
+    output = extract_version_from_maven("some-package")
+    assert output == expected_output
+
+
+@mock.patch("eze.utils.cli.run_cmd")
 def test_extract_version_from_maven_from_maven__java_spotbugs(mocked_run_cmd):
     expected_output = "4.3.0"
     mock_stdout = """[INFO] Scanning for projects...

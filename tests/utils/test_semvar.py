@@ -1,6 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
-from utils.semvar import is_semvar
+from eze.utils.semvar import is_semvar
 
 
 def test_is_semvar__happy():

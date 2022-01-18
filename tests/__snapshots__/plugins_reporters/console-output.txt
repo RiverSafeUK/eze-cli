@@ -1,7 +1,7 @@
 Eze report results:
 
 | Name   | Type    | Critical | High | Medium | Low | Ignored | Warnings | Time |
-| ****** | ******* | ******** | **** | ****** | *** | ******* | ******** | **** |
+| ------ | ------- | -------- | ---- | ------ | --- | ------- | -------- | ---- |
 | safety | unknown | 0        | 0    | 1      | 1   | 1       | True     | 1.6s |
 
 Warnings

@@ -36,7 +36,7 @@ def test_pretty_print_table__std_case():
         },
     ]
     expected_output = """| Name  | Age |
-| ***** | *** |
+| ----- | --- |
 | Jimmy | 52  |
 | Timmy | 7   |
 | Emmy  | 14  |

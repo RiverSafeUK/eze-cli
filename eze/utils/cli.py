@@ -34,7 +34,7 @@ from eze.utils.io import is_windows_os
 import eze.utils.windowslex as windowslex
 from eze.utils.error import EzeExecutableNotFoundError, EzeExecutableStdErrError
 from eze.utils.log import log_debug
-from utils.semvar import is_semvar
+from eze.utils.semvar import is_semvar
 
 
 class CompletedProcess:
@@ -415,14 +415,18 @@ def extract_version_from_maven(mvn_package: str) -> str:
     """
     Take maven package and checks for Maven version
     """
-    command: list = ["mvn", f"-Dplugin={mvn_package}", "help:describe"]
+    ignored_errors_list = [
+        "WARNING: An illegal reflective access operation has occurred"
+    ]
+    command: list = ["mvn", "-B", f"-Dplugin={mvn_package}", "help:describe"]
     completed_process = run_cmd(command, False)
     output = completed_process.stdout
     error_output = completed_process.stderr
     if _has_missing_exe_output(output):
         return ""
     version = _extract_maven_version(output)
-    if not version or error_output:
+    is_acceptable_stderr = not error_output or _contains_list_element(error_output, ignored_errors_list)
+    if not version or not is_acceptable_stderr:
         version = ""
     return version
 

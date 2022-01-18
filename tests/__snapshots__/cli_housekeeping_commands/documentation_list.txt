@@ -3,11 +3,11 @@ Printing all eze plugins installed
 Available Tools are:
 =======================
 | Type | Name         | License   | Description               |
-| **** | ************ | ********* | ************************* |
+| ---- | ------------ | --------- | ------------------------- |
 | MISC | success-tool | LICENSE X | Example short description |
 | MISC | failure-tool | LICENSE X | Example short description |
 Available Reporters are:
 =======================
 | Name            | Version        | License   | Description               |
-| *************** | ************** | ********* | ************************* |
+| --------------- | -------------- | --------- | ------------------------- |
 | testee-reporter | version string | LICENSE X | Example short description |

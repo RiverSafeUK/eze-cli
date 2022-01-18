@@ -121,6 +121,64 @@ Configuration Format for SemGrep
 </details>
 
 
+
+# Opensource Tools in Eze
+
+| Type   | Name                 | Version      | License    | Description                                                                         |
+| ------ | -------------------- | ------------ | ---------- | ----------------------------------------------------------------------------------- |
+| MISC   | raw                  | 0.12.0-alpha | inbuilt    | input for saved eze json reports                                                    |
+| SECRET | trufflehog           | 3.0.4        | GNU        | opensource secret scanner                                                           |
+| SAST   | semgrep              | 0.77.0       | LGPL       | opensource multi language SAST scanner                                              |
+| SCA    | anchore-grype        | 0.28.0       | Apache-2.0 | opensource multi language SCA and container scanner                                 |
+| SBOM   | anchore-syft         | 0.34.0       | Apache-2.0 | opensource multi language and container bill of materials (SBOM) generation utility |
+| SECRET | gitleaks             | 7.5.0        | MIT        | opensource static key scanner                                                       |
+| SBOM   | java-cyclonedx       | 2.5.3        | Apache-2.0 | opensource java bill of materials (SBOM) generation utility                         |
+| SCA    | java-dependencycheck | 6.5.3        | Apache-2.0 | opensource java SCA tool class                                                      |
+| SAST   | java-spotbugs        | 4.5.3        | LGPL       | opensource java SAST tool class                                                     |
+| SAST   | python-safety        | 1.10.3       | MIT        | opensource python SCA scanner                                                       |
+| SCA    | python-piprot        | 0.9.11       | MIT        | opensource python outdated dependency scanner                                       |
+| SAST   | python-bandit        | 1.7.1        | Apache-2.0 | opensource python SAST scanner                                                      |
+| SBOM   | python-cyclonedx     | 1.5.3        | Apache-2.0 | opensource python bill of materials (SBOM) generation utility                       |
+| SCA    | node-npmaudit        | 8.3.0        | NPM        | opensource node SCA scanner                                                         |
+| SCA    | node-npmoutdated     | 8.3.0        | NPM        | opensource node outdated dependency scanner                                         |
+| SBOM   | node-cyclonedx       | 3.3.1        | Apache-2.0 | opensource node bill of materials (SBOM) generation utility                         |
+| SCA    | container-trivy      | 0.18.2       | Apache-2.0 | opensource container scanner                                                        |
+| SCA    | kics                 | 1.4.9        | Apache-2.0 | opensource infrastructure scanner                                                   |
+
+_Updated: 18/01/2022_
+
+An updated list of tools, licenses, and sizes pre-installed in latest Eze Cli Dockerimage can be found using the command
+
+```bash
+docker run -t --rm riversafe/eze-cli tools list --include-source-type
+docker run -t --rm riversafe/eze-cli tools help <tool-name>
+# aka docker run -t --rm riversafe/eze-cli tools help trufflehog
+```
+
+# Reporters in Eze
+
+| Name          | Version      | License    | Description                            |
+| ------------- | ------------ | ---------- | -------------------------------------- |
+| console       | 0.12.0-alpha | inbuilt    | standard command line reporter         |
+| json          | 0.12.0-alpha | inbuilt    | json output file reporter              |
+| s3            | 0.12.0-alpha | inbuilt    | s3 uploader reporter                   |
+| junit         | 0.12.0-alpha | inbuilt    | junit output file reporter             |
+| quality       | 0.12.0-alpha | inbuilt    | quality gate check reporter            |
+| eze           | 0.12.0-alpha | inbuilt    | eze management console reporter        |
+| bom           | 0.12.0-alpha | inbuilt    | json dx bill of materials reporter     |
+| bom-formatted | 0.15.2       | Apache-2.0 | bill of materials multiformat reporter |
+| sarif         | 0.12.0-alpha | inbuilt    | sarif output file reporter             |
+
+_Updated: 18/01/2022_
+
+An updated list of reporters can be found using the command
+
+```bash
+docker run -t --rm riversafe/eze-cli reporters list --include-source-type
+docker run -t --rm riversafe/eze-cli reporters help <report-name>
+# aka docker run -t --rm riversafe/eze-cli reporters help console
+```
+
 # Developers Documentation
 
 To add your own tools checkout [README-DEVELOPMENT.md], this will walk you through installing eze locally for local development.

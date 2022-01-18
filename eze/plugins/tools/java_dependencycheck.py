@@ -58,7 +58,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
             # tool command prefix
             # https://jeremylong.github.io/DependencyCheck/dependency-check-cli/arguments.html
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
+                "mvn -B -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
             )
         }
     }

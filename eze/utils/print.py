@@ -35,7 +35,7 @@ def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
     print("", end="|")
     for column_name in column_sizes:
         column_size = column_sizes[column_name]
-        print(" " + "*" * column_size + " ", end="|")
+        print(" " + "-" * column_size + " ", end="|")
     print()
 
     for table_row in table:
