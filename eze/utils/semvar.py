@@ -24,6 +24,15 @@ def get_severity(installed_version: str, latest_version: str, config: dict):
     return VulnerabilitySeverityEnum.none.name
 
 
+def is_semvar(version: str) -> bool:
+    """test if something is semvar format, aka MAJOR.MINOR.TRIVIAL"""
+    try:
+        semantic_version.Version(version)
+        return True
+    except ValueError:
+        return False
+
+
 def get_recommendation(outdated_package: str, installed_version: str, latest_version: str):
     """create a recommendation string from two version strings"""
     recommendation = f"update {outdated_package} ({installed_version}) to a newer version"

@@ -124,7 +124,8 @@ maps to semgrep flag --exclude""",
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return extract_cmd_version(["semgrep", "--version"])
+        ignored_stderr_messages = ["A new version of Semgrep is available"]
+        return extract_cmd_version(["semgrep", "--version"], ignored_stderr_messages)
 
     async def run_scan(self) -> ScanResult:
         """

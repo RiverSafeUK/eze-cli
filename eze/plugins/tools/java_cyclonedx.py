@@ -61,7 +61,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         "CMD_CONFIG": {
             # tool command prefix
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+                "mvn -B -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
             )
         }
     }

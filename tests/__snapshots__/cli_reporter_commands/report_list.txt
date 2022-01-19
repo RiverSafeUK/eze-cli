@@ -1,5 +1,5 @@
 Available Reporters are:
 =======================
- | Name            | Version        | License   | Description               | 
-*|*****************|****************|***********|***************************|*
- | testee-reporter | version string | LICENSE X | Example short description | 
+| Name            | Version        | License   | Description               |
+| --------------- | -------------- | --------- | ------------------------- |
+| testee-reporter | version string | LICENSE X | Example short description |

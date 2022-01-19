@@ -124,15 +124,6 @@ class DummyReporter(ReporterMeta):
             print(f"""{vulnerabilities_short_summary(scan_result)}""")
 
 
-class MockSuccessfullyCompletedProcess:
-    """Example of a completed process"""
-
-    def __init__(self, stdout: str, stderr: str = ""):
-        """constructor"""
-        self.stdout = stdout
-        self.stderr = stderr
-
-
 DEFAULT_MOCK_TOOLS = {"success-tool": DummySuccessTool, "failure-tool": DummyFailureTool}
 
 DEFAULT_MOCK_REPORTERS = {"testee-reporter": DummyReporter}
@@ -229,16 +220,6 @@ def unmock_print():
     sys.stderr = sys.__stderr__
 
 
-def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = ""):
-    """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
-    mocked_run_cmd.return_value = MockSuccessfullyCompletedProcess(stdout, stderr)
-
-
-def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = ""):
-    """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
-    mocked_run_cmd.return_value = MockSuccessfullyCompletedProcess(stdout, stderr)
-
-
-def mock_run_async_cmd(mocked_run_async_cmd, stdout: str, stderr: str = "") -> CompletedProcess:
-    """mock the patched eze-cli/eze/utils/cli:run_cmd command"""
-    mocked_run_async_cmd.return_value = CompletedProcess(stdout, stderr)
+def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = "") -> CompletedProcess:
+    """mock the patched eze-cli/eze/utils/cli:run_cmd / run_async_cmd command"""
+    mocked_run_cmd.return_value = CompletedProcess(stdout, stderr)

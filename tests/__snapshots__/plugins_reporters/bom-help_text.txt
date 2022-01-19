@@ -1,6 +1,6 @@
 short_description:
 ======================
-json dx bill of materials reporter
+json cyclonedx bill of materials reporter
 
 config_help:
 ======================

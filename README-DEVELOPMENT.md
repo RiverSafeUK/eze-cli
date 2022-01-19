@@ -5,6 +5,7 @@
 _Scripts Assumption: Bash Cli being used, for Window developers install git-bash or wsl2_
 
 - Install Python 3.7+
+- Install Docker
 - _Recommended:_ Install vscode
 
 # Build and Test
@@ -104,14 +105,8 @@ _Some tools, for example semgrep are upto 200mb by themselves, tailoring the ima
 ```bash
 make docker
 
-# Run Eze in docker (cmd)
-docker run -t --rm -v %cd%:/data eze-cli --version
-
-# Run Eze in docker (powershell)
-docker run -t --rm -v ${PWD}:/data eze-cli --version
-
-# Run Eze in docker (git bash)
-docker run -t --rm -v $(pwd -W):/data eze-cli --version
+# Test Eze in docker
+docker run -t --rm -v LOCAL_FOLDER:/data eze-cli --version
 ```
 
 ## Build Release Docker Image
@@ -160,7 +155,7 @@ eze test
 <details>
 <summary>Example: Scanning a Python project using  Eze</summary>
 
-```py
+```bash
 # Install 3 tools and run Eze
 pip install piprot
 pip install bandit

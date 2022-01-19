@@ -12,7 +12,7 @@ class BomReporter(ReporterMeta):
     """Python report class for echoing json dx output Bill of Materials"""
 
     REPORTER_NAME: str = "bom"
-    SHORT_DESCRIPTION: str = "json dx bill of materials reporter"
+    SHORT_DESCRIPTION: str = "json cyclonedx bill of materials reporter"
     INSTALL_HELP: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
     EZE_CONFIG: dict = {

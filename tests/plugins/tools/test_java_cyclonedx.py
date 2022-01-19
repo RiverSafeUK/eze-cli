@@ -83,7 +83,7 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
+        expected_cmd = "mvn -B -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

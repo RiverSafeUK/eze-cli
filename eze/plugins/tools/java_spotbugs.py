@@ -64,7 +64,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
             # tool command prefix
             # https://spotbugs.github.io/spotbugs-maven-plugin/check-mojo.html
             "BASE_COMMAND": shlex.split(
-                "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install com.github.spotbugs:spotbugs-maven-plugin:check"
+                "mvn -B -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install com.github.spotbugs:spotbugs-maven-plugin:check"
             )
         }
     }

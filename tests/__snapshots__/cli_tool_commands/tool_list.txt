@@ -1,6 +1,6 @@
 Available Tools are:
 =======================
- | Type | Name         | Version | License   | Description               | 
-*|******|**************|*********|***********|***************************|*
- | MISC | success-tool | X.X.X   | LICENSE X | Example short description | 
- | MISC | failure-tool | X.X.X   | LICENSE X | Example short description | 
+| Type | Name         | Version | License   | Description               |
+| ---- | ------------ | ------- | --------- | ------------------------- |
+| MISC | success-tool | X.X.X   | LICENSE X | Example short description |
+| MISC | failure-tool | X.X.X   | LICENSE X | Example short description |

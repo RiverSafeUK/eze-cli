@@ -93,7 +93,7 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = "mvn -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
+        expected_cmd = "mvn -B -Dmaven.javadoc.skip=true -Dmaven.test.skip=true -Dformat=JSON -DprettyPrint install org.owasp:dependency-check-maven:check"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
