@@ -175,7 +175,7 @@ An updated list of reporters can be found using the command
 
 ```bash
 docker run -t --rm riversafe/eze-cli reporters list --include-source-type
-docker run -t --rm riversafe/eze-cli reporters help <report-name>
+docker run -t --rm riversafe/eze-cli reporters help <reporter-name>
 # aka docker run -t --rm riversafe/eze-cli reporters help console
 ```
 
