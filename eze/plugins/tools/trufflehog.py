@@ -44,7 +44,7 @@ Tips and Tricks
 - false positives can be individually omitted with post fixing line with "# nosecret" and "// nosecret"
 """
 
-    LICENSE: str = """GNU"""
+    LICENSE: str = """GPL"""
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": list,
