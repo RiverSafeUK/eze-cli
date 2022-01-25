@@ -14,6 +14,7 @@ class GrypeTool(ToolMeta):
     """SCA and Container scanning tool Grype tool class"""
 
     TOOL_NAME: str = "anchore-grype"
+    TOOL_URL: str = "https://github.com/anchore/grype"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.RUBY, SourceType.NODE, SourceType.JAVA, SourceType.PYTHON, SourceType.CONTAINER]
     SHORT_DESCRIPTION: str = "opensource multi language SCA and container scanner"

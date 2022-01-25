@@ -17,6 +17,7 @@ class KicsTool(ToolMeta):
     """SCA Container Kics tool class"""
 
     TOOL_NAME: str = "container-kics"
+    TOOL_URL: str = "https://github.com/Checkmarx/kics"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.CONTAINER]
     SHORT_DESCRIPTION: str = "opensource infrastructure scanner"

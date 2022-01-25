@@ -19,6 +19,7 @@ class NpmOutdatedTool(ToolMeta):
     """NpmOutdated Node tool class"""
 
     TOOL_NAME: str = "node-npmoutdated"
+    TOOL_URL: str = "https://docs.npmjs.com/cli/v6/commands/npm-outdated"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.NODE]
     SHORT_DESCRIPTION: str = "opensource node outdated dependency scanner"

@@ -19,6 +19,7 @@ class NpmAuditTool(ToolMeta):
     """NpmAudit Node tool class"""
 
     TOOL_NAME: str = "node-npmaudit"
+    TOOL_URL: str = "https://docs.npmjs.com/cli/v6/commands/npm-audit"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.NODE]
     SHORT_DESCRIPTION: str = "opensource node SCA scanner"

@@ -13,7 +13,8 @@
     "run_type": null,
     "scan_type": null,
     "tool_name": "success-tool",
-    "tool_type": "MISC"
+    "tool_type": "MISC",
+    "tool_url": ""
   },
   "summary": {
     "ignored": {

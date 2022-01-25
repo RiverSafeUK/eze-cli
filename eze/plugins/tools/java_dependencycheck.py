@@ -15,6 +15,7 @@ class JavaDependencyCheckTool(ToolMeta):
     """OWASP dependency-check tool class"""
 
     TOOL_NAME: str = "java-dependencycheck"
+    TOOL_URL: str = "https://jeremylong.github.io/DependencyCheck/"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.JAVA]
     SHORT_DESCRIPTION: str = "opensource java SCA tool class"

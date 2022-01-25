@@ -17,6 +17,7 @@ class TrivyTool(ToolMeta):
     """SCA Container scanning tool Trivy tool class"""
 
     TOOL_NAME: str = "container-trivy"
+    TOOL_URL: str = "https://aquasecurity.github.io/trivy/latest/"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.CONTAINER]
     SHORT_DESCRIPTION: str = "opensource container scanner"

@@ -17,6 +17,7 @@ class PythonCyclonedxTool(ToolMeta):
     """cyclonedx python bill of materials generator tool (SBOM) tool class"""
 
     TOOL_NAME: str = "python-cyclonedx"
+    TOOL_URL: str = "https://cyclonedx.org/"
     TOOL_TYPE: ToolType = ToolType.SBOM
     SOURCE_SUPPORT: list = [SourceType.PYTHON]
     SHORT_DESCRIPTION: str = "opensource python bill of materials (SBOM) generation utility, also runs SCA via pypi"

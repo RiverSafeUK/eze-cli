@@ -13,6 +13,7 @@ class NodeCyclonedxTool(ToolMeta):
     """cyclonedx node bill of materials generator tool (SBOM) tool class"""
 
     TOOL_NAME: str = "node-cyclonedx"
+    TOOL_URL: str = "https://owasp.org/www-project-cyclonedx/"
     TOOL_TYPE: ToolType = ToolType.SBOM
     SOURCE_SUPPORT: list = [SourceType.NODE]
     SHORT_DESCRIPTION: str = "opensource node bill of materials (SBOM) generation utility"
