@@ -415,9 +415,7 @@ def extract_version_from_maven(mvn_package: str) -> str:
     """
     Take maven package and checks for Maven version
     """
-    ignored_errors_list = [
-        "WARNING: An illegal reflective access operation has occurred"
-    ]
+    ignored_errors_list = ["WARNING: An illegal reflective access operation has occurred"]
     command: list = ["mvn", "-B", f"-Dplugin={mvn_package}", "help:describe"]
     completed_process = run_cmd(command, False)
     output = completed_process.stdout

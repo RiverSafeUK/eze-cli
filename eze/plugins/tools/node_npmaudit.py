@@ -156,40 +156,38 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         vulnerabilities = py_.get(parsed_json, "vulnerabilities", None)
         vulnerabilities_list = []
 
-        if not vulnerabilities:
-            raise EzeFileParsingError("Error: unable to parse npm audit file correctly")
+        if vulnerabilities:
+            for vulnerability_key in vulnerabilities:
+                vulnerability = vulnerabilities[vulnerability_key]
 
-        for vulnerability_key in vulnerabilities:
-            vulnerability = vulnerabilities[vulnerability_key]
+                name = self.create_path_v7(vulnerability)
+                recommendation = self.create_recommendation_v7(vulnerability)
 
-            name = self.create_path_v7(vulnerability)
-            recommendation = self.create_recommendation_v7(vulnerability)
+                references = []
+                npm_reference = py_.get(vulnerability, "via[0].url", False)
+                if npm_reference:
+                    references.append(npm_reference)
 
-            references = []
-            npm_reference = py_.get(vulnerability, "via[0].url", False)
-            if npm_reference:
-                references.append(npm_reference)
+                vulnerability_vo = {
+                    "vulnerability_type": VulnerabilityType.dependency.name,
+                    "name": name,
+                    "version": "",
+                    "overview": "",
+                    "recommendation": recommendation,
+                    "language": self.TOOL_LANGUAGE,
+                    "severity": vulnerability["severity"],
+                    "identifiers": {},
+                    "references": references,
+                    "metadata": None,
+                    "file_location": None,
+                }
 
-            vulnerability_vo = {
-                "vulnerability_type": VulnerabilityType.dependency.name,
-                "name": name,
-                "version": "",
-                "overview": "",
-                "recommendation": recommendation,
-                "language": self.TOOL_LANGUAGE,
-                "severity": vulnerability["severity"],
-                "identifiers": {},
-                "references": references,
-                "metadata": None,
-                "file_location": None,
-            }
+                # WARNING: AB-524: limitation, for now just showing first advisory
+                advisory_source = py_.get(vulnerability, "via[0].source", False)
+                if advisory_source:
+                    vulnerability_vo["identifiers"]["npm"] = advisory_source
 
-            # WARNING: AB-524: limitation, for now just showing first advisory
-            advisory_source = py_.get(vulnerability, "via[0].source", False)
-            if advisory_source:
-                vulnerability_vo["identifiers"]["npm"] = advisory_source
-
-            vulnerabilities_list.append(Vulnerability(vulnerability_vo))
+                vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
         report = ScanResult(
             {

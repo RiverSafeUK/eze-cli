@@ -108,7 +108,9 @@ maps to semgrep flag --exclude""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("semgrep --optimizations all --json --time --disable-metrics -q "),
+            "BASE_COMMAND": shlex.split(
+                "semgrep --optimizations all --json --time  --use-git-ignore --disable-metrics -q "
+            ),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags

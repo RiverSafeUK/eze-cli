@@ -96,6 +96,15 @@ class TestNpmAuditTool(ToolMetaTestBase):
             "plugins_tools/node-npmaudit-result-v7-output.json",
         )
 
+    def test_parse_report__npm_was_breaking_snapshot(self, snapshot):
+        # Test container fixture and snapshot
+        self.assert_parse_report_snapshot_test(
+            snapshot,
+            {},
+            "__fixtures__/plugins_tools/raw-node-npmaudit-breaking-report.json",
+            "plugins_tools/node-npmaudit-result-breaking-output.json",
+        )
+
     # new v7 tests
 
     def test_create_recommendation_v7__major_fix(self):

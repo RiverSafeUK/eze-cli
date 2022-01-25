@@ -132,8 +132,6 @@ def test_extract_version__gitleaks_version():
     assert output == expected_output
 
 
-
-
 @mock.patch("eze.utils.cli.run_cmd")
 def test_extract_cmd_version__happy_pip(mocked_run_cmd):
     mock_stdout = """pip 21.1.2 from c:\\users\\riversafe\\.pyenv\\pyenv-win\\versions\\3.8.2\\lib\\site-packages\\pip (python 3.8)"""
@@ -141,6 +139,7 @@ def test_extract_cmd_version__happy_pip(mocked_run_cmd):
     mocked_run_cmd.return_value = CompletedProcess(mock_stdout)
     output = extract_cmd_version(["pip-something"])
     assert output == expected_output
+
 
 @mock.patch("eze.utils.cli.run_cmd")
 def test_extract_cmd_version__full_test_happy(mocked_run_cmd):
