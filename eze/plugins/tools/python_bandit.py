@@ -15,6 +15,7 @@ class BanditTool(ToolMeta):
     """Bandit Python tool class"""
 
     TOOL_NAME: str = "python-bandit"
+    TOOL_URL: str = "https://bandit.readthedocs.io/en/latest/"
     TOOL_TYPE: ToolType = ToolType.SAST
     SOURCE_SUPPORT: list = [SourceType.PYTHON]
     SHORT_DESCRIPTION: str = "opensource python SAST scanner"

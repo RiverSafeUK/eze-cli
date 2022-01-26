@@ -13,6 +13,7 @@ class JavaCyclonedxTool(ToolMeta):
     """cyclonedx java bill of materials generator tool (SBOM) tool class"""
 
     TOOL_NAME: str = "java-cyclonedx"
+    TOOL_URL: str = "https://owasp.org/www-project-cyclonedx/"
     TOOL_TYPE: ToolType = ToolType.SBOM
     SOURCE_SUPPORT: list = [SourceType.JAVA]
     SHORT_DESCRIPTION: str = "opensource java bill of materials (SBOM) generation utility"

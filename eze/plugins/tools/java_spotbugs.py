@@ -15,6 +15,7 @@ class JavaSpotbugsTool(ToolMeta):
     """Spotbugs SAST tool class"""
 
     TOOL_NAME: str = "java-spotbugs"
+    TOOL_URL: str = "https://spotbugs.github.io/"
     TOOL_TYPE: ToolType = ToolType.SAST
     SOURCE_SUPPORT: list = [SourceType.JAVA]
     SHORT_DESCRIPTION: str = "opensource java SAST tool class"

@@ -15,6 +15,7 @@ class SafetyTool(ToolMeta):
     """Python SAST Safety tool class"""
 
     TOOL_NAME: str = "python-safety"
+    TOOL_URL: str = "https://pypi.org/project/safety/"
     TOOL_TYPE: ToolType = ToolType.SAST
     SOURCE_SUPPORT: list = [SourceType.PYTHON]
     SHORT_DESCRIPTION: str = "opensource python SCA scanner"

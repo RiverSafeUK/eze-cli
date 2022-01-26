@@ -17,6 +17,7 @@ class PiprotTool(ToolMeta):
     """Python Piprot tool class"""
 
     TOOL_NAME: str = "python-piprot"
+    TOOL_URL: str = "https://pypi.org/project/piprot/"
     TOOL_TYPE: ToolType = ToolType.SCA
     SOURCE_SUPPORT: list = [SourceType.PYTHON]
     SHORT_DESCRIPTION: str = "opensource python outdated dependency scanner"

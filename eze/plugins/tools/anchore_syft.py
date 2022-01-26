@@ -12,6 +12,7 @@ class SyftTool(ToolMeta):
     """Software and Container bill of materials generator tool (SBOM) Syft tool class"""
 
     TOOL_NAME: str = "anchore-syft"
+    TOOL_URL: str = "https://github.com/anchore/syft"
     TOOL_TYPE: ToolType = ToolType.SBOM
     SOURCE_SUPPORT: list = [
         SourceType.RUBY,

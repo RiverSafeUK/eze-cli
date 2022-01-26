@@ -25,6 +25,7 @@ class TruffleHogTool(ToolMeta):
     MAX_REASON_SIZE: int = 1000
 
     TOOL_NAME: str = "trufflehog"
+    TOOL_URL: str = "https://pypi.org/project/truffleHog3/"
     TOOL_TYPE: ToolType = ToolType.SECRET
     SOURCE_SUPPORT: list = [SourceType.ALL]
     SHORT_DESCRIPTION: str = "opensource secret scanner"

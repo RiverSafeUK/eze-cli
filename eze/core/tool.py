@@ -61,6 +61,7 @@ class ToolMeta(ABC):
     """Base class for all scanner implementations"""
 
     TOOL_NAME: str = "AbstractTool"
+    TOOL_URL: str = ""
     TOOL_TYPE: ToolType = ToolType.MISC
     SOURCE_SUPPORT: list = []
     SHORT_DESCRIPTION: str = ""
@@ -293,6 +294,7 @@ Looks like {tool_name} is not installed
         git_branch = get_active_branch_name(git_dir)
         scan_result.run_details = {
             "tool_name": tool_name,
+            "tool_url": tool_instance.TOOL_URL,
             "tool_type": tool_instance.TOOL_TYPE.value,
             "scan_type": scan_type,
             "run_type": run_type,

@@ -8,7 +8,6 @@
           "name": "python-piprot",
           "version": "unknown",
           "fullName": "SCA:python-piprot",
-          "informationUri": "unknown",
           "rules": [
             {
               "id": "d45662fb-577e-4fd8-9950-f5cfd7923450",
@@ -48,7 +47,7 @@
                   "uri": "unknown"
                 },
                 "region": {
-                  "startLine": "unknown"
+                  "startLine": -1
                 }
               }
             }
@@ -68,18 +67,14 @@
                   "uri": "unknown"
                 },
                 "region": {
-                  "startLine": "unknown"
+                  "startLine": -1
                 }
               }
             }
           ]
         }
       ],
-      "taxonomies": [],
-      "severity_counters": {
-        "high": 1,
-        "none": 1
-      }
+      "taxonomies": []
     }
   ]
 }

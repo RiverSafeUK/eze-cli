@@ -19,6 +19,7 @@ class GitLeaksTool(ToolMeta):
     """GitLeaks Python tool class"""
 
     TOOL_NAME: str = "gitleaks"
+    TOOL_URL: str = "https://github.com/zricethezav/gitleaks"
     TOOL_TYPE: ToolType = ToolType.SECRET
     SOURCE_SUPPORT: list = [SourceType.ALL]
     SHORT_DESCRIPTION: str = "opensource static key scanner"

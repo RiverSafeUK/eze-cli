@@ -11,6 +11,7 @@ class RawTool(ToolMeta):
     """Raw Python tool class for manually in passing previous or generated scan json report"""
 
     TOOL_NAME: str = "raw"
+    TOOL_URL: str = "https://github.com/RiverSafeUK/eze-cli"
     TOOL_TYPE: ToolType = ToolType.MISC
     SOURCE_SUPPORT: list = [SourceType.ALL]
     SHORT_DESCRIPTION: str = "input for saved eze json reports"

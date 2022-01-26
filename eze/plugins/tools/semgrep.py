@@ -19,6 +19,7 @@ class SemGrepTool(ToolMeta):
     """SemGrep Python tool class"""
 
     TOOL_NAME: str = "semgrep"
+    TOOL_URL: str = "https://semgrep.dev/explore"
     TOOL_TYPE: ToolType = ToolType.SAST
     SOURCE_SUPPORT: list = [SourceType.ALL]
     SHORT_DESCRIPTION: str = "opensource multi language SAST scanner"

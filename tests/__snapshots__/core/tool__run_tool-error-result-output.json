@@ -15,7 +15,8 @@
     "run_type": null,
     "scan_type": null,
     "tool_name": "failure-tool",
-    "tool_type": "MISC"
+    "tool_type": "MISC",
+    "tool_url": ""
   },
   "summary": {
     "ignored": {
