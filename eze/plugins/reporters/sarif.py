@@ -48,20 +48,19 @@ By default set to eze_report.sarif""",
         sarif_dict = {"$schema": sarif_schema, "version": schema_version, "runs": []}
         for scan_result in scan_results:
             tool = {"driver": {}}
-            if self._has_printable_vulnerabilities(scan_result):
-                run_details = scan_result.run_details
-                tool["driver"]["name"] = py_.get(run_details, "tool_name", "unknown")
-                tool["driver"]["version"] = "unknown"
-                tool["driver"]["fullName"] = py_.get(run_details, "tool_type", "unknown") + ":" + tool["driver"]["name"]
-                if py_.get(run_details, "tool_url"):
-                    tool["driver"]["informationUri"] = py_.get(run_details, "tool_url")
+            run_details = scan_result.run_details
+            tool["driver"]["name"] = py_.get(run_details, "tool_name", "unknown")
+            tool["driver"]["version"] = "unknown"
+            tool["driver"]["fullName"] = py_.get(run_details, "tool_type", "unknown") + ":" + tool["driver"]["name"]
+            if py_.get(run_details, "tool_url"):
+                tool["driver"]["informationUri"] = py_.get(run_details, "tool_url")
 
-                rules, results = self._group_vulnerabilities_into_rules(scan_result.vulnerabilities)
+            rules, results = self._group_vulnerabilities_into_rules(scan_result.vulnerabilities)
 
-                tool["driver"]["rules"] = rules
-                single_run = {"tool": tool, "results": results, "taxonomies": []}
+            tool["driver"]["rules"] = rules
+            single_run = {"tool": tool, "results": results, "taxonomies": []}
 
-                sarif_dict["runs"].append(single_run)
+            sarif_dict["runs"].append(single_run)
 
             if scan_result.bom:
                 scan_results_with_sboms.append(
@@ -78,7 +77,7 @@ By default set to eze_report.sarif""",
     def _group_vulnerabilities_into_rules(self, vulnerabilities: List[Vulnerability]) -> tuple:
         """Method for summarizing vulnerabilities and grouping into rules"""
         if len(vulnerabilities) <= 0:
-            return {}, {}
+            return [], []
 
         rules = []
         results = []
