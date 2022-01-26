@@ -343,7 +343,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/AGPL-1.0.html"
     },
     "AGPL-1.0-only": {
@@ -373,7 +373,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/AGPL-3.0.html"
     },
     "AGPL-3.0-only": {
@@ -653,7 +653,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/BSD-2-Clause-FreeBSD.html"
     },
     "BSD-2-Clause-NetBSD": {
@@ -663,7 +663,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/BSD-2-Clause-NetBSD.html"
     },
     "BSD-2-Clause-Patent": {
@@ -2074,7 +2074,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GFDL-1.1.html"
     },
     "GFDL-1.1-invariants-only": {
@@ -2144,7 +2144,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GFDL-1.2.html"
     },
     "GFDL-1.2-invariants-only": {
@@ -2214,7 +2214,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GFDL-1.3.html"
     },
     "GFDL-1.3-invariants-only": {
@@ -2305,7 +2305,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-1.0.html"
     },
     "GPL-1.0+": {
@@ -2315,7 +2315,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-1.0+.html"
     },
     "GPL-1.0-only": {
@@ -2345,7 +2345,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0.html"
     },
     "GPL-2.0+": {
@@ -2355,7 +2355,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0+.html"
     },
     "GPL-2.0-only": {
@@ -2385,7 +2385,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0-with-GCC-exception.html"
     },
     "GPL-2.0-with-autoconf-exception": {
@@ -2395,7 +2395,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0-with-autoconf-exception.html"
     },
     "GPL-2.0-with-bison-exception": {
@@ -2405,7 +2405,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0-with-bison-exception.html"
     },
     "GPL-2.0-with-classpath-exception": {
@@ -2415,7 +2415,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0-with-classpath-exception.html"
     },
     "GPL-2.0-with-font-exception": {
@@ -2425,7 +2425,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-2.0-with-font-exception.html"
     },
     "GPL-3.0": {
@@ -2435,7 +2435,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-3.0.html"
     },
     "GPL-3.0+": {
@@ -2445,7 +2445,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-3.0+.html"
     },
     "GPL-3.0-only": {
@@ -2475,7 +2475,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-3.0-with-GCC-exception.html"
     },
     "GPL-3.0-with-autoconf-exception": {
@@ -2485,7 +2485,7 @@
       "isProfessional": true,
       "isOsiApproved": false,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/GPL-3.0-with-autoconf-exception.html"
     },
     "Giftware": {
@@ -2747,7 +2747,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/LGPL-2.0.html"
     },
     "LGPL-2.0+": {
@@ -2757,7 +2757,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": false,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/LGPL-2.0+.html"
     },
     "LGPL-2.0-only": {
@@ -2787,7 +2787,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/LGPL-2.1.html"
     },
     "LGPL-2.1+": {
@@ -2797,7 +2797,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/LGPL-2.1+.html"
     },
     "LGPL-2.1-only": {
@@ -2827,7 +2827,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/LGPL-3.0.html"
     },
     "LGPL-3.0+": {
@@ -2837,7 +2837,7 @@
       "isProfessional": true,
       "isOsiApproved": true,
       "isFsfLibre": true,
-      "isDeprecated": true,
+      "isDeprecated": false,
       "reference": "https://spdx.org/licenses/LGPL-3.0+.html"
     },
     "LGPL-3.0-only": {

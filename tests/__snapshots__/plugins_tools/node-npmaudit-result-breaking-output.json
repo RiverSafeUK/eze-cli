@@ -1,0 +1,9 @@
+{
+  "bom": null,
+  "fatal_errors": [],
+  "run_details": {},
+  "summary": {},
+  "tool": "node-npmaudit",
+  "vulnerabilities": [],
+  "warnings": []
+}

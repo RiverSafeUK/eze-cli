@@ -86,9 +86,7 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Given
         input_config = {"ADDITIONAL_ARGUMENTS": "--something foo", "REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = (
-            "semgrep --optimizations all --json --time --disable-metrics -q -c p/ci -o foo_report.json --something foo"
-        )
+        expected_cmd = "semgrep --optimizations all --json --time --use-git-ignore --disable-metrics -q -c p/ci -o foo_report.json --something foo"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
