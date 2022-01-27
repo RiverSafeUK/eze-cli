@@ -1,5 +1,18 @@
 # Eze Changelog
 
+## 0.13.0 - 17th January 2022
+Improvements:
+- ab-720: improved markdown tables
+- ab-957: license annotations for python
+- ab-620: added license checking
+- ab-847: added python unfixed version example
+- ab-868: added s3 reporter
+- ab-944: added async running, status counts for tools
+
+Bugfixes:
+- ab-981: semgrep and npmaduit edge cases
+- ab-949: fixed bandit edgecase
+
 ## 0.12.0 - 15th December 2021
 Improvements:
 - ab-898 Graceful errors: failed http calls were crashing cli
