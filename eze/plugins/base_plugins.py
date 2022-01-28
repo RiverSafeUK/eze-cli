@@ -12,6 +12,7 @@ from eze.plugins.reporters.s3 import S3Reporter
 from eze.plugins.reporters.junit import JunitReporter
 from eze.plugins.reporters.quality import QualityReporter
 from eze.plugins.reporters.sarif import SarifReporter
+from eze.plugins.reporters.markdown import MarkdownReporter
 from eze.plugins.tools.anchore_grype import GrypeTool
 from eze.plugins.tools.anchore_syft import SyftTool
 from eze.plugins.tools.container_trivy import TrivyTool
@@ -54,6 +55,7 @@ def get_reporters() -> dict:
         "bom": BomReporter,
         "bom-formatted": BomFormattedReporter,
         "sarif": SarifReporter,
+        "markdown": MarkdownReporter,
     }
 
 

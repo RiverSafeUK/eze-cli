@@ -2,14 +2,14 @@
 """
 
 
-def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
+def pretty_print_table(table: list, has_nothing_message: bool = True, print_function=print) -> None:
     """given kv with print it as a pretty printed table
 
     output is compatible with markdown"""
     # WARNING: special print functions
     if len(table) == 0:
         if has_nothing_message:
-            print("Nothing to display")
+            print_function("Nothing to display")
         return
 
     sample_entry = table[0]
@@ -26,22 +26,22 @@ def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
             if column_size > column_sizes[column]:
                 column_sizes[column] = column_size
 
-    print("", end="|")
+    print_function("", end="|")
     for column_name in column_sizes:
         column_size = column_sizes[column_name]
-        print(" " + column_name.ljust(column_size), end=" |")
-    print()
+        print_function(" " + column_name.ljust(column_size), end=" |")
+    print_function()
 
-    print("", end="|")
+    print_function("", end="|")
     for column_name in column_sizes:
         column_size = column_sizes[column_name]
-        print(" " + "-" * column_size + " ", end="|")
-    print()
+        print_function(" " + "-" * column_size + " ", end="|")
+    print_function()
 
     for table_row in table:
-        print("", end="|")
+        print_function("", end="|")
         for column_name in column_sizes:
             column_size = column_sizes[column_name]
             column_value = table_row[column_name]
-            print(" " + column_value.ljust(column_size), end=" |")
-        print()
+            print_function(" " + column_value.ljust(column_size), end=" |")
+        print_function()

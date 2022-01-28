@@ -1,0 +1,29 @@
+short_description:
+======================
+markdown output file formatter
+
+config_help:
+======================
+[markdown]
+# REPORT_FILE str [OPTIONAL]
+# report file location
+# By default set to eze_report.md
+# default value: 
+#   REPORT_FILE = "eze_report.md"
+# 
+REPORT_FILE = "..."
+
+
+
+
+install_help:
+======================
+inbuilt
+
+license:
+======================
+inbuilt
+
+more_info:
+======================
+inbuilt
