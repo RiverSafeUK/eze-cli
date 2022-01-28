@@ -223,8 +223,9 @@ By default set to eze_report.md""",
             return
         self.report_lines.append(
             """
-Bill of Materials
-================================="""
+## Bill of Materials
+---
+"""
         )
         label = "components"
 
