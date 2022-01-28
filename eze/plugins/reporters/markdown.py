@@ -110,11 +110,11 @@ By default set to eze_report.md""",
                 entry["Medium"] = str(scan_result.summary["totals"]["medium"])
                 entry["Low"] = str(scan_result.summary["totals"]["low"])
                 if len(scan_result.fatal_errors) > 0:
-                    entry["Ignored"] = "Error"
-                    entry["Critical"] = "Error"
-                    entry["High"] = "Error"
-                    entry["Medium"] = "Error"
-                    entry["Low"] = "Error"
+                    entry["Ignored"] = 0
+                    entry["Critical"] = 0
+                    entry["High"] = 0
+                    entry["Medium"] = 0
+                    entry["Low"] = 0
                 summaries.append(entry)
 
         critical = 0
@@ -123,10 +123,10 @@ By default set to eze_report.md""",
         low = 0
 
         for entry in summaries:
-            critical += int(entry["Critical"])
-            high += int(entry["High"])
-            medium += int(entry["Medium"])
-            low += int(entry["Low"])
+            critical += int(py_.get(entry, "Critical", 0))
+            high += int(py_.get(entry, "High", 0))
+            medium += int(py_.get(entry, "Medium", 0))
+            low += int(py_.get(entry, "Low", 0))
             # warnings?
         self.report_lines.append(
             f"""
