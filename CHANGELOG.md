@@ -1,5 +1,9 @@
 # Eze Changelog
 
+## 0.13.1 - 31th January 2022
+Improvements:
+- ab-989: adding github action support
+
 ## 0.13.0 - 17th January 2022
 Improvements:
 - ab-720: improved markdown tables
