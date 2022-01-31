@@ -57,12 +57,16 @@ REPORT_FILE = "../reports/python/eze_report.json"
 [sarif]
 REPORT_FILE = "../reports/python/eze_report.sarif"
 
+[markdown]
+REPORT_FILE = "../reports/python/eze_report.md"
+
+
 # ========================================
 # SCAN CONFIG
 # ========================================
 [scan]
 tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "trufflehog"]
-reporters = ["json", "console", "bom", "sarif"]
+reporters = ["json", "console", "bom", "sarif", "markdown"]
 
 [scan.linux]
 tools = ["python-piprot", "python-bandit", "semgrep", "python-safety", "python-cyclonedx", "trufflehog"]
