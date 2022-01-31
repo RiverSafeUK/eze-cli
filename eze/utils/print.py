@@ -2,15 +2,15 @@
 """
 
 
-def pretty_print_table(table: list, has_nothing_message: bool = True, print_function=print) -> None:
-    """given kv with print it as a pretty printed table
-
-    output is compatible with markdown"""
+def generate_markdown_table(table: list, has_nothing_message: bool = True) -> str:
+    """given kv create markdown string of table"""
     # WARNING: special print functions
     if len(table) == 0:
         if has_nothing_message:
-            print_function("Nothing to display")
-        return
+            return "Nothing to display"
+        return ""
+
+    markdown_str: str = ""
 
     sample_entry = table[0]
     column_sizes = {}
@@ -26,22 +26,29 @@ def pretty_print_table(table: list, has_nothing_message: bool = True, print_func
             if column_size > column_sizes[column]:
                 column_sizes[column] = column_size
 
-    print_function("", end="|")
+    markdown_str += "|"
     for column_name in column_sizes:
         column_size = column_sizes[column_name]
-        print_function(" " + column_name.ljust(column_size), end=" |")
-    print_function()
+        markdown_str += " " + column_name.ljust(column_size) + " |"
 
-    print_function("", end="|")
+    markdown_str += "\n|"
     for column_name in column_sizes:
         column_size = column_sizes[column_name]
-        print_function(" " + "-" * column_size + " ", end="|")
-    print_function()
+        markdown_str += " " + ("-" * column_size) + " " + "|"
 
     for table_row in table:
-        print_function("", end="|")
+        markdown_str += "\n|"
         for column_name in column_sizes:
             column_size = column_sizes[column_name]
             column_value = table_row[column_name]
-            print_function(" " + column_value.ljust(column_size), end=" |")
-        print_function()
+            markdown_str += " " + column_value.ljust(column_size) + " |"
+        markdown_str += ""
+    return markdown_str
+
+
+def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
+    """given kv with print it as a pretty printed table
+
+    output is compatible with markdown"""
+    markdown_table = generate_markdown_table(table, has_nothing_message)
+    print(markdown_table)

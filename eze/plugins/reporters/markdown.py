@@ -11,7 +11,7 @@ from eze.utils.scan_result import (
     bom_short_summary,
     name_and_time_summary,
 )
-from eze.utils.print import pretty_print_table
+from eze.utils.print import generate_markdown_table
 from eze.utils.license import annotate_licenses
 
 
@@ -259,11 +259,10 @@ By default set to eze_report.md""",
 
             self.report_lines.append("")
 
-            def _print_sbom(str="", end="\n"):
-                self.report_lines[-1] += str
-                self.report_lines[-1] += end
-
-            pretty_print_table(sboms, print_function=_print_sbom)
+            # generating SBOM markdown adding to report
+            markdown_sboms = generate_markdown_table(sboms)
+            markdown_sboms_lines = markdown_sboms.split("\n")
+            self.report_lines.extend(markdown_sboms_lines)
 
         self.report_lines[
             line_badge
