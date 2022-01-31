@@ -1,7 +1,6 @@
 """Eze reporter class implementation"""
 import os
 import urllib.request
-from pydash import py_
 
 from eze import __version__
 from eze.core.reporter import ReporterMeta
@@ -23,10 +22,11 @@ class EzeReporter(ReporterMeta):
     EZE_CONFIG: dict = {
         "APIKEY": {
             "type": str,
-            "required": True,
+            "required": False,
             "default": os.environ.get("EZE_APIKEY", ""),
             "default_help_value": "ENVIRONMENT VARIABLE <EZE_APIKEY>",
-            "help_text": """WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
+            "help_text": """EZE_APIKEY required to send to server
+WARNING: not stored in version control .ezerc.toml
 it can also be specified as the environment variable EZE_APIKEY
 get EZE_APIKEY from eze console profile page""",
         },
@@ -75,25 +75,22 @@ if not set, will be automatically determined via local git info""",
         codebase_name = self.config["CODEBRANCH_NAME"]
         encoded_codebase_name = urllib.parse.quote_plus(codebase_name)
         apikey = self.config["APIKEY"]
-        api_url = f"{endpoint}/v1/api/scan/{encoded_codebase_id}/{encoded_codebase_name}"
+        if not apikey:
+            log_error("Unable to send report to eze servers, as no APIKEY has been set")
+            return
+        scan_api_url = f"{endpoint}/v1/api/scan/{encoded_codebase_id}/{encoded_codebase_name}"
+        storage_api_url = "n/a"
 
         try:
-            log(f"scan results to short term storage: {api_url}")
-            short_storage_results = self._get_http_json(api_url, scan_results, apikey)
+            log(f"scan results to short term storage: {scan_api_url} ({apikey})")
+            short_storage_results = self._get_http_json(scan_api_url, scan_results, apikey)
             log(pretty_print_json(short_storage_results))
-            report_bucket_key = py_.get(short_storage_results, "result.scan.reportS3Key", None)
-
-            if report_bucket_key:
-                encoded_report_bucket_key = urllib.parse.quote_plus(report_bucket_key)
-                long_term_storage_api_url = f"{endpoint}/v1/api/report/{encoded_report_bucket_key}"
-                log(f"scan results to long term storage: {long_term_storage_api_url}")
-                long_storage_results = self._get_http_json(long_term_storage_api_url, scan_results, apikey)
-                log(pretty_print_json(long_storage_results))
         except EzeNetworkingError as error:
             raise EzeError(
                 f"""Eze Reporter failure to send report to management console
 Details:
-eze endpoint url: {api_url}
+eze endpoint: {scan_api_url}
+eze reporter endpoint: {storage_api_url}
 codebase id: {codebase_id}
 codebase name: {codebase_name}
 error: {error}

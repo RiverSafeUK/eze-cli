@@ -73,19 +73,19 @@ class TestEzeReporter(ReporterMetaTestBase):
 
     @mock.patch.dict(os.environ, {"BUILD_SOURCEBRANCHNAME": "", "AWS_BRANCH": ""})
     @patch("git.Repo")
-    def test_creation__no_config_apikey_missing(self, mock_repo):
+    def test_creation__no_config_CONSOLE_ENDPOINT_missing(self, mock_repo):
         # Given
-        expected_error_message = """required param 'APIKEY' missing from configuration
-WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
-it can also be specified as the environment variable EZE_APIKEY
-get EZE_APIKEY from eze console profile page"""
+        expected_error_message = """required param 'CONSOLE_ENDPOINT' missing from configuration
+Management console url as specified by eze management console /profile page
+it can also be specified as the environment variable EZE_CONSOLE_ENDPOINT
+get EZE_CONSOLE_ENDPOINT from eze management console profile page"""
         # Given valid inside valid git repo
         mock_repo.return_value = MockSuccessGitRepo()
         input_config = {
-            "CONSOLE_ENDPOINT": "MOCK_CONSOLE_ENDPOINT",
+            "CONSOLE_ENDPOINT": "",
             "CODEBASE_ID": "MOCK_CODEBASE_ID",
             "CODEBRANCH_NAME": "MOCK_CODEBRANCH_NAME",
-            "APIKEY": "",
+            "APIKEY": "CONSOLE_ENDPOINT",
         }
         # When
         with pytest.raises(EzeConfigError) as raised_error:

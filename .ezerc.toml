@@ -101,7 +101,7 @@ REQUIREMENTS_FILE = "requirements.txt"
 # REPORT CONFIG
 # ========================================
 [eze]
-CONSOLE_ENDPOINT = "https://lff3adj48f.execute-api.eu-west-2.amazonaws.com/staging"
+CONSOLE_ENDPOINT = "https://7i41x6vk0a.execute-api.eu-west-2.amazonaws.com/development"
 
 # ========================================
 # SCAN CONFIG

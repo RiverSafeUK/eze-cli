@@ -5,8 +5,9 @@ eze management console reporter
 config_help:
 ======================
 [eze]
-# APIKEY str
-# WARNING: APIKEY should be kept in your global system config and not stored in version control .ezerc.toml
+# APIKEY str [OPTIONAL]
+# EZE_APIKEY required to send to server
+# WARNING: not stored in version control .ezerc.toml
 # it can also be specified as the environment variable EZE_APIKEY
 # get EZE_APIKEY from eze console profile page
 # default value: 
