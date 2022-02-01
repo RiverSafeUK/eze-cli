@@ -1,10 +1,11 @@
 """Bill of Materials reporter class implementation"""
+import re
 
 from pydash import py_
 
 from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.utils.io import write_json
+from eze.utils.io import write_json, sane
 from eze.utils.log import log, log_debug, log_error
 
 
@@ -18,9 +19,9 @@ class BomReporter(ReporterMeta):
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_bom.json",
+            "default": "eze_%PROJECT%_bom.json",
             "help_text": """report file location
-By default set to eze_bom.json""",
+By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for project inventory file aka pom.xml""",
         },
     }
 
@@ -37,7 +38,7 @@ By default set to eze_bom.json""",
         """convert scan sboms into bom files"""
         scan_results_with_sboms = []
         for scan_result in scan_results:
-            if scan_result.bom:
+            if scan_result.sboms:
                 scan_results_with_sboms.append(scan_result)
 
         if len(scan_results_with_sboms) <= 0:
@@ -49,5 +50,9 @@ By default set to eze_bom.json""",
             report_file = self.config["REPORT_FILE"]
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            write_json(report_file, scan_result.bom)
-            log(f"""Written [{tool_name}] SBOM to {report_file}""")
+            for project_name in scan_result.sboms:
+                cyclonedx_bom = scan_result.sboms[project_name]
+                sane_project_name = sane(project_name)
+                project_sbom_report_file = re.sub('%PROJECT%', sane_project_name, report_file)
+                write_json(project_sbom_report_file, cyclonedx_bom)
+                log(f"""Written [{tool_name}] SBOM to {project_sbom_report_file}""")

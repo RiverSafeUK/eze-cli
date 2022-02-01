@@ -1,14 +1,16 @@
 Eze report results:
 
-
+| Name             | Type    | Critical | High | Medium | Low | Ignored | Warnings | Time |
+| ---------------- | ------- | -------- | ---- | ------ | --- | ------- | -------- | ---- |
+| python-cyclonedx | unknown | 0        | 0    | 0      | 0   | 0       | False    | 1.8s |
 BILL OF MATERIALS: python-cyclonedx (duration: 1.8s)
-        components: 11 (BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
+        package.json components: 11 (BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
 
 
 Bill of Materials
 _________________________________
 
-[python-cyclonedx] SBOM
+[python-cyclonedx] package.json SBOM
 _________________________________
 | type    | name                               | version          | license      | license type | description                                                                                                                  |
 | ------- | ---------------------------------- | ---------------- | ------------ | ------------ | ---------------------------------------------------------------------------------------------------------------------------- |

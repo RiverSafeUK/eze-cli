@@ -55,7 +55,10 @@ Tips and Tricks
         },
         "EXCLUDE": {
             "type": list,
-            "default": [],
+            "default": [
+                "venv",
+                "node_modules"
+            ],
             "help_text": """array of regex str of folders/files to exclude from scan for secrets
 eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\\\" for windows""",
             "help_example": ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"],

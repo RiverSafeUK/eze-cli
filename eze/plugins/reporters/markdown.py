@@ -56,7 +56,7 @@ By default set to eze_report.md""",
         for scan_result in scan_results:
             if self._has_printable_vulnerabilities(scan_result):
                 scan_results_with_vulnerabilities.append(scan_result)
-            if scan_result.bom:
+            if scan_result.sboms:
                 scan_results_with_sboms.append(scan_result)
             if len(scan_result.warnings) > 0:
                 scan_results_with_warnings.append(scan_result)
@@ -87,7 +87,7 @@ By default set to eze_report.md""",
             )
             duration_sec = py_.get(run_details, "duration_sec", "unknown")
 
-            if scan_result.bom:
+            if scan_result.sboms:
                 sboms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
                 sboms.append(f"    {bom_short_summary(scan_result)}")
 
@@ -237,32 +237,34 @@ By default set to eze_report.md""",
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
             run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
-            self.report_lines.append(
-                f"""
-### [{tool_name}{run_type}] SBOM
----"""
-            )
-            sbom_components = annotate_licenses(scan_result.bom)
-            sboms = []
-            counter += len(sbom_components)
-            for sbom_component in sbom_components:
-                sboms.append(
-                    {
-                        "type": sbom_component.type,
-                        "name": sbom_component.name,
-                        "version": sbom_component.version,
-                        "license": sbom_component.license,
-                        "license type": sbom_component.license_type,
-                        "description": sbom_component.description,
-                    }
+            for project_name in scan_result.sboms:
+                cyclonedx_bom = scan_result.sboms[project_name]
+                self.report_lines.append(
+                    f"""
+    ### [{tool_name}{run_type}] {project_name} SBOM
+    ---"""
                 )
+                sbom_components = annotate_licenses(cyclonedx_bom)
+                sboms = []
+                counter += len(sbom_components)
+                for sbom_component in sbom_components:
+                    sboms.append(
+                        {
+                            "type": sbom_component.type,
+                            "name": sbom_component.name,
+                            "version": sbom_component.version,
+                            "license": sbom_component.license,
+                            "license type": sbom_component.license_type,
+                            "description": sbom_component.description,
+                        }
+                    )
 
-            self.report_lines.append("")
+                self.report_lines.append("")
 
-            # generating SBOM markdown adding to report
-            markdown_sboms = generate_markdown_table(sboms)
-            markdown_sboms_lines = markdown_sboms.split("\n")
-            self.report_lines.extend(markdown_sboms_lines)
+                # generating SBOM markdown adding to report
+                markdown_sboms = generate_markdown_table(sboms)
+                markdown_sboms_lines = markdown_sboms.split("\n")
+                self.report_lines.extend(markdown_sboms_lines)
 
         self.report_lines[
             line_badge

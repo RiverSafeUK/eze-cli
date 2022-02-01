@@ -270,7 +270,7 @@ def get_policy(license_policy: str) -> dict:
     return LICENSE_PROPRIETARY_POLICY
 
 
-def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, denylist: list = None) -> list:
+def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, denylist: list = None, project:str = 'sbom') -> list:
     """check licenses for violations of policies"""
     allowlist = allowlist if allowlist else []
     denylist = denylist if denylist else []
@@ -302,6 +302,7 @@ def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, deny
                         "severity": VulnerabilitySeverityEnum.high.name,
                         "overview": f"{sbom_component.license} in project license_denylist",
                         "vulnerability_type": VulnerabilityType.license.name,
+                        "file_location": {"path": project, "line": 0},
                     }
                 )
             )
@@ -314,12 +315,13 @@ def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, deny
                         "severity": VulnerabilitySeverityEnum.high.name,
                         "overview": policy["reasons"][sbom_component.license_type],
                         "vulnerability_type": VulnerabilityType.license.name,
+                        "file_location": {"path": project, "line": 0},
                     }
                 )
             )
         if sbom_component.license_type in policy["types_warn"]:
             warnings.append(
-                f"License '{sbom_component.license}'({sbom_component.name}), reason: {policy['reasons'][sbom_component.license_type]}"
+                f"License '{sbom_component.license}'({sbom_component.name})[{project}], reason: {policy['reasons'][sbom_component.license_type]}"
             )
         if (
             policy["warn_non_opensource_licenses"]
@@ -327,15 +329,15 @@ def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, deny
             and not sbom_component.license_is_osi_approved
         ):
             warnings.append(
-                f"License '{sbom_component.license}'({sbom_component.name}), reason: {GLOBAL_REASONS['warn_non_opensource_licenses']}"
+                f"License '{sbom_component.license}'({sbom_component.name})[{project}], reason: {GLOBAL_REASONS['warn_non_opensource_licenses']}"
             )
         if policy["warn_unprofessional_licenses"] and not sbom_component.license_is_professional:
             notes = py_.get(sbom_component, "notes", "")
             warnings.append(
-                f"License '{sbom_component.license}'({sbom_component.name}), reason: {GLOBAL_REASONS['warn_unprofessional_licenses']}{notes}"
+                f"License '{sbom_component.license}'({sbom_component.name})[{project}], reason: {GLOBAL_REASONS['warn_unprofessional_licenses']}{notes}"
             )
         if policy["warn_deprecated_licenses"] and sbom_component.license_is_deprecated:
             warnings.append(
-                f"License '{sbom_component.license}'({sbom_component.name}), reason: {GLOBAL_REASONS['warn_deprecated_licenses']}"
+                f"License '{sbom_component.license}'({sbom_component.name})[{project}], reason: {GLOBAL_REASONS['warn_deprecated_licenses']}"
             )
     return [vulnerabilities, warnings]

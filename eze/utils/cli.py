@@ -86,7 +86,7 @@ def run_cli_command(
 
 
 async def run_async_cli_command(
-    cli_config: dict, config: dict = None, command_name: str = "", throw_error_on_stderr: bool = False
+    cli_config: dict, config: dict = None, command_name: str = "", throw_error_on_stderr: bool = False, cwd=None
 ) -> CompletedProcess:
     """
     Run tool cli command
@@ -108,7 +108,7 @@ async def run_async_cli_command(
     if not config:
         config = {}
     command_list = build_cli_command(cli_config, config)
-    completed_process = await run_async_cmd(command_list)
+    completed_process = await run_async_cmd(command_list, cwd=cwd)
 
     log_debug(
         f"""{command_name} ran with output:

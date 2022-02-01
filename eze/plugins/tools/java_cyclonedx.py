@@ -94,4 +94,4 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
 
     def parse_report(self, cyclonedx_bom: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        return convert_sbom_into_scan_result(self, cyclonedx_bom)
+        return convert_sbom_into_scan_result(self, cyclonedx_bom, "pom.xml")

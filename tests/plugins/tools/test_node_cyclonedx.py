@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+import os
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -77,25 +79,28 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
         self.assert_parse_report_snapshot_test(snapshot)
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.plugins.tools.node_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
-
+        expected_cwd = Path(os.getcwd())
         expected_cmd = "cyclonedx-bom -o foo_report.json"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)
 
     @mock.patch("eze.utils.cli.run_async_cmd")
+    @mock.patch("eze.plugins.tools.node_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__throw_eze_error_on_broken_package(self, mocked_run_cmd):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
+        expected_cwd = Path(os.getcwd())
         mock_broken_package_stdout = (
             "There are no components in the BOM. "
             "The project may not contain dependencies or node_modules does not exist. "

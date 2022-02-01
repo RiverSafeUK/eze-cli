@@ -18,6 +18,12 @@ from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 from eze.utils.log import log, log_debug, log_error
 
 
+def sane(key):
+    """sanitise keys to be Alpha-numerical"""
+    if not key:
+        return ''
+    return re.sub('[^a-zA-Z0-9_-]', '_', key)
+
 def normalise_file_paths(file_paths: list) -> Path:
     """Clean up user inputted filename path makes all"""
     new_file_paths = list(map(normalise_linux_file_path, file_paths))
