@@ -79,7 +79,6 @@ if not set, will be automatically determined via local git info""",
             log_error("Unable to send report to eze servers, as no APIKEY has been set")
             return
         scan_api_url = f"{endpoint}/v1/api/scan/{encoded_codebase_id}/{encoded_codebase_name}"
-        storage_api_url = "n/a"
 
         try:
             log(f"scan results to short term storage: {scan_api_url} ({apikey})")
@@ -90,7 +89,6 @@ if not set, will be automatically determined via local git info""",
                 f"""Eze Reporter failure to send report to management console
 Details:
 eze endpoint: {scan_api_url}
-eze reporter endpoint: {storage_api_url}
 codebase id: {codebase_id}
 codebase name: {codebase_name}
 error: {error}

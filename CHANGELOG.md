@@ -1,5 +1,11 @@
 # Eze Changelog
 
+## 0.13.2 - 2nd February 2022
+Improvements:
+- ab-998: multi sbom support
+- ab-990: updated more efficient eze console report
+- ab-996/992: improved github action display
+
 ## 0.13.1 - 31th January 2022
 Improvements:
 - ab-989: adding github action support
