@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+import os
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -20,7 +22,6 @@ class TestNpmOutdatedTool(ToolMetaTestBase):
             "NEWER_MAJOR_SEMVERSION_SEVERITY": "medium",
             "NEWER_MINOR_SEMVERSION_SEVERITY": "low",
             "NEWER_PATCH_SEMVERSION_SEVERITY": "none",
-            "SOURCE": None,
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -36,15 +37,12 @@ class TestNpmOutdatedTool(ToolMetaTestBase):
 
     def test_creation__with_config(self):
         # Given
-        input_config = {
-            "SOURCE": "src",
-        }
+        input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmoutdated-report.json"),
             "NEWER_MAJOR_SEMVERSION_SEVERITY": "medium",
             "NEWER_MINOR_SEMVERSION_SEVERITY": "low",
             "NEWER_PATCH_SEMVERSION_SEVERITY": "none",
-            "SOURCE": "src",
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -87,14 +85,16 @@ class TestNpmOutdatedTool(ToolMetaTestBase):
         self.assert_parse_report_snapshot_test(snapshot)
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.plugins.tools.node_npmoutdated.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
-        input_config = {"SOURCE": "src", "REPORT_FILE": "foo_report.json"}
+        input_config = {"REPORT_FILE": "foo_report.json"}
+        expected_cwd = Path(os.getcwd())
 
         expected_cmd = "npm outdated --json"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)

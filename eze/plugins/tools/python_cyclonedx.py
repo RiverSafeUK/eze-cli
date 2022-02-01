@@ -120,7 +120,9 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         vulnerabilities: list = []
         warnings: list = []
         if not is_sca_enabled:
-            scan_result: ScanResult = convert_sbom_into_scan_result(self, cyclonedx_bom)
+            scan_result: ScanResult = convert_sbom_into_scan_result(
+                self, cyclonedx_bom, self.config["REQUIREMENTS_FILE"]
+            )
             return scan_result
         for component in py_.get(cyclonedx_bom, "components", []):
             purl = py_.get(component, "purl")
@@ -135,7 +137,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
                 for pypi_license in pypi_data.licenses:
                     licenses.append({"license": {"name": pypi_license}})
                 component["licenses"] = licenses
-        scan_result: ScanResult = convert_sbom_into_scan_result(self, cyclonedx_bom)
+        scan_result: ScanResult = convert_sbom_into_scan_result(self, cyclonedx_bom, self.config["REQUIREMENTS_FILE"])
         scan_result.vulnerabilities.extend(vulnerabilities)
         scan_result.warnings.extend(warnings)
         return scan_result

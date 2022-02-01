@@ -1,25 +1,27 @@
 Eze report results:
 
-
+| Name             | Type    | Critical | High | Medium | Low | Ignored | Warnings | Time |
+| ---------------- | ------- | -------- | ---- | ------ | --- | ------- | -------- | ---- |
+| python-cyclonedx | unknown | 0        | 0    | 0      | 0   | 0       | False    | 1.8s |
 BILL OF MATERIALS: python-cyclonedx (duration: 1.8s)
-        components: 11 (BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
+        package.json components: 11 (BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
 
 
 Bill of Materials
 _________________________________
 
-[python-cyclonedx] SBOM
+[python-cyclonedx] package.json SBOM
 _________________________________
 | type    | name                               | version          | license      | license type | description                                                                                                                  |
 | ------- | ---------------------------------- | ---------------- | ------------ | ------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| library | GitPython                          | 3.1.17           | BSD          | permissive   | Python Git Library                                                                                                           |
 | library | click                              | 8.0.1            | BSD-3-Clause | permissive   | Composable command line interface toolkit                                                                                    |
 | library | colorama                           | 0.4.4            | BSD          | permissive   | Cross-platform colored terminal text.                                                                                        |
-| library | GitPython                          | 3.1.17           | BSD          | permissive   | Python Git Library                                                                                                           |
+| library | com.github.pwittchen.kirai.library | 1.4.1            | Apache-2.0   | permissive   | EXAMPLE FROM java-cyclonedx, Kirai is flavored string formatting library                                                     |
+| library | gpgv:example-from-syft             | 2.2.12-1+deb10u1 | BSD-3-clause | permissive   |                                                                                                                              |
+| library | helmet:example-from-node-cyclonedx | 2.3.0            | MIT          | permissive   | help secure Express/Connect apps with various HTTP headers                                                                   |
+| library | ms:example-from-node-cyclonedx     | 0.7.1            | unknown      | unknown      | Tiny ms conversion utility                                                                                                   |
 | library | pydash                             | 5.0.0            | MIT          | permissive   | The kitchen sink of Python utility libraries for doing "stuff" in a functional way. Based on the Lo-Dash Javascript library. |
 | library | requests                           | 2.25.0           | Apache-2.0   | permissive   | Python HTTP for Humans.                                                                                                      |
 | library | semantic_version                   | 2.8.5            | BSD          | permissive   | A library implementing the 'SemVer' scheme.                                                                                  |
 | library | toml                               | 0.10.2           | MIT          | permissive   | Python Library for Tom's Obvious, Minimal Language                                                                           |
-| library | gpgv:example-from-syft             | 2.2.12-1+deb10u1 | BSD-3-clause | permissive   |                                                                                                                              |
-| library | ms:example-from-node-cyclonedx     | 0.7.1            | unknown      | unknown      | Tiny ms conversion utility                                                                                                   |
-| library | helmet:example-from-node-cyclonedx | 2.3.0            | MIT          | permissive   | help secure Express/Connect apps with various HTTP headers                                                                   |
-| library | com.github.pwittchen.kirai.library | 1.4.1            | Apache-2.0   | permissive   | EXAMPLE FROM java-cyclonedx, Kirai is flavored string formatting library                                                     |

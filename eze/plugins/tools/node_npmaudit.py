@@ -2,6 +2,7 @@
 import shlex
 
 import semantic_version
+from eze.utils.log import log_debug
 from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
@@ -11,8 +12,9 @@ from eze.core.tool import (
 )
 from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
 from eze.utils.io import create_tempfile_path, write_text, parse_json
-from eze.utils.language.node import install_node_dependencies
-from eze.utils.error import EzeFileParsingError
+from eze.utils.language.node import install_npm_in_path
+from eze.utils.file_scanner import find_files_by_name
+from pathlib import Path
 
 
 class NpmAuditTool(ToolMeta):
@@ -29,11 +31,6 @@ npm --version"""
 https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 """
     EZE_CONFIG: dict = {
-        "SOURCE": {
-            "type": str,
-            "default": None,
-            "help_text": """folder where node package.json, will default to folder eze ran from""",
-        },
         "ONLY_PROD": {
             "type": bool,
             "default": True,
@@ -80,27 +77,41 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         :raises EzeError
         """
-        # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
-        install_node_dependencies()
-        command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        completed_process = await run_async_cmd(command_str, True)
+        vulnerabilities_list = []
+        npm_package_jsons = find_files_by_name("package.json")
+        for npm_package in npm_package_jsons:
+            log_debug(f"run 'npm audit' on {npm_package}")
+            npm_project = Path(npm_package).parent
+            npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
+            install_npm_in_path(npm_project)
+            command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
+            completed_process = await run_async_cmd(command_str, True, cwd=npm_project_fullpath)
+            report_text = completed_process.stdout
+            write_text(self.config["REPORT_FILE"], report_text)
+            parsed_json = parse_json(report_text)
+            vulnerabilities = self.parse_report(parsed_json, npm_package)
+            vulnerabilities_list.extend(vulnerabilities)
 
-        report_text = completed_process.stdout
-        write_text(self.config["REPORT_FILE"], report_text)
-        parsed_json = parse_json(report_text)
-        report = self.parse_report(parsed_json)
+        report = ScanResult(
+            {
+                "tool": self.TOOL_NAME,
+                "vulnerabilities": vulnerabilities_list,
+                "warnings": [],
+            }
+        )
+
         return report
 
-    def parse_report(self, parsed_json: dict) -> ScanResult:
+    def parse_report(self, parsed_json: dict, npm_package: str = None) -> list:
         """convert report json into ScanResult"""
         v6_vulnerability_container = py_.get(parsed_json, "advisories")
         # v6 npm audit
         if v6_vulnerability_container:
-            return self.parse_npm_v6_report(parsed_json)
+            return self.parse_npm_v6_report(parsed_json, npm_package)
 
         # v7 npm audit
         # https://blog.npmjs.org/post/626173315965468672/npm-v7-series-beta-release-and-semver-major
-        return self.parse_npm_v7_report(parsed_json)
+        return self.parse_npm_v7_report(parsed_json, npm_package)
 
     def create_recommendation_v7(self, vulnerability: dict):
         """convert vulnerability dict into recommendation"""
@@ -144,7 +155,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         return path
 
-    def parse_npm_v7_report(self, parsed_json: dict) -> ScanResult:
+    def parse_npm_v7_report(self, parsed_json: dict, npm_package: str) -> list:
         """Parses newer v7 npm audit format"""
         # WARNING: npm v7 report format doesn't look complete
         #
@@ -180,7 +191,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                     "identifiers": {},
                     "references": references,
                     "metadata": None,
-                    "file_location": None,
+                    "file_location": {"path": npm_package, "line": 0},
                 }
 
                 # WARNING: AB-524: limitation, for now just showing first advisory
@@ -190,16 +201,9 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
                 vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-                "warnings": [],
-            }
-        )
-        return report
+        return vulnerabilities_list
 
-    def parse_npm_v6_report(self, parsed_json: dict) -> ScanResult:
+    def parse_npm_v6_report(self, parsed_json: dict, npm_package: str) -> list:
         """Parses newer v6 npm audit format"""
         advisories = parsed_json["advisories"]
         vulnerabilities_list = []
@@ -229,7 +233,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "identifiers": {},
                 "references": references,
                 "metadata": None,
-                "file_location": None,
+                "file_location": {"path": npm_package, "line": 0},
             }
             cwe = py_.get(advisory, "cwe")
             if cwe:
@@ -242,11 +246,4 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
             vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-                "warnings": [],
-            }
-        )
-        return report
+        return vulnerabilities_list

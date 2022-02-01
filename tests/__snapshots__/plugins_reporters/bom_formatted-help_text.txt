@@ -24,9 +24,9 @@ INTERMEDIATE_FILE = "..."
 
 # REPORT_FILE str [OPTIONAL]
 # report file location
-# By default set to eze_bom.json
+# By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for project inventory file aka pom.xml
 # default value: 
-#   REPORT_FILE = "eze_bom.json"
+#   REPORT_FILE = "eze_%PROJECT%_bom.json"
 # 
 REPORT_FILE = "..."
 

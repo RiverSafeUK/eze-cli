@@ -1,12 +1,16 @@
 """cyclonedx SBOM tool class"""
+from pathlib import Path
+
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json
-from eze.utils.language.node import install_node_dependencies
+from eze.utils.language.node import install_npm_in_path
+from eze.utils.log import log_debug
 from eze.utils.error import EzeExecutableError
-from eze.utils.scan_result import convert_sbom_into_scan_result
+from eze.utils.scan_result import convert_multi_sbom_into_scan_result
+from eze.utils.file_scanner import find_files_by_name
 
 
 class NodeCyclonedxTool(ToolMeta):
@@ -73,6 +77,8 @@ This will be ran automatically, if npm install fails this tool can't be run
         """Take output and check for common errors"""
         if "node_modules does not exist." in completed_process.stdout:
             return completed_process.stdout
+        if "Error: Cannot find module" in completed_process.stdout:
+            return completed_process.stdout
         return None
 
     async def run_scan(self) -> ScanResult:
@@ -81,22 +87,29 @@ This will be ran automatically, if npm install fails this tool can't be run
 
         :raises EzeError
         """
-        # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
-        install_node_dependencies()
-        completed_process = await run_async_cli_command(
-            self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, True
-        )
-        fatal_errors = self.get_process_fatal_errors(completed_process)
-        if fatal_errors:
-            raise EzeExecutableError(fatal_errors)
+        sboms = {}
+        warnings = []
+        npm_package_jsons = find_files_by_name("package.json")
+        for npm_package in npm_package_jsons:
+            log_debug(f"run 'cyclonedx-bom' on {npm_package}")
+            npm_project = Path(npm_package).parent
+            npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
+            install_npm_in_path(npm_project)
+            completed_process = await run_async_cli_command(
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, True, cwd=npm_project_fullpath
+            )
+            fatal_errors = self.get_process_fatal_errors(completed_process)
+            if fatal_errors:
+                raise EzeExecutableError(fatal_errors)
+            sboms[npm_package] = load_json(self.config["REPORT_FILE"])
+            if completed_process.stderr:
+                warnings.append(completed_process.stderr)
 
-        cyclonedx_bom = load_json(self.config["REPORT_FILE"])
-        report = self.parse_report(cyclonedx_bom)
-        if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+        report = self.parse_report(sboms)
+        report.warnings.extend(warnings)
 
         return report
 
     def parse_report(self, cyclonedx_bom: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        return convert_sbom_into_scan_result(self, cyclonedx_bom)
+        return convert_multi_sbom_into_scan_result(self, cyclonedx_bom)

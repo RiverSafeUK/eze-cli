@@ -8,7 +8,7 @@
 Dockerfile-local
 eze_report.json
 eze_report.sarif
-eze_bom.json
+eze*_bom.json
 eze_junit_report.xml
 spdx-license-list-data.json
 

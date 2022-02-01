@@ -5,13 +5,55 @@ from eze.core.tool import ScanResult, ToolMeta
 from eze.utils.license import get_bom_license, check_licenses
 
 
-def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict):
+def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict, project: str = "project"):
     """convert sbom into scan_result"""
     [vulnerabilities, warnings] = check_licenses(
-        cyclonedx_bom, tool.config["LICENSE_CHECK"], tool.config["LICENSE_ALLOWLIST"], tool.config["LICENSE_DENYLIST"]
+        cyclonedx_bom,
+        tool.config["LICENSE_CHECK"],
+        tool.config["LICENSE_ALLOWLIST"],
+        tool.config["LICENSE_DENYLIST"],
+        project,
     )
     return ScanResult(
-        {"tool": tool.TOOL_NAME, "bom": cyclonedx_bom, "vulnerabilities": vulnerabilities, "warnings": warnings}
+        {
+            "tool": tool.TOOL_NAME,
+            # bom is deprecated will be removed soon
+            "bom": cyclonedx_bom,
+            "sboms": {project: cyclonedx_bom},
+            "vulnerabilities": vulnerabilities,
+            "warnings": warnings,
+        }
+    )
+
+
+def convert_multi_sbom_into_scan_result(tool: ToolMeta, cyclonedx_boms: dict):
+    """convert sbom into scan_result"""
+    first_bom = None
+    vulnerabilities_list: list = []
+    warnings_list: list = []
+    for project_name in cyclonedx_boms:
+        cyclonedx_bom = cyclonedx_boms[project_name]
+        first_bom = cyclonedx_bom
+
+        [vulnerabilities, warnings] = check_licenses(
+            cyclonedx_bom,
+            tool.config["LICENSE_CHECK"],
+            tool.config["LICENSE_ALLOWLIST"],
+            tool.config["LICENSE_DENYLIST"],
+            project_name,
+        )
+        vulnerabilities_list.extend(vulnerabilities)
+        warnings_list.extend(warnings)
+
+    return ScanResult(
+        {
+            "tool": tool.TOOL_NAME,
+            # bom is deprecated will be removed soon
+            "bom": first_bom,
+            "sboms": cyclonedx_boms,
+            "vulnerabilities": vulnerabilities_list,
+            "warnings": warnings_list,
+        }
     )
 
 
@@ -28,31 +70,33 @@ def name_and_time_summary(scan_result: ScanResult, indent: str = "    ") -> str:
 
 def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
     """convert bom into one line summary"""
-    bom = scan_result.bom
-    if not bom:
+    sboms = scan_result.sboms
+    if not sboms:
         return ""
     if len(scan_result.fatal_errors) > 0:
         return "ERROR when creating SBOM"
-    license_counts = {}
-    component_count = len(bom["components"])
-    totals_txt = f"""{indent}components: {component_count}"""
-    if component_count > 0:
-        totals_txt += " ("
-        breakdowns = []
-        for component in bom["components"]:
-            licenses = component.get("licenses", [])
-            if len(licenses) == 0:
-                license_counts["unknown"] = license_counts.get("unknown", 0) + 1
-            for license_dict in licenses:
-                license_name = get_bom_license(license_dict)
-                if license_name:
-                    license_counts[license_name] = license_counts.get(license_name, 0) + 1
-        for license_name in license_counts:
-            license_count = license_counts[license_name]
-            breakdowns.append(f"{license_name}:{license_count}")
-        totals_txt += ", ".join(breakdowns)
-        totals_txt += ")"
-    return totals_txt + "\n"
+    for project_name in scan_result.sboms:
+        cyclonedx_bom = scan_result.sboms[project_name]
+        license_counts = {}
+        component_count = len(cyclonedx_bom["components"])
+        totals_txt = f"""{indent}{project_name} components: {component_count}"""
+        if component_count > 0:
+            totals_txt += " ("
+            breakdowns = []
+            for component in cyclonedx_bom["components"]:
+                licenses = component.get("licenses", [])
+                if len(licenses) == 0:
+                    license_counts["unknown"] = license_counts.get("unknown", 0) + 1
+                for license_dict in licenses:
+                    license_name = get_bom_license(license_dict)
+                    if license_name:
+                        license_counts[license_name] = license_counts.get(license_name, 0) + 1
+            for license_name in license_counts:
+                license_count = license_counts[license_name]
+                breakdowns.append(f"{license_name}:{license_count}")
+            totals_txt += ", ".join(breakdowns)
+            totals_txt += ")"
+        return totals_txt + "\n"
 
 
 def vulnerabilities_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:

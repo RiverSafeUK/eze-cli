@@ -5,12 +5,6 @@ opensource node SCA scanner
 config_help:
 ======================
 [node-npmaudit]
-# SOURCE str [OPTIONAL]
-# folder where node package.json, will default to folder eze ran from
-# 
-SOURCE = "..."
-
-
 # ONLY_PROD bool [OPTIONAL]
 # if to add a '--only=prod' flag to ignore devDependencies
 # default value: 

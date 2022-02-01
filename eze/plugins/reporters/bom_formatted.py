@@ -1,11 +1,12 @@
 """Bill of Materials reporter class implementation"""
+import re
 import shlex
 
 from pydash import py_
 
 from eze.core.reporter import ReporterMeta
 from eze.utils.cli import extract_cmd_version, run_cli_command
-from eze.utils.io import create_tempfile_path, write_json
+from eze.utils.io import create_tempfile_path, write_json, sane
 from eze.utils.log import log, log_debug, log_error
 
 
@@ -46,9 +47,9 @@ By default set to temp file tmp-eze_bom.json""",
         },
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_bom.json",
+            "default": "eze_%PROJECT%_bom.json",
             "help_text": """report file location
-By default set to eze_bom.json""",
+By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for project inventory file aka pom.xml""",
         },
     }
 
@@ -79,28 +80,34 @@ By default set to eze_bom.json""",
         """convert scan sboms into bom files"""
         scan_results_with_sboms = []
         for scan_result in scan_results:
-            if scan_result.bom:
+            if scan_result.sboms:
                 scan_results_with_sboms.append(scan_result)
         if len(scan_results_with_sboms) <= 0:
             log_error(
                 f"""[{self.REPORTER_NAME}] couldn't find any SBOM data in tool output to convert into SBOM files"""
             )
             return
+        output_format = self.config["OUTPUT_FORMAT"]
+        intermediate_file = self.config["INTERMEDIATE_FILE"]
+        report_file = self.config["REPORT_FILE"]
         for scan_result in scan_results_with_sboms:
-            output_format = self.config["OUTPUT_FORMAT"]
-            intermediate_file = self.config["INTERMEDIATE_FILE"]
-            report_file = self.config["REPORT_FILE"]
             run_details = scan_result.run_details
             tool_name = py_.get(run_details, "tool_name", "unknown")
-            write_json(intermediate_file, scan_result.bom)
-            if output_format == "json":
-                # already in json format
-                write_json(report_file, scan_result.bom)
-            else:
-                # convert json cyclone-dx format into xxx format
-                run_cli_command(
-                    BomFormattedReporter.REPORTER_CONFIG["CONVERSION_CMD_CONFIG"],
-                    self.config,
-                    BomFormattedReporter.REPORTER_NAME,
-                )
-            log(f"""Written [{tool_name}] {output_format} SBOM to {report_file}""")
+            for project_name in scan_result.sboms:
+                cyclonedx_bom = scan_result.sboms[project_name]
+                sane_project_name = sane(project_name)
+                project_sbom_report_file = re.sub("%PROJECT%", sane_project_name, report_file)
+
+                write_json(intermediate_file, cyclonedx_bom)
+                if output_format == "json":
+                    # already in json format
+                    write_json(project_sbom_report_file, cyclonedx_bom)
+                else:
+                    # convert json cyclone-dx format into xxx format
+                    self.config["REPORT_FILE"] = project_sbom_report_file
+                    run_cli_command(
+                        BomFormattedReporter.REPORTER_CONFIG["CONVERSION_CMD_CONFIG"],
+                        self.config,
+                        BomFormattedReporter.REPORTER_NAME,
+                    )
+                log(f"""Written [{tool_name}] {output_format} [{project_name}] SBOM to {project_sbom_report_file}""")

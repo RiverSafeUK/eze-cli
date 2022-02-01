@@ -18,6 +18,7 @@
     "tool_type": "MISC",
     "tool_url": ""
   },
+  "sboms": null,
   "summary": {
     "ignored": {
       "critical": 0,

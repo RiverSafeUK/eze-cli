@@ -43,7 +43,7 @@ By default set to eze_report.sarif""",
         """Method for parsing the scans results into sarif format"""
         sarif_schema = "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json"
         schema_version = "2.1.0"
-        scan_results_with_sboms = []
+        # TODO: SBOM cannot be handled by this reporter
 
         sarif_dict = {"$schema": sarif_schema, "version": schema_version, "runs": []}
         for scan_result in scan_results:
@@ -61,11 +61,6 @@ By default set to eze_report.sarif""",
             single_run = {"tool": tool, "results": results, "taxonomies": []}
 
             sarif_dict["runs"].append(single_run)
-
-            if scan_result.bom:
-                scan_results_with_sboms.append(
-                    scan_result
-                )  # TODO: SBOM cannot be handle by this reporter, so its skipped.
         return sarif_dict
 
     def _has_printable_vulnerabilities(self, scan_result: ScanResult) -> bool:

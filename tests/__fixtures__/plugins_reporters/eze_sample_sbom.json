@@ -1,314 +1,316 @@
 [
   {
-    "bom": {
-      "bomFormat": "CycloneDX",
-      "components": [
-        {
-          "description": "Composable command line interface toolkit",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "b0ea4bceb2610bece94ded2424ce9448"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "fba402a4a47334742d782209a7c79bc448911afe1149d07bdabdf480b3e2f4b6"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "BSD-3-Clause"
+    "sboms": {
+      "package.json": {
+        "bomFormat": "CycloneDX",
+        "components": [
+          {
+            "description": "Composable command line interface toolkit",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "b0ea4bceb2610bece94ded2424ce9448"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "fba402a4a47334742d782209a7c79bc448911afe1149d07bdabdf480b3e2f4b6"
               }
-            }
-          ],
-          "modified": false,
-          "name": "click",
-          "publisher": "Armin Ronacher",
-          "purl": "pkg:pypi/click@8.0.1",
-          "type": "library",
-          "version": "8.0.1"
-        },
-        {
-          "description": "Cross-platform colored terminal text.",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "1dcd07acf2b1875ed09428e1ddf7e028"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "BSD"
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "BSD-3-Clause"
+                }
               }
-            }
-          ],
-          "modified": false,
-          "name": "colorama",
-          "publisher": "Jonathan Hartley",
-          "purl": "pkg:pypi/colorama@0.4.4",
-          "type": "library",
-          "version": "0.4.4"
-        },
-        {
-          "description": "Python Git Library",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "bd3633582c418f4cd157c82d34ee56e1"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "29fe82050709760081f588dd50ce83504feddbebdc4da6956d02351552b1c135"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "BSD"
+            ],
+            "modified": false,
+            "name": "click",
+            "publisher": "Armin Ronacher",
+            "purl": "pkg:pypi/click@8.0.1",
+            "type": "library",
+            "version": "8.0.1"
+          },
+          {
+            "description": "Cross-platform colored terminal text.",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "1dcd07acf2b1875ed09428e1ddf7e028"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"
               }
-            }
-          ],
-          "modified": false,
-          "name": "GitPython",
-          "publisher": "Sebastian Thiel, Michael Trier",
-          "purl": "pkg:pypi/gitpython@3.1.17",
-          "type": "library",
-          "version": "3.1.17"
-        },
-        {
-          "description": "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library.",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "2f129c0248034c7768e43d2a6970da24"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "0d87f879a3df4ad9389ab6d63c69eea078517d41541ddd5744cfcff3396e8543"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "MIT License"
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "BSD"
+                }
               }
-            }
-          ],
-          "modified": false,
-          "name": "pydash",
-          "publisher": "Derrick Gilland",
-          "purl": "pkg:pypi/pydash@5.0.0",
-          "type": "library",
-          "version": "5.0.0"
-        },
-        {
-          "description": "Python HTTP for Humans.",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "2966d68a5a4e6832d967763d41f48d04"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "e786fa28d8c9154e6a4de5d46a1d921b8749f8b74e28bde23768e5e16eece998"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "Apache 2.0"
+            ],
+            "modified": false,
+            "name": "colorama",
+            "publisher": "Jonathan Hartley",
+            "purl": "pkg:pypi/colorama@0.4.4",
+            "type": "library",
+            "version": "0.4.4"
+          },
+          {
+            "description": "Python Git Library",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "bd3633582c418f4cd157c82d34ee56e1"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "29fe82050709760081f588dd50ce83504feddbebdc4da6956d02351552b1c135"
               }
-            }
-          ],
-          "modified": false,
-          "name": "requests",
-          "publisher": "Kenneth Reitz",
-          "purl": "pkg:pypi/requests@2.25.0",
-          "type": "library",
-          "version": "2.25.0"
-        },
-        {
-          "description": "A library implementing the 'SemVer' scheme.",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "dca7f8559b469b50a283180155b8381a"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "45e4b32ee9d6d70ba5f440ec8cc5221074c7f4b0e8918bdab748cc37912440a9"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "BSD"
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "BSD"
+                }
               }
-            }
-          ],
-          "modified": false,
-          "name": "semantic_version",
-          "publisher": "Rapha\u00ebl Barrois",
-          "purl": "pkg:pypi/semantic-version@2.8.5",
-          "type": "library",
-          "version": "2.8.5"
-        },
-        {
-          "description": "Python Library for Tom's Obvious, Minimal Language",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "dc26cd71b80d6757139f38156a43c545"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "name": "MIT"
+            ],
+            "modified": false,
+            "name": "GitPython",
+            "publisher": "Sebastian Thiel, Michael Trier",
+            "purl": "pkg:pypi/gitpython@3.1.17",
+            "type": "library",
+            "version": "3.1.17"
+          },
+          {
+            "description": "The kitchen sink of Python utility libraries for doing \"stuff\" in a functional way. Based on the Lo-Dash Javascript library.",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "2f129c0248034c7768e43d2a6970da24"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "0d87f879a3df4ad9389ab6d63c69eea078517d41541ddd5744cfcff3396e8543"
               }
-            }
-          ],
-          "modified": false,
-          "name": "toml",
-          "publisher": "William Pearson",
-          "purl": "pkg:pypi/toml@0.10.2",
-          "type": "library",
-          "version": "0.10.2"
-        },
-        {
-          "type": "library",
-          "name": "gpgv:example-from-syft",
-          "version": "2.2.12-1\u002Bdeb10u1",
-          "licenses": [
-            {
-              "license": {
-                "name": "BSD-3-clause"
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "MIT License"
+                }
               }
-            }
-          ],
-          "purl": "pkg:deb/debian/gpgv@2.2.12-1\u002Bdeb10u1?arch=amd64"
-        },
-        {
-          "type": "library",
-          "bom-ref": "pkg:npm/ms@0.7.1",
-          "name": "ms:example-from-node-cyclonedx",
-          "version": "0.7.1",
-          "description": "Tiny ms conversion utility",
-          "purl": "pkg:npm/ms@0.7.1",
-          "externalReferences": [
-            {
-              "type": "website",
-              "url": "https://github.com/guille/ms.js#readme"
-            },
-            {
-              "type": "issue-tracker",
-              "url": "https://github.com/guille/ms.js/issues"
-            },
-            {
-              "type": "vcs",
-              "url": "git://github.com/guille/ms.js.git"
-            }
-          ]
-        },
-        {
-          "type": "library",
-          "bom-ref": "pkg:npm/helmet@2.3.0",
-          "name": "helmet:example-from-node-cyclonedx",
-          "version": "2.3.0",
-          "description": "help secure Express/Connect apps with various HTTP headers",
-          "licenses": [
-            {
-              "license": {
-                "id": "MIT"
+            ],
+            "modified": false,
+            "name": "pydash",
+            "publisher": "Derrick Gilland",
+            "purl": "pkg:pypi/pydash@5.0.0",
+            "type": "library",
+            "version": "5.0.0"
+          },
+          {
+            "description": "Python HTTP for Humans.",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "2966d68a5a4e6832d967763d41f48d04"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "e786fa28d8c9154e6a4de5d46a1d921b8749f8b74e28bde23768e5e16eece998"
               }
-            }
-          ],
-          "purl": "pkg:npm/helmet@2.3.0",
-          "externalReferences": [
-            {
-              "type": "website",
-              "url": "https://github.com/helmetjs/helmet#readme"
-            },
-            {
-              "type": "issue-tracker",
-              "url": "https://github.com/helmetjs/helmet/issues"
-            },
-            {
-              "type": "vcs",
-              "url": "git://github.com/helmetjs/helmet.git"
-            }
-          ]
-        },
-        {
-          "bom-ref": "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar",
-          "description": "EXAMPLE FROM java-cyclonedx, Kirai is flavored string formatting library",
-          "externalReferences": [
-            {
-              "type": "vcs",
-              "url": "https://github.com/pwittchen/kirai"
-            }
-          ],
-          "group": "com.github.pwittchen.kirai",
-          "hashes": [
-            {
-              "alg": "MD5",
-              "content": "d82a9f249f26bbcbd0c232171c1a7e18"
-            },
-            {
-              "alg": "SHA-1",
-              "content": "9749c38a85517177fe600ac1572e8944bf3844f3"
-            },
-            {
-              "alg": "SHA-256",
-              "content": "9c04dcd3281055f5423f9eff2fbe96d124633350f855b2b461d72a3e912fb707"
-            },
-            {
-              "alg": "SHA-384",
-              "content": "1c3222b05ad15ec85c29238e8eaa1c7c02eb2c99d056547cc6df4d123ba1e05f45b561bbd13d8ef5596cd4c98219dee9"
-            },
-            {
-              "alg": "SHA-512",
-              "content": "8a05d808515a98d6d03a9f306667a37396fffd4cdadcc43393bdfa33c5c8e86f802b0d048f47543ef1cdf598a40fa614d636948cdcc67261fe7adf472ded8a4f"
-            },
-            {
-              "alg": "SHA3-256",
-              "content": "2dcd6ce4d3a459bea98dedd8cd2cc082ae3bf2428f3b55eac6650a8a045d0eff"
-            },
-            {
-              "alg": "SHA3-384",
-              "content": "3ffbdb1b165e1c44fead0ecc7a1e04b075eec6246a5a879f0bb8c26e50e9596dd74a80dcaa0502083c68e549078dd7eb"
-            },
-            {
-              "alg": "SHA3-512",
-              "content": "acdf16678ba51eafa030d373ebb8b10d4d094d38f37fb148005da2693d92e80675118d499babb026674ff4702c47d2b205da4efd36fc930dae0f8c1a3d1fe09b"
-            }
-          ],
-          "licenses": [
-            {
-              "license": {
-                "id": "Apache-2.0"
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "Apache 2.0"
+                }
               }
-            }
-          ],
-          "name": "library",
-          "purl": "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar",
-          "scope": "required",
-          "type": "library",
-          "version": "1.4.1"
-        }
-      ],
-      "specVersion": "1.2",
-      "version": 1
+            ],
+            "modified": false,
+            "name": "requests",
+            "publisher": "Kenneth Reitz",
+            "purl": "pkg:pypi/requests@2.25.0",
+            "type": "library",
+            "version": "2.25.0"
+          },
+          {
+            "description": "A library implementing the 'SemVer' scheme.",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "dca7f8559b469b50a283180155b8381a"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "45e4b32ee9d6d70ba5f440ec8cc5221074c7f4b0e8918bdab748cc37912440a9"
+              }
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "BSD"
+                }
+              }
+            ],
+            "modified": false,
+            "name": "semantic_version",
+            "publisher": "Rapha\u00ebl Barrois",
+            "purl": "pkg:pypi/semantic-version@2.8.5",
+            "type": "library",
+            "version": "2.8.5"
+          },
+          {
+            "description": "Python Library for Tom's Obvious, Minimal Language",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "dc26cd71b80d6757139f38156a43c545"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"
+              }
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "name": "MIT"
+                }
+              }
+            ],
+            "modified": false,
+            "name": "toml",
+            "publisher": "William Pearson",
+            "purl": "pkg:pypi/toml@0.10.2",
+            "type": "library",
+            "version": "0.10.2"
+          },
+          {
+            "type": "library",
+            "name": "gpgv:example-from-syft",
+            "version": "2.2.12-1\u002Bdeb10u1",
+            "licenses": [
+              {
+                "license": {
+                  "name": "BSD-3-clause"
+                }
+              }
+            ],
+            "purl": "pkg:deb/debian/gpgv@2.2.12-1\u002Bdeb10u1?arch=amd64"
+          },
+          {
+            "type": "library",
+            "bom-ref": "pkg:npm/ms@0.7.1",
+            "name": "ms:example-from-node-cyclonedx",
+            "version": "0.7.1",
+            "description": "Tiny ms conversion utility",
+            "purl": "pkg:npm/ms@0.7.1",
+            "externalReferences": [
+              {
+                "type": "website",
+                "url": "https://github.com/guille/ms.js#readme"
+              },
+              {
+                "type": "issue-tracker",
+                "url": "https://github.com/guille/ms.js/issues"
+              },
+              {
+                "type": "vcs",
+                "url": "git://github.com/guille/ms.js.git"
+              }
+            ]
+          },
+          {
+            "type": "library",
+            "bom-ref": "pkg:npm/helmet@2.3.0",
+            "name": "helmet:example-from-node-cyclonedx",
+            "version": "2.3.0",
+            "description": "help secure Express/Connect apps with various HTTP headers",
+            "licenses": [
+              {
+                "license": {
+                  "id": "MIT"
+                }
+              }
+            ],
+            "purl": "pkg:npm/helmet@2.3.0",
+            "externalReferences": [
+              {
+                "type": "website",
+                "url": "https://github.com/helmetjs/helmet#readme"
+              },
+              {
+                "type": "issue-tracker",
+                "url": "https://github.com/helmetjs/helmet/issues"
+              },
+              {
+                "type": "vcs",
+                "url": "git://github.com/helmetjs/helmet.git"
+              }
+            ]
+          },
+          {
+            "bom-ref": "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar",
+            "description": "EXAMPLE FROM java-cyclonedx, Kirai is flavored string formatting library",
+            "externalReferences": [
+              {
+                "type": "vcs",
+                "url": "https://github.com/pwittchen/kirai"
+              }
+            ],
+            "group": "com.github.pwittchen.kirai",
+            "hashes": [
+              {
+                "alg": "MD5",
+                "content": "d82a9f249f26bbcbd0c232171c1a7e18"
+              },
+              {
+                "alg": "SHA-1",
+                "content": "9749c38a85517177fe600ac1572e8944bf3844f3"
+              },
+              {
+                "alg": "SHA-256",
+                "content": "9c04dcd3281055f5423f9eff2fbe96d124633350f855b2b461d72a3e912fb707"
+              },
+              {
+                "alg": "SHA-384",
+                "content": "1c3222b05ad15ec85c29238e8eaa1c7c02eb2c99d056547cc6df4d123ba1e05f45b561bbd13d8ef5596cd4c98219dee9"
+              },
+              {
+                "alg": "SHA-512",
+                "content": "8a05d808515a98d6d03a9f306667a37396fffd4cdadcc43393bdfa33c5c8e86f802b0d048f47543ef1cdf598a40fa614d636948cdcc67261fe7adf472ded8a4f"
+              },
+              {
+                "alg": "SHA3-256",
+                "content": "2dcd6ce4d3a459bea98dedd8cd2cc082ae3bf2428f3b55eac6650a8a045d0eff"
+              },
+              {
+                "alg": "SHA3-384",
+                "content": "3ffbdb1b165e1c44fead0ecc7a1e04b075eec6246a5a879f0bb8c26e50e9596dd74a80dcaa0502083c68e549078dd7eb"
+              },
+              {
+                "alg": "SHA3-512",
+                "content": "acdf16678ba51eafa030d373ebb8b10d4d094d38f37fb148005da2693d92e80675118d499babb026674ff4702c47d2b205da4efd36fc930dae0f8c1a3d1fe09b"
+              }
+            ],
+            "licenses": [
+              {
+                "license": {
+                  "id": "Apache-2.0"
+                }
+              }
+            ],
+            "name": "library",
+            "purl": "pkg:maven/com.github.pwittchen.kirai/library@1.4.1?type=jar",
+            "scope": "required",
+            "type": "library",
+            "version": "1.4.1"
+          }
+        ],
+        "specVersion": "1.2",
+        "version": 1
+      }
     },
     "run_details": {
       "duration_sec": 1.7748923000000012,

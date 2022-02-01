@@ -176,7 +176,7 @@ def test_check_licenses__sad_path_PROPRIETARY_policy__copyleft_not_ok():
     expected_vulnerabilities = [
         {
             "confidence": "",
-            "file_location": None,
+            "file_location": {"line": 0, "path": "sbom"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
@@ -214,7 +214,7 @@ def test_check_licenses__sad_path_PERMISSIVE_policy__copyleft_not_ok():
     expected_vulnerabilities = [
         {
             "confidence": "",
-            "file_location": None,
+            "file_location": {"line": 0, "path": "sbom"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
@@ -263,9 +263,9 @@ def test_check_licenses__sad_path_OPENSOURCE_policy__non_fsf_osi_warns():
     # Given
     expected_vulnerabilities = []
     expected_warnings = [
-        "License 'MIT-enna'(x-xss-protection), reason: Permissive licenses with "
+        "License 'MIT-enna'(x-xss-protection)[sbom], reason: Permissive licenses with "
         "conditions should be manually checked to ensure compliance",
-        "License 'MIT-enna'(x-xss-protection), reason: Unable to determine if license "
+        "License 'MIT-enna'(x-xss-protection)[sbom], reason: Unable to determine if license "
         "is fsf/osi opensource approved",
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-with-conditions-report.json")
@@ -294,7 +294,7 @@ def test_check_licenses__denylist():
     expected_vulnerabilities = [
         {
             "confidence": "",
-            "file_location": None,
+            "file_location": {"line": 0, "path": "sbom"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
