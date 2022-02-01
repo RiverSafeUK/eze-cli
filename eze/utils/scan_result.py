@@ -5,10 +5,14 @@ from eze.core.tool import ScanResult, ToolMeta
 from eze.utils.license import get_bom_license, check_licenses
 
 
-def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict, project:str = "project"):
+def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict, project: str = "project"):
     """convert sbom into scan_result"""
     [vulnerabilities, warnings] = check_licenses(
-        cyclonedx_bom, tool.config["LICENSE_CHECK"], tool.config["LICENSE_ALLOWLIST"], tool.config["LICENSE_DENYLIST"], project
+        cyclonedx_bom,
+        tool.config["LICENSE_CHECK"],
+        tool.config["LICENSE_ALLOWLIST"],
+        tool.config["LICENSE_DENYLIST"],
+        project,
     )
     return ScanResult(
         {
@@ -17,21 +21,26 @@ def convert_sbom_into_scan_result(tool: ToolMeta, cyclonedx_bom: dict, project:s
             "bom": cyclonedx_bom,
             "sboms": {project: cyclonedx_bom},
             "vulnerabilities": vulnerabilities,
-            "warnings": warnings
+            "warnings": warnings,
         }
     )
+
 
 def convert_multi_sbom_into_scan_result(tool: ToolMeta, cyclonedx_boms: dict):
     """convert sbom into scan_result"""
     first_bom = None
-    vulnerabilities_list:list = []
-    warnings_list:list = []
+    vulnerabilities_list: list = []
+    warnings_list: list = []
     for project_name in cyclonedx_boms:
         cyclonedx_bom = cyclonedx_boms[project_name]
         first_bom = cyclonedx_bom
 
         [vulnerabilities, warnings] = check_licenses(
-            cyclonedx_bom, tool.config["LICENSE_CHECK"], tool.config["LICENSE_ALLOWLIST"], tool.config["LICENSE_DENYLIST"], project_name
+            cyclonedx_bom,
+            tool.config["LICENSE_CHECK"],
+            tool.config["LICENSE_ALLOWLIST"],
+            tool.config["LICENSE_DENYLIST"],
+            project_name,
         )
         vulnerabilities_list.extend(vulnerabilities)
         warnings_list.extend(warnings)
@@ -43,7 +52,7 @@ def convert_multi_sbom_into_scan_result(tool: ToolMeta, cyclonedx_boms: dict):
             "bom": first_bom,
             "sboms": cyclonedx_boms,
             "vulnerabilities": vulnerabilities_list,
-            "warnings": warnings_list
+            "warnings": warnings_list,
         }
     )
 

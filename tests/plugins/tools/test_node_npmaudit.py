@@ -35,8 +35,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
 
     def test_creation__with_config(self):
         # Given
-        input_config = {
-        }
+        input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
             "ONLY_PROD": True,

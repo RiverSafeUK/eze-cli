@@ -21,8 +21,9 @@ from eze.utils.log import log, log_debug, log_error
 def sane(key):
     """sanitise keys to be Alpha-numerical"""
     if not key:
-        return ''
-    return re.sub('[^a-zA-Z0-9_-]', '_', key)
+        return ""
+    return re.sub("[^a-zA-Z0-9_-]", "_", key)
+
 
 def normalise_file_paths(file_paths: list) -> Path:
     """Clean up user inputted filename path makes all"""

@@ -53,6 +53,6 @@ By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for proje
             for project_name in scan_result.sboms:
                 cyclonedx_bom = scan_result.sboms[project_name]
                 sane_project_name = sane(project_name)
-                project_sbom_report_file = re.sub('%PROJECT%', sane_project_name, report_file)
+                project_sbom_report_file = re.sub("%PROJECT%", sane_project_name, report_file)
                 write_json(project_sbom_report_file, cyclonedx_bom)
                 log(f"""Written [{tool_name}] SBOM to {project_sbom_report_file}""")

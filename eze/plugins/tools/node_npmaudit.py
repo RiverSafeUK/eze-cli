@@ -16,6 +16,7 @@ from eze.utils.language.node import install_npm_in_path
 from eze.utils.file_scanner import find_files_by_name
 from pathlib import Path
 
+
 class NpmAuditTool(ToolMeta):
     """NpmAudit Node tool class"""
 
@@ -77,7 +78,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         :raises EzeError
         """
         vulnerabilities_list = []
-        npm_package_jsons = find_files_by_name('package.json')
+        npm_package_jsons = find_files_by_name("package.json")
         for npm_package in npm_package_jsons:
             log_debug(f"run 'npm audit' on {npm_package}")
             npm_project = Path(npm_package).parent
@@ -101,7 +102,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         return report
 
-    def parse_report(self, parsed_json: dict, npm_package:str = None) -> list:
+    def parse_report(self, parsed_json: dict, npm_package: str = None) -> list:
         """convert report json into ScanResult"""
         v6_vulnerability_container = py_.get(parsed_json, "advisories")
         # v6 npm audit
@@ -154,7 +155,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         return path
 
-    def parse_npm_v7_report(self, parsed_json: dict, npm_package:str) -> list:
+    def parse_npm_v7_report(self, parsed_json: dict, npm_package: str) -> list:
         """Parses newer v7 npm audit format"""
         # WARNING: npm v7 report format doesn't look complete
         #
@@ -202,7 +203,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         return vulnerabilities_list
 
-    def parse_npm_v6_report(self, parsed_json: dict, npm_package:str) -> list:
+    def parse_npm_v6_report(self, parsed_json: dict, npm_package: str) -> list:
         """Parses newer v6 npm audit format"""
         advisories = parsed_json["advisories"]
         vulnerabilities_list = []

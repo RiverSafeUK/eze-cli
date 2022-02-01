@@ -176,7 +176,7 @@ def test_check_licenses__sad_path_PROPRIETARY_policy__copyleft_not_ok():
     expected_vulnerabilities = [
         {
             "confidence": "",
-            "file_location": {'line': 0, 'path': 'sbom'},
+            "file_location": {"line": 0, "path": "sbom"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
@@ -214,7 +214,7 @@ def test_check_licenses__sad_path_PERMISSIVE_policy__copyleft_not_ok():
     expected_vulnerabilities = [
         {
             "confidence": "",
-            "file_location": {'line': 0, 'path': 'sbom'},
+            "file_location": {"line": 0, "path": "sbom"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
@@ -294,7 +294,7 @@ def test_check_licenses__denylist():
     expected_vulnerabilities = [
         {
             "confidence": "",
-            "file_location": {'line': 0, 'path': 'sbom'},
+            "file_location": {"line": 0, "path": "sbom"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,

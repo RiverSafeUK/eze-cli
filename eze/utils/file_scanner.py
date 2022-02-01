@@ -39,6 +39,7 @@ def find_files_by_path(regex_str: str) -> list:
     regex = re.compile(regex_str)
     return list(filter(regex.match, list_of_files))
 
+
 def find_files_by_name(regex_str: str) -> list:
     """find list of matching files by name aka 'package.json'"""
     list_of_files: list = get_file_list()
@@ -52,11 +53,13 @@ def find_files_by_name(regex_str: str) -> list:
         counter += 1
     return files_by_name
 
+
 def get_filename_list() -> list:
     """get list of files aka package.json"""
     if not __c.discovered_files:
         [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames] = _build_file_list()
     return __c.discovered_filenames
+
 
 def get_file_list() -> list:
     """get list of filepaths aka backend\\function\\ezemcdbcrud\\src\\package.json"""

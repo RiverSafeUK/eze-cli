@@ -22,7 +22,8 @@ from eze.utils.io import (
     normalise_windows_regex_file_path,
     delete_file,
     exit_app,
-    parse_json, sane,
+    parse_json,
+    sane,
 )
 from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 from tests.__fixtures__.fixture_helper import get_path_fixture
@@ -57,25 +58,28 @@ class DummyClass:
 
 def test_sane__empty():
     input = None
-    expected_output = ''
+    expected_output = ""
     sane_output = sane(input)
     assert sane_output == expected_output
+
 
 def test_sane__normal():
-    input = 'hello_w0rld'
-    expected_output = 'hello_w0rld'
+    input = "hello_w0rld"
+    expected_output = "hello_w0rld"
     sane_output = sane(input)
     assert sane_output == expected_output
+
 
 def test_sane__sanitise():
-    input = 'hello_w0rld.escapeattempt[0]'
-    expected_output = 'hello_w0rld_escapeattempt_0_'
+    input = "hello_w0rld.escapeattempt[0]"
+    expected_output = "hello_w0rld_escapeattempt_0_"
     sane_output = sane(input)
     assert sane_output == expected_output
 
+
 def test_sane__sanitise_sql_attack():
-    input = '; INSERT xxx INTO yyy'
-    expected_output = '__INSERT_xxx_INTO_yyy'
+    input = "; INSERT xxx INTO yyy"
+    expected_output = "__INSERT_xxx_INTO_yyy"
     sane_output = sane(input)
     assert sane_output == expected_output
 

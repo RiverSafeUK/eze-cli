@@ -244,7 +244,7 @@ async def async_subprocess_run(cmd: list, cwd=None) -> CompletedProcess:
     return process_output
 
 
-def subprocess_run(cmd: list, cwd = None) -> CompletedProcess:
+def subprocess_run(cmd: list, cwd=None) -> CompletedProcess:
     """runs a subprocess synchronously via subprocess.run"""
     final_cmd = crossos_shlex_join(cmd)
     # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
@@ -315,7 +315,7 @@ async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True, cwd
     return process_output
 
 
-def run_cmd(cmd: list, error_on_missing_executable: bool = True, cwd = None) -> CompletedProcess:
+def run_cmd(cmd: list, error_on_missing_executable: bool = True, cwd=None) -> CompletedProcess:
     """
     Supply subprocess.run() wrap with additional arguments
     + security: handles shlex parsing of lists to prevent expansion attacks

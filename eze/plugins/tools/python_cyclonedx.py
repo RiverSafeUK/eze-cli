@@ -120,7 +120,9 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         vulnerabilities: list = []
         warnings: list = []
         if not is_sca_enabled:
-            scan_result: ScanResult = convert_sbom_into_scan_result(self, cyclonedx_bom, self.config["REQUIREMENTS_FILE"])
+            scan_result: ScanResult = convert_sbom_into_scan_result(
+                self, cyclonedx_bom, self.config["REQUIREMENTS_FILE"]
+            )
             return scan_result
         for component in py_.get(cyclonedx_bom, "components", []):
             purl = py_.get(component, "purl")
