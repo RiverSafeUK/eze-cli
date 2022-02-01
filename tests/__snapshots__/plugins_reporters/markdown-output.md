@@ -2,7 +2,7 @@
 # Eze Report Results
 
 
-## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools_executed&message=1&color=blue)
+## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools&message=1&color=blue)
 ---
 
 
@@ -10,6 +10,10 @@
 ![high](https://img.shields.io/static/v1?style=plastic&label=high&message=0&color=orange)
 ![medium](https://img.shields.io/static/v1?style=plastic&label=medium&message=1&color=yellow)
 ![low](https://img.shields.io/static/v1?style=plastic&label=low&message=1&color=lightgrey)
+            
+<b>Tools executed: </b>
+
+* Safety (unknown)
             
 
 ## Vulnerabilities
