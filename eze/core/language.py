@@ -2,10 +2,8 @@
 from __future__ import annotations
 
 import os
-import pathlib
 import re
 from abc import ABC, abstractmethod
-from pathlib import Path
 from typing import Callable
 
 from pydash import py_
@@ -25,6 +23,7 @@ from eze.utils.print import pretty_print_table
 from eze.utils.config import extract_embedded_run_type
 from eze.utils.error import EzeConfigError
 from eze.utils.log import log, log_debug, log_error
+from eze.utils.file_scanner import get_file_list, get_folder_list
 
 
 class LanguageRunnerMeta(ABC):
@@ -248,46 +247,25 @@ class LanguageManager:
             plugin_languages = plugin.get_languages()
             self._add_languages(plugin_languages)
 
-    def _discover(self, root_path: str = None) -> dict:
+    def _discover(self) -> dict:
         """Discover languages in codebase"""
-        ignored_directories = [
-            ".git",
-            ".idea",
-            "node_modules",
-            ".gradle",
-            "~",
-            "__pycache__",
-            ".pytest_cache",
-            "target",
-        ]
-        if not root_path:
-            root_path = Path.cwd()
-        walk_dir = os.path.abspath(root_path)
-
-        root_prefix = len(str(Path(root_path))) + 1
+        file_list: str = get_file_list()
+        folder_list: str = get_folder_list()
 
         tmp_languages = {}
         for language_key in self.languages:
             language: LanguageRunnerMeta = self.languages[language_key]()
             tmp_languages[language_key] = language
 
-        for root, subdirs, files in os.walk(walk_dir):
-            # Ignore Some directories
-            for ignored_directory in ignored_directories:
-                if ignored_directory in subdirs:
-                    subdirs.remove(ignored_directory)
+        for folder_path in folder_list:
+            for language_key in self.languages:
+                language: LanguageRunnerMeta = tmp_languages[language_key]
+                language.discovery.ingest_discovered_folder(folder_path)
 
-            for subdir in subdirs:
-                folder_path = os.path.join(root, subdir)[root_prefix:]
-                for language_key in self.languages:
-                    language: LanguageRunnerMeta = tmp_languages[language_key]
-                    language.discovery.ingest_discovered_folder(folder_path)
-
-            for filename in files:
-                file_path = os.path.join(root, filename)[root_prefix:]
-                for language_key in self.languages:
-                    language: LanguageRunnerMeta = tmp_languages[language_key]
-                    language.discovery.ingest_discovered_file(file_path)
+        for file_path in file_list:
+            for language_key in self.languages:
+                language: LanguageRunnerMeta = tmp_languages[language_key]
+                language.discovery.ingest_discovered_file(file_path)
 
         languages = {}
         for language_key in tmp_languages:
@@ -301,9 +279,9 @@ class LanguageManager:
 
         return languages
 
-    def create_local_ezerc_config(self, root_path: str = None) -> bool:
+    def create_local_ezerc_config(self) -> bool:
         """Create new local ezerc file"""
-        languages: dict = self._discover(root_path)
+        languages: dict = self._discover()
         language_list = []
         eze_rc = f"""# Ezerc auto generated
 # ===================================

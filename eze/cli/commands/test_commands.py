@@ -31,6 +31,7 @@ from eze.utils.log import log, log_debug, log_error
 )
 def test_command(state, config_file: str, scan_type: str, force_autoscan: bool) -> None:
     """Eze run scan"""
+
     EzeCore.auto_build_ezerc(force_autoscan)
     eze_core = EzeCore.get_instance()
     asyncio.run(eze_core.run_scan(scan_type))

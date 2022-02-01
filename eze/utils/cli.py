@@ -228,7 +228,7 @@ def crossos_shlex_join(cmd: list) -> list:
     return final_cmd
 
 
-async def async_subprocess_run(cmd: list) -> CompletedProcess:
+async def async_subprocess_run(cmd: list, cwd=None) -> CompletedProcess:
     """runs a subprocess asynchronously via asyncio.create_subprocess_shell"""
     final_cmd = crossos_shlex_join(cmd)
     # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
@@ -236,7 +236,7 @@ async def async_subprocess_run(cmd: list) -> CompletedProcess:
     # aka: unable to access JAVA_HOME without shell unfortunately, hence mvn command fails
     # see https://stackoverflow.com/questions/28420087/how-to-get-maven-to-work-with-python-subprocess
     process = await asyncio.create_subprocess_shell(
-        final_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        final_cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, cwd=cwd
     )
     await process.wait()
     stdout, stderr = await process.communicate()
@@ -244,7 +244,7 @@ async def async_subprocess_run(cmd: list) -> CompletedProcess:
     return process_output
 
 
-def subprocess_run(cmd: list) -> CompletedProcess:
+def subprocess_run(cmd: list, cwd = None) -> CompletedProcess:
     """runs a subprocess synchronously via subprocess.run"""
     final_cmd = crossos_shlex_join(cmd)
     # nosec: Subprocess with shell=True is inherently required to run the cli tools, hence is a necessary security risk
@@ -259,6 +259,7 @@ def subprocess_run(cmd: list) -> CompletedProcess:
         universal_newlines=True,
         encoding="utf-8",
         shell=True,  # nosec # nosemgrep
+        cwd=cwd,
     )
     process_output = CompletedProcess(process.stdout, process.stderr)
     return process_output
@@ -292,7 +293,7 @@ def _detect_output_errors(
         _raise_exe_not_found(sanitised_command_str, True)
 
 
-async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True) -> CompletedProcess:
+async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True, cwd=None) -> CompletedProcess:
     """
     Supply asyncio.create_subprocess_shell() wrap with additional arguments
     + security: handles shlex parsing of lists to prevent expansion attacks
@@ -304,7 +305,7 @@ async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True) -> 
     log_debug(f"running command '{sanitised_command_str}'")
 
     try:
-        process_output = await async_subprocess_run(cmd)
+        process_output = await async_subprocess_run(cmd, cwd=cwd)
     except FileNotFoundError:
         return _raise_exe_not_found(sanitised_command_str, error_on_missing_executable)
     log_debug(
@@ -314,7 +315,7 @@ async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True) -> 
     return process_output
 
 
-def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> CompletedProcess:
+def run_cmd(cmd: list, error_on_missing_executable: bool = True, cwd = None) -> CompletedProcess:
     """
     Supply subprocess.run() wrap with additional arguments
     + security: handles shlex parsing of lists to prevent expansion attacks
@@ -326,7 +327,7 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True) -> CompletedPro
     log_debug(f"running command '{sanitised_command_str}'")
 
     try:
-        process_output = subprocess_run(cmd)
+        process_output = subprocess_run(cmd, cwd=cwd)
     except FileNotFoundError:
         return _raise_exe_not_found(sanitised_command_str, error_on_missing_executable)
 

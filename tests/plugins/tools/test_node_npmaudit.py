@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+import os
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -17,7 +19,6 @@ class TestNpmAuditTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
-            "SOURCE": None,
             "ONLY_PROD": True,
             #
             "ADDITIONAL_ARGUMENTS": "",
@@ -35,11 +36,9 @@ class TestNpmAuditTool(ToolMetaTestBase):
     def test_creation__with_config(self):
         # Given
         input_config = {
-            "SOURCE": "src",
         }
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
-            "SOURCE": "src",
             "ONLY_PROD": True,
             #
             "ADDITIONAL_ARGUMENTS": "",
@@ -198,27 +197,29 @@ Will install mocha@8.4.0"""
         assert output == expected_output
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.plugins.tools.node_npmaudit.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json"}
-
+        expected_cwd = Path(os.getcwd())
         expected_cmd = "npm audit --json --only=prod"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.plugins.tools.node_npmaudit.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.utils.language.node.install_node_dependencies", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__non_prod(self, mock_async_subprocess_run):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json", "ONLY_PROD": False}
-
+        expected_cwd = Path(os.getcwd())
         expected_cmd = "npm audit --json"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)

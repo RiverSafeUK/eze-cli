@@ -97,7 +97,7 @@ more_info:
         return output
 
     async def assert_run_scan_command(
-        self, input_config: dict = None, expected_command: str = None, mock_async_subprocess_run=None
+        self, input_config: dict = None, expected_command: str = None, mock_async_subprocess_run=None, expected_cwd=None
     ):
         """Help function to take a input config, and test command ran from commandline
         async_subprocess_run = @mock.patch("eze.utils.cli.async_subprocess_run")
@@ -122,4 +122,4 @@ more_info:
         if cmd_as_str != expected_command:
             print(f"""assert error "{cmd_as_str}" != "{expected_command}" """)
         # Way that assertion should be done, but message is hard to understand
-        mock_async_subprocess_run.assert_called_with(expected_command_as_list)
+        mock_async_subprocess_run.assert_called_with(expected_command_as_list, cwd=expected_cwd)
