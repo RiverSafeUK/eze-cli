@@ -89,10 +89,9 @@ This will be ran automatically, if npm install fails this tool can't be run
         """
         sboms = {}
         warnings = []
-        npm_package_jsons = find_files_by_name('package.json')
+        npm_package_jsons = find_files_by_name("package.json")
         for npm_package in npm_package_jsons:
             log_debug(f"run 'cyclonedx-bom' on {npm_package}")
-            print(f"run 'cyclonedx-bom' on {npm_package}")
             npm_project = Path(npm_package).parent
             npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
             install_npm_in_path(npm_project)
@@ -102,7 +101,7 @@ This will be ran automatically, if npm install fails this tool can't be run
             fatal_errors = self.get_process_fatal_errors(completed_process)
             if fatal_errors:
                 raise EzeExecutableError(fatal_errors)
-            sboms['npm_package'] = load_json(self.config["REPORT_FILE"])
+            sboms[npm_package] = load_json(self.config["REPORT_FILE"])
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
 

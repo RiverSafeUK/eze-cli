@@ -12,7 +12,7 @@ from eze.utils.scan_result import (
     name_and_time_summary,
 )
 from eze.utils.print import generate_markdown_table
-from eze.utils.license import annotate_licenses
+from eze.utils.license import annotate_licenses, annotated_sbom_table
 
 
 class MarkdownReporter(ReporterMeta):
@@ -244,20 +244,8 @@ By default set to eze_report.md""",
     ### [{tool_name}{run_type}] {project_name} SBOM
     ---"""
                 )
-                sbom_components = annotate_licenses(cyclonedx_bom)
-                sboms = []
-                counter += len(sbom_components)
-                for sbom_component in sbom_components:
-                    sboms.append(
-                        {
-                            "type": sbom_component.type,
-                            "name": sbom_component.name,
-                            "version": sbom_component.version,
-                            "license": sbom_component.license,
-                            "license type": sbom_component.license_type,
-                            "description": sbom_component.description,
-                        }
-                    )
+                sboms = annotated_sbom_table(cyclonedx_bom)
+                counter += len(sboms)
 
                 self.report_lines.append("")
 

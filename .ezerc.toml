@@ -95,7 +95,7 @@ REQUIREMENTS_FILE = "requirements.txt"
 # REPORT CONFIG
 # ========================================
 [eze]
-CONSOLE_ENDPOINT = "https://mpqujgyqka.execute-api.eu-west-2.amazonaws.com/development"
+CONSOLE_ENDPOINT = "https://aio7y6esb7.execute-api.eu-west-2.amazonaws.com/development"
 PRINT_SUMMARY_ONLY = false
 
 # ========================================

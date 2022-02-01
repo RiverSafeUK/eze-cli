@@ -16,6 +16,8 @@ SOURCE = ["..."]
 # EXCLUDE list [OPTIONAL]
 # array of regex str of folders/files to exclude from scan for secrets
 # eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\" for windows
+# default value: 
+#   EXCLUDE = ["venv", "node_modules"]
 # 
 EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"]
 

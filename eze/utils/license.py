@@ -208,6 +208,25 @@ def get_license(license_text: str) -> dict:
     return None
 
 
+def annotated_sbom_table(cyclonedx_bom: dict) -> list:
+    """annotated and sorted sboms table data"""
+    sbom_components = annotate_licenses(cyclonedx_bom)
+    sboms = []
+    for sbom_component in sbom_components:
+        sboms.append(
+            {
+                "type": sbom_component.type,
+                "name": sbom_component.name,
+                "version": sbom_component.version,
+                "license": sbom_component.license,
+                "license type": sbom_component.license_type,
+                "description": sbom_component.description,
+            }
+        )
+    sboms = sorted(sboms, key=lambda d: d["name"])
+    return sboms
+
+
 def annotate_licenses(sbom: dict) -> list:
     """adding annotations to licenses for violations of policies"""
     sbom_components = []
@@ -270,7 +289,9 @@ def get_policy(license_policy: str) -> dict:
     return LICENSE_PROPRIETARY_POLICY
 
 
-def check_licenses(sbom: dict, license_policy: str, allowlist: list = None, denylist: list = None, project:str = 'sbom') -> list:
+def check_licenses(
+    sbom: dict, license_policy: str, allowlist: list = None, denylist: list = None, project: str = "sbom"
+) -> list:
     """check licenses for violations of policies"""
     allowlist = allowlist if allowlist else []
     denylist = denylist if denylist else []

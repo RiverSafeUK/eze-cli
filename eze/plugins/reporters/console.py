@@ -12,7 +12,7 @@ from eze.utils.scan_result import (
     name_and_time_summary,
 )
 from eze.utils.print import pretty_print_table
-from eze.utils.license import annotate_licenses
+from eze.utils.license import annotate_licenses, annotated_sbom_table
 
 
 class ConsoleReporter(ReporterMeta):
@@ -205,23 +205,11 @@ Bill of Materials
             for project_name in scan_result.sboms:
                 cyclonedx_bom = scan_result.sboms[project_name]
                 log(
-                f"""
+                    f"""
 [{tool_name}{run_type}] {project_name} SBOM
 ================================="""
                 )
-                sbom_components = annotate_licenses(cyclonedx_bom)
-                sboms = []
-                for sbom_component in sbom_components:
-                    sboms.append(
-                        {
-                            "type": sbom_component.type,
-                            "name": sbom_component.name,
-                            "version": sbom_component.version,
-                            "license": sbom_component.license,
-                            "license type": sbom_component.license_type,
-                            "description": sbom_component.description,
-                        }
-                    )
+                sboms = annotated_sbom_table(cyclonedx_bom)
                 pretty_print_table(sboms)
 
     def _print_scan_report_warnings(self, scan_results_with_warnings: list):
