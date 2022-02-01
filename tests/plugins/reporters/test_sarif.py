@@ -57,12 +57,13 @@ class TestSarifReporter(ReporterMetaTestBase):
         input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "tmp-local-testfile"
         input_config = {"REPORT_FILE": str(input_report_location)}
 
-        scan_result_fixture = load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_sarif.sarif")
-        input_scan_result = ScanResult(scan_result_fixture)
+        scan_result_fixture = load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_sarif.json")
+        input_scan_results = [ScanResult(e) for e in scan_result_fixture]
         expected_config = {"REPORT_FILE": str(input_report_location)}
         # When
         testee = SarifReporter(input_config)
-        await testee.run_report([input_scan_result])
+        print(testee)
+        await testee.run_report(input_scan_results)
         output = load_text(input_report_location)
         # Then
         assert testee.config == expected_config

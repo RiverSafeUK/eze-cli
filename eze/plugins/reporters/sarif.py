@@ -104,14 +104,15 @@ By default set to eze_report.sarif""",
             elif vulnerability.severity == "none" or vulnerability.severity == "na":
                 result["level"] = "none"
             result["message"] = {"text": vulnerability.recommendation}
-            result["locations"].append(
-                {
-                    "physicalLocation": {
-                        "artifactLocation": {"uri": py_.get(vulnerability.file_location, "path", "unknown")},
-                        "region": {"startLine": int(py_.get(vulnerability.file_location, "line", "-1"))},
-                    }
+            location = {
+                "physicalLocation": {
+                    "artifactLocation": {"uri": py_.get(vulnerability.file_location, "path", "unknown")},
+                    "region": {"startLine": int(py_.get(vulnerability.file_location, "line", "1"))},
                 }
-            )
-            results.append(result)
+            }
 
+            if py_.get(vulnerability.file_location, "path") is not None:
+                result["locations"].append(location)
+
+            results.append(result)
         return rules, results
