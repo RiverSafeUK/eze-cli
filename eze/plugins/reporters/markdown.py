@@ -130,13 +130,10 @@ By default set to eze_report.md""",
             # warnings?
         self.report_lines.append(
             f"""
-## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools_executed&message={len(scan_results)}&color=blue)
+## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools&message={len(scan_results)}&color=blue)
 ---
 """
         )
-        git_branch = py_.get(run_details, "git_branch", "unknown")
-        if git_branch != "unknown":
-            self.report_lines.append(f"Branch tested: {run_details['git_branch']}\n")
 
         self.report_lines.append(
             f"""
@@ -146,6 +143,18 @@ By default set to eze_report.md""",
 ![low](https://img.shields.io/static/v1?style=plastic&label=low&message={low}&color=lightgrey)
             """
         )
+
+        git_branch = py_.get(run_details, "git_branch", "unknown")
+        if git_branch != "unknown":
+            self.report_lines.append(f"<b>Branch tested: </b>{run_details['git_branch']}\n")
+
+        self.report_lines.append("<b>Tools executed: </b>\n")
+        for tool in scan_results:
+            run_details = py_.get(tool, "run_details", "unknown")
+            self.report_lines.append(
+                f"""* {py_.get(tool, "tool", "unknown")} ({run_details["tool_type"] if "tool_type" in run_details and run_details["tool_type"] else "unknown"})
+            """
+            )
 
     def print_scan_summary_title(self, scan_result: ScanResult, prefix: str = "") -> str:
         """Title of scan summary title"""
