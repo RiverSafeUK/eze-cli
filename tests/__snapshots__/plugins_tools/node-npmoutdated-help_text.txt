@@ -5,12 +5,6 @@ opensource node outdated dependency scanner
 config_help:
 ======================
 [node-npmoutdated]
-# SOURCE str [OPTIONAL]
-# folder where node package.json, will default to folder eze ran from
-# 
-SOURCE = "..."
-
-
 # REPORT_FILE str [OPTIONAL]
 # output report location (will default to tmp file otherwise)
 # default value: 

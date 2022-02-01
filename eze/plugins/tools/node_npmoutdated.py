@@ -1,5 +1,6 @@
 """NpmAudit tool class"""
 import shlex
+from pathlib import Path
 
 import semantic_version
 from pydash import py_
@@ -9,10 +10,12 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
+from eze.utils.log import log_debug
 from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
 from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.semvar import get_severity, get_recommendation
-from eze.utils.language.node import install_node_dependencies
+from eze.utils.language.node import install_node_dependencies, install_npm_in_path
+from eze.utils.file_scanner import find_files_by_name
 
 
 class NpmOutdatedTool(ToolMeta):
@@ -29,11 +32,6 @@ npm --version"""
 https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 """
     EZE_CONFIG: dict = {
-        "SOURCE": {
-            "type": str,
-            "default": None,
-            "help_text": """folder where node package.json, will default to folder eze ran from""",
-        },
         "REPORT_FILE": {
             "type": str,
             "default": create_tempfile_path("tmp-npmoutdated-report.json"),
@@ -90,18 +88,32 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         :raises EzeError
         """
-        # TODO: add support for multiple package.json's in non base folder in (self.config["SOURCE"])
-        install_node_dependencies()
-        command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        completed_process = await run_async_cmd(command_str, True)
-        report_text = completed_process.stdout
-
-        write_text(self.config["REPORT_FILE"], report_text)
-        parsed_json = parse_json(report_text)
-        report = self.parse_report(parsed_json)
+        npm_package_jsons = find_files_by_name("package.json")
+        vulnerabilities_list = []
+        warnings_list = []
+        for npm_package in npm_package_jsons:
+            log_debug(f"run 'npm outdated' on {npm_package}")
+            npm_project = Path(npm_package).parent
+            npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
+            install_npm_in_path(npm_project)
+            command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
+            completed_process = await run_async_cmd(command_str, True, cwd=npm_project_fullpath)
+            report_text = completed_process.stdout
+            write_text(self.config["REPORT_FILE"], report_text)
+            parsed_json = parse_json(report_text)
+            [vulnerabilities, warnings] = self.parse_report(parsed_json, npm_package)
+            vulnerabilities_list.extend(vulnerabilities)
+            warnings_list.extend(warnings)
+        report = ScanResult(
+            {
+                "tool": self.TOOL_NAME,
+                "vulnerabilities": vulnerabilities_list,
+                "warnings": warnings_list,
+            }
+        )
         return report
 
-    def parse_report(self, parsed_json: list) -> ScanResult:
+    def parse_report(self, parsed_json: list, npm_package: str = None) -> tuple:
         """convert report json into ScanResult"""
 
         warnings = []
@@ -129,15 +141,8 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "severity": semver_severity,
                 "identifiers": {},
                 "metadata": None,
-                "file_location": None,
+                "file_location": {"path": npm_package, "line": 0},
             }
             vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-                "warnings": warnings,
-            }
-        )
-        return report
+        return [vulnerabilities_list, warnings]

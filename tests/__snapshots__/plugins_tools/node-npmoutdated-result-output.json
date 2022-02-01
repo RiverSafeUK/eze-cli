@@ -1,13 +1,11 @@
-{
-  "bom": null,
-  "fatal_errors": [],
-  "run_details": {},
-  "summary": {},
-  "tool": "node-npmoutdated",
-  "vulnerabilities": [
+[
+  [
     {
       "confidence": "",
-      "file_location": null,
+      "file_location": {
+        "line": 0,
+        "path": null
+      },
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
@@ -23,7 +21,10 @@
     },
     {
       "confidence": "",
-      "file_location": null,
+      "file_location": {
+        "line": 0,
+        "path": null
+      },
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
@@ -39,7 +40,10 @@
     },
     {
       "confidence": "",
-      "file_location": null,
+      "file_location": {
+        "line": 0,
+        "path": null
+      },
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
@@ -54,7 +58,7 @@
       "vulnerability_type": "dependency"
     }
   ],
-  "warnings": [
+  [
     "helmet-example-when-not-npm-installed: package not locally installed, detecting outdated status from wanted version, fix with `npm install`"
   ]
-}
+]
