@@ -131,7 +131,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         return recommendation
 
     def create_path_v7(self, vulnerability: dict) -> str:
-        """convert vulnerability dict into recommendation"""
+        """extract the path from the vulnerability"""
         # detected module from vulnerability details
         module_name = py_.get(vulnerability, "via[0].name", False) or py_.get(vulnerability, "name")
 
@@ -146,13 +146,13 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         return path
 
     def create_version_v7(self, vulnerability: dict) -> str:
-        """convert vulnerability dict into recommendation"""
+        """extract the version from the vulnerability"""
         module_version = py_.get(vulnerability, "via[0].range", False) or py_.get(vulnerability, "range")
 
         return module_version
 
     def create_description_v7(self, vulnerability: dict):
-        """convert vulnerability dict into recommendation"""
+        """extract the description from the vulnerability"""
         # detected module from vulnerability details
         module_version = self.create_version_v7(vulnerability)
 
