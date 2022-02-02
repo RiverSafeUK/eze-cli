@@ -10,12 +10,12 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "helmet>connect(2.11.1 - 3.6.4): has insecure dependency finalhandler>debug",
-    "overview": "",
+    "name": "helmet>connect",
+    "overview": "helmet>connect(2.11.1 - 3.6.4): has insecure dependency finalhandler>debug",
     "recommendation": "fix available via `npm audit fix --force`",
     "references": [],
     "severity": "low",
-    "version": "",
+    "version": "2.11.1 - 3.6.4",
     "vulnerability_type": "dependency"
   },
   {
@@ -31,14 +31,14 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "connect>finalhandler>mocha>debug(<= 2.6.8 || >= 3.0.0 <= 3.0.1): Regular Expression Denial of Service",
-    "overview": "",
+    "name": "connect>finalhandler>mocha>debug",
+    "overview": "connect>finalhandler>mocha>debug(<= 2.6.8 || >= 3.0.0 <= 3.0.1): Regular Expression Denial of Service",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [
       "https://npmjs.com/advisories/534"
     ],
     "severity": "low",
-    "version": "",
+    "version": "<= 2.6.8 || >= 3.0.0 <= 3.0.1",
     "vulnerability_type": "dependency"
   },
   {
@@ -54,14 +54,14 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "mocha>diff(<3.5.0): Regular Expression Denial of Service",
-    "overview": "",
+    "name": "mocha>diff",
+    "overview": "mocha>diff(<3.5.0): Regular Expression Denial of Service",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [
       "https://npmjs.com/advisories/1631"
     ],
     "severity": "high",
-    "version": "",
+    "version": "<3.5.0",
     "vulnerability_type": "dependency"
   },
   {
@@ -75,12 +75,12 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "connect>finalhandler(<=1.0.5): has insecure dependency debug",
-    "overview": "",
+    "name": "connect>finalhandler",
+    "overview": "connect>finalhandler(<=1.0.5): has insecure dependency debug",
     "recommendation": "fix available via `npm audit fix --force`",
     "references": [],
     "severity": "low",
-    "version": "",
+    "version": "<=1.0.5",
     "vulnerability_type": "dependency"
   },
   {
@@ -94,12 +94,12 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "mocha>glob(3.0.0 - 5.0.14): has insecure dependency minimatch",
-    "overview": "",
+    "name": "mocha>glob",
+    "overview": "mocha>glob(3.0.0 - 5.0.14): has insecure dependency minimatch",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [],
     "severity": "high",
-    "version": "",
+    "version": "3.0.0 - 5.0.14",
     "vulnerability_type": "dependency"
   },
   {
@@ -115,14 +115,14 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "mocha>growl(<1.10.2): Command Injection",
-    "overview": "",
+    "name": "mocha>growl",
+    "overview": "mocha>growl(<1.10.2): Command Injection",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [
       "https://npmjs.com/advisories/146"
     ],
     "severity": "critical",
-    "version": "",
+    "version": "<1.10.2",
     "vulnerability_type": "dependency"
   },
   {
@@ -136,12 +136,12 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "helmet(0.3.0 - 3.20.1): has insecure dependency helmet-csp>connect",
-    "overview": "",
+    "name": "helmet",
+    "overview": "helmet(0.3.0 - 3.20.1): has insecure dependency helmet-csp>connect",
     "recommendation": "fix available via `npm audit fix --force`",
     "references": [],
     "severity": "moderate",
-    "version": "",
+    "version": "0.3.0 - 3.20.1",
     "vulnerability_type": "dependency"
   },
   {
@@ -157,14 +157,14 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "helmet>helmet-csp(>=1.2.2 <2.9.1): Configuration Override",
-    "overview": "",
+    "name": "helmet>helmet-csp",
+    "overview": "helmet>helmet-csp(>=1.2.2 <2.9.1): Configuration Override",
     "recommendation": "fix available via `npm audit fix --force`",
     "references": [
       "https://npmjs.com/advisories/1176"
     ],
     "severity": "moderate",
-    "version": "",
+    "version": ">=1.2.2 <2.9.1",
     "vulnerability_type": "dependency"
   },
   {
@@ -180,14 +180,14 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "glob>minimatch(<=3.0.1): Regular Expression Denial of Service",
-    "overview": "",
+    "name": "glob>minimatch",
+    "overview": "glob>minimatch(<=3.0.1): Regular Expression Denial of Service",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [
       "https://npmjs.com/advisories/118"
     ],
     "severity": "high",
-    "version": "",
+    "version": "<=3.0.1",
     "vulnerability_type": "dependency"
   },
   {
@@ -203,14 +203,14 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "mkdirp>minimist(<0.2.1 || >=1.0.0 <1.2.3): Prototype Pollution",
-    "overview": "",
+    "name": "mkdirp>minimist",
+    "overview": "mkdirp>minimist(<0.2.1 || >=1.0.0 <1.2.3): Prototype Pollution",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [
       "https://npmjs.com/advisories/1179"
     ],
     "severity": "low",
-    "version": "",
+    "version": "<0.2.1 || >=1.0.0 <1.2.3",
     "vulnerability_type": "dependency"
   },
   {
@@ -224,12 +224,12 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "mocha>mkdirp(0.4.1 - 0.5.1): has insecure dependency minimist",
-    "overview": "",
+    "name": "mocha>mkdirp",
+    "overview": "mocha>mkdirp(0.4.1 - 0.5.1): has insecure dependency minimist",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [],
     "severity": "low",
-    "version": "",
+    "version": "0.4.1 - 0.5.1",
     "vulnerability_type": "dependency"
   },
   {
@@ -243,12 +243,12 @@
     "is_ignored": false,
     "language": "node",
     "metadata": null,
-    "name": "mocha(0.6.0 - 6.2.2 || 7.0.0-esm1 - 7.1.0): has insecure dependency mkdirp>growl>glob>diff>debug",
-    "overview": "",
+    "name": "mocha",
+    "overview": "mocha(0.6.0 - 6.2.2 || 7.0.0-esm1 - 7.1.0): has insecure dependency mkdirp>growl>glob>diff>debug",
     "recommendation": "fix available via `npm audit fix --force`\nWill install mocha@8.4.0, which is a breaking change",
     "references": [],
     "severity": "critical",
-    "version": "",
+    "version": "0.6.0 - 6.2.2 || 7.0.0-esm1 - 7.1.0",
     "vulnerability_type": "dependency"
   }
 ]

@@ -71,7 +71,7 @@ def get_file_list() -> list:
 def get_folder_list() -> list:
     """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
     if not __c.discovered_folders:
-        [__c.discovered_folders, __c.discovered_files] = _build_file_list()
+        [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames] = _build_file_list()
     return __c.discovered_folders
 
 

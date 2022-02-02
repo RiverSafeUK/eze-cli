@@ -35,7 +35,7 @@
   "fatal_errors": [],
   "run_details": {},
   "sboms": {
-    "": {
+    "pip": {
       "bomFormat": "CycloneDX",
       "components": [
         {
@@ -74,7 +74,10 @@
   "vulnerabilities": [
     {
       "confidence": "",
-      "file_location": null,
+      "file_location": {
+        "line": 0,
+        "path": "pip"
+      },
       "identifiers": {
         "CVE": "CVE-2020-8897",
         "PYSEC": "PYSEC-2020-261"
@@ -83,12 +86,12 @@
       "is_ignored": false,
       "language": "",
       "metadata": null,
-      "name": "The mirroring support (-M, --use-mirrors) in Python Pip before 1.5 uses insecure DNS querying and authenticity checks which allows attackers to perform man-in-the-middle attacks.",
-      "overview": "",
+      "name": "requests",
+      "overview": "The mirroring support (-M, --use-mirrors) in Python Pip before 1.5 uses insecure DNS querying and authenticity checks which allows attackers to perform man-in-the-middle attacks.",
       "recommendation": "Update package to non-vulnerable version 2.0.0",
       "references": [],
       "severity": "medium",
-      "version": "",
+      "version": "2.4.0",
       "vulnerability_type": "dependency"
     }
   ],

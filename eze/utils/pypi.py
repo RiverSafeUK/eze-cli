@@ -40,7 +40,7 @@ def get_recommendation(vulnerability):
     return f"Update package to non-vulnerable version {','.join(fix_versions)}"
 
 
-def convert_vulnerability(vulnerability: dict, warnings: list) -> Vulnerability:
+def convert_vulnerability(vulnerability: dict, warnings: list, package_name:str, package_version:str, pip_project_file: str) -> Vulnerability:
     """
     convert pypi vulnerbaility into a Vulnerability object
     will obtain CVE severity
@@ -58,17 +58,20 @@ def convert_vulnerability(vulnerability: dict, warnings: list) -> Vulnerability:
             warnings.append(f"unable to get cve data for {cve_id}, Error: {error}")
     return Vulnerability(
         {
-            "name": cve_data["summary"] if cve_data else py_.get(vulnerability, "details"),
+            "name": package_name,
+            "version": package_version,
+            "overview": cve_data["summary"] if cve_data else py_.get(vulnerability, "details"),
             "identifiers": identifiers,
             "vulnerability_type": VulnerabilityType.dependency.name,
             "recommendation": get_recommendation(vulnerability),
             "severity": cve_data["severity"] if cve_data else VulnerabilitySeverityEnum.high.name,
             "is_ignored": False,
+            "file_location": {"path": pip_project_file, "line": 0},
         }
     )
 
 
-def get_pypi_package_data(package_name: str, package_version: str) -> PypiPackageVO:
+def get_pypi_package_data(package_name: str, package_version: str, pip_project_file: str) -> PypiPackageVO:
     """
     download and extract license and vulnerability information for package
 
@@ -86,7 +89,7 @@ def get_pypi_package_data(package_name: str, package_version: str) -> PypiPackag
     classifiers = py_.get(package_metadata, "info.classifiers", [])
     vulnerabilities = list(
         map(
-            lambda raw_vulnerability: convert_vulnerability(raw_vulnerability, warnings),
+            lambda raw_vulnerability: convert_vulnerability(raw_vulnerability, warnings, package_name, package_version, pip_project_file),
             py_.get(package_metadata, "vulnerabilities", []),
         )
     )
