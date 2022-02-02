@@ -103,7 +103,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
 
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
-        pip_project_file:str = self.config["REQUIREMENTS_FILE"]
+        pip_project_file: str = self.config["REQUIREMENTS_FILE"]
         report = self.parse_report(cyclonedx_bom, pip_project_file)
         if "Some of your dependencies do not have pinned version" in completed_process.stdout:
             unpinned_requirements_list = self.extract_unpinned_requirements(completed_process.stdout)
@@ -115,22 +115,22 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         return report
 
-    def parse_report(self, cyclonedx_bom: dict, pip_project_file:str = 'pip') -> ScanResult:
+    def parse_report(self, cyclonedx_bom: dict, pip_project_file: str = "pip") -> ScanResult:
         """convert report json into ScanResult"""
         is_sca_enabled = self.config.get("SCA_ENABLED", False)
         vulnerabilities: list = []
         warnings: list = []
         if not is_sca_enabled:
-            scan_result: ScanResult = convert_sbom_into_scan_result(
-                self, cyclonedx_bom, pip_project_file
-            )
+            scan_result: ScanResult = convert_sbom_into_scan_result(self, cyclonedx_bom, pip_project_file)
             return scan_result
         for component in py_.get(cyclonedx_bom, "components", []):
             purl = py_.get(component, "purl")
             purl_breakdown: PurlBreakdown = purl_to_components(purl)
             if not purl_breakdown or purl_breakdown.type != "pypi":
                 continue
-            pypi_data: PypiPackageVO = get_pypi_package_data(purl_breakdown.name, purl_breakdown.version, pip_project_file)
+            pypi_data: PypiPackageVO = get_pypi_package_data(
+                purl_breakdown.name, purl_breakdown.version, pip_project_file
+            )
             vulnerabilities.extend(pypi_data.vulnerabilities)
             warnings.extend(pypi_data.warnings)
             licenses = component.get("licenses", [])

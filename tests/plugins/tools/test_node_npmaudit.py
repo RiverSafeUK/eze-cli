@@ -215,9 +215,7 @@ Will install mocha@8.4.0"""
 
     def test_create_version_v7__edge_vul(self):
         # Given
-        expected_output = (
-            """<= 2.6.8 || >= 3.0.0 <= 3.0.1"""
-        )
+        expected_output = """<= 2.6.8 || >= 3.0.0 <= 3.0.1"""
         input_vulnerability = {
             "name": "debug",
             "severity": "low",
@@ -263,9 +261,7 @@ Will install mocha@8.4.0"""
 
     def test_create_path_v7__edge_vul(self):
         # Given
-        expected_output = (
-            """connect>finalhandler>mocha>debug"""
-        )
+        expected_output = """connect>finalhandler>mocha>debug"""
         input_vulnerability = {
             "name": "debug",
             "severity": "low",

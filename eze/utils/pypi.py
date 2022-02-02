@@ -40,7 +40,9 @@ def get_recommendation(vulnerability):
     return f"Update package to non-vulnerable version {','.join(fix_versions)}"
 
 
-def convert_vulnerability(vulnerability: dict, warnings: list, package_name:str, package_version:str, pip_project_file: str) -> Vulnerability:
+def convert_vulnerability(
+    vulnerability: dict, warnings: list, package_name: str, package_version: str, pip_project_file: str
+) -> Vulnerability:
     """
     convert pypi vulnerbaility into a Vulnerability object
     will obtain CVE severity
@@ -89,7 +91,9 @@ def get_pypi_package_data(package_name: str, package_version: str, pip_project_f
     classifiers = py_.get(package_metadata, "info.classifiers", [])
     vulnerabilities = list(
         map(
-            lambda raw_vulnerability: convert_vulnerability(raw_vulnerability, warnings, package_name, package_version, pip_project_file),
+            lambda raw_vulnerability: convert_vulnerability(
+                raw_vulnerability, warnings, package_name, package_version, pip_project_file
+            ),
             py_.get(package_metadata, "vulnerabilities", []),
         )
     )

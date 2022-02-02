@@ -44,13 +44,13 @@ def test_get_pypi_package_data__happy_case(mock_cve_request_json, mock_pypi_requ
         "vulnerabilities": [
             {
                 "confidence": "",
-                'file_location': {'line': 0, 'path': 'requirements.txt'},
+                "file_location": {"line": 0, "path": "requirements.txt"},
                 "identifiers": {"CVE": "CVE-2020-8897", "PYSEC": "PYSEC-2020-261"},
                 "is_excluded": False,
                 "is_ignored": False,
                 "language": "",
                 "metadata": None,
-                'name': 'aws-encryption-sdk',
+                "name": "aws-encryption-sdk",
                 "overview": "The mirroring support (-M, --use-mirrors) in "
                 "Python Pip before 1.5 uses insecure DNS "
                 "querying and authenticity checks which allows "
@@ -58,7 +58,7 @@ def test_get_pypi_package_data__happy_case(mock_cve_request_json, mock_pypi_requ
                 "recommendation": "Update package to non-vulnerable " "version 2.0.0",
                 "references": [],
                 "severity": "medium",
-                'version': '1.2.0',
+                "version": "1.2.0",
                 "vulnerability_type": "dependency",
             }
         ],
