@@ -128,7 +128,7 @@ maps to semgrep flag --exclude""",
                 "INCLUDE": "--include ",
                 "EXCLUDE": "--exclude ",
             },
-            "SHORT_FLAGS": {"USE_GIT_IGNORE": " --use-git-ignore"},
+            "SHORT_FLAGS": {"USE_GIT_IGNORE": "--use-git-ignore"},
         }
     }
 
@@ -364,5 +364,5 @@ Top 10 slowest files
             if has_filetype(".conf") or has_filetype(".vhost"):
                 parsed_config["CONFIGS"].append("p/nginx")
         print("CONFIGS: " + ",".join(parsed_config["CONFIGS"]))
-        exit()
+        # exit()
         return parsed_config

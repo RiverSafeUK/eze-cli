@@ -12,7 +12,8 @@ from eze.utils.scan_result import (
     name_and_time_summary,
 )
 from eze.utils.print import generate_markdown_table
-from eze.utils.license import annotate_licenses, annotated_sbom_table
+from eze.utils.license import annotated_sbom_table
+from eze.utils.log import log
 
 
 class MarkdownReporter(ReporterMeta):
@@ -72,7 +73,7 @@ By default set to eze_report.md""",
         for line in self.report_lines:
             report_str += line + "\n"
         file_location = write_text(self.config["REPORT_FILE"], report_str)
-        print(f"Written markdown report : {file_location}")
+        log(f"Written markdown report : {file_location}")
 
     def print_scan_summary_table(self, scan_results: list):
         """Print scan summary as table"""
