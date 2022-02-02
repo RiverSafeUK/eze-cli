@@ -125,16 +125,19 @@ class Vulnerability:
         """constructor"""
         # aka generic / dependency / secret
         self.vulnerability_type: str = get_config_key(vo, "vulnerability_type", str, VulnerabilityType.generic.name)
+        # package name for SCA
+        # file name for SAST
         self.name: str = get_config_key(vo, "name", str, "")
+        # description of issue for SCA/SAST
+        self.overview: str = get_config_key(vo, "overview", str, "")
+        # [optional] mitigation recommendations for SCA/SAST
+        self.recommendation: str = get_config_key(vo, "recommendation", str, "")
         self.severity: str = get_config_key(vo, "severity", str, "").lower()
         self.confidence: str = get_config_key(vo, "confidence", str, "").lower()
-        self.overview: str = get_config_key(vo, "overview", str, "")
         self.is_ignored: bool = get_config_key(vo, "is_ignored", bool, False)
         self.is_excluded: bool = get_config_key(vo, "is_excluded", bool, False)
         # [optional] containers cve/cwe info
         self.identifiers: dict = get_config_key(vo, "identifiers", dict, {})
-        # [optional] mitigation recommendations
-        self.recommendation: str = get_config_key(vo, "recommendation", str, "")
         # [optional] language of Vulnerability found in
         self.language: str = get_config_key(vo, "language", str, "")
         # [optional] pair of File/Line

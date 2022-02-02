@@ -147,9 +147,103 @@ Will install mocha@8.4.0"""
         # Then
         assert output == expected_output
 
-    def test_create_path_v7__nested_vul(self):
+    def test_create_description_v7__nested_vul(self):
         # Given
         expected_output = """helmet>connect(2.11.1 - 3.6.4): has insecure dependency finalhandler>debug"""
+        input_vulnerability = {
+            "name": "connect",
+            "severity": "low",
+            "via": ["debug", "finalhandler"],
+            "effects": ["helmet"],
+            "range": "2.11.1 - 3.6.4",
+            "nodes": ["node_modules/connect"],
+            "fixAvailable": True,
+        }
+        testee = NpmAuditTool()
+        # When
+        output = testee.create_description_v7(input_vulnerability)
+        # Then
+        assert output == expected_output
+
+    def test_create_description_v7__edge_vul(self):
+        # Given
+        expected_output = (
+            """connect>finalhandler>mocha>debug(<= 2.6.8 || >= 3.0.0 <= 3.0.1): Regular Expression Denial of Service"""
+        )
+        input_vulnerability = {
+            "name": "debug",
+            "severity": "low",
+            "via": [
+                {
+                    "source": 534,
+                    "name": "debug",
+                    "dependency": "debug",
+                    "title": "Regular Expression Denial of Service",
+                    "url": "https://npmjs.com/advisories/534",
+                    "severity": "low",
+                    "range": "<= 2.6.8 || >= 3.0.0 <= 3.0.1",
+                }
+            ],
+            "effects": ["connect", "finalhandler", "mocha"],
+            "range": "<=2.6.8 || 3.0.0 - 3.0.1",
+            "nodes": ["node_modules/debug"],
+            "fixAvailable": {"name": "mocha", "version": "8.4.0", "isSemVerMajor": True},
+        }
+        testee = NpmAuditTool()
+        # When
+        output = testee.create_description_v7(input_vulnerability)
+        # Then
+        assert output == expected_output
+
+    def test_create_version_v7__nested_vul(self):
+        # Given
+        expected_output = """2.11.1 - 3.6.4"""
+        input_vulnerability = {
+            "name": "connect",
+            "severity": "low",
+            "via": ["debug", "finalhandler"],
+            "effects": ["helmet"],
+            "range": "2.11.1 - 3.6.4",
+            "nodes": ["node_modules/connect"],
+            "fixAvailable": True,
+        }
+        testee = NpmAuditTool()
+        # When
+        output = testee.create_version_v7(input_vulnerability)
+        # Then
+        assert output == expected_output
+
+    def test_create_version_v7__edge_vul(self):
+        # Given
+        expected_output = """<= 2.6.8 || >= 3.0.0 <= 3.0.1"""
+        input_vulnerability = {
+            "name": "debug",
+            "severity": "low",
+            "via": [
+                {
+                    "source": 534,
+                    "name": "debug",
+                    "dependency": "debug",
+                    "title": "Regular Expression Denial of Service",
+                    "url": "https://npmjs.com/advisories/534",
+                    "severity": "low",
+                    "range": "<= 2.6.8 || >= 3.0.0 <= 3.0.1",
+                }
+            ],
+            "effects": ["connect", "finalhandler", "mocha"],
+            "range": "<=2.6.8 || 3.0.0 - 3.0.1",
+            "nodes": ["node_modules/debug"],
+            "fixAvailable": {"name": "mocha", "version": "8.4.0", "isSemVerMajor": True},
+        }
+        testee = NpmAuditTool()
+        # When
+        output = testee.create_version_v7(input_vulnerability)
+        # Then
+        assert output == expected_output
+
+    def test_create_path_v7__nested_vul(self):
+        # Given
+        expected_output = """helmet>connect"""
         input_vulnerability = {
             "name": "connect",
             "severity": "low",
@@ -167,9 +261,7 @@ Will install mocha@8.4.0"""
 
     def test_create_path_v7__edge_vul(self):
         # Given
-        expected_output = (
-            """connect>finalhandler>mocha>debug(<= 2.6.8 || >= 3.0.0 <= 3.0.1): Regular Expression Denial of Service"""
-        )
+        expected_output = """connect>finalhandler>mocha>debug"""
         input_vulnerability = {
             "name": "debug",
             "severity": "low",

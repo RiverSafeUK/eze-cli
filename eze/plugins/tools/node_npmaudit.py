@@ -130,16 +130,34 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         return recommendation
 
-    def create_path_v7(self, vulnerability: dict):
-        """convert vulnerability dict into recommendation"""
+    def create_path_v7(self, vulnerability: dict) -> str:
+        """extract the path from the vulnerability"""
         # detected module from vulnerability details
         module_name = py_.get(vulnerability, "via[0].name", False) or py_.get(vulnerability, "name")
-        module_version = py_.get(vulnerability, "via[0].range", False) or py_.get(vulnerability, "range")
 
         # create path
         module_path = ""
         for parent_module in vulnerability["effects"]:
             module_path += f"{parent_module}>"
+
+        # pull it all together
+        path = f"{module_path}{module_name}"
+
+        return path
+
+    def create_version_v7(self, vulnerability: dict) -> str:
+        """extract the version from the vulnerability"""
+        module_version = py_.get(vulnerability, "via[0].range", False) or py_.get(vulnerability, "range")
+
+        return module_version
+
+    def create_description_v7(self, vulnerability: dict):
+        """extract the description from the vulnerability"""
+        # detected module from vulnerability details
+        module_version = self.create_version_v7(vulnerability)
+
+        # create path
+        module_path = self.create_path_v7(vulnerability)
 
         # if advisory not present, it's a insecure dependency issue
         advisory_title = py_.get(vulnerability, "via[0].title", "")
@@ -148,7 +166,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             advisory_title += ">".join(reversed(vulnerability["via"]))
 
         # pull it all together
-        path = f"{module_path}{module_name}({module_version})"
+        path = f"{module_path}({module_version})"
 
         if advisory_title:
             path += f": {advisory_title}"
@@ -172,8 +190,10 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             for vulnerability_key in vulnerabilities:
                 vulnerability = vulnerabilities[vulnerability_key]
 
-                name = self.create_path_v7(vulnerability)
-                recommendation = self.create_recommendation_v7(vulnerability)
+                name: str = self.create_path_v7(vulnerability)
+                version: str = self.create_version_v7(vulnerability)
+                description: str = self.create_description_v7(vulnerability)
+                recommendation: str = self.create_recommendation_v7(vulnerability)
 
                 references = []
                 npm_reference = py_.get(vulnerability, "via[0].url", False)
@@ -183,8 +203,8 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 vulnerability_vo = {
                     "vulnerability_type": VulnerabilityType.dependency.name,
                     "name": name,
-                    "version": "",
-                    "overview": "",
+                    "version": version,
+                    "overview": description,
                     "recommendation": recommendation,
                     "language": self.TOOL_LANGUAGE,
                     "severity": vulnerability["severity"],

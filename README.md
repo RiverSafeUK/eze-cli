@@ -82,6 +82,21 @@ semgrep               0.53.0            opensource multi language SAST scanner
 ...
 ```
 
+## Stopping a docker image
+
+Started an eze scan but want to stop the scan without waiting the 30-40 seconds for the scan to complete
+
+To immediately stop a docker image do the following
+
+```bash
+# get docker container id
+$ docker stats
+CONTAINER ID   NAME                 CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O   PIDS
+f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     221MB / 4.73MB   0B / 0B     17
+# docker rm container id
+$ docker rm --force f0bef6e0bba7
+```
+
 
 # Configuring Eze
 

@@ -44,27 +44,27 @@ def test_get_pypi_package_data__happy_case(mock_cve_request_json, mock_pypi_requ
         "vulnerabilities": [
             {
                 "confidence": "",
-                "file_location": None,
+                "file_location": {"line": 0, "path": "requirements.txt"},
                 "identifiers": {"CVE": "CVE-2020-8897", "PYSEC": "PYSEC-2020-261"},
                 "is_excluded": False,
                 "is_ignored": False,
                 "language": "",
                 "metadata": None,
-                "name": "The mirroring support (-M, --use-mirrors) in "
+                "name": "aws-encryption-sdk",
+                "overview": "The mirroring support (-M, --use-mirrors) in "
                 "Python Pip before 1.5 uses insecure DNS "
                 "querying and authenticity checks which allows "
                 "attackers to perform man-in-the-middle attacks.",
-                "overview": "",
                 "recommendation": "Update package to non-vulnerable " "version 2.0.0",
                 "references": [],
                 "severity": "medium",
-                "version": "",
+                "version": "1.2.0",
                 "vulnerability_type": "dependency",
             }
         ],
         "warnings": [],
     }
     # When
-    output = get_pypi_package_data("aws-encryption-sdk", "1.2.0")
+    output = get_pypi_package_data("aws-encryption-sdk", "1.2.0", "requirements.txt")
     # Then
     assert convert_to_std_object(output) == expected_output
