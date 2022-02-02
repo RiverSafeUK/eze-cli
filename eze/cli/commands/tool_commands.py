@@ -113,7 +113,7 @@ def run_command(state, config_file: str, tool: str, report: str = "console", sca
 
     eze_core = EzeCore.get_instance()
 
-    asyncio.run(eze_core.run([tool], [], [report], scan_type))
+    asyncio.run(eze_core.run([tool], [report], scan_type))
 
 
 tools_group.add_command(list_command)

@@ -6,7 +6,7 @@ config_help:
 ======================
 [semgrep]
 # SOURCE str [OPTIONAL]
-# Optional SOURCE, space seperated files and directorys
+# Optional SOURCE, space separated files and directories
 # defaults to cwd eze is running in
 # maps to target
 # Search these files or directories. Defaults to entire
@@ -25,7 +25,7 @@ SOURCE = "..."
 # 
 # maps to --config
 # default value: 
-#   CONFIGS = ["p/ci"]
+#   CONFIGS = "Automatically Detected"
 # 
 CONFIGS = ["p/ci", "p/python"]
 

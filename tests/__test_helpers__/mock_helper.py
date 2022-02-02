@@ -13,10 +13,8 @@ from eze.utils.scan_result import name_and_time_summary, vulnerabilities_short_s
 
 from eze.core.config import EzeConfig
 from eze.core.engine import EzeCore
-from eze.core.language import LanguageManager
 from eze.core.reporter import ReporterManager, ReporterMeta
 from eze.core.tool import ToolManager, ToolMeta, ScanResult, ToolType
-from eze.plugins.languages.python import PythonRunner
 from tests.__fixtures__.fixture_helper import load_json_fixture
 from eze.utils.error import EzeError
 
@@ -128,20 +126,14 @@ DEFAULT_MOCK_TOOLS = {"success-tool": DummySuccessTool, "failure-tool": DummyFai
 
 DEFAULT_MOCK_REPORTERS = {"testee-reporter": DummyReporter}
 
-DEFAULT_MOCK_LANGUAGES = {
-    "testee-language": PythonRunner,
-}
-
 DEFAULT_MOCK_CONFIG = {"success-tool": {"some": "config"}, "scan": {}}
 
 
-def get_dummy_plugin(tools: dict = None, reporters: dict = None, languages: dict = None):
+def get_dummy_plugin(tools: dict = None, reporters: dict = None):
     if not tools:
         tools = DEFAULT_MOCK_TOOLS
     if not reporters:
         reporters = DEFAULT_MOCK_REPORTERS
-    if not languages:
-        languages = DEFAULT_MOCK_LANGUAGES
 
     class DummyPlugin:
         """Dummy Plugin"""
@@ -155,11 +147,6 @@ def get_dummy_plugin(tools: dict = None, reporters: dict = None, languages: dict
         def get_reporters() -> dict:
             """Dummy get reporters"""
             return reporters
-
-        @staticmethod
-        def get_languages() -> dict:
-            """Dummy get languages"""
-            return languages
 
     return DummyPlugin
 
@@ -177,7 +164,6 @@ def setup_mock(eze_config: dict = None, tools: dict = None, reporters: dict = No
     EzeConfig.reset_instance()
     ToolManager.reset_instance()
     ReporterManager.reset_instance()
-    LanguageManager.reset_instance()
 
     EzeConfig.set_instance([eze_config])
 
@@ -185,7 +171,6 @@ def setup_mock(eze_config: dict = None, tools: dict = None, reporters: dict = No
 
     ToolManager.set_instance({"dummy-plugin": dummy_plugin_class})
     ReporterManager.set_instance({"dummy-plugin": dummy_plugin_class})
-    LanguageManager.set_instance({"dummy-plugin": dummy_plugin_class})
 
     LogLevel.print_status_messages(False)
 
@@ -196,7 +181,6 @@ def teardown_mock():
     EzeConfig.reset_instance()
     ToolManager.reset_instance()
     ReporterManager.reset_instance()
-    LanguageManager.reset_instance()
     LogLevel.reset_instance()
 
 

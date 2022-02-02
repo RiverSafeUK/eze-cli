@@ -264,7 +264,7 @@ class TestEzeConfig(TestCase):
     def test_get_plugin_config__real_toml_no_tools_scan_type_plugin(self):
         # Given
         external_file = get_path_fixture("__fixtures__/config/example_broken_tools_ezerc.toml")
-        expected_error_message = """The ./ezerc config missing required scan.tools/languages list, run 'eze housekeeping create-local-config' to create"""
+        expected_error_message = """The ./ezerc config missing required scan.tools list, run 'docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config' to create"""
         # When
         testee = EzeConfig([external_file])
         with pytest.raises(ClickException) as raised_error:
@@ -276,7 +276,7 @@ class TestEzeConfig(TestCase):
         # Given
         external_file = get_path_fixture("__fixtures__/config/example_broken_reporters_ezerc.toml")
         expected_error_message = (
-            """The ./ezerc config missing scan.reporters list, run 'eze housekeeping create-local-config' to create"""
+            """The ./ezerc config missing scan.reporters list, run 'docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config' to create"""
         )
         testee = EzeConfig([external_file])
         # When

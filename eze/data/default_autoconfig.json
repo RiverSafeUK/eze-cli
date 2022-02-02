@@ -1,0 +1,105 @@
+{
+  "_help_message": "more info in README-DEVELOPMENT.md",
+  "license": {
+    "license_mode": "PROPRIETARY"
+  },
+  "tools": {
+    "trufflehog": {
+      "enabled_always": true,
+      "enable_on_file": [],
+      "enable_on_file_ext": [],
+      "config": {
+        "NO_ENTROPY": false,
+        "INCLUDE_FULL_REASON": true
+      }
+    },
+    "semgrep": {
+      "enabled_always": true,
+      "enable_on_file": [],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "java-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": ["pom.xml"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "java-dependencycheck": {
+      "enabled_always": false,
+      "enable_on_file": ["pom.xml"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "java-spotbugs": {
+      "enabled_always": false,
+      "enable_on_file": ["pom.xml"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "python-safety": {
+      "enabled_always": false,
+      "enable_on_file": ["requirements.txt"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "python-piprot": {
+      "enabled_always": false,
+      "enable_on_file": ["requirements.txt"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "python-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": ["requirements.txt"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "python-bandit": {
+      "enabled_always": false,
+      "enable_on_file": [],
+      "enable_on_file_ext": [".py"],
+      "config": {}
+    },
+    "node-npmaudit": {
+      "enabled_always": false,
+      "enable_on_file": ["package.json"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "node-npmoutdated": {
+      "enabled_always": false,
+      "enable_on_file": ["package.json"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "node-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": ["package.json"],
+      "enable_on_file_ext": [],
+      "config": {}
+    },
+    "container-trivy": {},
+    "kics": {},
+    "anchore-grype": {},
+    "anchore-syft": {},
+    "gitleaks": {}
+  },
+  "reporters": {
+    "console": {
+      "config": {
+        "PRINT_SUMMARY_ONLY": false,
+        "PRINT_IGNORED": false
+      }
+    },
+    "bom": {
+      "config": {}
+    },
+    "json": {
+      "config": {}
+    },
+    "sarif": {
+      "config": {}
+    }
+  }
+}

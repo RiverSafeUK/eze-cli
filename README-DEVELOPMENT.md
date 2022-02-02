@@ -164,6 +164,46 @@ eze test
 ```
 </details>
 
+## Autoconfig
+
+Eze will auto configure tools according to a "autoconfig.json" file
+
+The default is in "eze/data/default_autoconfig.json"
+
+JSON format
+
+```json
+{
+  "_help_message": "<DEVELOPER COMMENTS>",
+  "license": {
+    "_help_message": "eze.enums.LicenseScanType value",
+    "license_mode": "PROPRIETARY|PERMISSIVE|OPENSOURCE|OFF"
+  },
+  "tools": {
+    "<tool-id>": {
+      "_help_message": "<DEVELOPER COMMENTS>",
+      "enabled_always": "true or false",
+      "enable_on_file": [
+        "<LIST OF FILE NAMES IN FOUND IN CODEBASE WILL ENABLE>"
+      ],
+      "enable_on_file_ext": [
+        "<LIST OF FILE NAMES IN FOUND IN CODEBASE WILL ENABLE>"
+      ],
+      "config": {
+        "<FIELD>": "<VALUE>"
+      }
+    }
+  },
+  "reporters": {
+    "<reporter-id>": {
+      "config": {
+        "<FIELD>": "<VALUE>"
+      }
+    }
+  }
+}
+```
+
 ## Tips and Tricks
 
 ### venv helpers

@@ -31,6 +31,15 @@ def delete_file_cache() -> None:
     __c.discovered_folders = None
     __c.discovered_files = None
     __c.discovered_filenames = None
+    __c.discovered_types = None
+
+
+def has_filetype(filetype: str) -> int:
+    """will return count of given file type aka '.py'"""
+    initialise_cache()
+    if filetype not in __c.discovered_types:
+        return 0
+    return __c.discovered_types[filetype]
 
 
 def find_files_by_path(regex_str: str) -> list:
@@ -56,24 +65,26 @@ def find_files_by_name(regex_str: str) -> list:
 
 def get_filename_list() -> list:
     """get list of files aka package.json"""
-    if not __c.discovered_files:
-        [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames] = _build_file_list()
+    initialise_cache()
     return __c.discovered_filenames
 
 
 def get_file_list() -> list:
     """get list of filepaths aka backend\\function\\ezemcdbcrud\\src\\package.json"""
-    if not __c.discovered_files:
-        [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames] = _build_file_list()
+    initialise_cache()
     return __c.discovered_files
 
 
 def get_folder_list() -> list:
     """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
-    if not __c.discovered_folders:
-        [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames] = _build_file_list()
+    initialise_cache()
     return __c.discovered_folders
 
+def initialise_cache ():
+    """sets up cache of files for project"""
+    if not __c.discovered_folders:
+        [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames,
+         __c.discovered_types] = _build_file_list()
 
 def _build_file_list(root_path: str = None) -> list:
     """build a list of folder and file names"""
@@ -86,6 +97,7 @@ def _build_file_list(root_path: str = None) -> list:
     discovered_files = []
     discovered_folders = []
     discovered_filenames = []
+    discovered_filetypes = {}
 
     for root, subdirs, files in os.walk(walk_dir):
         # Ignore Some directories
@@ -101,5 +113,11 @@ def _build_file_list(root_path: str = None) -> list:
             file_path = os.path.join(root, filename)[root_prefix:]
             discovered_files.append(file_path)
             discovered_filenames.append(filename)
+            filename_without_extension, extension = os.path.splitext(filename)
+            if not extension:
+                extension = filename_without_extension
+            if extension not in discovered_filetypes:
+                discovered_filetypes[extension] = 0
+            discovered_filetypes[extension] += 1
 
-    return [discovered_folders, discovered_files, discovered_filenames]
+    return [discovered_folders, discovered_files, discovered_filenames, discovered_filetypes]

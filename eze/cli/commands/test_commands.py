@@ -29,10 +29,11 @@ from eze.utils.log import log, log_debug, log_error
     help="Forces language autoscan and creation of new .ezerc.toml",
     default=False,
 )
-def test_command(state, config_file: str, scan_type: str, force_autoscan: bool) -> None:
+@click.option('--autoconfig', type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
+def test_command(state, config_file: str, scan_type: str, force_autoscan: bool, autoconfig: click.Path = None) -> None:
     """Eze run scan"""
 
-    EzeCore.auto_build_ezerc(force_autoscan)
+    EzeCore.auto_build_ezerc(force_autoscan, autoconfig)
     eze_core = EzeCore.get_instance()
     asyncio.run(eze_core.run_scan(scan_type))
 

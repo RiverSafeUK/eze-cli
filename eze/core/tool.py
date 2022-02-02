@@ -330,6 +330,17 @@ Looks like {tool_name} is not installed
         scan_result.summary = self._create_summary(scan_result.vulnerabilities, tool_config)
         return scan_result
 
+    def get_tool_class(self, tool_name: str) -> ToolMeta:
+        """
+        Gets a instance of a tool class
+
+        :raises EzeConfigError
+        """
+        if tool_name not in self.tools:
+            raise EzeConfigError(f"tool id: {tool_name} does not exist")
+        tool_class = self.tools[tool_name]
+        return tool_class
+
     def get_tool(
         self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ) -> ToolMeta:
@@ -342,7 +353,7 @@ Looks like {tool_name} is not installed
         [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
 
         tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
-        tool_class = self.tools[tool_name]
+        tool_class = self.get_tool_class(tool_name)
         tool_instance = tool_class(tool_config)
         return tool_instance
 
@@ -363,7 +374,7 @@ Looks like {tool_name} is not installed
         tools_length = len(self.tools)
         for current_tool_name in self.tools:
             tools_counter += 1
-            current_tool_class = self.tools[current_tool_name]
+            current_tool_class = self.get_tool_class(current_tool_name)
             current_tool_type = current_tool_class.tool_type().name
             current_source_support = current_tool_class.source_support()
             current_source_support_strs = list(map(lambda source: source.name, current_source_support))
@@ -401,7 +412,7 @@ Looks like {tool_name} is not installed
 ======================="""
         )
         for current_tool_name in self.tools:
-            current_tool_class = self.tools[current_tool_name]
+            current_tool_class = self.get_tool_class(current_tool_name)
             current_tool_type = current_tool_class.tool_type().name
             current_source_support = current_tool_class.source_support()
             current_source_support_strs = list(map(lambda source: source.name, current_source_support))
@@ -415,14 +426,14 @@ Looks like {tool_name} is not installed
                 continue
             self.print_tool_help(current_tool_name)
 
-    def print_tool_help(self, tool: str):
+    def print_tool_help(self, tool_id: str):
         """print out tool help"""
-        tool_class: ToolMeta = self.tools[tool]
+        tool_class: ToolMeta = self.get_tool_class(tool_id)
         tool_description = tool_class.short_description()
         log(
             f"""
 =================================
-Tool '{tool}' Help
+Tool '{tool_id}' Help
 {tool_description}
 ================================="""
         )
@@ -529,7 +540,7 @@ Tool '{tool}' Help
             error_message = f"[{tool_name}] The ./ezerc config references unknown tool plugin '{tool_name}', run 'eze tools list' to see available tools"
             raise EzeConfigError(error_message)
 
-        tool_class = self.tools[tool_name]
+        tool_class = self.get_tool_class(tool_name)
         default_severity = VulnerabilitySeverityEnum.na.name
         if hasattr(tool_class, "DEFAULT_SEVERITY"):
             default_severity = tool_class.DEFAULT_SEVERITY

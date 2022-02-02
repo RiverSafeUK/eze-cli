@@ -13,6 +13,7 @@ from eze.utils.cli import extract_cmd_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.error import EzeError
 from eze.utils.log import log
+from eze.utils.file_scanner import has_filetype
 
 
 class SemGrepTool(ToolMeta):
@@ -47,7 +48,7 @@ Tips and Tricks
         "SOURCE": {
             "type": str,
             "required": False,
-            "help_text": """Optional SOURCE, space seperated files and directorys
+            "help_text": """Optional SOURCE, space separated files and directories
 defaults to cwd eze is running in
 maps to target
 Search these files or directories. Defaults to entire
@@ -56,7 +57,8 @@ to semgrep.""",
         },
         "CONFIGS": {
             "type": list,
-            "default": ["p/ci"],
+            "default": None,
+            "default_help_value": "Automatically Detected",
             "help_text": """SemGrep config file to use. path to YAML configuration file, directory of YAML files
 ending in .yml|.yaml, URL of a configuration file, or semgrep registry entry name.
 
@@ -319,3 +321,42 @@ Top 10 slowest files
             }
         )
         return report
+
+    def _parse_config(self, eze_config: dict) -> dict:
+        """take raw config dict and normalise values"""
+        parsed_config = super()._parse_config(eze_config)
+
+        # ADDITION PARSING: CONFIGS
+        # automatically detect and configure rules in semgrep
+        if not parsed_config["CONFIGS"]:
+            parsed_config["CONFIGS"] = ["p/ci"]
+            if has_filetype("Dockerfile"):
+                parsed_config["CONFIGS"].append("p/dockerfile")
+            if has_filetype(".tf"):
+                parsed_config["CONFIGS"].append("p/terraform")
+            if has_filetype(".java"):
+                parsed_config["CONFIGS"].append("p/java")
+            if has_filetype(".py"):
+                parsed_config["CONFIGS"].append("p/python")
+            if has_filetype(".go"):
+                parsed_config["CONFIGS"].append("p/golang")
+            if has_filetype(".ml"):
+                parsed_config["CONFIGS"].append("p/ocaml")
+            if has_filetype(".cs"):
+                parsed_config["CONFIGS"].append("p/csharp")
+            if has_filetype(".rb"):
+                parsed_config["CONFIGS"].append("p/ruby")
+            if has_filetype(".js"):
+                parsed_config["CONFIGS"].append("p/nodejs")
+                parsed_config["CONFIGS"].append("p/javascript")
+            if has_filetype(".ts"):
+                parsed_config["CONFIGS"].append("p/typescript")
+            if has_filetype(".yaml"):
+                parsed_config["CONFIGS"].append("p/kubernetes")
+            if has_filetype(".php"):
+                parsed_config["CONFIGS"].append("p/phpcs-security-audit")
+            if has_filetype(".conf") or has_filetype(".vhost"):
+                parsed_config["CONFIGS"].append("p/nginx")
+        print("CONFIGS: " + ",".join(parsed_config["CONFIGS"]))
+        exit()
+        return parsed_config

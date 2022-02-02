@@ -1,8 +1,9 @@
 """Core engine of Eze"""
+import click
 from pydash import py_
 
 from eze.core.config import EzeConfig
-from eze.core.language import LanguageManager
+from eze.core.autoconfig import AutoConfigRunner
 from eze.core.reporter import ReporterManager
 from eze.core.tool import ToolManager
 from eze.utils.log import log, log_debug, log_error
@@ -29,7 +30,7 @@ class EzeCore:
         """Core Eze Constructor"""
 
     @staticmethod
-    def auto_build_ezerc(force_build_ezerc: bool = False) -> bool:
+    def auto_build_ezerc(force_build_ezerc: bool = False, autoconfig:click.Path = None) -> bool:
         """detect if needs to build ezerc from scratch"""
         valid_config = EzeConfig.has_local_config()
         if not valid_config:
@@ -40,8 +41,7 @@ class EzeCore:
             return False
 
         log("Auto generating a new .ezerc.toml")
-        language_manager = LanguageManager.get_instance()
-        language_manager.create_local_ezerc_config()
+        AutoConfigRunner.create_local_ezerc_config(autoconfig)
         # reset stored eze config, to generated version
         EzeConfig.refresh_ezerc_config()
         return True
@@ -52,18 +52,15 @@ class EzeCore:
         scan_config = eze_config.get_scan_config(scan_type)
 
         tools = py_.get(scan_config, "tools", [])
-        languages = py_.get(scan_config, "languages", [])
         reporters = custom_reporters or py_.get(scan_config, "reporters", None)
 
-        return await self.run(tools, languages, reporters, scan_type)
+        return await self.run(tools, reporters, scan_type)
 
-    async def run(self, tools: list, languages: list, reporters: list, scan_type: str = None) -> list:
+    async def run(self, tools: list, reporters: list, scan_type: str = None) -> list:
         """run a scan with set tools and reporters"""
         scan_results = []
         tool_results = await self.run_tools(tools, scan_type)
         scan_results.extend(tool_results)
-        language_results = await self.run_languages(languages, scan_type)
-        scan_results.extend(language_results)
         return await self.run_reports(scan_results, reporters, scan_type)
 
     async def run_tools(self, tools: list, scan_type: str = None) -> list:
@@ -73,16 +70,6 @@ class EzeCore:
         for tool_name in tools:
             scan_result = await tool_manager.run_tool(tool_name, scan_type)
             results.append(scan_result)
-
-        return results
-
-    async def run_languages(self, languages: list, scan_type: str = None) -> list:
-        """starting scanning for vulnerabilities"""
-        results = []
-        language_manager = LanguageManager.get_instance()
-        for language in languages:
-            scan_results = await language_manager.run_language(language, scan_type)
-            results.extend(scan_results)
 
         return results
 

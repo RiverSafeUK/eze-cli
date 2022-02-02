@@ -161,7 +161,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         parsed_config = super()._parse_config(eze_config)
 
         # ADDITION PARSING: EXCLUDE
-        # convert to space seperated, clean os specific regex
+        # convert to space separated, clean os specific regex
         if len(parsed_config["EXCLUDE"]) > 0:
             parsed_config["EXCLUDE"] = ",".join(parsed_config["EXCLUDE"])
         else:

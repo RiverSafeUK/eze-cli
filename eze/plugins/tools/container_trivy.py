@@ -190,7 +190,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
             raise EzeConfigError("required param 'IMAGE_NAME' or 'IMAGE_FILE' missing from configuration")
 
         # ADDITION PARSING: VULNERABILITY_TYPES
-        # convert to space seperated, clean os specific regex
+        # convert to space separated, clean os specific regex
         if len(parsed_config["TRIVY_VULN_TYPE"]) > 0:
             parsed_config["TRIVY_VULN_TYPE"] = ",".join(parsed_config["TRIVY_VULN_TYPE"])
         else:
