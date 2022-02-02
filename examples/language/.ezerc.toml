@@ -8,13 +8,13 @@
 # REPORT CONFIG
 # ========================================
 [bom]
-REPORT_FILE = "reports/monorepo/report-cyclonedx-sbom.json"
+REPORT_FILE = ".eze/monorepo/report-cyclonedx-sbom.json"
 
 [console]
 PRINT_SUMMARY_ONLY = true
 
 [json]
-REPORT_FILE = "reports/monorepo/eze_report.json"
+REPORT_FILE = ".eze/monorepo/eze_report.json"
 
 # ========================================
 # SCAN CONFIG

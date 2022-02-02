@@ -3,7 +3,7 @@
 # Java codebase
 tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java-cyclonedx']
     [java.semgrep]
-    REPORT_FILE = "reports/semgrep-java-report.json"
+    REPORT_FILE = ".eze/semgrep-java-report.json"
     PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
@@ -13,7 +13,7 @@ tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java
         "tests"
     ]
     [java.trufflehog]
-    REPORT_FILE = "reports/truffleHog-java-report.json"
+    REPORT_FILE = ".eze/truffleHog-java-report.json"
     SOURCE = ["."]
     NO_ENTROPY = false
     INCLUDE_FULL_REASON = true
@@ -29,13 +29,13 @@ tools = ['semgrep', 'trufflehog', 'java-dependencycheck', 'java-spotbugs', 'java
         ".*\\.DS_Store"
     ]
     [java.java-dependencycheck]
-    REPORT_FILE = "reports/dependencycheck-java-report.json"
+    REPORT_FILE = ".eze/dependencycheck-java-report.json"
     
     [java.java-spotbugs]
-    REPORT_FILE = "reports/spotbugs-java-report.json"
+    REPORT_FILE = ".eze/spotbugs-java-report.json"
     
     [java.java-cyclonedx]
-    REPORT_FILE = "reports/cyclonedx-java-bom.json"
+    REPORT_FILE = ".eze/cyclonedx-java-bom.json"
 
 
 ========

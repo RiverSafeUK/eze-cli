@@ -6,7 +6,7 @@ REQUIREMENTS_FILES = [
 ]
 tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safety', 'python-cyclonedx']
     [python.semgrep]
-    REPORT_FILE = "reports/semgrep-python-report.json"
+    REPORT_FILE = ".eze/semgrep-python-report.json"
     PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
@@ -16,7 +16,7 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
         "tests"
     ]
     [python.trufflehog]
-    REPORT_FILE = "reports/truffleHog-python-report.json"
+    REPORT_FILE = ".eze/truffleHog-python-report.json"
     SOURCE = ["."]
     NO_ENTROPY = false
     INCLUDE_FULL_REASON = true
@@ -33,12 +33,12 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
     ]
     
     [python.python-bandit]
-    REPORT_FILE = "reports/bandit-python-report.json"
+    REPORT_FILE = ".eze/bandit-python-report.json"
     IGNORE_BELOW_SEVERITY = "medium"
     SOURCE = "."
     
     [python.python-piprot]
-    REPORT_FILE = "reports/piprot-python-report.json"
+    REPORT_FILE = ".eze/piprot-python-report.json"
     NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
     NEWER_MINOR_SEMVERSION_SEVERITY = "none"
     NEWER_PATCH_SEMVERSION_SEVERITY = "none"
@@ -48,10 +48,10 @@ tools = ['semgrep', 'trufflehog', 'python-bandit', 'python-piprot', 'python-safe
     # By default it uses the open Python vulnerability database Safety DB, 
     # but can be upgraded to use pyup.io's Safety API using the APIKEY option
     # see https://github.com/pyupio/safety/blob/master/docs/api_key.md
-    REPORT_FILE = "reports/safety-python-report.json"
+    REPORT_FILE = ".eze/safety-python-report.json"
     
     [python.python-cyclonedx]
-    REPORT_FILE = "reports/cyclonedx-python-bom.json"
+    REPORT_FILE = ".eze/cyclonedx-python-bom.json"
     REQUIREMENTS_FILE = "requirements.txt"
 
 

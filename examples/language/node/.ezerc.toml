@@ -3,17 +3,17 @@
 # ========================================
 
 [node-npmaudit]
-REPORT_FILE = "../reports/node/node-npmaudit-report.json"
+REPORT_FILE = "../.eze/node/node-npmaudit-report.json"
 
 [node-cyclonedx]
-REPORT_FILE = "../reports/node/node-cyclonedx-bom.json"
+REPORT_FILE = "../.eze/node/node-cyclonedx-bom.json"
 
 [node-npmoutdated]
-REPORT_FILE = "../reports/node/node-npmoutdated-report.json"
+REPORT_FILE = "../.eze/node/node-npmoutdated-report.json"
 
 [semgrep]
 PRINT_TIMING_INFO = false
-REPORT_FILE = "../reports/node/semgrep-report.json"
+REPORT_FILE = "../.eze/node/semgrep-report.json"
 EXCLUDE = [
     "node_module/.*"
 ]
@@ -28,7 +28,7 @@ EXCLUDE = [
     "node_modules/.*"
 ]
 INCLUDE_FULL_REASON = true
-REPORT_FILE = "../reports/node/trufflehog-report.json"
+REPORT_FILE = "../.eze/node/trufflehog-report.json"
 
 [trufflehog.ci]
 INCLUDE_FULL_REASON = false
@@ -37,13 +37,13 @@ INCLUDE_FULL_REASON = false
 # REPORT CONFIG
 # ========================================
 [bom]
-REPORT_FILE = "../reports/node/report-cyclonedx-sbom.json"
+REPORT_FILE = "../.eze/node/report-cyclonedx-sbom.json"
 
 [console]
 PRINT_SUMMARY_ONLY = true
 
 [json]
-REPORT_FILE = "../reports/node/eze_report.json"
+REPORT_FILE = "../.eze/node/eze_report.json"
 
 # ========================================
 # SCAN CONFIG

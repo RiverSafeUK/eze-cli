@@ -65,6 +65,12 @@ eze will automatically normalise folder separator "/" to os specific versions, "
             "default": False,
             "help_text": """disable entropy checks, maps to flag --no-entropy""",
         },
+        "DISABLE_DEFAULT_IGNORES": {
+            "type": bool,
+            "default": False,
+            "help_text": f"""by default truffle hog ignores common compile assets, to disable default ignore list
+{ToolMeta.DEFAULT_IGNORED_LOCATIONS}""",
+        },
         "CONFIG_FILE": {
             "type": str,
             "help_text": """TruffleHog3 config file to use
@@ -225,6 +231,8 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         # ADDITION PARSING: EXCLUDE
         # convert to space separated, clean os specific regex
+        if not parsed_config["DISABLE_DEFAULT_IGNORES"]:
+            parsed_config["EXCLUDE"].extend(ToolMeta.DEFAULT_IGNORED_LOCATIONS)
         if len(parsed_config["EXCLUDE"]) > 0:
             if is_windows_os():
                 parsed_config["EXCLUDE"] = list(map(normalise_windows_regex_file_path, parsed_config["EXCLUDE"]))

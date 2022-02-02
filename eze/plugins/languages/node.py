@@ -57,7 +57,7 @@ and will fail if "npm install" fails
 # Node codebase
 tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{NpmAuditTool.TOOL_NAME}', '{NpmOutdatedTool.TOOL_NAME}', '{NodeCyclonedxTool.TOOL_NAME}']
     [{self.LANGUAGE_NAME}.{SemGrepTool.TOOL_NAME}]
-    REPORT_FILE = "reports/semgrep-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = ".eze/semgrep-{self.LANGUAGE_NAME}-report.json"
     PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/ci",
@@ -67,29 +67,25 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{NpmAuditTool
         "tests"
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
-    REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = ".eze/truffleHog-{self.LANGUAGE_NAME}-report.json"
     SOURCE = ["."]
     NO_ENTROPY = false
     INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        ".gradle",
-        ".aws",
-        ".idea"
     ]
     EXCLUDE = [
-        ".*(node_modules|target|build|dist)$",
         ".*\\\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
         ".*//trufflehog-report.json$",
         ".*\\\\.DS_Store"
     ]
     [{self.LANGUAGE_NAME}.{NpmAuditTool.TOOL_NAME}]
-    REPORT_FILE = "reports/npmaudit-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = ".eze/npmaudit-{self.LANGUAGE_NAME}-report.json"
     
     [{self.LANGUAGE_NAME}.{NpmOutdatedTool.TOOL_NAME}]
-    REPORT_FILE = "reports/npmoutdated-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = ".eze/npmoutdated-{self.LANGUAGE_NAME}-report.json"
     
     [{self.LANGUAGE_NAME}.{NodeCyclonedxTool.TOOL_NAME}]
-    REPORT_FILE = "reports/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
+    REPORT_FILE = ".eze/cyclonedx-{self.LANGUAGE_NAME}-bom.json"
 """,
             "message": """node will require "npm install" ran before running security tools,
 tools are expecting package.json at root level""",

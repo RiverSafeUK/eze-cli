@@ -9,17 +9,17 @@ tools = ['semgrep', 'trufflehog']
 # DOCKER_TAG: <docker-image-tag>
 # tools = ['semgrep', 'trufflehog', 'anchore-grype', 'anchore-syft']
 #    [docker.anchore-grype]
-#    REPORT_FILE = "reports/grype-docker-report.json"
+#    REPORT_FILE = ".eze/grype-docker-report.json"
 #    [docker.anchore-syft]
-#    REPORT_FILE = "reports/syft-docker-report.json"
+#    REPORT_FILE = ".eze/syft-docker-report.json"
     [docker.semgrep]
-    REPORT_FILE = "reports/semgrep-docker-report.json"
+    REPORT_FILE = ".eze/semgrep-docker-report.json"
     PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/dockerfile"
     ]
     [docker.trufflehog]
-    REPORT_FILE = "reports/truffleHog-docker-report.json"
+    REPORT_FILE = ".eze/truffleHog-docker-report.json"
     SOURCE = ["."]
     NO_ENTROPY = false
     INCLUDE_FULL_REASON = true

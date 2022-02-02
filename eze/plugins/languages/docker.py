@@ -81,27 +81,23 @@ tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
 # DOCKER_TAG: <docker-image-tag>
 # tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}', '{GrypeTool.TOOL_NAME}', '{SyftTool.TOOL_NAME}']
 #    [{self.LANGUAGE_NAME}.{GrypeTool.TOOL_NAME}]
-#    REPORT_FILE = "reports/grype-{self.LANGUAGE_NAME}-report.json"
+#    REPORT_FILE = ".eze/grype-{self.LANGUAGE_NAME}-report.json"
 #    [{self.LANGUAGE_NAME}.{SyftTool.TOOL_NAME}]
-#    REPORT_FILE = "reports/syft-{self.LANGUAGE_NAME}-report.json"
+#    REPORT_FILE = ".eze/syft-{self.LANGUAGE_NAME}-report.json"
     [{self.LANGUAGE_NAME}.{SemGrepTool.TOOL_NAME}]
-    REPORT_FILE = "reports/semgrep-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = ".eze/semgrep-{self.LANGUAGE_NAME}-report.json"
     PRINT_TIMING_INFO = false
     CONFIGS = [
         "p/dockerfile"
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
-    REPORT_FILE = "reports/truffleHog-{self.LANGUAGE_NAME}-report.json"
+    REPORT_FILE = ".eze/truffleHog-{self.LANGUAGE_NAME}-report.json"
     SOURCE = ["."]
     NO_ENTROPY = false
     INCLUDE_FULL_REASON = true
     IGNORED_FILES = [
-        ".gradle",
-        ".aws",
-        ".idea"
     ]
     EXCLUDE = [
-        ".*(node_modules|target|build|dist)$",
         ".*\\\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
         ".*//trufflehog-report.json$",
         ".*\\\\.DS_Store"

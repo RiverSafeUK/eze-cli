@@ -134,12 +134,12 @@ class DefaultRunner(LanguageRunnerMeta):
 #
 tools = ['{SemGrepTool.TOOL_NAME}', '{TruffleHogTool.TOOL_NAME}']
     [{self.LANGUAGE_NAME}.{SemGrepTool.TOOL_NAME}]
-    REPORT_FILE = "reports/semgrep-report.json"
+    REPORT_FILE = ".eze/semgrep-report.json"
     CONFIGS = [
         "p/ci"
     ]
     [{self.LANGUAGE_NAME}.{TruffleHogTool.TOOL_NAME}]
-    REPORT_FILE = "reports/truffleHog-report.json"
+    REPORT_FILE = ".eze/truffleHog-report.json"
     SOURCE = "."
     IGNORED_FILES = [
         "node_modules/",

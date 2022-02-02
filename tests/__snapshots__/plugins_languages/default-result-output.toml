@@ -11,12 +11,12 @@
 #
 tools = ['semgrep', 'trufflehog']
     [default.semgrep]
-    REPORT_FILE = "reports/semgrep-report.json"
+    REPORT_FILE = ".eze/semgrep-report.json"
     CONFIGS = [
         "p/ci"
     ]
     [default.trufflehog]
-    REPORT_FILE = "reports/truffleHog-report.json"
+    REPORT_FILE = ".eze/truffleHog-report.json"
     SOURCE = "."
     IGNORED_FILES = [
         "node_modules/",

@@ -16,7 +16,7 @@ license_mode = "PROPRIETARY"
 # ========================================
 [python-bandit]
 SOURCE = "eze"
-REPORT_FILE = "reports/bandit-report.json"
+REPORT_FILE = ".eze/bandit-report.json"
 IGNORED_FILES = [
     "eze/core/enums.py"
 ]
@@ -30,7 +30,7 @@ NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
 NEWER_MINOR_SEMVERSION_SEVERITY = "none"
 NEWER_PATCH_SEMVERSION_SEVERITY = "none"
 IGNORE_BELOW_SEVERITY = "low"
-REPORT_FILE = "reports/piprot-report.json"
+REPORT_FILE = ".eze/piprot-report.json"
 
 [python-safety]
 REQUIREMENTS_FILES = [
@@ -38,7 +38,7 @@ REQUIREMENTS_FILES = [
     "requirements-dev.txt"
 ]
 IGNORE_BELOW_SEVERITY = "medium"
-REPORT_FILE = "reports/safety-report.json"
+REPORT_FILE = ".eze/safety-report.json"
 
 [semgrep]
 PRINT_TIMING_INFO = false
@@ -49,7 +49,7 @@ EXCLUDE = [
 ]
 
     [semgrep.python]
-    REPORT_FILE = "reports/semgrep-python-report.json"
+    REPORT_FILE = ".eze/semgrep-python-report.json"
     CONFIGS = [
         "p/ci",
         "p/python",
@@ -60,36 +60,29 @@ EXCLUDE = [
     CONFIGS = [
         "p/dockerfile",
     ]
-    REPORT_FILE = "reports/semgrep-docker-report.json"
+    REPORT_FILE = ".eze/semgrep-docker-report.json"
 
 
 [trufflehog]
 SOURCE = ["."]
 IGNORED_FILES = [
-    ".idea",
     "eze_bom.json",
     "eze_report.json",
     "eze_report.sarif",
-    "reports",
     "examples",
-    ".pytest_cache",
+    "reports",
     "tests/__fixtures__/",
     "tests/__snapshots__/",
-    "tests/utils/test_git.py",
-    "venv"
+    "tests/utils/test_git.py"
 ]
-REPORT_FILE = "reports/truffleHog-report.json"
+REPORT_FILE = ".eze/truffleHog-report.json"
 
     [trufflehog.ci]
     INCLUDE_FULL_REASON = false
 
 [python-cyclonedx]
-REPORT_FILE = "reports/cyclonedx-bom.json"
+REPORT_FILE = ".eze/cyclonedx-bom.json"
 REQUIREMENTS_FILE = "requirements.txt"
-
-
-
-
 
 # ========================================
 # REPORT CONFIG
@@ -103,6 +96,10 @@ PRINT_SUMMARY_ONLY = false
 # ========================================
 [scan]
 tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog"]
+reporters = ["json", "console", "sarif", "bom"]
+
+[scan.secrets]
+tools = ["trufflehog"]
 reporters = ["json", "console", "sarif", "bom"]
 
 [scan.ci]

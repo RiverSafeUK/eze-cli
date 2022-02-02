@@ -3,7 +3,7 @@
 # ========================================
 [python-bandit]
 SOURCE = "app"
-REPORT_FILE = "../reports/python/bandit-report.json"
+REPORT_FILE = "../.eze/python/bandit-report.json"
 
 [python-piprot]
 REQUIREMENTS_FILES = [
@@ -13,18 +13,18 @@ NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
 NEWER_MINOR_SEMVERSION_SEVERITY = "none"
 NEWER_PATCH_SEMVERSION_SEVERITY = "none"
 IGNORE_BELOW_SEVERITY = "low"
-REPORT_FILE = "../reports/python/piprot-report.json"
+REPORT_FILE = "../.eze/python/piprot-report.json"
 
 [python-safety]
 REQUIREMENTS_FILES = [
     "requirements.txt"
 ]
 IGNORE_BELOW_SEVERITY = "medium"
-REPORT_FILE = "../reports/python/safety-report.json"
+REPORT_FILE = "../.eze/python/safety-report.json"
 
 [semgrep]
 PRINT_TIMING_INFO = false
-REPORT_FILE = "../reports/python/semgrep-report.json"
+REPORT_FILE = "../.eze/python/semgrep-report.json"
 EXCLUDE = [
     "tests",
     "tests-integration"
@@ -36,29 +36,29 @@ CONFIGS = [
 
 [trufflehog]
 SOURCE = "."
-REPORT_FILE = "../reports/python/truffleHog-report.json"
+REPORT_FILE = "../.eze/python/truffleHog-report.json"
 
 [python-cyclonedx]
 REQUIREMENTS_FILE = "requirements.txt"
-REPORT_FILE = "../reports/python/python-cyclonedx-bom.json"
+REPORT_FILE = "../.eze/python/python-cyclonedx-bom.json"
 
 # ========================================
 # REPORT CONFIG
 # ========================================
 [bom]
-REPORT_FILE = "../reports/python/report-cyclonedx-sbom.json"
+REPORT_FILE = "../.eze/python/report-cyclonedx-sbom.json"
 
 [console]
 PRINT_SUMMARY_ONLY = true
 
 [json]
-REPORT_FILE = "../reports/python/eze_report.json"
+REPORT_FILE = "../.eze/python/eze_report.json"
 
 [sarif]
-REPORT_FILE = "../reports/python/eze_report.sarif"
+REPORT_FILE = "../.eze/python/eze_report.sarif"
 
 [markdown]
-REPORT_FILE = "../reports/python/eze_report.md"
+REPORT_FILE = "../.eze/python/eze_report.md"
 
 
 # ========================================

@@ -105,6 +105,23 @@ available levels: critical, high, medium, low, none, na""",
         },
     }
 
+    DEFAULT_IGNORED_LOCATIONS: list = [
+        # IDEs and Configs
+        ".gradle",
+        ".aws",
+        ".idea",
+        ".git",
+        ".eze",
+        # NODE
+        "node_modules",
+        "build",
+        # PYTHON
+        ".pytest_cache",
+        "venv",
+        "dist",
+        "sdist"
+    ]
+
     def __init__(self, config: dict = None):
         """constructor"""
         if config is None:
