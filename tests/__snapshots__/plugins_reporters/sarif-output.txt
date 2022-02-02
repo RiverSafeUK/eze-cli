@@ -40,7 +40,18 @@
           "message": {
             "text": "requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
           },
-          "locations": []
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "unknown"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
         },
         {
           "ruleId": "d45662fb-577e-4fd8-9950-f5cfd7923450",
@@ -123,7 +134,18 @@
           "message": {
             "text": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
           },
-          "locations": []
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "unknown"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
         }
       ],
       "taxonomies": []

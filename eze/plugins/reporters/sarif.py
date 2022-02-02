@@ -106,8 +106,7 @@ By default set to eze_report.sarif""",
                 }
             }
 
-            if py_.get(vulnerability.file_location, "path") is not None:
-                result["locations"].append(location)
-
+            result["locations"].append(location)
             results.append(result)
+
         return rules, results
