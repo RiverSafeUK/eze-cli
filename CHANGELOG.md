@@ -1,5 +1,9 @@
 # Eze Changelog
 
+## 0.13.3 - 2nd February 2022
+Improvements:
+- ab-1002: improved SCA reports (including multi project support)
+
 ## 0.13.2 - 2nd February 2022
 Improvements:
 - ab-998: multi sbom support
