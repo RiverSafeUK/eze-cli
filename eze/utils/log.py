@@ -80,7 +80,9 @@ def log_error(log_text: str) -> None:
 
 
 def log(log_text: str) -> None:
-    """Print to stdout"""
+    """Print to stdout
+    :rtype: object
+    """
     LogLevel.log(log_text)
 
 

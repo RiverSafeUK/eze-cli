@@ -17,6 +17,8 @@ from eze.utils.io import (
     remove_non_folders,
 )
 from eze.utils.log import log
+from eze.utils.file_scanner import IGNORED_FOLDERS
+from eze.utils.git import get_gitignore_paths
 
 
 class TruffleHogTool(ToolMeta):
@@ -89,6 +91,11 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "default_help_value": "<tempdir>/.eze-temp/tmp-truffleHog-report.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
+        "USE_GIT_IGNORE": {
+            "type": bool,
+            "default": True,
+            "help_text": """ignore files specified in .gitignore""",
+        },
     }
     DEFAULT_SEVERITY = VulnerabilitySeverityEnum.high.name
 
@@ -110,6 +117,34 @@ Warning: on production might want to set this to False to prevent found Secrets 
         }
     }
 
+    BINARY_FILE_PATTERNS = [
+        "*.woff",
+        "*.woff2",
+        "*.lock",
+        "*.map",
+        "*.exe",
+        "*.ttf",
+        "*.png",
+        "*.eot",
+        "*.svg",
+        "*.png",
+        "*.jpeg",
+        "*.jpg",
+        "*.webp",
+        "*.ico",
+        "*.zip",
+        ".DS_Store",
+        # IDEs and Configs
+        # TERRAFORM
+        "errored.tfstate",
+        "*.lock.hcl",
+        # NODE
+        "package-lock.json",
+        "*.min.js",
+        "*.min.css",
+        # PYTHON
+    ]
+
     @staticmethod
     def check_installed() -> str:
         """Method for detecting if tool installed and ready to run scan, returns version installed"""
@@ -129,7 +164,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         if total_time > 10:
             log(
                 f"trufflehog scan took a long time ({total_time:0.2f}s), "
-                f"you can often speed up trufflehog significantly by excluding dependency folders like node_modules"
+                f"you can often speed up trufflehog significantly by excluding dependency or binary folders like node_modules or sbin"
             )
         parsed_json = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(parsed_json)
@@ -146,7 +181,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
-        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings"
+        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
 
         # only include full reason if include_full_reason true
         if self.config["INCLUDE_FULL_REASON"]:
@@ -179,7 +214,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
-        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings"
+        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
 
         # only include full reason if include_full_reason true
         if self.config["INCLUDE_FULL_REASON"]:
@@ -232,10 +267,18 @@ Warning: on production might want to set this to False to prevent found Secrets 
         # ADDITION PARSING: EXCLUDE
         # convert to space separated, clean os specific regex
         if not parsed_config["DISABLE_DEFAULT_IGNORES"]:
-            parsed_config["EXCLUDE"].extend(ToolMeta.DEFAULT_IGNORED_LOCATIONS)
+            ignored_folders = IGNORED_FOLDERS
+            parsed_config["EXCLUDE"].extend(ignored_folders)
+            parsed_config["EXCLUDE"].extend(self.BINARY_FILE_PATTERNS)
+        if parsed_config["USE_GIT_IGNORE"]:
+            gitignore_paths = get_gitignore_paths()
+            parsed_config["EXCLUDE"].extend(gitignore_paths)
+
         if len(parsed_config["EXCLUDE"]) > 0:
             if is_windows_os():
                 parsed_config["EXCLUDE"] = list(map(normalise_windows_regex_file_path, parsed_config["EXCLUDE"]))
+            # normalise paths for duplicates
+            parsed_config["EXCLUDE"] = list(set(parsed_config["EXCLUDE"]))
 
         # ADDITIONAL PARSING: AB-848: detect non folders being set as source
         # remove from SOURCE

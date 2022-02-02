@@ -23,6 +23,7 @@ from eze.utils.config import (
 )
 from eze.utils.error import EzeError, EzeConfigError
 from eze.utils.log import log, log_debug, log_error, status_message, clear_status_message
+from eze.utils.file_scanner import IGNORED_FOLDERS
 
 
 class ScanResult:
@@ -105,22 +106,7 @@ available levels: critical, high, medium, low, none, na""",
         },
     }
 
-    DEFAULT_IGNORED_LOCATIONS: list = [
-        # IDEs and Configs
-        ".gradle",
-        ".aws",
-        ".idea",
-        ".git",
-        ".eze",
-        # NODE
-        "node_modules",
-        "build",
-        # PYTHON
-        ".pytest_cache",
-        "venv",
-        "dist",
-        "sdist"
-    ]
+    DEFAULT_IGNORED_LOCATIONS: list = IGNORED_FOLDERS
 
     def __init__(self, config: dict = None):
         """constructor"""

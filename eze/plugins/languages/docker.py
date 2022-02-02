@@ -96,8 +96,8 @@
 #     ]
 #     EXCLUDE = [
 #         ".*\\\\.(jpe?g|png|svg|eot|ttf|exe|map|lock|woff|pytest_cache)$",
-#         ".*//trufflehog-report.json$",
 #         ".*\\\\.DS_Store"
+#         ".*//trufflehog-report.json$",
 #     ]
 #
 # """,

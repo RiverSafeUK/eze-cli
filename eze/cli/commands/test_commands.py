@@ -44,7 +44,7 @@ def test_command(state, config_file: str, scan_type: str, force_autoscan: bool, 
 @click.option(
     "--url",
     "-u",
-    help="Specify the url of the remote repository to run scan. ex https://user:pass@github.com/repo-url",
+    help="Specify the url of the remote repository to run scan. ex https://user:pass@github.com/repo-url",  # nosecret
     required=True,
 )
 def test_online_command(state, config_file: str, url: str) -> None:
@@ -78,7 +78,7 @@ def test_online_command(state, config_file: str, url: str) -> None:
 @click.option(
     "--url",
     "-u",
-    help="Specify the url of the remote repository to run scan. ex https://user:pass@github.com/repo-url",
+    help="Specify the url of the remote repository to run scan. ex https://user:pass@github.com/repo-url",  # nosecret
     required=True,
 )
 @click.option(

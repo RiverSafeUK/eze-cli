@@ -9,15 +9,23 @@
       "enable_on_file": [],
       "enable_on_file_ext": [],
       "config": {
+        "USE_GIT_IGNORE": true,
+        "DISABLE_DEFAULT_IGNORES": false,
         "NO_ENTROPY": false,
-        "INCLUDE_FULL_REASON": true
+        "INCLUDE_FULL_REASON": true,
+        "EXCLUDE": []
       }
     },
     "semgrep": {
       "enabled_always": true,
       "enable_on_file": [],
       "enable_on_file_ext": [],
-      "config": {}
+      "config": {
+        "USE_GIT_IGNORE": true,
+        "DISABLE_DEFAULT_IGNORES": false,
+        "PRINT_TIMING_INFO": false,
+        "EXCLUDE": []
+      }
     },
     "java-cyclonedx": {
       "enabled_always": false,

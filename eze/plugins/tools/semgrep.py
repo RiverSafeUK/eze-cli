@@ -98,6 +98,11 @@ maps to semgrep flag --exclude""",
             "default": False,
             "help_text": """can be difficult to find which rules are running slowly, this outputs a small timing report""",
         },
+        "USE_GIT_IGNORE": {
+            "type": bool,
+            "default": True,
+            "help_text": """ignore files specified in .gitignore""",
+        },
         "REPORT_FILE": {
             "type": str,
             "default": create_tempfile_path("tmp-semgrep-report.json"),
@@ -112,7 +117,7 @@ maps to semgrep flag --exclude""",
         "CMD_CONFIG": {
             # tool command prefix
             "BASE_COMMAND": shlex.split(
-                "semgrep --optimizations all --json --time  --use-git-ignore --disable-metrics -q "
+                "semgrep --optimizations all --json --time --disable-metrics -q "
             ),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
@@ -123,6 +128,7 @@ maps to semgrep flag --exclude""",
                 "INCLUDE": "--include ",
                 "EXCLUDE": "--exclude ",
             },
+            "SHORT_FLAGS": {"USE_GIT_IGNORE": " --use-git-ignore"},
         }
     }
 

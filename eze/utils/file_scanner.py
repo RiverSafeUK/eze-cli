@@ -13,21 +13,46 @@ __c = Cache()
 __c.discovered_files = None
 __c.discovered_folders = None
 
-IGNORE_FOLDERS = [
-    ".git",
-    ".idea",
-    "node_modules",
+IGNORED_FOLDERS: list = [
+    # IDEs and Configs
     ".gradle",
-    "venv",
+    ".aws",
+    ".idea",
+    ".git",
+    ".eze",
+    ".coverage",
     "~",
-    "__pycache__",
-    ".pytest_cache",
+    # TERRAFORM
+    ".terraform",
+    # NODE
+    "node_modules",
+    "build",
     "target",
+    "vendor",
+    # PYTHON
+    ".pytest_cache",
+    "__pycache__",
+    ".env",
+    ".venv",
+    ".tox",
+    "venv",
+    "dist",
+    "sdist"
+]
+IGNORED_FILES: list = [
+    # IDEs and Configs
+    # TERRAFORM
+    ".terraform.lock.hcl",
+    # NODE
+    "package-lock.json",
+    # PYTHON
 ]
 
 
 def delete_file_cache() -> None:
     """delete file caching"""
+    __c.ignored_folders = None
+    __c.ignored_files = None
     __c.discovered_folders = None
     __c.discovered_files = None
     __c.discovered_filenames = None
@@ -75,6 +100,12 @@ def get_file_list() -> list:
     return __c.discovered_files
 
 
+def get_ignored_folder_list() -> list:
+    """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
+    initialise_cache()
+    return __c.ignored_folders
+
+
 def get_folder_list() -> list:
     """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
     initialise_cache()
@@ -83,7 +114,7 @@ def get_folder_list() -> list:
 def initialise_cache ():
     """sets up cache of files for project"""
     if not __c.discovered_folders:
-        [__c.discovered_folders, __c.discovered_files, __c.discovered_filenames,
+        [__c.discovered_folders, __c.ignored_folders, __c.discovered_files, __c.discovered_filenames,
          __c.discovered_types] = _build_file_list()
 
 def _build_file_list(root_path: str = None) -> list:
@@ -94,6 +125,7 @@ def _build_file_list(root_path: str = None) -> list:
 
     root_prefix = len(str(Path(root_path))) + 1
 
+    ignored_folders = []
     discovered_files = []
     discovered_folders = []
     discovered_filenames = []
@@ -101,8 +133,10 @@ def _build_file_list(root_path: str = None) -> list:
 
     for root, subdirs, files in os.walk(walk_dir):
         # Ignore Some directories
-        for ignored_directory in IGNORE_FOLDERS:
+        for ignored_directory in IGNORED_FOLDERS:
             if ignored_directory in subdirs:
+                ignored_folder_path = os.path.join(root, ignored_directory)[root_prefix:]
+                ignored_folders.append(ignored_folder_path)
                 subdirs.remove(ignored_directory)
 
         for subdir in subdirs:
@@ -120,4 +154,4 @@ def _build_file_list(root_path: str = None) -> list:
                 discovered_filetypes[extension] = 0
             discovered_filetypes[extension] += 1
 
-    return [discovered_folders, discovered_files, discovered_filenames, discovered_filetypes]
+    return [discovered_folders, ignored_folders, discovered_files, discovered_filenames, discovered_filetypes]
