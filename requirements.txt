@@ -2,8 +2,8 @@ boto3==1.20.24
 botocore==1.23.24
 click==8.0.1
 colorama==0.4.4
-GitPython==3.1.18
-pydash==5.0.0
+GitPython==3.1.26
+pydash==5.1.0
 requests==2.26.0
 semantic_version==2.8.5
 toml==0.10.2
