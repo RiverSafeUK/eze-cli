@@ -5,8 +5,10 @@ opensource python SAST scanner
 config_help:
 ======================
 [python-bandit]
-# SOURCE str
+# SOURCE str [OPTIONAL]
 # bandit source folder to scan for python files
+# default value: 
+#   SOURCE = "."
 # 
 SOURCE = "..."
 

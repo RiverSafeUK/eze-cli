@@ -21,7 +21,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Given
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-python-cyclonedx-bom.json"),
-            "REQUIREMENTS_FILE": "",
+            "REQUIREMENTS_FILE": "requirements.txt",
             "LICENSE_ALLOWLIST": [],
             "LICENSE_CHECK": "PROPRIETARY",
             "LICENSE_DENYLIST": [],

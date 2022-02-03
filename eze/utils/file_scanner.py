@@ -4,6 +4,8 @@ import os
 import re
 from pathlib import Path
 
+from eze.utils.error import EzeError
+
 
 class Cache:
     """Cache class container"""
@@ -37,7 +39,7 @@ IGNORED_FOLDERS: list = [
     ".tox",
     "venv",
     "dist",
-    "sdist"
+    "sdist",
 ]
 IGNORED_FILES: list = [
     # IDEs and Configs
@@ -49,73 +51,44 @@ IGNORED_FILES: list = [
 ]
 
 
+def populate_file_cache(
+    discovered_folders: list,
+    ignored_folders: list,
+    discovered_files: list,
+    discovered_filenames: list,
+    discovered_types: dict,
+) -> None:
+    """delete file caching"""
+    __c.discovered_folders = discovered_folders
+    __c.ignored_folders = ignored_folders
+    __c.discovered_files = discovered_files
+    __c.discovered_filenames = discovered_filenames
+    __c.discovered_types = discovered_types
+
+
+def initialise_cache():
+    """sets up cache of files for project"""
+    if not __c.discovered_folders:
+        [
+            discovered_folders,
+            ignored_folders,
+            discovered_files,
+            discovered_filenames,
+            discovered_types,
+        ] = _build_file_list()
+        populate_file_cache(
+            discovered_folders, ignored_folders, discovered_files, discovered_filenames, discovered_types
+        )
+
+
 def delete_file_cache() -> None:
     """delete file caching"""
-    __c.ignored_folders = None
-    __c.ignored_files = None
     __c.discovered_folders = None
+    __c.ignored_folders = None
     __c.discovered_files = None
     __c.discovered_filenames = None
     __c.discovered_types = None
 
-
-def has_filetype(filetype: str) -> int:
-    """will return count of given file type aka '.py'"""
-    initialise_cache()
-    if filetype not in __c.discovered_types:
-        return 0
-    return __c.discovered_types[filetype]
-
-
-def find_files_by_path(regex_str: str) -> list:
-    """find list of matching files by full path aka 'backend\\function\\ezemcdbcrud\\src\\package.json'"""
-    list_of_files: list = get_file_list()
-    regex = re.compile(regex_str)
-    return list(filter(regex.match, list_of_files))
-
-
-def find_files_by_name(regex_str: str) -> list:
-    """find list of matching files by name aka 'package.json'"""
-    list_of_files: list = get_file_list()
-    list_of_filenames: list = get_filename_list()
-    regex = re.compile(regex_str)
-    counter = 0
-    files_by_name = []
-    for filename in list_of_filenames:
-        if regex.match(filename):
-            files_by_name.append(list_of_files[counter])
-        counter += 1
-    return files_by_name
-
-
-def get_filename_list() -> list:
-    """get list of files aka package.json"""
-    initialise_cache()
-    return __c.discovered_filenames
-
-
-def get_file_list() -> list:
-    """get list of filepaths aka backend\\function\\ezemcdbcrud\\src\\package.json"""
-    initialise_cache()
-    return __c.discovered_files
-
-
-def get_ignored_folder_list() -> list:
-    """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
-    initialise_cache()
-    return __c.ignored_folders
-
-
-def get_folder_list() -> list:
-    """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
-    initialise_cache()
-    return __c.discovered_folders
-
-def initialise_cache ():
-    """sets up cache of files for project"""
-    if not __c.discovered_folders:
-        [__c.discovered_folders, __c.ignored_folders, __c.discovered_files, __c.discovered_filenames,
-         __c.discovered_types] = _build_file_list()
 
 def _build_file_list(root_path: str = None) -> list:
     """build a list of folder and file names"""
@@ -155,3 +128,62 @@ def _build_file_list(root_path: str = None) -> list:
             discovered_filetypes[extension] += 1
 
     return [discovered_folders, ignored_folders, discovered_files, discovered_filenames, discovered_filetypes]
+
+
+def has_filetype(filetype: str) -> int:
+    """will return count of given file type aka '.py'"""
+    initialise_cache()
+    if filetype not in __c.discovered_types:
+        return 0
+    return __c.discovered_types[filetype]
+
+
+def find_files_by_path(regex_str: str) -> list:
+    """find list of matching files by full path aka 'backend\\function\\ezemcdbcrud\\src\\package.json'"""
+    list_of_files: list = get_file_list()
+    try:
+        regex = re.compile(regex_str)
+    except re.error as error:
+        raise EzeError(f"unable to parse regex '{regex_str}' due to {error.msg}")
+    return list(filter(regex.match, list_of_files))
+
+
+def find_files_by_name(regex_str: str) -> list:
+    """find list of matching files by name aka 'package.json'"""
+    list_of_files: list = get_file_list()
+    list_of_filenames: list = get_filename_list()
+    try:
+        regex = re.compile(regex_str)
+    except re.error as error:
+        raise EzeError(f"unable to parse regex '{regex_str}' due to {error.msg}")
+    counter = 0
+    files_by_name = []
+    for filename in list_of_filenames:
+        if regex.match(filename):
+            files_by_name.append(list_of_files[counter])
+        counter += 1
+    return files_by_name
+
+
+def get_filename_list() -> list:
+    """get list of files aka package.json"""
+    initialise_cache()
+    return __c.discovered_filenames
+
+
+def get_file_list() -> list:
+    """get list of filepaths aka backend\\function\\ezemcdbcrud\\src\\package.json"""
+    initialise_cache()
+    return __c.discovered_files
+
+
+def get_ignored_folder_list() -> list:
+    """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
+    initialise_cache()
+    return __c.ignored_folders
+
+
+def get_folder_list() -> list:
+    """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
+    initialise_cache()
+    return __c.discovered_folders

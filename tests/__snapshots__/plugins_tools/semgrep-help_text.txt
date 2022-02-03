@@ -58,12 +58,28 @@ EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js"]
 PRINT_TIMING_INFO = true / false
 
 
+# USE_GIT_IGNORE bool [OPTIONAL]
+# ignore files specified in .gitignore
+# default value: 
+#   USE_GIT_IGNORE = true
+# 
+USE_GIT_IGNORE = true / false
+
+
 # REPORT_FILE str [OPTIONAL]
 # output report location (will default to tmp file otherwise)
 # default value: 
 #   REPORT_FILE = "<tempdir>/.eze-temp/tmp-semgrep-report.json"
 # 
 REPORT_FILE = "..."
+
+
+# WINDOWS_DOCKER_WORKAROUND bool [OPTIONAL]
+# Windows mounted volumes are extremely slow, fix this by copying code to tmp for scanning
+# uses EZE_RUNNING_INSIDE_DOCKER environment variable to detect inside docker
+# stores files inside TMP/.eze/semgrep-workspace
+# 
+WINDOWS_DOCKER_WORKAROUND = true / false
 
 
 
@@ -125,6 +141,8 @@ more_info:
 https://github.com/returntocorp/semgrep
 https://github.com/returntocorp/semgrep-rules
 https://semgrep.dev/explore
+
+Language Support: https://semgrep.dev/docs/language-support/
 
 Tips and Tricks
 ===============================

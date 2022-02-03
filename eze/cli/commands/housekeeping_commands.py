@@ -44,7 +44,7 @@ def housekeeping_group():
 
 
 @click.command("create-local-config", short_help="create local .ezerc.toml")
-@click.option('--autoconfig', type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
+@click.option("--autoconfig", type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
 @debug_option
 def create_local_config_command(autoconfig: click.Path = None):
     """creates a automatically generated config for a user in their local location, based off whe"""

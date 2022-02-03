@@ -21,7 +21,6 @@ from eze.utils.file_scanner import find_files_by_name, has_filetype
 class AutoConfigRunner:
     """Base class AutoConfig"""
 
-
     @staticmethod
     def _is_tool_enabled(tool_config: dict, tool_id: str) -> bool:
         """is tool enabled"""
@@ -91,7 +90,9 @@ class AutoConfigRunner:
         for reporter_id in reporter_configs:
             reporter_config = reporter_configs[reporter_id]
             reporter_list.append(json.dumps(reporter_id, default=vars))
-            reporter_config_fragments.append(AutoConfigRunner._create_reporter_config_fragment(reporter_config, reporter_id))
+            reporter_config_fragments.append(
+                AutoConfigRunner._create_reporter_config_fragment(reporter_config, reporter_id)
+            )
         return [reporter_config_fragments, reporter_list]
 
     @staticmethod
@@ -142,7 +143,7 @@ reporters = [{','.join(reporter_list)}]
         return fragment
 
     @staticmethod
-    def get_autoconfig(autoconfig_file:str = None) -> dict:
+    def get_autoconfig(autoconfig_file: str = None) -> dict:
         """get autoconfig data, defaults to from eze/data/default_autoconfig.json"""
         if not autoconfig_file:
             file_dir = os.path.dirname(__file__)
@@ -150,7 +151,7 @@ reporters = [{','.join(reporter_list)}]
         return load_json(autoconfig_file)
 
     @classmethod
-    def create_local_ezerc_config(cls, autoconfig_file:str = None) -> bool:
+    def create_local_ezerc_config(cls, autoconfig_file: str = None) -> bool:
         """Create new local ezerc file"""
         autoconfig_data = cls.get_autoconfig(autoconfig_file)
         eze_rc = cls.create_ezerc_text(autoconfig_data)
@@ -159,6 +160,7 @@ reporters = [{','.join(reporter_list)}]
         log(f"Successfully written configuration file to '{local_config_location}'")
 
         return True
+
 
 #
 # f"""

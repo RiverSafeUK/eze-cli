@@ -149,17 +149,16 @@ def get_active_branch_name(git_dir: str) -> str:
     return None
 
 
-
 def get_gitignore_paths(git_dir: str = None) -> list:
     """will retrieve list of gitignore paths"""
     if git_dir:
         git_path = Path(git_dir)
     else:
         git_path = Path.cwd()
-    gitignore = git_path / '.gitignore'
+    gitignore = git_path / ".gitignore"
     try:
         gitignore_txt = load_text(gitignore)
     except EzeFileAccessError:
         return []
-    gitignore_lines = [x for x in gitignore_txt.split("\n") if not x.strip().startswith('#') and not x.strip() == '']
+    gitignore_lines = [x for x in gitignore_txt.split("\n") if not x.strip().startswith("#") and not x.strip() == ""]
     return list(set(gitignore_lines))

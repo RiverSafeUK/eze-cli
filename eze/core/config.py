@@ -143,9 +143,7 @@ class EzeConfig:
             raise EzeConfigError(error_message)
 
         if "reporters" not in scan_config:
-            error_message = (
-                "The ./ezerc config missing scan.reporters list, run 'docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config' to create"
-            )
+            error_message = "The ./ezerc config missing scan.reporters list, run 'docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config' to create"
             raise EzeConfigError(error_message)
         return scan_config
 

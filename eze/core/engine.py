@@ -30,7 +30,7 @@ class EzeCore:
         """Core Eze Constructor"""
 
     @staticmethod
-    def auto_build_ezerc(force_build_ezerc: bool = False, autoconfig:click.Path = None) -> bool:
+    def auto_build_ezerc(force_build_ezerc: bool = False, autoconfig: click.Path = None) -> bool:
         """detect if needs to build ezerc from scratch"""
         valid_config = EzeConfig.has_local_config()
         if not valid_config:

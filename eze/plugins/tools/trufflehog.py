@@ -181,7 +181,9 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
-        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
+        recommendation = (
+            f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
+        )
 
         # only include full reason if include_full_reason true
         if self.config["INCLUDE_FULL_REASON"]:
@@ -214,7 +216,9 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
-        recommendation = f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
+        recommendation = (
+            f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
+        )
 
         # only include full reason if include_full_reason true
         if self.config["INCLUDE_FULL_REASON"]:
@@ -270,10 +274,15 @@ Warning: on production might want to set this to False to prevent found Secrets 
             ignored_folders = IGNORED_FOLDERS
             parsed_config["EXCLUDE"].extend(ignored_folders)
             parsed_config["EXCLUDE"].extend(self.BINARY_FILE_PATTERNS)
+
+        # ADDITION PARSING: EXCLUDE
+        # add git ignore onto excludes
         if parsed_config["USE_GIT_IGNORE"]:
             gitignore_paths = get_gitignore_paths()
             parsed_config["EXCLUDE"].extend(gitignore_paths)
 
+        # ADDITION PARSING: EXCLUDE
+        # convert to space separated, clean os specific regex
         if len(parsed_config["EXCLUDE"]) > 0:
             if is_windows_os():
                 parsed_config["EXCLUDE"] = list(map(normalise_windows_regex_file_path, parsed_config["EXCLUDE"]))

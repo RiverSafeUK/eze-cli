@@ -29,7 +29,7 @@ from eze.utils.log import log, log_debug, log_error
     help="Forces language autoscan and creation of new .ezerc.toml",
     default=False,
 )
-@click.option('--autoconfig', type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
+@click.option("--autoconfig", type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
 def test_command(state, config_file: str, scan_type: str, force_autoscan: bool, autoconfig: click.Path = None) -> None:
     """Eze run scan"""
 

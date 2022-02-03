@@ -20,7 +20,7 @@ class TestPiprotTool(ToolMetaTestBase):
         # Given
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-piprot-report.json"),
-            "REQUIREMENTS_FILES": [],
+            "REQUIREMENTS_FILES": ["requirements.txt"],
             "HIGH_SEVERITY_AGE_THRESHOLD": 1095,
             "LOW_SEVERITY_AGE_THRESHOLD": 182,
             "MEDIUM_SEVERITY_AGE_THRESHOLD": 730,

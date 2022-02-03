@@ -54,7 +54,7 @@ $ pip freeze > requirements.txt
     EZE_CONFIG: dict = {
         "REQUIREMENTS_FILES": {
             "type": list,
-            "default": [],
+            "default": ["requirements.txt"],
             "help_text": """Optional python requirements files to check""",
         },
         "HIGH_SEVERITY_AGE_THRESHOLD": {

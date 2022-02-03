@@ -242,6 +242,13 @@ def create_tempfile_path(filename: str) -> str:
     return tmp_report_file
 
 
+def create_tempfile_folder(folder: str) -> str:
+    """create a tempfile path, ensure folder exists"""
+    working_temp_folder = os.path.join(tempfile.gettempdir(), ".eze-temp", folder)
+    os.makedirs(working_temp_folder, exist_ok=True)
+    return working_temp_folder
+
+
 def delete_file(filename: str):
     """Delete path with no errors"""
     try:

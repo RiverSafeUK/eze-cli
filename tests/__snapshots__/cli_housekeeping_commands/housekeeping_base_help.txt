@@ -8,7 +8,7 @@ Options:
 
 Commands:
   create-global-config  create global config file
-  create-local-config   create local config file
+  create-local-config   create local .ezerc.toml
   documentation         list all plugins installed and their documentation
   get-repo              get current git repo folder is in
   list-config           list the config file locations

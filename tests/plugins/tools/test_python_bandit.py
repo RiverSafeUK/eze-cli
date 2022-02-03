@@ -13,16 +13,6 @@ class TestBanditTool(ToolMetaTestBase):
     ToolMetaClass = BanditTool
     SNAPSHOT_PREFIX = "python-bandit"
 
-    def test_creation__no_config_fail_needs_source(self):
-        # Given
-        expected_error_message = """required param 'SOURCE' missing from configuration
-bandit source folder to scan for python files"""
-        # When
-        with pytest.raises(EzeConfigError) as raised_error:
-            BanditTool()
-        # Then
-        assert raised_error.value.message == expected_error_message
-
     def test_creation__with_config(self):
         # Given
         input_config = {

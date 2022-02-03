@@ -109,6 +109,12 @@ RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/
 RUN set -o pipefail \
     && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin
 
+## Install editor
+RUN set -o pipefail \
+    && apt-get install -y --no-install-recommends nano \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 #
 # set Work Dir
 WORKDIR /data

@@ -35,7 +35,11 @@ Tips and Tricks
     LICENSE: str = """Apache-2.0"""
 
     EZE_CONFIG: dict = {
-        "SOURCE": {"type": str, "required": True, "help_text": """bandit source folder to scan for python files"""},
+        "SOURCE": {
+            "type": str,
+            "default": ".",
+            "help_text": """bandit source folder to scan for python files""",
+        },
         "EXCLUDE": {
             "type": list,
             "default": [],
