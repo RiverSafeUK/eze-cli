@@ -116,10 +116,12 @@ maps to semgrep flag --exclude""",
         },
         "WINDOWS_DOCKER_WORKAROUND": {
             "type": bool,
-            "default": False,
+            "default": os.environ.get("WINDOWS_DOCKER_WORKAROUND", False),
             "help_text": """Windows mounted volumes are extremely slow, fix this by copying code to tmp for scanning
 uses EZE_RUNNING_INSIDE_DOCKER environment variable to detect inside docker
-stores files inside TMP/.eze/semgrep-workspace""",
+stores files inside TMP/.eze/semgrep-workspace
+
+can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
         },
     }
 
@@ -202,7 +204,7 @@ https://github.com/returntocorp/semgrep/issues/1330"""
 
         return report
 
-    def parse_report(self, parsed_json: dict, total_time: int) -> ScanResult:
+    def parse_report(self, parsed_json: dict, total_time: int = 0) -> ScanResult:
         """convert report json into ScanResult"""
 
         time_info = parsed_json.get("time")

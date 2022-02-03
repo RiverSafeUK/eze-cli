@@ -2,6 +2,7 @@
 from unittest import mock
 
 import pytest
+from eze.utils.file_scanner import delete_file_cache, populate_file_cache
 
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.utils.error import EzeError
@@ -9,20 +10,47 @@ from eze.utils.io import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 from tests.__test_helpers__.mock_helper import mock_run_cmd
 
+mock_discovered_folders = ["src"]
+mock_ignored_folders = ["node_modules"]
+mock_discovered_files = ["Dockerfile", "src/thing.js"]
+mock_discovered_filenames = ["Dockerfile", "thing.js"]
+mock_discovered_types = {"Dockerfile": 1, ".js": 1}
+
 
 class TestSemGrepTool(ToolMetaTestBase):
     ToolMetaClass = SemGrepTool
     SNAPSHOT_PREFIX = "semgrep"
 
+    @classmethod
+    def setup_class(cls) -> None:
+        """Pre-Test Setup func"""
+        print("hello")
+        populate_file_cache(
+            mock_discovered_folders,
+            mock_ignored_folders,
+            mock_discovered_files,
+            mock_discovered_filenames,
+            mock_discovered_types,
+        )
+
+    @classmethod
+    def teardown_class(cls) -> None:
+        """Post-Test Tear Down func"""
+        print("world")
+        delete_file_cache()
+
     def test_creation__no_config(self):
         # Given
         expected_config = {
-            "CONFIGS": ["p/ci"],
+            # based off mocked populate_file_cache
+            "CONFIGS": ["p/ci", "p/dockerfile", "p/nodejs", "p/javascript"],
             "EXCLUDE": [],
             "INCLUDE": [],
             "PRINT_TIMING_INFO": False,
             "REPORT_FILE": create_tempfile_path("tmp-semgrep-report.json"),
             "SOURCE": None,
+            "USE_GIT_IGNORE": True,
+            "WINDOWS_DOCKER_WORKAROUND": False,
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -41,12 +69,14 @@ class TestSemGrepTool(ToolMetaTestBase):
             "ADDITIONAL_ARGUMENTS": "--something foo",
         }
         expected_config = {
-            "CONFIGS": ["p/ci"],
+            "CONFIGS": ["p/ci", "p/dockerfile", "p/nodejs", "p/javascript"],
             "EXCLUDE": [],
             "INCLUDE": [],
             "PRINT_TIMING_INFO": False,
             "REPORT_FILE": create_tempfile_path("tmp-semgrep-report.json"),
             "SOURCE": None,
+            "USE_GIT_IGNORE": True,
+            "WINDOWS_DOCKER_WORKAROUND": False,
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "IGNORED_FILES": None,
@@ -86,7 +116,7 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Given
         input_config = {"ADDITIONAL_ARGUMENTS": "--something foo", "REPORT_FILE": "foo_report.json"}
 
-        expected_cmd = "semgrep --optimizations all --json --time --use-git-ignore --disable-metrics -q -c p/ci -o foo_report.json --something foo"
+        expected_cmd = "semgrep --optimizations all --json --time --disable-metrics -q --use-git-ignore -c p/ci -c p/dockerfile -c p/nodejs -c p/javascript -o foo_report.json --something foo"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

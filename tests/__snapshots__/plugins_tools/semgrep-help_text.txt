@@ -79,6 +79,8 @@ REPORT_FILE = "..."
 # uses EZE_RUNNING_INSIDE_DOCKER environment variable to detect inside docker
 # stores files inside TMP/.eze/semgrep-workspace
 # 
+# can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable
+# 
 WINDOWS_DOCKER_WORKAROUND = true / false
 
 

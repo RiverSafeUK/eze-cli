@@ -8,6 +8,7 @@ import math
 from abc import ABC, abstractmethod
 from typing import Callable
 
+from copy import deepcopy
 from eze.core.reporter import ReporterManager
 from eze.core.config import EzeConfig
 from eze.core.enums import VulnerabilitySeverityEnum, ToolType, Vulnerability
@@ -117,8 +118,8 @@ available levels: critical, high, medium, low, none, na""",
     def _parse_config(self, eze_config: dict) -> dict:
         """take raw config dict and normalise values based off "EZE_CONFIG" config,
         can be overridden for advanced behaviours"""
-        parsed_config = get_config_keys(eze_config, self.EZE_CONFIG)
-        parsed_config = get_config_keys(eze_config, self.COMMON_EZE_CONFIG, parsed_config)
+        parsed_config = get_config_keys(eze_config, deepcopy(self.EZE_CONFIG))
+        parsed_config = get_config_keys(eze_config, deepcopy(self.COMMON_EZE_CONFIG), parsed_config)
         return parsed_config
 
     @classmethod
@@ -149,7 +150,7 @@ available levels: critical, high, medium, low, none, na""",
     @classmethod
     def config_help(cls) -> str:
         """Returns self help instructions how to configure the tool"""
-        return create_config_help(cls.TOOL_NAME, cls.EZE_CONFIG, cls.COMMON_EZE_CONFIG)
+        return create_config_help(cls.TOOL_NAME, cls.EZE_CONFIG.copy(), cls.COMMON_EZE_CONFIG.copy())
 
     @classmethod
     def install_help(cls) -> str:

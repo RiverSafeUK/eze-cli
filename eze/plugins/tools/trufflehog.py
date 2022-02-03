@@ -57,7 +57,7 @@ Tips and Tricks
         },
         "EXCLUDE": {
             "type": list,
-            "default": ["venv", "node_modules"],
+            "default": [],
             "help_text": """array of regex str of folders/files to exclude from scan for secrets
 eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\\\" for windows""",
             "help_example": ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"],
@@ -287,7 +287,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
             if is_windows_os():
                 parsed_config["EXCLUDE"] = list(map(normalise_windows_regex_file_path, parsed_config["EXCLUDE"]))
             # normalise paths for duplicates
-            parsed_config["EXCLUDE"] = list(set(parsed_config["EXCLUDE"]))
+            parsed_config["EXCLUDE"] = sorted(set(parsed_config["EXCLUDE"]))
 
         # ADDITIONAL PARSING: AB-848: detect non folders being set as source
         # remove from SOURCE
