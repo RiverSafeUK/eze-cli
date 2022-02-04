@@ -117,8 +117,7 @@ maps to semgrep flag --exclude""",
         "WINDOWS_DOCKER_WORKAROUND": {
             "type": bool,
             "default": os.environ.get("WINDOWS_DOCKER_WORKAROUND", False),
-            "help_text": """Windows mounted volumes are extremely slow, fix this by copying code to tmp for scanning
-uses EZE_RUNNING_INSIDE_DOCKER environment variable to detect inside docker
+            "help_text": """mounted volumes Docker running in Windows are extremely slow, fix this by copying code locally for scanning
 stores files inside TMP/.eze/semgrep-workspace
 
 can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
@@ -167,8 +166,7 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
         # and scan there (70% faster scans in windows)
         #
         cwd = None
-        inside_docker = py_.get(os, "environ.EZE_RUNNING_INSIDE_DOCKER", False)
-        if self.config["WINDOWS_DOCKER_WORKAROUND"] and inside_docker:
+        if self.config["WINDOWS_DOCKER_WORKAROUND"]:
             workspace_folder = create_tempfile_folder("semgrep-workspace")
             log_debug(f"running WINDOWS_DOCKER_WORKAROUND, copying files to {workspace_folder}")
             cwd = workspace_folder

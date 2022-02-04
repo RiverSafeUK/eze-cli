@@ -75,8 +75,7 @@ REPORT_FILE = "..."
 
 
 # WINDOWS_DOCKER_WORKAROUND bool [OPTIONAL]
-# Windows mounted volumes are extremely slow, fix this by copying code to tmp for scanning
-# uses EZE_RUNNING_INSIDE_DOCKER environment variable to detect inside docker
+# mounted volumes Docker running in Windows are extremely slow, fix this by copying code locally for scanning
 # stores files inside TMP/.eze/semgrep-workspace
 # 
 # can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable

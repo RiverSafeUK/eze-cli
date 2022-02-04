@@ -153,7 +153,6 @@ RUN pip3 install --no-cache-dir /tmp/eze-cli-latest.tar.gz \
 
 #
 # set Work Dir
-ENV EZE_RUNNING_INSIDE_DOCKER true
 WORKDIR /data
 
 #
