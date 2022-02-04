@@ -68,7 +68,7 @@ def convert_vulnerability(
             "recommendation": get_recommendation(vulnerability),
             "severity": cve_data["severity"] if cve_data else VulnerabilitySeverityEnum.high.name,
             "is_ignored": False,
-            "file_location": {"path": pip_project_file, "line": 0},
+            "file_location": {"path": pip_project_file, "line": 1},
         }
     )
 

@@ -44,7 +44,7 @@ def test_get_pypi_package_data__happy_case(mock_cve_request_json, mock_pypi_requ
         "vulnerabilities": [
             {
                 "confidence": "",
-                "file_location": {"line": 0, "path": "requirements.txt"},
+                "file_location": {"line": 1, "path": "requirements.txt"},
                 "identifiers": {"CVE": "CVE-2020-8897", "PYSEC": "PYSEC-2020-261"},
                 "is_excluded": False,
                 "is_ignored": False,

@@ -141,7 +141,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "severity": semver_severity,
                 "identifiers": {},
                 "metadata": None,
-                "file_location": {"path": npm_package, "line": 0},
+                "file_location": {"path": npm_package, "line": 1},
             }
             vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
