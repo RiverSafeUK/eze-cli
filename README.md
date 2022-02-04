@@ -64,6 +64,18 @@ These commands will run a security scan against code in the current folder
 | windows powershell  | ```docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v ${PWD}:/data riversafe/eze-cli test```|
 | windows cmd         | ```docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v %cd%:/data riversafe/eze-cli test```|
 
+### Running Eze Docker Image on Windows
+
+Windows mounted volumes are extremely slow, you can add the environment varibale "WINDOWS_DOCKER_WORKAROUND" to fix this
+
+Eze will copy code to /tmp on the image for scanning, stores files inside TMP/.eze/
+
+This will speed up windows scan be as much as 80%
+
+```bash
+docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
+```
+
 # Other Common commands
 
 ## Detect tools locally installed
@@ -95,18 +107,6 @@ CONTAINER ID   NAME                 CPU %     MEM USAGE / LIMIT     MEM %     NE
 f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     221MB / 4.73MB   0B / 0B     17
 # docker rm container id
 $ docker rm --force f0bef6e0bba7
-```
-
-## Running Eze Docker Image on Windows
-
-Windows mounted volumes are extremely slow, you can add the environment varibale "WINDOWS_DOCKER_WORKAROUND" to fix this
-
-Eze will copy code to /tmp on the image for scanning, stores files inside TMP/.eze/
-
-This will speed up windows scan be as much as 80%
-
-```bash
-docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
 ```
 
 # Configuring Eze

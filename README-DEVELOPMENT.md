@@ -184,10 +184,10 @@ JSON format
       "_help_message": "<DEVELOPER COMMENTS>",
       "enabled_always": "true or false",
       "enable_on_file": [
-        "<LIST OF FILE NAMES IN FOUND IN CODEBASE WILL ENABLE>"
+        "<LIST OF FILE NAMES IF FOUND WILL ENABLE TOOL>"
       ],
       "enable_on_file_ext": [
-        "<LIST OF FILE NAMES IN FOUND IN CODEBASE WILL ENABLE>"
+        "<LIST OF FILE EXTENSIONS IF FOUND WILL ENABLE TOOL>"
       ],
       "config": {
         "<FIELD>": "<VALUE>"
@@ -196,6 +196,7 @@ JSON format
   },
   "reporters": {
     "<reporter-id>": {
+      "_help_message": "LISTED REPORTERS ARE ALWAYS ENABLED",
       "config": {
         "<FIELD>": "<VALUE>"
       }
