@@ -323,7 +323,7 @@ def check_licenses(
                         "severity": VulnerabilitySeverityEnum.high.name,
                         "overview": f"{sbom_component.license} in project license_denylist",
                         "vulnerability_type": VulnerabilityType.license.name,
-                        "file_location": {"path": project, "line": 0},
+                        "file_location": {"path": project, "line": 1},
                     }
                 )
             )
@@ -336,7 +336,7 @@ def check_licenses(
                         "severity": VulnerabilitySeverityEnum.high.name,
                         "overview": policy["reasons"][sbom_component.license_type],
                         "vulnerability_type": VulnerabilityType.license.name,
-                        "file_location": {"path": project, "line": 0},
+                        "file_location": {"path": project, "line": 1},
                     }
                 )
             )

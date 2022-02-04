@@ -1,9 +1,0 @@
-=================================
-Language 'testee-language' Help
-Python (.py, requirements.txt)
-=================================
-Version: inbuilt (python: X.X.X, pip:X.X.X) Installed
-
-Language More Info:
----------------------------------
-https://www.python.org/

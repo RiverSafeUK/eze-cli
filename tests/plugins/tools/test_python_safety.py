@@ -21,8 +21,8 @@ class TestSafetyTool(ToolMetaTestBase):
         # Given
         expected_config = {
             "APIKEY": None,
-            "REPORT_FILE": create_tempfile_path("tmp-sanity-report.json"),
-            "REQUIREMENTS_FILES": [],
+            "REPORT_FILE": create_tempfile_path("tmp-safety-report.json"),
+            "REQUIREMENTS_FILES": ["requirements.txt"],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -45,7 +45,7 @@ class TestSafetyTool(ToolMetaTestBase):
         }
         expected_config = {
             "APIKEY": "xxxx-aaaa-bbbb-cccc",
-            "REPORT_FILE": create_tempfile_path("tmp-sanity-report.json"),
+            "REPORT_FILE": create_tempfile_path("tmp-safety-report.json"),
             "REQUIREMENTS_FILES": ["requirements.txt", "requirements-dev.txt"],
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",

@@ -1,0 +1,136 @@
+{
+  "_help_message": "more info in README-DEVELOPMENT.md",
+  "license": {
+    "license_mode": "PROPRIETARY"
+  },
+  "tools": {
+    "trufflehog": {
+      "enabled_always": true,
+      "enable_on_file": [],
+      "enable_on_file_ext": [],
+      "config": {
+        "USE_GIT_IGNORE": true,
+        "DISABLE_DEFAULT_IGNORES": false,
+        "NO_ENTROPY": false,
+        "INCLUDE_FULL_REASON": true,
+        "EXCLUDE": [],
+        "REPORT_FILE": ".eze/_truffleHog-report.json"
+      }
+    },
+    "semgrep": {
+      "enabled_always": true,
+      "enable_on_file": [],
+      "enable_on_file_ext": [],
+      "config": {
+        "USE_GIT_IGNORE": true,
+        "DISABLE_DEFAULT_IGNORES": false,
+        "PRINT_TIMING_INFO": false,
+        "WINDOWS_DOCKER_WORKAROUND": false,
+        "EXCLUDE": [],
+        "REPORT_FILE": ".eze/_semgrep-report.json"
+      }
+    },
+    "java-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": ["pom.xml"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_java-cyclonedx-bom.json"
+      }
+    },
+    "java-dependencycheck": {
+      "enabled_always": false,
+      "enable_on_file": ["pom.xml"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_java-dependencycheck-report.json"
+      }
+    },
+    "java-spotbugs": {
+      "enabled_always": false,
+      "enable_on_file": ["pom.xml"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_java-spotbugs-report.json"
+      }
+    },
+    "python-safety": {
+      "enabled_always": false,
+      "enable_on_file": ["requirements.txt"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_python-safety-report.json"
+      }
+    },
+    "python-piprot": {
+      "enabled_always": false,
+      "enable_on_file": ["requirements.txt"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_python-piprot-report.json"
+      }
+    },
+    "python-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": ["requirements.txt"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_python-cyclonedx-bom.json"
+      }
+    },
+    "python-bandit": {
+      "enabled_always": false,
+      "enable_on_file": [],
+      "enable_on_file_ext": [".py"],
+      "config": {
+        "REPORT_FILE": ".eze/_python-bandit-report.json"
+      }
+    },
+    "node-npmaudit": {
+      "enabled_always": false,
+      "enable_on_file": ["package.json"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_node-npmaudit-report.json"
+      }
+    },
+    "node-npmoutdated": {
+      "enabled_always": false,
+      "enable_on_file": ["package.json"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_node-npmoutdated-report.json"
+      }
+    },
+    "node-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": ["package.json"],
+      "enable_on_file_ext": [],
+      "config": {
+        "REPORT_FILE": ".eze/_node-cyclonedx-bom.json"
+      }
+    },
+    "container-trivy": {},
+    "kics": {},
+    "anchore-grype": {},
+    "anchore-syft": {},
+    "gitleaks": {}
+  },
+  "reporters": {
+    "console": {
+      "config": {
+        "PRINT_SUMMARY_ONLY": false,
+        "PRINT_IGNORED": false
+      }
+    },
+    "bom": {
+      "config": {}
+    },
+    "json": {
+      "config": {}
+    },
+    "sarif": {
+      "config": {}
+    }
+  }
+}

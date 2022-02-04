@@ -4,6 +4,9 @@ import os
 import re
 from pathlib import Path
 
+from eze.utils.error import EzeFileAccessError
+
+from eze.utils.io import load_text
 from pydash import py_
 
 from eze.utils.log import log_error
@@ -144,3 +147,18 @@ def get_active_branch_name(git_dir: str) -> str:
         return ci_branchname
 
     return None
+
+
+def get_gitignore_paths(git_dir: str = None) -> list:
+    """will retrieve list of gitignore paths"""
+    if git_dir:
+        git_path = Path(git_dir)
+    else:
+        git_path = Path.cwd()
+    gitignore = git_path / ".gitignore"
+    try:
+        gitignore_txt = load_text(gitignore)
+    except EzeFileAccessError:
+        return []
+    gitignore_lines = [x for x in gitignore_txt.split("\n") if not x.strip().startswith("#") and not x.strip() == ""]
+    return list(set(gitignore_lines))

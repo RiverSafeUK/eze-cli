@@ -27,7 +27,7 @@ APIKEY = "..."
 # REPORT_FILE str [OPTIONAL]
 # output report location (will default to tmp file otherwise)
 # default value: 
-#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-sanity-report.json"
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-safety-report.json"
 # 
 REPORT_FILE = "..."
 

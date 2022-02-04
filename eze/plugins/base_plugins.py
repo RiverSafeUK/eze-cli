@@ -1,8 +1,4 @@
 """Lists out the inbuilt plugins in Eze"""
-from eze.plugins.languages.docker import DockerRunner
-from eze.plugins.languages.java import JavaRunner
-from eze.plugins.languages.node import NodeRunner
-from eze.plugins.languages.python import PythonRunner
 from eze.plugins.reporters.bom import BomReporter
 from eze.plugins.reporters.bom_formatted import BomFormattedReporter
 from eze.plugins.reporters.console import ConsoleReporter
@@ -31,16 +27,6 @@ from eze.plugins.tools.raw import RawTool
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
 from eze.plugins.tools.checkmarx_kics import KicsTool
-
-
-def get_languages() -> dict:
-    """Return the default language runners that are installed"""
-    return {
-        "java": JavaRunner,
-        "python": PythonRunner,
-        "node": NodeRunner,
-        "docker": DockerRunner,
-    }
 
 
 def get_reporters() -> dict:

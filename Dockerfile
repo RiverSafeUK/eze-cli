@@ -73,6 +73,7 @@ ENV MAVEN_HOME=/usr/share/maven \
     JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 RUN apt-get update \
     && apt-get install -y --no-install-recommends maven \
+    && apt-get clean \
     && chmod +x /usr/bin/mvn \
     && echo "SIZETAG:Language:Maven + Java jdk 11"
 

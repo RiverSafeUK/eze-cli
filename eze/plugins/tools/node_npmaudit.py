@@ -211,7 +211,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                     "identifiers": {},
                     "references": references,
                     "metadata": None,
-                    "file_location": {"path": npm_package, "line": 0},
+                    "file_location": {"path": npm_package, "line": 1},
                 }
 
                 # WARNING: AB-524: limitation, for now just showing first advisory
@@ -253,7 +253,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "identifiers": {},
                 "references": references,
                 "metadata": None,
-                "file_location": {"path": npm_package, "line": 0},
+                "file_location": {"path": npm_package, "line": 1},
             }
             cwe = py_.get(advisory, "cwe")
             if cwe:

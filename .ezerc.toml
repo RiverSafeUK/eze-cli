@@ -1,27 +1,58 @@
+
+# auto generated .ezerc.toml
+# recreate with "docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config'"
+
 # ===================================
 # GLOBAL CONFIG
 # ===================================
 [global]
-# license_mode
-# available modes:
+# LICENSE_CHECK, available modes:
 # - PROPRIETARY (default) : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
 # - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
 # - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
 # - OFF : no license checks
 # All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
-license_mode = "PROPRIETARY"
+LICENSE_CHECK = "PROPRIETARY"
+# LICENSE_ALLOWLIST, list of licenses to exempt from license checks
+LICENSE_ALLOWLIST = []
+# LICENSE_DENYLIST, list of licenses to always report usage as a error
+LICENSE_DENYLIST = []
 
 # ========================================
 # TOOL CONFIG
 # ========================================
-[python-bandit]
-SOURCE = "eze"
-REPORT_FILE = "reports/bandit-report.json"
-IGNORED_FILES = [
-    "eze/core/enums.py"
+[trufflehog]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help trufflehog"
+USE_GIT_IGNORE = true
+DISABLE_DEFAULT_IGNORES = false
+NO_ENTROPY = false
+INCLUDE_FULL_REASON = true
+EXCLUDE = [
+    "tests"
 ]
+REPORT_FILE = ".eze/_truffleHog-report.json"
+
+[semgrep]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help semgrep"
+USE_GIT_IGNORE = true
+DISABLE_DEFAULT_IGNORES = false
+PRINT_TIMING_INFO = true
+EXCLUDE = []
+REPORT_FILE = ".eze/_semgrep-report.json"
+WINDOWS_DOCKER_WORKAROUND = true
+
+[python-safety]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-safety"
+REPORT_FILE = ".eze/_python-safety-report.json"
+REQUIREMENTS_FILES = [
+    "requirements.txt",
+    "requirements-dev.txt"
+]
+IGNORE_BELOW_SEVERITY = "medium"
 
 [python-piprot]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-piprot"
+REPORT_FILE = ".eze/_python-piprot-report.json"
 REQUIREMENTS_FILES = [
     "requirements.txt",
     "requirements-dev.txt"
@@ -30,71 +61,40 @@ NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
 NEWER_MINOR_SEMVERSION_SEVERITY = "none"
 NEWER_PATCH_SEMVERSION_SEVERITY = "none"
 IGNORE_BELOW_SEVERITY = "low"
-REPORT_FILE = "reports/piprot-report.json"
-
-[python-safety]
-REQUIREMENTS_FILES = [
-    "requirements.txt",
-    "requirements-dev.txt"
-]
-IGNORE_BELOW_SEVERITY = "medium"
-REPORT_FILE = "reports/safety-report.json"
-
-[semgrep]
-PRINT_TIMING_INFO = false
-EXCLUDE = [
-    "tests",
-    "tests-integration",
-    "examples"
-]
-
-    [semgrep.python]
-    REPORT_FILE = "reports/semgrep-python-report.json"
-    CONFIGS = [
-        "p/ci",
-        "p/python",
-    ]
-
-    [semgrep.docker]
-    SOURCE = "Dockerfile"
-    CONFIGS = [
-        "p/dockerfile",
-    ]
-    REPORT_FILE = "reports/semgrep-docker-report.json"
-
-
-[trufflehog]
-SOURCE = ["."]
-IGNORED_FILES = [
-    ".idea",
-    "eze_bom.json",
-    "eze_report.json",
-    "eze_report.sarif",
-    "reports",
-    "examples",
-    ".pytest_cache",
-    "tests/__fixtures__/",
-    "tests/__snapshots__/",
-    "tests/utils/test_git.py",
-    "venv"
-]
-REPORT_FILE = "reports/truffleHog-report.json"
-
-    [trufflehog.ci]
-    INCLUDE_FULL_REASON = false
 
 [python-cyclonedx]
-REPORT_FILE = "reports/cyclonedx-bom.json"
-REQUIREMENTS_FILE = "requirements.txt"
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-cyclonedx"
+REPORT_FILE = ".eze/_python-cyclonedx-bom.json"
 
-
-
-
+[python-bandit]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-bandit"
+REPORT_FILE = ".eze/_python-bandit-report.json"
+SOURCE = "eze"
+IGNORED_FILES = [
+    "eze/core/enums.py"
+]
 
 # ========================================
 # REPORT CONFIG
 # ========================================
+[console]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help console"
+PRINT_SUMMARY_ONLY = false
+PRINT_IGNORED = false
+
+[bom]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help bom"
+
+
+[json]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help json"
+
+
+[sarif]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help sarif"
+
 [eze]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help eze"
 CONSOLE_ENDPOINT = "https://aio7y6esb7.execute-api.eu-west-2.amazonaws.com/development"
 PRINT_SUMMARY_ONLY = false
 
@@ -102,9 +102,8 @@ PRINT_SUMMARY_ONLY = false
 # SCAN CONFIG
 # ========================================
 [scan]
-tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog"]
+tools = ["trufflehog","semgrep","python-safety","python-piprot","python-cyclonedx","python-bandit"]
 reporters = ["json", "console", "sarif", "bom"]
 
 [scan.ci]
-tools = ["python-piprot", "python-bandit", "python-safety", "python-cyclonedx", "semgrep:python", "semgrep:docker", "trufflehog:ci"]
 reporters = ["console", "json", "sarif", "bom", "eze"]

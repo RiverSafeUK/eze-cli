@@ -14,13 +14,10 @@ entry_points={'eze.plugins': 'xxx = eze_plugin_xxx'},
 2) Register the new notification output or scan engine
 
 def get_reporters() -> dict[str,ReporterMeta]:
-    ... this is called on plugin initalisation
+    ... this is called on plugin initialisation
 
 def get_tools() -> dict[str,ToolMeta]:
-    ... this is called on plugin initalisation
-
-def get_languages() -> dict[str,LanguageRunnerMeta]:
-    ... this is called on plugin initalisation
+    ... this is called on plugin initialisation
 
 3) Enable new notification engines and scan engines
 """

@@ -43,7 +43,7 @@ $ pip freeze > requirements.txt
     EZE_CONFIG: dict = {
         "REQUIREMENTS_FILE": {
             "type": str,
-            "default": "",
+            "default": "requirements.txt",
             "help_text": """defaults to requirements.txt
 gotcha: make sure it's a frozen version of the pip requirements""",
             "help_example": "requirements.txt",

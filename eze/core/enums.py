@@ -58,6 +58,7 @@ class SourceType(Enum):
 
     ALL = "ALL"  # Generic supports all source type
     PYTHON = "PYTHON"  # Python project
+    BASH = "BASH"  # Bash files
     NODE = "NODE"  # Node project
     JAVA = "JAVA"  # Java Maven project
     GRADLE = "GRADLE"  # Java Gradle project

@@ -8,6 +8,7 @@ import math
 from abc import ABC, abstractmethod
 from typing import Callable
 
+from copy import deepcopy
 from eze.core.reporter import ReporterManager
 from eze.core.config import EzeConfig
 from eze.core.enums import VulnerabilitySeverityEnum, ToolType, Vulnerability
@@ -23,6 +24,7 @@ from eze.utils.config import (
 )
 from eze.utils.error import EzeError, EzeConfigError
 from eze.utils.log import log, log_debug, log_error, status_message, clear_status_message
+from eze.utils.file_scanner import IGNORED_FOLDERS
 
 
 class ScanResult:
@@ -105,6 +107,8 @@ available levels: critical, high, medium, low, none, na""",
         },
     }
 
+    DEFAULT_IGNORED_LOCATIONS: list = IGNORED_FOLDERS
+
     def __init__(self, config: dict = None):
         """constructor"""
         if config is None:
@@ -114,8 +118,8 @@ available levels: critical, high, medium, low, none, na""",
     def _parse_config(self, eze_config: dict) -> dict:
         """take raw config dict and normalise values based off "EZE_CONFIG" config,
         can be overridden for advanced behaviours"""
-        parsed_config = get_config_keys(eze_config, self.EZE_CONFIG)
-        parsed_config = get_config_keys(eze_config, self.COMMON_EZE_CONFIG, parsed_config)
+        parsed_config = get_config_keys(eze_config, deepcopy(self.EZE_CONFIG))
+        parsed_config = get_config_keys(eze_config, deepcopy(self.COMMON_EZE_CONFIG), parsed_config)
         return parsed_config
 
     @classmethod
@@ -146,7 +150,7 @@ available levels: critical, high, medium, low, none, na""",
     @classmethod
     def config_help(cls) -> str:
         """Returns self help instructions how to configure the tool"""
-        return create_config_help(cls.TOOL_NAME, cls.EZE_CONFIG, cls.COMMON_EZE_CONFIG)
+        return create_config_help(cls.TOOL_NAME, cls.EZE_CONFIG.copy(), cls.COMMON_EZE_CONFIG.copy())
 
     @classmethod
     def install_help(cls) -> str:
@@ -313,6 +317,17 @@ Looks like {tool_name} is not installed
         scan_result.summary = self._create_summary(scan_result.vulnerabilities, tool_config)
         return scan_result
 
+    def get_tool_class(self, tool_name: str) -> ToolMeta:
+        """
+        Gets a instance of a tool class
+
+        :raises EzeConfigError
+        """
+        if tool_name not in self.tools:
+            raise EzeConfigError(f"tool id: {tool_name} does not exist")
+        tool_class = self.tools[tool_name]
+        return tool_class
+
     def get_tool(
         self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
     ) -> ToolMeta:
@@ -325,7 +340,7 @@ Looks like {tool_name} is not installed
         [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
 
         tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
-        tool_class = self.tools[tool_name]
+        tool_class = self.get_tool_class(tool_name)
         tool_instance = tool_class(tool_config)
         return tool_instance
 
@@ -346,7 +361,7 @@ Looks like {tool_name} is not installed
         tools_length = len(self.tools)
         for current_tool_name in self.tools:
             tools_counter += 1
-            current_tool_class = self.tools[current_tool_name]
+            current_tool_class = self.get_tool_class(current_tool_name)
             current_tool_type = current_tool_class.tool_type().name
             current_source_support = current_tool_class.source_support()
             current_source_support_strs = list(map(lambda source: source.name, current_source_support))
@@ -384,7 +399,7 @@ Looks like {tool_name} is not installed
 ======================="""
         )
         for current_tool_name in self.tools:
-            current_tool_class = self.tools[current_tool_name]
+            current_tool_class = self.get_tool_class(current_tool_name)
             current_tool_type = current_tool_class.tool_type().name
             current_source_support = current_tool_class.source_support()
             current_source_support_strs = list(map(lambda source: source.name, current_source_support))
@@ -398,14 +413,14 @@ Looks like {tool_name} is not installed
                 continue
             self.print_tool_help(current_tool_name)
 
-    def print_tool_help(self, tool: str):
+    def print_tool_help(self, tool_id: str):
         """print out tool help"""
-        tool_class: ToolMeta = self.tools[tool]
+        tool_class: ToolMeta = self.get_tool_class(tool_id)
         tool_description = tool_class.short_description()
         log(
             f"""
 =================================
-Tool '{tool}' Help
+Tool '{tool_id}' Help
 {tool_description}
 ================================="""
         )
@@ -512,7 +527,7 @@ Tool '{tool}' Help
             error_message = f"[{tool_name}] The ./ezerc config references unknown tool plugin '{tool_name}', run 'eze tools list' to see available tools"
             raise EzeConfigError(error_message)
 
-        tool_class = self.tools[tool_name]
+        tool_class = self.get_tool_class(tool_name)
         default_severity = VulnerabilitySeverityEnum.na.name
         if hasattr(tool_class, "DEFAULT_SEVERITY"):
             default_severity = tool_class.DEFAULT_SEVERITY

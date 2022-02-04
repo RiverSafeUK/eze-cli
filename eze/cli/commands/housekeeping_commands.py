@@ -6,13 +6,13 @@ import click
 
 from eze.cli.utils.command_helpers import debug_option
 from eze.core.config import EzeConfig
-from eze.core.language import LanguageManager
+from eze.core.autoconfig import AutoConfigRunner
 from eze.core.reporter import ReporterManager
 from eze.core.tool import ToolManager
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.log import log, log_debug, log_error
 
-DEFAULT_GLOABL_CONFIG_COPY = """
+DEFAULT_GLOBAL_CONFIG_COPY = """
 # ===================================
 # TOOL GLOBAL CONFIG
 # ===================================
@@ -43,14 +43,14 @@ def housekeeping_group():
     """container for miscellaneous house keeping commands"""
 
 
-@click.command("create-local-config", short_help="create local config file")
+@click.command("create-local-config", short_help="create local .ezerc.toml")
+@click.option("--autoconfig", type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
 @debug_option
-def create_local_config_command():
-    """creates a default config for a user in their local location"""
+def create_local_config_command(autoconfig: click.Path = None):
+    """creates a dynamically generated config for codebase in cwd, tools selected based off codebase contents"""
 
     log("Auto generating a new .ezerc.toml")
-    language_manager = LanguageManager.get_instance()
-    language_manager = language_manager.create_local_ezerc_config()
+    AutoConfigRunner.create_local_ezerc_config(autoconfig)
 
 
 @click.command("create-global-config", short_help="create global config file")
@@ -58,7 +58,7 @@ def create_local_config_command():
 def create_global_config_command():
     """created a default config for a user in their global location"""
     global_config_location = EzeConfig.get_global_config_filename()
-    _create_config_file(global_config_location, DEFAULT_GLOABL_CONFIG_COPY)
+    _create_config_file(global_config_location, DEFAULT_GLOBAL_CONFIG_COPY)
 
 
 @click.command("list-config", short_help="list the config file locations")
@@ -101,7 +101,7 @@ def get_repo_command():
 @click.option("--include-help/--exclude-help", default=False, help="adds all tools documentation")
 @debug_option
 def documentation_command(include_help: bool):
-    """list all plugins (languages, tools, and reporters) then all their documentation"""
+    """list all plugins (tools and reporters) then all their documentation"""
     log(
         """Printing all eze plugins installed
 ======================="""

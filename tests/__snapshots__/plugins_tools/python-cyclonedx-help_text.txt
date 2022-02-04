@@ -8,6 +8,8 @@ config_help:
 # REQUIREMENTS_FILE str [OPTIONAL]
 # defaults to requirements.txt
 # gotcha: make sure it's a frozen version of the pip requirements
+# default value: 
+#   REQUIREMENTS_FILE = "requirements.txt"
 # 
 REQUIREMENTS_FILE = "requirements.txt"
 

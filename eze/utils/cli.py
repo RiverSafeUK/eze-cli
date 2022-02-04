@@ -308,9 +308,7 @@ async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True, cwd
         process_output = await async_subprocess_run(cmd, cwd=cwd)
     except FileNotFoundError:
         return _raise_exe_not_found(sanitised_command_str, error_on_missing_executable)
-    log_debug(
-        f"command '{sanitised_command_str}' std output: '{process_output.stdout}' error output: '{process_output.stderr}'"
-    )
+    log_debug(f" std output: '{process_output.stdout}' error output: '{process_output.stderr}'")
     _detect_output_errors(sanitised_command_str, process_output, error_on_missing_executable)
     return process_output
 
@@ -331,9 +329,7 @@ def run_cmd(cmd: list, error_on_missing_executable: bool = True, cwd=None) -> Co
     except FileNotFoundError:
         return _raise_exe_not_found(sanitised_command_str, error_on_missing_executable)
 
-    log_debug(
-        f"command '{sanitised_command_str}' std output: '{process_output.stdout}' error output: '{process_output.stderr}'"
-    )
+    log_debug(f" std output: '{process_output.stdout}' error output: '{process_output.stderr}'")
     _detect_output_errors(sanitised_command_str, process_output, error_on_missing_executable)
     return process_output
 

@@ -17,7 +17,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 #
 # Install apt-get Make Dependencies
-RUN apt-get install make
+RUN apt-get install make -y --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 #
 # Install apt-get Java Dependencies
@@ -25,7 +27,8 @@ RUN apt-get update \
     # WORKAROUND: Fix to be able to install openjdk-11-jre. https://stackoverflow.com/a/61816355
     && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
     && apt-get install -y --no-install-recommends openjdk-11-jre-headless \
-    && echo "SIZETAG:Language:Maven + Java jdk 11"
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 
 #
@@ -33,7 +36,8 @@ RUN apt-get update \
 RUN apt-get update \
     && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
     && apt-get install -y --no-install-recommends git curl \
-    && echo "SIZETAG:Base:Git Support"
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 #
 # Install maven (java tool dependency)
@@ -43,7 +47,8 @@ ENV MAVEN_HOME=/usr/share/maven \
 RUN apt-get update \
     && apt-get install -y --no-install-recommends maven \
     && chmod +x /usr/bin/mvn \
-    && echo "SIZETAG:Language:Maven + Java jdk 11"
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 #
 # Install node (tool dependency)
@@ -52,23 +57,21 @@ RUN set -o pipefail \
     && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "SIZETAG:Language:Node + npm"
+    && rm -rf /var/lib/apt/lists/*
 
 #
 ## install node security tools
-RUN npm install -g @cyclonedx/bom --only=production \
-    && echo "SIZETAG:Tool:node/@cyclonedx/bom"
+RUN npm install -g @cyclonedx/bom --only=production
 
 #
 # Install Tools
 ## install pip based tools
-RUN pip3 install --no-cache-dir semgrep && echo "SIZETAG:Tool:semgrep"
-RUN pip3 install --no-cache-dir truffleHog3 && echo "SIZETAG:Tool:truffleHog3"
-RUN pip3 install --no-cache-dir bandit && echo "SIZETAG:Tool:python/bandit"
-RUN pip3 install --no-cache-dir piprot && echo "SIZETAG:Tool:python/piprot"
-RUN pip3 install --no-cache-dir safety && echo "SIZETAG:Tool:python/safety"
-RUN pip3 install --no-cache-dir cyclonedx-bom && echo "SIZETAG:Tool:python/cyclonedx-bom"
+RUN pip3 install --no-cache-dir semgrep
+RUN pip3 install --no-cache-dir truffleHog3
+RUN pip3 install --no-cache-dir bandit
+RUN pip3 install --no-cache-dir piprot
+RUN pip3 install --no-cache-dir safety
+RUN pip3 install --no-cache-dir cyclonedx-bom
 
 # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
 # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
@@ -77,40 +80,40 @@ RUN rm `which cyclonedx-bom`
 #
 ## Install Anchore tools
 RUN set -o pipefail \
-    && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin \
-    && echo "SIZETAG:Tool:anchore/grype"
+    && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 RUN set -o pipefail \
-    && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin \
-    && echo "SIZETAG:Tool:anchore/syft"
+    && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
 #
 ## Install CycloneDX BOM tools
 RUN curl -sSfL https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.15.2/cyclonedx-linux-x64 -o cyclonedx-cli \
     && mv cyclonedx-cli /usr/local/bin/cyclonedx-cli \
-    && chmod +x /usr/local/bin/cyclonedx-cli \
-    && echo "SIZETAG:Tool:cyclonedx-cli"
+    && chmod +x /usr/local/bin/cyclonedx-cli
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 #
 ## Install Trivy Docker tools
 RUN curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.18.2/trivy_0.18.2_Linux-64bit.deb -o trivy_0.18.2_Linux-64bit.deb \
     && dpkg -i trivy_0.18.2_Linux-64bit.deb \
-    && rm trivy_0.18.2_Linux-64bit.deb \
-    && echo "SIZETAG:Tool:aqua/trivy"
+    && rm trivy_0.18.2_Linux-64bit.deb
 
 #
 ## Install Gitleaks scanner tool
 RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/gitleaks-linux-amd64 -o gitleaks \
     && mv gitleaks /usr/local/bin/gitleaks \
     && chmod +x /usr/local/bin/gitleaks \
-    && gitleaks --version \
-    && echo "SIZETAG:Tool:gitleaks"
+    && gitleaks --version
 
 #
 ## Install Kics tools
 RUN set -o pipefail \
-    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin \
-    && echo "SIZETAG:Tool:checkmarx/kics"
+    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin
+
+## Install editor
+RUN set -o pipefail \
+    && apt-get install -y --no-install-recommends nano \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 #
 # set Work Dir

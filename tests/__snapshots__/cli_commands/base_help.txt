@@ -8,7 +8,6 @@ Options:
 
 Commands:
   housekeeping  container for miscellaneous house keeping commands
-  languages     container for language commands
   reporters     container for reporter commands
   test          Eze run scan
   test-online   Eze run scan remotely on a server

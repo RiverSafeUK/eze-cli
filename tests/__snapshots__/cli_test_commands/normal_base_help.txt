@@ -10,4 +10,5 @@ Options:
   --force-autoscan / --dont-force-autoscan
                                   Forces language autoscan and creation of new
                                   .ezerc.toml
+  --autoconfig PATH               File with custom autoconfig json
   --help                          Show this message and exit.

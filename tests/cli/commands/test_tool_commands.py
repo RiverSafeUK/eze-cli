@@ -50,7 +50,7 @@ Available tool types are (SBOM,SCA,SAST,SECRET,MISC)
         assert (
             result.output
             == """Could not find source type 'NOT_PYTHON'
-Available source types are (ALL,PYTHON,NODE,JAVA,GRADLE,SBT,RUBY,GO,PHP,CONTAINER)
+Available source types are (ALL,PYTHON,BASH,NODE,JAVA,GRADLE,SBT,RUBY,GO,PHP,CONTAINER)
 """
         )
         assert result.exit_code == 1

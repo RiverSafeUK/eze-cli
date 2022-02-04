@@ -6,9 +6,6 @@ This takes multiple TOML files
 See table for reason why toml not json/yaml was chosen,
 also it's what all the cool rust and python projects use
 https://www.python.org/dev/peps/pep-0518/#overview-of-file-formats-considered
-
-Also handles debug mode
-(TODO: once logging plumbed in, look into debugging / log levels elsewhere)
 """
 from pathlib import Path
 import click
@@ -141,14 +138,12 @@ class EzeConfig:
             merge_configs(named_scan_config, scan_config)
 
         # Warnings for corrupted config
-        if "tools" not in scan_config and "languages" not in scan_config:
-            error_message = "The ./ezerc config missing required scan.tools/languages list, run 'eze housekeeping create-local-config' to create"
+        if "tools" not in scan_config:
+            error_message = "The ./ezerc config missing required scan.tools list, run 'docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config' to create"
             raise EzeConfigError(error_message)
 
         if "reporters" not in scan_config:
-            error_message = (
-                "The ./ezerc config missing scan.reporters list, run 'eze housekeeping create-local-config' to create"
-            )
+            error_message = "The ./ezerc config missing scan.reporters list, run 'docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config' to create"
             raise EzeConfigError(error_message)
         return scan_config
 

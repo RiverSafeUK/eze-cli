@@ -7,6 +7,8 @@ config_help:
 [python-piprot]
 # REQUIREMENTS_FILES list [OPTIONAL]
 # Optional python requirements files to check
+# default value: 
+#   REQUIREMENTS_FILES = ["requirements.txt"]
 # 
 REQUIREMENTS_FILES = ["..."]
 

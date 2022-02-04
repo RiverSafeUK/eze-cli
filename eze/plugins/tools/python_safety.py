@@ -45,8 +45,7 @@ safety offers a paid real-time vulnerabilty db service look on the safety websit
         #
         "REQUIREMENTS_FILES": {
             "type": list,
-            "default": [],
-            "default_help_value": ["requirements.txt"],
+            "default": ["requirements.txt"],
             "help_text": """Optional python requirements files to check, defaults to local requirements.txt""",
         },
         "APIKEY": {
@@ -60,8 +59,8 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
         },
         "REPORT_FILE": {
             "type": str,
-            "default": create_tempfile_path("tmp-sanity-report.json"),
-            "default_help_value": "<tempdir>/.eze-temp/tmp-sanity-report.json",
+            "default": create_tempfile_path("tmp-safety-report.json"),
+            "default_help_value": "<tempdir>/.eze-temp/tmp-safety-report.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
     }

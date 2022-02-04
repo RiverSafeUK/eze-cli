@@ -16,8 +16,6 @@ SOURCE = ["..."]
 # EXCLUDE list [OPTIONAL]
 # array of regex str of folders/files to exclude from scan for secrets
 # eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\" for windows
-# default value: 
-#   EXCLUDE = ["venv", "node_modules"]
 # 
 EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"]
 
@@ -25,6 +23,13 @@ EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"
 # disable entropy checks, maps to flag --no-entropy
 # 
 NO_ENTROPY = true / false
+
+
+# DISABLE_DEFAULT_IGNORES bool [OPTIONAL]
+# by default truffle hog ignores common compile assets, to disable default ignore list
+# ['.gradle', '.aws', '.idea', '.git', '.eze', '.coverage', '~', '.terraform', 'node_modules', 'build', 'target', 'vendor', '.pytest_cache', '__pycache__', '.env', '.venv', '.tox', 'venv', 'dist', 'sdist']
+# 
+DISABLE_DEFAULT_IGNORES = true / false
 
 
 # CONFIG_FILE str [OPTIONAL]
@@ -50,6 +55,14 @@ INCLUDE_FULL_REASON = true / false
 #   REPORT_FILE = "<tempdir>/.eze-temp/tmp-truffleHog-report.json"
 # 
 REPORT_FILE = "..."
+
+
+# USE_GIT_IGNORE bool [OPTIONAL]
+# ignore files specified in .gitignore
+# default value: 
+#   USE_GIT_IGNORE = true
+# 
+USE_GIT_IGNORE = true / false
 
 
 
