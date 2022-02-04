@@ -83,7 +83,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             log_debug(f"run 'npm audit' on {npm_package}")
             npm_project = Path(npm_package).parent
             npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
-            install_npm_in_path(npm_project)
+            await install_npm_in_path(npm_project)
             command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
             completed_process = await run_async_cmd(command_str, True, cwd=npm_project_fullpath)
             report_text = completed_process.stdout

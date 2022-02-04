@@ -94,7 +94,7 @@ This will be ran automatically, if npm install fails this tool can't be run
             log_debug(f"run 'cyclonedx-bom' on {npm_package}")
             npm_project = Path(npm_package).parent
             npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
-            install_npm_in_path(npm_project)
+            await install_npm_in_path(npm_project)
             completed_process = await run_async_cli_command(
                 self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, True, cwd=npm_project_fullpath
             )
