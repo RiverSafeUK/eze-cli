@@ -1,5 +1,12 @@
 # Eze Changelog
 
+## 0.14.0 - 4th February 2022
+Improvements:
+- ab-1001: improved auto /ezerc/toml engine
+- ab-1001: speeded up trufflehog in docker
+- ab-1001: speeded up semgrep in docker
+- ab-1001: improved sarif output for github actions
+
 ## 0.13.3 - 2nd February 2022
 Improvements:
 - ab-1002: improved SCA reports (including multi project support)
