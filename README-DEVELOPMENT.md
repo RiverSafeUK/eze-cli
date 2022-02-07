@@ -164,6 +164,24 @@ eze test
 ```
 </details>
 
+## Release Steps
+
+For repo maintainers
+
+_requires pypi and dockerhub access_
+
+- update version in ```eze-cli\eze\__init__.py```
+- update change log with any changes
+- deploy to pypi
+  ```bash
+  make release-pypi-test
+  make release-pypi
+  ```
+- deploy to dockerhub
+  ```bash
+  release-docker
+  ```
+
 ## Tips and Tricks
 
 ### venv helpers
@@ -187,6 +205,15 @@ stop eze env
 ```bash
 deactivate
 ```
+
+### Bigger Organisations: Tailoring Image
+It's recommended for organisations with mature devops teams to download and tailor this Docker image, adding/removing the pre-installed security tools as needed to optimise size of the image, as well as making their own _.ezerc.toml_ and autoconfiguration files.
+
+_*Aka: Some tools for example semgrep are upto 200mb by themselves, tailoring the image to remove unused tools will save significant amounts of space_
+
+Dockerfile Source:
+https://github.com/RiverSafeUK/eze-cli/Dockerfile
+
 
 # Contribute Guide
 
