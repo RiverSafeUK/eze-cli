@@ -26,7 +26,7 @@ def tools_group():
 @click.option("--include-source-type/--exclude-source-type", default=False, help="adds source type column")
 @click.option(
     "--include-version/--exclude-version",
-    default=True,
+    default=False,
     help="""adds version column
 (slow as needs to collect all software versions of tools)""",
 )

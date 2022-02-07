@@ -14,7 +14,7 @@ from eze.utils.log import log_debug
 from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
 from eze.utils.io import create_tempfile_path, write_text, parse_json
 from eze.utils.semvar import get_severity, get_recommendation
-from eze.utils.language.node import install_node_dependencies, install_npm_in_path
+from eze.utils.language.node import install_npm_in_path
 from eze.utils.file_scanner import find_files_by_name
 
 
@@ -95,7 +95,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             log_debug(f"run 'npm outdated' on {npm_package}")
             npm_project = Path(npm_package).parent
             npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
-            install_npm_in_path(npm_project)
+            await install_npm_in_path(npm_project)
             command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
             completed_process = await run_async_cmd(command_str, True, cwd=npm_project_fullpath)
             report_text = completed_process.stdout
