@@ -47,7 +47,7 @@ By default set to temp file tmp-eze_bom.json""",
         },
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_%PROJECT%_bom.json",
+            "default": ".eze/eze_%PROJECT%_bom.json",
             "help_text": """report file location
 By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for project inventory file aka pom.xml""",
         },

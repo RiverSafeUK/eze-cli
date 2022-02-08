@@ -17,7 +17,7 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/eze-cli?logo=pypi)
 
 
-# Overview
+# Getting Started
 
 Eze is the one stop solution developed by [RiverSafe Ltd](https://riversafe.co.uk/) for security testing in modern development.
 
@@ -37,7 +37,7 @@ docker run -t -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
 - SCA tools for finding vulnerable dependencies
 - Secret tools for finding hardcoded passwords
 - SBOM tools for generating a list of components
-- License scanning for violations (aka strong-copyleft usage)
+- License scanning for violations (aka [strong copyleft](https://en.wikipedia.org/wiki/Copyleft) usage)
 - Extendable plugin architecture for adding new security tools
 - Layering enterprise level reporting and auditing via the _Eze Management Console_ (PAID service offered by [RiverSafe](https://riversafe.co.uk/))
 
@@ -76,39 +76,6 @@ This will speed up windows scan be as much as 80%
 docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
 ```
 
-# Other Common commands
-
-## Detect tools locally installed
-
-```bash
-docker run -t riversafe/eze-cli tools list
-```
-
-```
-$ eze tools list
-Available Tools are:
-=======================
-raw                   0.6.1             input for saved eze json reports
-trufflehog            2.0.5             opensource secret scanner
-semgrep               0.53.0            opensource multi language SAST scanner
-...
-```
-
-## Stopping a docker image
-
-Started an eze scan but want to stop the scan without waiting the 30-40 seconds for the scan to complete
-
-To immediately stop a docker image do the following
-
-```bash
-# get docker container id
-$ docker stats
-CONTAINER ID   NAME                 CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O   PIDS
-f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     221MB / 4.73MB   0B / 0B     17
-# docker rm container id
-$ docker rm --force f0bef6e0bba7
-```
-
 # Configuring Eze
 
 ## Custom configuration
@@ -117,34 +84,6 @@ Eze runs off a local **.ezerc.toml** file, when this config is not present, a sa
 - Add/remove a scanning tool
 - Customise the arguments passed to a specific tool
 
-## Get Tool Configuration Help
-
-To show information about a specific tool:
-- What version if any is installed.
-- Instructions how-to install it and configure
-
-```bash
-docker run -t riversafe/eze-cli tools help <TOOL>
-```
-<details>
-<summary>Result</summary>
-
-```bash
-$ docker run -t riversafe/eze-cli tools help semgrep
-
-Tool 'semgrep' Help
-opensource multi language SAST scanner
-=================================
-Version: 0.52.0 Installed
-
-Tool Configuration Instructions:
-=================================
-Configuration Format for SemGrep
-
-[semgrep]
-...
-```
-</details>
 
 ## Autoconfig **.ezerc.toml**
 
@@ -191,61 +130,171 @@ Can be set to a custom file with ```--autoconfig``` flag
 }
 ```
 
-# Opensource Tools in Eze
+### CI Servers: Howto detect Headless Git
 
-| Type   | Name                 | Version      | License    | Description                                                                         |
-| ------ | -------------------- | ------------ | ---------- | ----------------------------------------------------------------------------------- |
-| MISC   | raw                  | 0.12.0-alpha | inbuilt    | input for saved eze json reports                                                    |
-| SECRET | trufflehog           | 3.0.4        | GNU        | opensource secret scanner                                                           |
-| SAST   | semgrep              | 0.77.0       | LGPL       | opensource multi language SAST scanner                                              |
-| SCA    | anchore-grype        | 0.28.0       | Apache-2.0 | opensource multi language SCA and container scanner                                 |
-| SBOM   | anchore-syft         | 0.34.0       | Apache-2.0 | opensource multi language and container bill of materials (SBOM) generation utility |
-| SECRET | gitleaks             | 7.5.0        | MIT        | opensource static key scanner                                                       |
-| SBOM   | java-cyclonedx       | 2.5.3        | Apache-2.0 | opensource java bill of materials (SBOM) generation utility                         |
-| SCA    | java-dependencycheck | 6.5.3        | Apache-2.0 | opensource java SCA tool class                                                      |
-| SAST   | java-spotbugs        | 4.5.3        | LGPL       | opensource java SAST tool class                                                     |
-| SAST   | python-safety        | 1.10.3       | MIT        | opensource python SCA scanner                                                       |
-| SCA    | python-piprot        | 0.9.11       | MIT        | opensource python outdated dependency scanner                                       |
-| SAST   | python-bandit        | 1.7.1        | Apache-2.0 | opensource python SAST scanner                                                      |
-| SBOM   | python-cyclonedx     | 1.5.3        | Apache-2.0 | opensource python bill of materials (SBOM) generation utility                       |
-| SCA    | node-npmaudit        | 8.3.0        | NPM        | opensource node SCA scanner                                                         |
-| SCA    | node-npmoutdated     | 8.3.0        | NPM        | opensource node outdated dependency scanner                                         |
-| SBOM   | node-cyclonedx       | 3.3.1        | Apache-2.0 | opensource node bill of materials (SBOM) generation utility                         |
-| SCA    | container-trivy      | 0.18.2       | Apache-2.0 | opensource container scanner                                                        |
-| SCA    | kics                 | 1.4.9        | Apache-2.0 | opensource infrastructure scanner                                                   |
+Normally when a project is checked out of git, the location can be read from the .git folder.
 
-_Updated: 18/01/2022_
+For CI servers git is check out headlessly (with no .git) and environments are provided for git repo / build number etc, eze will read these environment variables when detecting headless git repos.
+
+These environment variables will need to be feed to eze's docker image.
+
+aka for ado pipeline
+
+```bash
+docker run --rm -e "BUILD_SOURCEBRANCHNAME=$BUILD_SOURCEBRANCHNAME" -e "BUILD_REPOSITORY_URI=$BUILD_REPOSITORY_URI" -e "SYSTEM_PULLREQUEST_SOURCEBRANCH=$SYSTEM_PULLREQUEST_SOURCEBRANCH" -v "$(pwd)":/data riversafe/eze-cli test
+```
+
+| CI server          | Environment Variables |
+| ------------------ | --------------------- |
+| ADO                | BUILD_SOURCEBRANCH BUILD_SOURCEBRANCHNAME SYSTEM_PULLREQUEST_SOURCEBRANCH |
+| AWS Amplify        | AWS_BRANCH |
+| AWS Codebuild      | AWS_BRANCH |
+| JENKINS            | GIT_LOCAL_BRANCH GIT_BRANCH |
+| IBMCLOUD toolchain | GIT_BRANCH |
+| GCP                | BRANCH_NAME |
+| Gitlab CI          | CI_COMMIT_BRANCH CI_MERGE_REQUEST_TARGET_BRANCH_NAME CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME CI_DEFAULT_BRANCH |
+| Github CI          | GITHUB_REF |
+
+
+## Advanced Configuration: .ezerc.toml
+
+On top of the auto-configuration, you can edit your local **.ezerc.toml** to run custom tools with custom configuration
+
+When a ```.ezerc.toml``` is present, this will be used instead of the autoconfiguration settings
+
+see list of available tools and reporters using these commands
+
+```bash
+docker run -t riversafe/eze-cli tools list
+docker run -t riversafe/eze-cli tools help <TOOL>
+docker run -t riversafe/eze-cli reporters list
+docker run -t riversafe/eze-cli reporters help <TOOL>
+```
+
+## Advanced Configuration: .ezerc.toml format
+
+## basic .ezerc.toml TOML format
+
+https://en.wikipedia.org/wiki/TOML
+
+```toml
+# create template with "docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config'"
+
+# ===================================
+# GLOBAL CONFIG
+# ===================================
+[global]
+# LICENSE_CHECK
+LICENSE_CHECK = "PROPRIETARY|PERMISSIVE|OPENSOURCE|OFF"
+# LICENSE_ALLOWLIST, list of licenses to exempt from license checks
+LICENSE_ALLOWLIST = []
+# LICENSE_DENYLIST, list of licenses to always report usage as a error
+LICENSE_DENYLIST = []
+
+# ========================================
+# TOOL CONFIG
+# ========================================
+[TOOL_1]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help <TOOL_NAME>"
+TOOL_CONFIG_FIELD = "TOOL_CONFIG_VALUE"
+
+[TOOL_2]
+"..." = "..."
+
+# ========================================
+# REPORT CONFIG
+# ========================================
+[REPORTER_1]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help REPORTER_NAME"
+REPORTER_CONFIG_FIELD = "REPORTER_CONFIG_VALUE"
+
+[REPORTER_2]
+"..." = "..."
+
+# ========================================
+# SCAN CONFIG
+# ========================================
+[scan]
+tools = ["TOOL_1","..."]
+reporters = ["REPORTER_1", "..."]
+```
+
+
+# Tools and Reporters available
+
+_Updated: 2022/02/08_
+
+## Opensource Tools in Eze
+
+
+| Type   | Name                 | Version      | License    | Sources                            | Description                                                                           |
+| ------ | -------------------- | ------------ | ---------- | ---------------------------------- | ------------------------------------------------------------------------------------- |
+| MISC   | raw                  | 0.14.0-alpha | inbuilt    | ALL                                | input for saved eze json reports                                                      |
+| SECRET | trufflehog           | 3.0.4        | GPL        | ALL                                | opensource secret scanner                                                             |
+| SAST   | semgrep              | 0.81.0       | LGPL       | ALL                                | opensource multi language SAST scanner                                                |
+| SCA    | anchore-grype        | 0.32.0       | Apache-2.0 | RUBY,NODE,JAVA,PYTHON,CONTAINER    | opensource multi language SCA and container scanner                                   |
+| SBOM   | anchore-syft         | 0.36.0       | Apache-2.0 | RUBY,NODE,JAVA,PYTHON,GO,CONTAINER | opensource multi language and container bill of materials (SBOM) generation utility   |
+| SECRET | gitleaks             | 7.5.0        | MIT        | ALL                                | opensource static key scanner                                                         |
+| SBOM   | java-cyclonedx       | 2.5.3        | Apache-2.0 | JAVA                               | opensource java bill of materials (SBOM) generation utility                           |
+| SCA    | java-dependencycheck | 6.5.3        | Apache-2.0 | JAVA                               | opensource java SCA tool class                                                        |
+| SAST   | java-spotbugs        | 4.5.3        | LGPL       | JAVA                               | opensource java SAST tool class                                                       |
+| SAST   | python-safety        | 1.10.3       | MIT        | PYTHON                             | opensource python SCA scanner                                                         |
+| SCA    | python-piprot        | 0.9.11       | MIT        | PYTHON                             | opensource python outdated dependency scanner                                         |
+| SAST   | python-bandit        | 1.7.2        | Apache-2.0 | PYTHON                             | opensource python SAST scanner                                                        |
+| SBOM   | python-cyclonedx     | 2.0.1        | Apache-2.0 | PYTHON                             | opensource python bill of materials (SBOM) generation utility, also runs SCA via pypi |
+| SCA    | node-npmaudit        | 8.3.1        | NPM        | NODE                               | opensource node SCA scanner                                                           |
+| SCA    | node-npmoutdated     | 8.3.1        | NPM        | NODE                               | opensource node outdated dependency scanner                                           |
+| SBOM   | node-cyclonedx       | 3.4.0        | Apache-2.0 | NODE                               | opensource node bill of materials (SBOM) generation utility                           |
+| SCA    | container-trivy      | 0.18.2       | Apache-2.0 | CONTAINER                          | opensource container scanner                                                          |
+| SCA    | kics                 | 1.5.1        | Apache-2.0 | CONTAINER                          | opensource infrastructure scanner                                                     |
 
 An updated list of tools, licenses, and sizes pre-installed in latest Eze Cli Dockerimage can be found using the command
 
 ```bash
-docker run -t --rm riversafe/eze-cli tools list --include-source-type
+docker run -t --rm riversafe/eze-cli tools list
 docker run -t --rm riversafe/eze-cli tools help <tool-name>
 # aka docker run -t --rm riversafe/eze-cli tools help trufflehog
 ```
 
-# Reporters in Eze
+## Reporters in Eze
 
-| Name          | Version      | License    | Description                            |
-| ------------- | ------------ | ---------- | -------------------------------------- |
-| console       | 0.12.0-alpha | inbuilt    | standard command line reporter         |
-| json          | 0.12.0-alpha | inbuilt    | json output file reporter              |
-| s3            | 0.12.0-alpha | inbuilt    | s3 uploader reporter                   |
-| junit         | 0.12.0-alpha | inbuilt    | junit output file reporter             |
-| quality       | 0.12.0-alpha | inbuilt    | quality gate check reporter            |
-| eze           | 0.12.0-alpha | inbuilt    | eze management console reporter        |
-| bom           | 0.12.0-alpha | inbuilt    | json dx bill of materials reporter     |
-| bom-formatted | 0.15.2       | Apache-2.0 | bill of materials multiformat reporter |
-| sarif         | 0.12.0-alpha | inbuilt    | sarif output file reporter             |
+| Name          | Version      | License    | Description                               |
+| ------------- | ------------ | ---------- | ----------------------------------------- |
+| console       | 0.14.0-alpha | inbuilt    | standard command line reporter            |
+| json          | 0.14.0-alpha | inbuilt    | json output file reporter                 |
+| s3            | 0.14.0-alpha | inbuilt    | s3 uploader reporter                      |
+| junit         | 0.14.0-alpha | inbuilt    | junit output file reporter                |
+| quality       | 0.14.0-alpha | inbuilt    | quality gate check reporter               |
+| eze           | 0.14.0-alpha | inbuilt    | eze management console reporter           |
+| bom           | 0.14.0-alpha | inbuilt    | json cyclonedx bill of materials reporter |
+| bom-formatted | 0.15.2       | Apache-2.0 | bill of materials multiformat reporter    |
+| sarif         | 0.14.0-alpha | inbuilt    | sarif output file reporter                |
+| markdown      | 0.14.0-alpha | inbuilt    | markdown output file formatter            |
 
-_Updated: 18/01/2022_
 
 An updated list of reporters can be found using the command
 
 ```bash
-docker run -t --rm riversafe/eze-cli reporters list --include-source-type
+docker run -t --rm riversafe/eze-cli reporters list
 docker run -t --rm riversafe/eze-cli reporters help <reporter-name>
 # aka docker run -t --rm riversafe/eze-cli reporters help console
+```
+
+# Other Common commands
+
+## Stopping a docker image
+
+Started a local eze scan but want to stop the scan without waiting the 30-40 seconds for the scan to complete
+
+To immediately stop a docker image do the following
+
+```bash
+# get docker container id
+$ docker stats
+CONTAINER ID   NAME                 CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O   PIDS
+f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     221MB / 4.73MB   0B / 0B     17
+# docker rm container id
+$ docker rm --force f0bef6e0bba7
 ```
 
 # Developers Documentation

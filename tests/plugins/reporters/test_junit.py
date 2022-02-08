@@ -32,7 +32,7 @@ class TestJunitReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"REPORT_FILE": "eze_junit_report.xml"}
+        expected_config = {"REPORT_FILE": ".eze/eze_junit_report.xml"}
         # When
         testee = JunitReporter()
         # Then

@@ -9,7 +9,7 @@ config_help:
 # report file location
 # By default set to eze_report.md
 # default value: 
-#   REPORT_FILE = "eze_report.md"
+#   REPORT_FILE = ".eze/eze_report.md"
 # 
 REPORT_FILE = "..."
 

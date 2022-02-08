@@ -17,7 +17,7 @@ class JsonReporter(ReporterMeta):
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_report.json",
+            "default": ".eze/eze_report.json",
             "help_text": """report file location
 By default set to eze_report.json""",
         }

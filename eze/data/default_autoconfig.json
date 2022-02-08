@@ -124,13 +124,24 @@
       }
     },
     "bom": {
-      "config": {}
+      "config": {
+        "REPORT_FILE": ".eze/eze_%PROJECT%_bom.json"
+      }
     },
     "json": {
-      "config": {}
+      "config": {
+        "REPORT_FILE": ".eze/eze_report.json"
+      }
     },
     "sarif": {
-      "config": {}
+      "config": {
+        "REPORT_FILE": ".eze/eze_report.sarif"
+      }
+    },
+    "markdown": {
+      "config": {
+        "REPORT_FILE": ".eze/eze_report.md"
+      }
     }
   }
 }

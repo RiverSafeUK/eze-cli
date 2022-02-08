@@ -27,7 +27,7 @@ class MarkdownReporter(ReporterMeta):
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_report.md",
+            "default": ".eze/eze_report.md",
             "help_text": """report file location
 By default set to eze_report.md""",
         },

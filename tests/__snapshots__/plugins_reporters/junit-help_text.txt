@@ -9,7 +9,7 @@ config_help:
 # report file location
 # By default set to eze_junit_report.xml
 # default value: 
-#   REPORT_FILE = "eze_junit_report.xml"
+#   REPORT_FILE = ".eze/eze_junit_report.xml"
 # 
 REPORT_FILE = "..."
 

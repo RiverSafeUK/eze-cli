@@ -25,7 +25,7 @@ class JunitReporter(ReporterMeta):
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_junit_report.xml",
+            "default": ".eze/eze_junit_report.xml",
             "help_text": """report file location
 By default set to eze_junit_report.xml""",
         }

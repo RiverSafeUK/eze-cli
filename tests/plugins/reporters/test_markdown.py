@@ -34,7 +34,7 @@ class TestMarkdownReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"REPORT_FILE": "eze_report.md"}
+        expected_config = {"REPORT_FILE": ".eze/eze_report.md"}
         # When
         testee = MarkdownReporter()
         # Then

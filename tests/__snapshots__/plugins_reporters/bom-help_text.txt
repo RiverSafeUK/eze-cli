@@ -9,7 +9,7 @@ config_help:
 # report file location
 # By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for project inventory file aka pom.xml
 # default value: 
-#   REPORT_FILE = "eze_%PROJECT%_bom.json"
+#   REPORT_FILE = ".eze/eze_%PROJECT%_bom.json"
 # 
 REPORT_FILE = "..."
 
