@@ -1,7 +1,6 @@
 """cyclonedx SBOM tool class"""
 from pathlib import Path
 
-
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_cmd_version, run_async_cli_command
@@ -106,6 +105,7 @@ This will be ran automatically, if npm install fails this tool can't be run
                 warnings.append(completed_process.stderr)
 
         report = self.parse_report(sboms)
+        # add all warnings
         report.warnings.extend(warnings)
 
         return report

@@ -98,7 +98,6 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
         requirements_files.extend(self.config["REQUIREMENTS_FILES"])
         warnings_list = []
 
-
         poetry_files = find_files_by_name("poetry.lock")
         if len(poetry_files):
             warnings_list.append(f"safety does not support poetry files, not scanned: {','.join(poetry_files)}")

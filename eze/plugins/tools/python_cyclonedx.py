@@ -73,7 +73,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND":shlex.split("cyclonedx-py --format=json --force"),
+            "BASE_COMMAND": shlex.split("cyclonedx-py --format=json --force"),
             # eze config fields -> flags
             "FLAGS": {
                 "PACKAGE_FILE": "-i=",
@@ -119,7 +119,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         poetry_files = find_files_by_name("poetry.lock")
         piplock_files = find_files_by_name("Pipfile.lock")
 
-        has_found_packages:bool = False
+        has_found_packages: bool = False
 
         for requirements_file in requirements_files:
             log_debug(f"run 'cyclonedx-py' on {requirements_file}")
@@ -174,7 +174,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             warnings.append(completed_process.stderr)
         return [warnings, cyclonedx_bom]
 
-    def sca_component(self, component: dict, pip_project_file:str) -> list:
+    def sca_component(self, component: dict, pip_project_file: str) -> list:
         """populate license information on component dict, and detect warnings/vulnerabilities"""
         purl = py_.get(component, "purl")
         purl_breakdown: PurlBreakdown = purl_to_components(purl)

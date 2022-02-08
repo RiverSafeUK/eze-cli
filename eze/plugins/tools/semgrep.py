@@ -188,8 +188,8 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
                 f"you can often speed up significantly by tailoring your rule configs to your language or sub-dependancies"
             )
         if (
-            "OSError: [WinError 193] %1 is not a valid Win32 application" in completed_process.stderr
-            or "ModuleNotFoundError: No module named 'resource'" in completed_process.stderr
+                "OSError: [WinError 193] %1 is not a valid Win32 application" in completed_process.stderr
+                or "ModuleNotFoundError: No module named 'resource'" in completed_process.stderr
         ):
             raise EzeError(
                 f"""[{self.TOOL_NAME}] semgrep crashed while running, this is likely because semgrep doesn't support native windows yet
