@@ -33,7 +33,7 @@ class TestSarifReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"REPORT_FILE": "eze_report.sarif"}
+        expected_config = {"REPORT_FILE": ".eze/eze_report.sarif"}
         # When
         testee = SarifReporter()
         # Then

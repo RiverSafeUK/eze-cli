@@ -45,7 +45,7 @@ class TestBomFormattedReporter(ReporterMetaTestBase):
         expected_config = {
             "INTERMEDIATE_FILE": create_tempfile_path("tmp-eze_bom.json"),
             "OUTPUT_FORMAT": "json",
-            "REPORT_FILE": "eze_%PROJECT%_bom.json",
+            "REPORT_FILE": ".eze/eze_%PROJECT%_bom.json",
         }
         # When
         testee = BomFormattedReporter()

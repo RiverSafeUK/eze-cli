@@ -22,7 +22,7 @@ class SarifReporter(ReporterMeta):
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
-            "default": "eze_report.sarif",
+            "default": ".eze/eze_report.sarif",
             "help_text": """report file location
 By default set to eze_report.sarif""",
         }

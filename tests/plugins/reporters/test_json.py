@@ -31,7 +31,7 @@ class TestJsonReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"REPORT_FILE": "eze_report.json"}
+        expected_config = {"REPORT_FILE": ".eze/eze_report.json"}
         # When
         testee = JsonReporter()
         # Then

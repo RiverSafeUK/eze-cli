@@ -9,7 +9,7 @@ config_help:
 # report file location
 # By default set to eze_report.sarif
 # default value: 
-#   REPORT_FILE = "eze_report.sarif"
+#   REPORT_FILE = ".eze/eze_report.sarif"
 # 
 REPORT_FILE = "..."
 

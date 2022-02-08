@@ -32,7 +32,7 @@ class TestBomReporter(ReporterMetaTestBase):
     def test_creation__no_config(self):
         # Given
         expected_config = {
-            "REPORT_FILE": "eze_%PROJECT%_bom.json",
+            "REPORT_FILE": ".eze/eze_%PROJECT%_bom.json",
         }
         # When
         testee = BomReporter()
