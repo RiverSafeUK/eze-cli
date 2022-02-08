@@ -191,6 +191,33 @@ Can be set to a custom file with ```--autoconfig``` flag
 }
 ```
 
+### Detecting the Git Repo
+
+Normally when a project is checked out of git, the location can be read from the .git folder.
+
+For CI servers git is check out headlessly (with no .git) and environments are provided for git repo / build number etc, eze will read these environment variables when detecting headless git repos.
+
+These environment variables will need to be feed to eze's docker image.
+
+aka for ado pipeline
+
+```bash
+docker run --rm -e "BUILD_SOURCEBRANCHNAME=$BUILD_SOURCEBRANCHNAME" -e "BUILD_REPOSITORY_URI=$BUILD_REPOSITORY_URI" -e "SYSTEM_PULLREQUEST_SOURCEBRANCH=$SYSTEM_PULLREQUEST_SOURCEBRANCH" -v "$(pwd)":/data riversafe/eze-cli test
+```
+
+| CI server          | Environment Variables |
+| ------------------ | --------------------- |
+| ADO                | BUILD_SOURCEBRANCH BUILD_SOURCEBRANCHNAME SYSTEM_PULLREQUEST_SOURCEBRANCH |
+| AWS Amplify        | AWS_BRANCH |
+| AWS Codebuild      | AWS_BRANCH |
+| JENKINS            | GIT_LOCAL_BRANCH GIT_BRANCH |
+| IBMCLOUD toolchain | GIT_BRANCH |
+| GCP                | BRANCH_NAME |
+| Gitlab CI          | CI_COMMIT_BRANCH CI_MERGE_REQUEST_TARGET_BRANCH_NAME CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME CI_DEFAULT_BRANCH |
+| Github CI          | GITHUB_REF |
+
+
+
 # Opensource Tools in Eze
 
 | Type   | Name                 | Version      | License    | Description                                                                         |
