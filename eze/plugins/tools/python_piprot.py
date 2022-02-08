@@ -11,6 +11,7 @@ from eze.core.tool import (
 from eze.utils.cli import detect_pip_executable_version, run_async_cli_command
 from eze.utils.io import create_tempfile_path, write_text
 from eze.utils.semvar import get_severity, get_recommendation
+from eze.utils.file_scanner import find_files_by_name
 
 
 class PiprotTool(ToolMeta):
@@ -54,8 +55,11 @@ $ pip freeze > requirements.txt
     EZE_CONFIG: dict = {
         "REQUIREMENTS_FILES": {
             "type": list,
-            "default": ["requirements.txt"],
-            "help_text": """Optional python requirements files to check""",
+            "default": [],
+            "help_text": """surplus custom requirements.txt file
+any requirements files named requirements.txt or requirements-dev.txt will be automatically collected
+gotcha: make sure it's a frozen version of the pip requirements""",
+            "help_example": "[custom-requirements.txt]",
         },
         "HIGH_SEVERITY_AGE_THRESHOLD": {
             "type": int,
@@ -104,7 +108,7 @@ default is 182 (half a year)""",
         "CMD_CONFIG": {
             # tool command prefix
             "BASE_COMMAND": shlex.split("piprot -o"),
-            "ARGUMENTS": ["REQUIREMENTS_FILES"],
+            "ARGUMENTS": ["COMPILED_REQUIREMENTS_FILES"],
             # eze config fields -> flags
             "FLAGS": {},
         }
@@ -121,13 +125,43 @@ default is 182 (half a year)""",
 
         :raises EzeError
         """
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        # TODO: migrate from piprot, and implement directly into cyclonedx plugin (to match new SCA from pypi)
+
+        requirements_files = find_files_by_name("requirements.txt")
+        requirements_files.extend(find_files_by_name("requirements-dev.txt"))
+        requirements_files.extend(self.config["REQUIREMENTS_FILES"])
+        warnings_list = []
+
+
+        poetry_files = find_files_by_name("poetry.lock")
+        if len(poetry_files):
+            warnings_list.append(f"piprot does not support poetry files, not scanned: {','.join(poetry_files)}")
+
+        piplock_files = find_files_by_name("Pipfile.lock")
+        if len(piplock_files):
+            warnings_list.append(f"piprot does not support piplock files, not scanned: {','.join(piplock_files)}")
+
+        if not len(requirements_files):
+            warnings_list.append("piprot not ran, no python requirements files found")
+            return ScanResult(
+                {
+                    "tool": self.TOOL_NAME,
+                    "warnings": warnings_list,
+                })
+
+        scan_config = {
+            "COMPILED_REQUIREMENTS_FILES": requirements_files
+        }
+        scan_config = {**scan_config, **self.config.copy()}
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
         report = self.parse_report(report_text)
         if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+            warnings_list.append(completed_process.stderr)
 
+        # add all warnings
+        report.warnings.extend(warnings_list)
         return report
 
     def get_recommendation_by_age(

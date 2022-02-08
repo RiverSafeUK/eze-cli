@@ -73,7 +73,7 @@ def convert_vulnerability(
     )
 
 
-def get_pypi_package_data(package_name: str, package_version: str, pip_project_file: str) -> PypiPackageVO:
+def get_pypi_package_data(package_name: str, package_version: str, python_project_file: str) -> PypiPackageVO:
     """
     download and extract license and vulnerability information for package
 
@@ -92,7 +92,7 @@ def get_pypi_package_data(package_name: str, package_version: str, pip_project_f
     vulnerabilities = list(
         map(
             lambda raw_vulnerability: convert_vulnerability(
-                raw_vulnerability, warnings, package_name, package_version, pip_project_file
+                raw_vulnerability, warnings, package_name, package_version, python_project_file
             ),
             py_.get(package_metadata, "vulnerabilities", []),
         )

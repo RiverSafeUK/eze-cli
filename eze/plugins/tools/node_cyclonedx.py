@@ -110,6 +110,6 @@ This will be ran automatically, if npm install fails this tool can't be run
 
         return report
 
-    def parse_report(self, cyclonedx_bom: dict) -> ScanResult:
+    def parse_report(self, sboms: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        return convert_multi_sbom_into_scan_result(self, cyclonedx_bom)
+        return convert_multi_sbom_into_scan_result(self, sboms)

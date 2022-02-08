@@ -2,6 +2,7 @@
 import os
 import shlex
 
+from eze.utils.file_scanner import find_files_by_name
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
@@ -45,8 +46,11 @@ safety offers a paid real-time vulnerabilty db service look on the safety websit
         #
         "REQUIREMENTS_FILES": {
             "type": list,
-            "default": ["requirements.txt"],
-            "help_text": """Optional python requirements files to check, defaults to local requirements.txt""",
+            "default": [],
+            "help_text": """surplus custom requirements.txt file
+any requirements files named requirements.txt or requirements-dev.txt will be automatically collected
+gotcha: make sure it's a frozen version of the pip requirements""",
+            "help_example": "[custom-requirements.txt]",
         },
         "APIKEY": {
             "type": str,
@@ -71,7 +75,7 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             # tool command prefix
             "BASE_COMMAND": shlex.split("safety check --full-report"),
             # eze config fields -> flags
-            "FLAGS": {"APIKEY": "--api=", "REQUIREMENTS_FILES": "-r ", "REPORT_FILE": "--json --output "},
+            "FLAGS": {"APIKEY": "--api=", "COMPILED_REQUIREMENTS_FILES": "-r ", "REPORT_FILE": "--json --output "},
         }
     }
 
@@ -87,12 +91,43 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
 
         :raises EzeError
         """
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        # TODO: migrate from safety, and compare output to integrated pypi feeds from cyclonedx plugin
+
+        requirements_files = find_files_by_name("requirements.txt")
+        requirements_files.extend(find_files_by_name("requirements-dev.txt"))
+        requirements_files.extend(self.config["REQUIREMENTS_FILES"])
+        warnings_list = []
+
+
+        poetry_files = find_files_by_name("poetry.lock")
+        if len(poetry_files):
+            warnings_list.append(f"safety does not support poetry files, not scanned: {','.join(poetry_files)}")
+
+        piplock_files = find_files_by_name("Pipfile.lock")
+        if len(piplock_files):
+            warnings_list.append(f"safety does not support piplock files, not scanned: {','.join(piplock_files)}")
+
+        if not len(requirements_files):
+            warnings_list.append("safety not ran, no python requirements files found")
+            return ScanResult(
+                {
+                    "tool": self.TOOL_NAME,
+                    "warnings": warnings_list,
+                })
+
+        scan_config = {
+            "COMPILED_REQUIREMENTS_FILES": requirements_files
+        }
+        scan_config = {**scan_config, **self.config.copy()}
+        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME)
 
         report_events = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(report_events)
         if completed_process.stderr:
-            report.warnings.append(completed_process.stderr)
+            warnings_list.append(completed_process.stderr)
+
+        # add all warnings
+        report.warnings.extend(warnings_list)
 
         return report
 
