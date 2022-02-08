@@ -170,16 +170,26 @@ For repo maintainers
 
 _requires pypi and dockerhub access_
 
-- update version in ```eze-cli\eze\__init__.py```
-- update change log with any changes
+- update version
+  
+  ```text
+  eze-cli\eze\__init__.py
+  ```
+  
+- update change log with any changes in this format
+  ```text
+  ab-###: <brief description>
+  ```
+  
 - deploy to pypi
   ```bash
   make release-pypi-test
   make release-pypi
   ```
+
 - deploy to dockerhub
   ```bash
-  release-docker
+  make release-docker
   ```
 
 ## Tips and Tricks
