@@ -22,7 +22,7 @@ class TestSafetyTool(ToolMetaTestBase):
         expected_config = {
             "APIKEY": None,
             "REPORT_FILE": create_tempfile_path("tmp-safety-report.json"),
-            "REQUIREMENTS_FILES": ["requirements.txt"],
+            "REQUIREMENTS_FILES": [],
             #
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
@@ -101,6 +101,7 @@ class TestSafetyTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.plugins.tools.python_safety.find_files_by_name", mock.MagicMock(return_value=[]))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given

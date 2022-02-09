@@ -5,13 +5,12 @@ opensource python bill of materials (SBOM) generation utility, also runs SCA via
 config_help:
 ======================
 [python-cyclonedx]
-# REQUIREMENTS_FILE str [OPTIONAL]
-# defaults to requirements.txt
+# REQUIREMENTS_FILES list [OPTIONAL]
+# surplus custom requirements.txt file
+# any requirements files named requirements.txt or requirements-dev.txt will be automatically collected
 # gotcha: make sure it's a frozen version of the pip requirements
-# default value: 
-#   REQUIREMENTS_FILE = "requirements.txt"
 # 
-REQUIREMENTS_FILE = "requirements.txt"
+REQUIREMENTS_FILES = "[custom-requirements.txt]"
 
 # REPORT_FILE str [OPTIONAL]
 # output report location (will default to tmp file otherwise)
@@ -109,9 +108,11 @@ https://github.com/CycloneDX/cyclonedx-python
 https://owasp.org/www-project-cyclonedx/
 https://cyclonedx.org/
 
+Will automatically run against any poetry, requirements.txt, and pipenv projects in the repo
+
 Common Gotchas
 ===========================
-Pip Freezing
+requirements.txt Pip Freezing
 
 A bill-of-material such as CycloneDX expects exact version numbers. Therefore requirements.txt must be frozen. 
 

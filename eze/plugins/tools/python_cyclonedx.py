@@ -80,11 +80,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
                 "REPORT_FILE": "-o=",
             },
             # eze config fields -> flags
-            "SHORT_FLAGS": {
-                "REQUIREMENTS_FILE": "-r",
-                "PIPLOCK_FILE": "-pip",
-                "POETRY_FILE": "-p"
-            },
+            "SHORT_FLAGS": {"REQUIREMENTS_FILE": "-r", "PIPLOCK_FILE": "-pip", "POETRY_FILE": "-p"},
         }
     }
 
@@ -123,30 +119,27 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         for requirements_file in requirements_files:
             log_debug(f"run 'cyclonedx-py' on {requirements_file}")
-            [warnings, cyclonedx_bom] = await self.run_individual_scan({
-                "PACKAGE_FILE": requirements_file,
-                "REQUIREMENTS_FILE": True
-            })
+            [warnings, cyclonedx_bom] = await self.run_individual_scan(
+                {"PACKAGE_FILE": requirements_file, "REQUIREMENTS_FILE": True}
+            )
             warnings_list.extend(warnings)
             sboms[requirements_file] = cyclonedx_bom
             has_found_packages = True
 
         for poetry_file in poetry_files:
             log_debug(f"run 'cyclonedx-py' on {poetry_file}")
-            [warnings, cyclonedx_bom] = await self.run_individual_scan({
-                "PACKAGE_FILE": poetry_file,
-                "POETRY_FILE": True
-            })
+            [warnings, cyclonedx_bom] = await self.run_individual_scan(
+                {"PACKAGE_FILE": poetry_file, "POETRY_FILE": True}
+            )
             warnings_list.extend(warnings)
             sboms[poetry_file] = cyclonedx_bom
             has_found_packages = True
 
         for piplock_file in piplock_files:
             log_debug(f"run 'cyclonedx-py' on {piplock_file}")
-            [warnings, cyclonedx_bom] = await self.run_individual_scan({
-                "PACKAGE_FILE": piplock_file,
-                "PIPLOCK_FILE": True
-            })
+            [warnings, cyclonedx_bom] = await self.run_individual_scan(
+                {"PACKAGE_FILE": piplock_file, "PIPLOCK_FILE": True}
+            )
             warnings_list.extend(warnings)
             sboms[piplock_file] = cyclonedx_bom
             has_found_packages = True
@@ -180,9 +173,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         purl_breakdown: PurlBreakdown = purl_to_components(purl)
         if not purl_breakdown or purl_breakdown.type != "pypi":
             return [[], []]
-        pypi_data: PypiPackageVO = get_pypi_package_data(
-            purl_breakdown.name, purl_breakdown.version, pip_project_file
-        )
+        pypi_data: PypiPackageVO = get_pypi_package_data(purl_breakdown.name, purl_breakdown.version, pip_project_file)
         licenses = component.get("licenses", [])
         if len(licenses) == 0:
             for pypi_license in pypi_data.licenses:

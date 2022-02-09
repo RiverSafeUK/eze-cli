@@ -35,7 +35,7 @@
   "fatal_errors": [],
   "run_details": {},
   "sboms": {
-    "pip": {
+    "requirements.txt": {
       "bomFormat": "CycloneDX",
       "components": [
         {

@@ -6,12 +6,11 @@ config_help:
 ======================
 [python-piprot]
 # REQUIREMENTS_FILES list [OPTIONAL]
-# Optional python requirements files to check
-# default value: 
-#   REQUIREMENTS_FILES = ["requirements.txt"]
+# surplus custom requirements.txt file
+# any requirements files named requirements.txt or requirements-dev.txt will be automatically collected
+# gotcha: make sure it's a frozen version of the pip requirements
 # 
-REQUIREMENTS_FILES = ["..."]
-
+REQUIREMENTS_FILES = "[custom-requirements.txt]"
 
 # HIGH_SEVERITY_AGE_THRESHOLD int [OPTIONAL]
 # number of days before a out of date dependency is moved to High Risk

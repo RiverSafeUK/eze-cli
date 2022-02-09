@@ -61,6 +61,9 @@ cli: cli-build cli-install
 docker: cli-build cli-install
 	docker build --tag eze-cli .
 
+# clean up docker images, remove all unused images
+docker-clean: docker system prune -f
+
 # release to test pip
 release-pypi-test: cli-build
 	twine upload --repository testpypi dist/*

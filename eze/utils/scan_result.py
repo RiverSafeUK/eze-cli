@@ -75,6 +75,7 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
         return ""
     if len(scan_result.fatal_errors) > 0:
         return "ERROR when creating SBOM"
+    totals_txts = []
     for project_name in scan_result.sboms:
         cyclonedx_bom = scan_result.sboms[project_name]
         license_counts = {}
@@ -96,7 +97,8 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
                 breakdowns.append(f"{license_name}:{license_count}")
             totals_txt += ", ".join(breakdowns)
             totals_txt += ")"
-        return totals_txt + "\n"
+            totals_txts.append(totals_txt)
+    return "\n".join(totals_txts) + "\n"
 
 
 def vulnerabilities_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:

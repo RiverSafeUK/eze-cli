@@ -21,7 +21,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Given
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-python-cyclonedx-bom.json"),
-            "REQUIREMENTS_FILE": "requirements.txt",
+            "REQUIREMENTS_FILES": [],
             "LICENSE_ALLOWLIST": [],
             "LICENSE_CHECK": "PROPRIETARY",
             "LICENSE_DENYLIST": [],
@@ -42,12 +42,12 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
     def test_creation__with_config(self):
         # Given
         input_config = {
-            "REQUIREMENTS_FILE": "requirements-dev.txt",
+            "REQUIREMENTS_FILES": ["requirements-dev.txt"],
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
         }
         expected_config = {
-            "REQUIREMENTS_FILE": "requirements-dev.txt",
+            "REQUIREMENTS_FILES": ["requirements-dev.txt"],
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",
@@ -94,33 +94,39 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         mock_cve_request_json.return_value = load_json_fixture(
             "__fixtures__/cve/services_nvd_nist_gov_rest_json_cve_1_0_CVE_2013_5123.json"
         )
+        input_fixture_location = f"__fixtures__/plugins_tools/raw-{self.SNAPSHOT_PREFIX}-report--as-sboms.json"
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(
-            snapshot, {"SCA_ENABLED": True}, None, f"plugins_tools/{self.SNAPSHOT_PREFIX}-result-with-sca-output.json"
+            snapshot,
+            {"SCA_ENABLED": True},
+            input_fixture_location,
+            f"plugins_tools/{self.SNAPSHOT_PREFIX}-result-with-sca-output.json",
         )
 
     def test_parse_report__sca_disabled_snapshot(self, snapshot):
         # Given
         # Test container fixture and snapshot
+        input_fixture_location = f"__fixtures__/plugins_tools/raw-{self.SNAPSHOT_PREFIX}-report--as-sboms.json"
         self.assert_parse_report_snapshot_test(
             snapshot,
             {"SCA_ENABLED": False},
-            None,
+            input_fixture_location,
             f"plugins_tools/{self.SNAPSHOT_PREFIX}-result-without-sca-output.json",
         )
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.plugins.tools.python_cyclonedx.find_files_by_name", mock.MagicMock(return_value=[]))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
+    async def test_run_scan__cli_command__std_single_project(self, mock_async_subprocess_run):
         # Given
         input_config = {
-            "REQUIREMENTS_FILE": "requirements-dev.txt",
+            "REQUIREMENTS_FILES": ["requirements-dev.txt"],
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
         }
 
-        expected_cmd = "cyclonedx-py -r --format=json --force -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
+        expected_cmd = "cyclonedx-py --format=json --force -r -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
 
         # Test run calls correct program
 

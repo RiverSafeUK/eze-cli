@@ -112,11 +112,10 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
                 {
                     "tool": self.TOOL_NAME,
                     "warnings": warnings_list,
-                })
+                }
+            )
 
-        scan_config = {
-            "COMPILED_REQUIREMENTS_FILES": requirements_files
-        }
+        scan_config = {"COMPILED_REQUIREMENTS_FILES": requirements_files}
         scan_config = {**scan_config, **self.config.copy()}
         completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME)
 

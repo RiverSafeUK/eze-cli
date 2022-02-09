@@ -146,11 +146,10 @@ default is 182 (half a year)""",
                 {
                     "tool": self.TOOL_NAME,
                     "warnings": warnings_list,
-                })
+                }
+            )
 
-        scan_config = {
-            "COMPILED_REQUIREMENTS_FILES": requirements_files
-        }
+        scan_config = {"COMPILED_REQUIREMENTS_FILES": requirements_files}
         scan_config = {**scan_config, **self.config.copy()}
         completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME)
         report_text = completed_process.stdout
@@ -164,7 +163,7 @@ default is 182 (half a year)""",
         return report
 
     def get_recommendation_by_age(
-            self, outdated_package: str, installed_version: str, latest_version: str, package_outdated_in_days: int
+        self, outdated_package: str, installed_version: str, latest_version: str, package_outdated_in_days: int
     ):
         """get recommendation to update a package by number of days out current version is"""
         recommendation = f"{outdated_package} ({installed_version}) {package_outdated_in_days} days out of date. update to a newer version, latest version: {latest_version}"
@@ -173,18 +172,18 @@ default is 182 (half a year)""",
     def get_severity_by_age(self, package_outdated_in_days: int):
         """get the severity by number of days out current version is"""
         if (
-                self.config["HIGH_SEVERITY_AGE_THRESHOLD"]
-                and self.config["HIGH_SEVERITY_AGE_THRESHOLD"] <= package_outdated_in_days
+            self.config["HIGH_SEVERITY_AGE_THRESHOLD"]
+            and self.config["HIGH_SEVERITY_AGE_THRESHOLD"] <= package_outdated_in_days
         ):
             return VulnerabilitySeverityEnum.high.name
         if (
-                self.config["MEDIUM_SEVERITY_AGE_THRESHOLD"]
-                and self.config["MEDIUM_SEVERITY_AGE_THRESHOLD"] <= package_outdated_in_days
+            self.config["MEDIUM_SEVERITY_AGE_THRESHOLD"]
+            and self.config["MEDIUM_SEVERITY_AGE_THRESHOLD"] <= package_outdated_in_days
         ):
             return VulnerabilitySeverityEnum.medium.name
         if (
-                self.config["LOW_SEVERITY_AGE_THRESHOLD"]
-                and self.config["LOW_SEVERITY_AGE_THRESHOLD"] <= package_outdated_in_days
+            self.config["LOW_SEVERITY_AGE_THRESHOLD"]
+            and self.config["LOW_SEVERITY_AGE_THRESHOLD"] <= package_outdated_in_days
         ):
             return VulnerabilitySeverityEnum.medium.name
         return ""
