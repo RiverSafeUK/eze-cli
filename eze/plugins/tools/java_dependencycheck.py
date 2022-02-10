@@ -80,34 +80,38 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
 
         :raises EzeError
         """
-        vulnerabilities_list:list = []
-        warnings:list = []
-        pom_files:list = find_files_by_name("pom.xml")
+        vulnerabilities_list: list = []
+        warnings_list: list = []
+        pom_files: list = find_files_by_name("pom.xml")
 
         for pom_file in pom_files:
             log_debug(f"run 'java depedency check' on {pom_file}")
             maven_project = Path(pom_file).parent
             maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
             completed_process = await run_async_cli_command(
-                self.TOOL_CLI_CONFIG["CMD_CONFIG"],
-                self.config,
-                self.TOOL_NAME,
-                cwd=maven_project_fullpath
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
             )
+            if completed_process.stderr:
+                tool_warnings = ignore_groovy_errors(completed_process.stderr)
+                for tool_warning in tool_warnings:
+                    warnings_list.append(tool_warning)
             owasp_report_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
             owasp_report = load_json(owasp_report_fullpath)
 
             write_json(self.config["REPORT_FILE"], owasp_report)
-            [vulnerabilities_list, warnings] = self.parse_report(owasp_report, pom_file)
-            if completed_process.stderr:
-                tool_warnings = ignore_groovy_errors(completed_process.stderr)
-                for tool_warning in tool_warnings:
-                    warnings.append(tool_warning)
+            [report_vulnerabilities_list, report_warnings_list] = self.parse_report(owasp_report, pom_file)
+            vulnerabilities_list.extend(report_vulnerabilities_list)
+            warnings_list.extend(report_warnings_list)
 
-        report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings})
+        if len(pom_files) == 0:
+            warnings_list.append("java-spotbugs not ran, no pom.xml files found")
+
+        report = ScanResult(
+            {"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings_list}
+        )
         return report
 
-    def parse_report(self, parsed_json: dict, pom_project_file:str = 'pom.xml') -> list:
+    def parse_report(self, parsed_json: dict, pom_project_file: str = "pom.xml") -> list:
         """convert report json into ScanResult"""
         report_events = parsed_json
         vulnerabilities_list = []

@@ -107,11 +107,15 @@ more_info:
         mock_async_subprocess_run.side_effect = Exception(exception_message)
         testee = self.ToolMetaClass(input_config)
         # When
+        has_errored = False
         try:
             await testee.run_scan()
-            assert "Was expecting run_scan to exception, async_subprocess_run not called" == "..."
         except Exception as err:
             assert err.args[0] == exception_message
+            has_errored = True
+
+        if not has_errored:
+            assert "run_scan did not run any command line programs, async_subprocess_run not called" == "..."
 
         cmd_as_str = shlex.join(mock_async_subprocess_run.call_args.args[0])
         expected_command_as_list = shlex.split(expected_command)

@@ -13,7 +13,6 @@ from eze.cli.utils.command_helpers import base_options, pass_state
 from eze.core.engine import EzeCore
 from eze.core.config import EzeConfig
 from eze.utils.log import log, log_debug, log_error
-from eze.utils.osv import get_osv_package_data
 
 
 @click.command("test")
@@ -33,9 +32,6 @@ from eze.utils.osv import get_osv_package_data
 @click.option("--autoconfig", type=click.Path(exists=True), help="File with custom autoconfig json", required=False)
 def test_command(state, config_file: str, scan_type: str, force_autoscan: bool, autoconfig: click.Path = None) -> None:
     """Eze run scan"""
-
-    get_osv_package_data("Maven", "org.apache.logging.log4j/log4j-api", "2.9.0", 'foo')
-    exit()
     EzeCore.auto_build_ezerc(force_autoscan, autoconfig)
     eze_core = EzeCore.get_instance()
     asyncio.run(eze_core.run_scan(scan_type))

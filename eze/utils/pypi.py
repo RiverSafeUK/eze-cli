@@ -8,6 +8,8 @@ Helper functions for python pypi vulnerability reports
 from urllib.parse import quote
 
 import re
+
+from eze.utils.purl import PurlBreakdown, purl_to_components
 from pydash import py_
 
 from eze.core.enums import Vulnerability, VulnerabilitySeverityEnum, VulnerabilityType
@@ -112,3 +114,39 @@ def get_pypi_package_data(package_name: str, package_version: str, python_projec
             "warnings": warnings,
         }
     )
+
+
+def _sca_component(component: dict, project_name: str) -> list:
+    """
+    on component dict using pypi data
+    - detect warnings/vulnerabilities
+    - populate license information
+    """
+    purl = py_.get(component, "purl")
+    purl_breakdown: PurlBreakdown = purl_to_components(purl)
+    if not purl_breakdown or purl_breakdown.type != "pypi":
+        return [[], []]
+    pypi_data: PypiPackageVO = get_pypi_package_data(purl_breakdown.name, purl_breakdown.version, project_name)
+    licenses = component.get("licenses", [])
+    if len(licenses) == 0:
+        for pypi_license in pypi_data.licenses:
+            licenses.append({"license": {"name": pypi_license}})
+        component["licenses"] = licenses
+    return [pypi_data.vulnerabilities, pypi_data.warnings]
+
+
+def pypi_sca_sboms(cyclonedx_boms: dict) -> list:
+    """
+    parses dict of cyclonedx sboms
+    annotates sboms with license information
+    returns the pypi vulnerabilities and warnings
+    """
+    vulnerabilities: list = []
+    warnings: list = []
+    for project_name in cyclonedx_boms:
+        cyclonedx_bom = cyclonedx_boms[project_name]
+        for component in py_.get(cyclonedx_bom, "components", []):
+            [pypi_vulnerabilities, pypi_warnings] = _sca_component(component, project_name)
+            vulnerabilities.extend(pypi_vulnerabilities)
+            warnings.extend(pypi_warnings)
+    return [vulnerabilities, warnings]

@@ -47,6 +47,7 @@ spdxSupplementedData = {
     }}), 'id'), 'id')
 }
 ```
+
 ## Add new licenses to supplement JSON
 
 SPDX data from https://github.com/spdx/license-list-data/tree/master/json

@@ -290,7 +290,6 @@ By default set to eze_report.md""",
 {small_indent}================================="""
             )
             for warning in scan_result.warnings:
-
                 endline = "\n"
                 self.report_lines.append(f"""{small_indent}{warning.replace(endline, f"{endline}{small_indent}")}""")
 

@@ -21,7 +21,7 @@ REPORT_FILE = "..."
 
 
 # SCA_ENABLED bool [OPTIONAL]
-# use pypi and nvd data feeds to detect vulnerabilities
+# use pypi and nvd data feeds to Pypi detect vulnerabilities
 # default value: 
 #   SCA_ENABLED = true
 # 

@@ -15,7 +15,7 @@ from eze.utils.error import EzeNetworkingError
 CVE_IN_TEXT_RE = re.compile("cve-[0-9-]+", re.IGNORECASE)
 
 
-def severity_rating(base_score, cvss_version:str = "CVSS3"):
+def severity_rating(base_score, cvss_version: str = "CVSS3"):
     """
     good description here https://nvd.nist.gov/vuln-metrics/cvss
     """

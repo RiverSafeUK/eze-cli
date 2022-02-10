@@ -12,16 +12,17 @@ from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.language.java import ignore_groovy_errors
+from eze.utils.osv import osv_sca_sboms
 
 
 class JavaCyclonedxTool(ToolMeta):
-    """cyclonedx java bill of materials generator tool (SBOM) tool class"""
+    """cyclonedx java bill of materials generator & vulnerability detection tool (SBOM/SCA) tool class"""
 
     TOOL_NAME: str = "java-cyclonedx"
     TOOL_URL: str = "https://owasp.org/www-project-cyclonedx/"
     TOOL_TYPE: ToolType = ToolType.SBOM
     SOURCE_SUPPORT: list = [SourceType.JAVA]
-    SHORT_DESCRIPTION: str = "opensource java bill of materials (SBOM) generation utility"
+    SHORT_DESCRIPTION: str = "opensource java bill of materials (SBOM) generation utility, also runs SCA via osv"
     INSTALL_HELP: str = """In most cases all that is required is java and mvn installed
 
 https://maven.apache.org/download.cgi
@@ -59,6 +60,11 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
             "default": "target/bom.json",
             "help_text": "maven output bom.json location, relative to pom.xml folder, will be loaded, parsed and copied to <REPORT_FILE>",
         },
+        "SCA_ENABLED": {
+            "type": bool,
+            "default": True,
+            "help_text": "use osv data feeds to detect Maven vulnerabilities",
+        },
         "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
         "LICENSE_ALLOWLIST": LICENSE_ALLOWLIST_CONFIG.copy(),
         "LICENSE_DENYLIST": LICENSE_DENYLIST_CONFIG.copy(),
@@ -84,9 +90,9 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
 
         :raises EzeError
         """
-        warnings_list:list = []
-        sboms:dict = {}
-        pom_files:list = find_files_by_name("pom.xml")
+        warnings_list: list = []
+        sboms: dict = {}
+        pom_files: list = find_files_by_name("pom.xml")
 
         for pom_file in pom_files:
             log_debug(f"run 'java cyclonedx' on {pom_file}")
@@ -94,10 +100,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
             maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
 
             completed_process = await run_async_cli_command(
-                self.TOOL_CLI_CONFIG["CMD_CONFIG"],
-                self.config,
-                self.TOOL_NAME,
-                cwd=maven_project_fullpath
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
             )
             bom_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
             cyclonedx_bom = load_json(str(bom_fullpath))
@@ -115,6 +118,15 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
 
         return report
 
-    def parse_report(self, sboms: dict) -> ScanResult:
+    def parse_report(self, cyclonedx_boms: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        return convert_multi_sbom_into_scan_result(self, sboms)
+        is_sca_enabled = self.config.get("SCA_ENABLED", False)
+        scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
+        if not is_sca_enabled:
+            return scan_result
+        # When SCA_ENABLED get SCA vulnerabilities/warnings directly from PYPI
+        [osv_vulnerabilities, osv_warnings] = osv_sca_sboms(cyclonedx_boms)
+        scan_result.vulnerabilities.extend(osv_vulnerabilities)
+        scan_result.warnings.extend(osv_warnings)
+
+        return scan_result

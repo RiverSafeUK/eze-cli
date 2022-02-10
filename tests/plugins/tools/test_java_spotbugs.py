@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+import os
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -82,6 +84,7 @@ class TestJavaSpotbugsTool(ToolMetaTestBase):
         )
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.plugins.tools.java_spotbugs.find_files_by_name", mock.MagicMock(return_value=["pom.xml"]))
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
@@ -89,6 +92,7 @@ class TestJavaSpotbugsTool(ToolMetaTestBase):
         input_config = {"REPORT_FILE": "foo_report.json"}
 
         expected_cmd = "mvn -B -Dmaven.javadoc.skip=true -Dmaven.test.skip=true install com.github.spotbugs:spotbugs-maven-plugin:check"
+        expected_cwd = Path(os.getcwd())
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)
