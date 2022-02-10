@@ -20,7 +20,7 @@ class TestPiprotTool(ToolMetaTestBase):
         # Given
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-piprot-report.json"),
-            "REQUIREMENTS_FILES": ["requirements.txt"],
+            "REQUIREMENTS_FILES": [],
             "HIGH_SEVERITY_AGE_THRESHOLD": 1095,
             "LOW_SEVERITY_AGE_THRESHOLD": 182,
             "MEDIUM_SEVERITY_AGE_THRESHOLD": 730,
@@ -100,6 +100,7 @@ class TestPiprotTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.async_subprocess_run")
     @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.plugins.tools.python_piprot.find_files_by_name", mock.MagicMock(return_value=[]))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given

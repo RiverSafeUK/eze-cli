@@ -72,7 +72,12 @@
     },
     "python-cyclonedx": {
       "enabled_always": false,
-      "enable_on_file": ["requirements.txt"],
+      "enable_on_file": [
+        "requirements.txt",
+        "requirements-dev.txt",
+        "poetry.lock",
+        "Pipfile.lock"
+      ],
       "enable_on_file_ext": [],
       "config": {
         "REPORT_FILE": ".eze/_python-cyclonedx-bom.json"

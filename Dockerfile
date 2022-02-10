@@ -40,7 +40,7 @@
 #
 
 # base image
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-bullseye
 
 #
 # Explicitly fail docker build if commands below fail
@@ -117,7 +117,7 @@ RUN set -o pipefail \
 
 #
 ## Install CycloneDX BOM tools
-RUN curl -sSfL https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.15.2/cyclonedx-linux-x64 -o cyclonedx-cli \
+RUN curl -sSfL https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.22.0/cyclonedx-linux-x64 -o cyclonedx-cli \
     && mv cyclonedx-cli /usr/local/bin/cyclonedx-cli \
     && chmod +x /usr/local/bin/cyclonedx-cli \
     && echo "SIZETAG:Tool:cyclonedx-cli"

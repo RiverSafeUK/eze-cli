@@ -297,6 +297,21 @@ f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     22
 $ docker rm --force f0bef6e0bba7
 ```
 
+## Asset Caching
+Many tools such as maven and npm download depedencies from the internet
+
+
+### Maven .m2 sharing
+Maven can be slow downloading all the artifacts it requires
+
+When you provide a persistent .m2 folder which will speed up scans from 100s to as low as 20s per tool
+
+```bash
+# example of sharing your local .m2
+docker run -t -v $(pwd -W):/data  -v ~/.m2/:/home/ezeuser/.m2/ eze-cli test
+```
+
+
 # Developers Documentation
 
 To add your own tools checkout [README-DEVELOPMENT.md], this will walk you through installing eze locally for local development.

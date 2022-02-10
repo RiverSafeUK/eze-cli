@@ -35,7 +35,7 @@
   "fatal_errors": [],
   "run_details": {},
   "sboms": {
-    "pip": {
+    "requirements.txt": {
       "bomFormat": "CycloneDX",
       "components": [
         {
@@ -76,7 +76,7 @@
       "confidence": "",
       "file_location": {
         "line": 1,
-        "path": "pip"
+        "path": "requirements.txt"
       },
       "identifiers": {
         "CVE": "CVE-2020-8897",
