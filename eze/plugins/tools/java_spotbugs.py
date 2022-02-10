@@ -1,8 +1,12 @@
 """Spotbugs java tool class to detect bugs inside the project"""
 import re
 import shlex
+from pathlib import Path
 
 import xmltodict
+from eze.utils.log import log_debug
+
+from eze.utils.file_scanner import find_files_by_name
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
@@ -82,13 +86,28 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         :raises EzeError
         """
+        vulnerabilities_list:list = []
+        pom_files:list = find_files_by_name("pom.xml")
 
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
-        with open(self.config["MVN_REPORT_FILE"]) as xml_file:
-            spotbugs_report = xmltodict.parse(xml_file.read(), force_list={"BugInstance", "BugPattern"})
+        for pom_file in pom_files:
+            log_debug(f"run 'java cyclonedx' on {pom_file}")
+            maven_project = Path(pom_file).parent
+            maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
 
-        write_json(self.config["REPORT_FILE"], spotbugs_report)
-        report = self.parse_report(spotbugs_report)
+            completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+            with open(self.config["MVN_REPORT_FILE"]) as xml_file:
+                spotbugs_report = xmltodict.parse(xml_file.read(), force_list={"BugInstance", "BugPattern"})
+
+            write_json(self.config["REPORT_FILE"], spotbugs_report)
+            [spotbugs_vulnerabilities_list] = self.parse_report(spotbugs_report)
+            vulnerabilities_list.extend(spotbugs_vulnerabilities_list)
+
+        report = ScanResult(
+            {
+                "tool": self.TOOL_NAME,
+                "vulnerabilities": vulnerabilities_list,
+            }
+        )
 
         if completed_process.stderr:
             warnings = ignore_groovy_errors(completed_process.stderr)
@@ -146,11 +165,4 @@ Warning: on production might want to set this to False to prevent found Secrets 
                         }
                     )
                 )
-
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-            }
-        )
-        return report
+        return [vulnerabilities_list]

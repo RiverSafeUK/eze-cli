@@ -1,4 +1,9 @@
-"""Helper functions for python based tools"""
+"""
+Helper functions for python pypi vulnerability reports
+
+@see https://github.com/pypa/advisory-db
+@see https://warehouse.pypa.io/api-reference/json.html
+"""
 
 from urllib.parse import quote
 

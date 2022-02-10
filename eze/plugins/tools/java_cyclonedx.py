@@ -1,11 +1,16 @@
 """cyclonedx SBOM tool class"""
 import shlex
+from pathlib import Path
+
+from eze.utils.log import log_debug
+
+from eze.utils.file_scanner import find_files_by_name
 
 from eze.core.enums import ToolType, SourceType, LICENSE_DENYLIST_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_CHECK_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import extract_version_from_maven, run_async_cli_command
 from eze.utils.io import create_tempfile_path, load_json, write_json
-from eze.utils.scan_result import convert_sbom_into_scan_result
+from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.language.java import ignore_groovy_errors
 
 
@@ -52,7 +57,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         "MVN_REPORT_FILE": {
             "type": str,
             "default": "target/bom.json",
-            "help_text": "maven output bom.json location, will be loaded, parsed and copied to <REPORT_FILE>",
+            "help_text": "maven output bom.json location, relative to pom.xml folder, will be loaded, parsed and copied to <REPORT_FILE>",
         },
         "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
         "LICENSE_ALLOWLIST": LICENSE_ALLOWLIST_CONFIG.copy(),
@@ -79,19 +84,37 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
 
         :raises EzeError
         """
+        warnings_list:list = []
+        sboms:dict = {}
+        pom_files:list = find_files_by_name("pom.xml")
 
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
-        cyclonedx_bom = load_json(self.config["MVN_REPORT_FILE"])
+        for pom_file in pom_files:
+            log_debug(f"run 'java cyclonedx' on {pom_file}")
+            maven_project = Path(pom_file).parent
+            maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
 
-        write_json(self.config["REPORT_FILE"], cyclonedx_bom)
-        report = self.parse_report(cyclonedx_bom)
-        if completed_process.stderr:
-            warnings = ignore_groovy_errors(completed_process.stderr)
-            for warning in warnings:
-                report.warnings.append(warning)
+            completed_process = await run_async_cli_command(
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"],
+                self.config,
+                self.TOOL_NAME,
+                cwd=maven_project_fullpath
+            )
+            bom_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
+            cyclonedx_bom = load_json(str(bom_fullpath))
+
+            write_json(self.config["REPORT_FILE"], cyclonedx_bom)
+            sboms[pom_file] = cyclonedx_bom
+            if completed_process.stderr:
+                tool_warnings = ignore_groovy_errors(completed_process.stderr)
+                for tool_warning in tool_warnings:
+                    warnings_list.append(tool_warning)
+
+        report = self.parse_report(sboms)
+        # add all warnings
+        report.warnings.extend(warnings_list)
 
         return report
 
-    def parse_report(self, cyclonedx_bom: dict) -> ScanResult:
+    def parse_report(self, sboms: dict) -> ScanResult:
         """convert report json into ScanResult"""
-        return convert_sbom_into_scan_result(self, cyclonedx_bom, "pom.xml")
+        return convert_multi_sbom_into_scan_result(self, sboms)
