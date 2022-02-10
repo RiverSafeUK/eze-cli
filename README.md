@@ -298,7 +298,7 @@ $ docker rm --force f0bef6e0bba7
 ```
 
 ## Asset Caching
-Many tools such as maven and npm download depedencies from the internet
+Many tools such as maven and npm download dependencies from the internet
 
 
 ### Maven .m2 sharing

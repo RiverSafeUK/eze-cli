@@ -126,11 +126,13 @@ LICENSE_DENYLIST = []
 # ========================================
 # TOOL CONFIG
 # ========================================
+# run for available tools "docker run -t --rm riversafe/eze-cli tools list"
 {newline_char.join(tool_config_fragments)}
 
 # ========================================
 # REPORT CONFIG
 # ========================================
+# run for available reporters "docker run -t --rm riversafe/eze-cli reporters list"
 {newline_char.join(reporter_config_fragments)}
 
 # ========================================

@@ -1,0 +1,122 @@
+{
+  "package_name": "org.opencastproject:opencast-kernel",
+  "package_version": "8.0",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 1,
+        "path": "pom.xml"
+      },
+      "identifiers": {
+        "CVE": "CVE-2020-26234",
+        "CWE": "CWE-297",
+        "GHSA": "GHSA-44cw-p2hm-gpf6"
+      },
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "",
+      "metadata": null,
+      "name": "org.opencastproject:opencast-kernel",
+      "overview": "Disabled Hostname Verification in Opencast",
+      "recommendation": "Update package to non-vulnerable version 8.9,7.9",
+      "references": [],
+      "severity": "medium",
+      "version": "8.0",
+      "vulnerability_type": "dependency"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 1,
+        "path": "pom.xml"
+      },
+      "identifiers": {
+        "CVE": "CVE-2020-5231",
+        "CWE": "CWE-285",
+        "GHSA": "GHSA-94qw-r73x-j7hg"
+      },
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "",
+      "metadata": null,
+      "name": "org.opencastproject:opencast-kernel",
+      "overview": "Users with ROLE_COURSE_ADMIN can create new users in Opencast",
+      "recommendation": "Update package to non-vulnerable version 8.1,7.6",
+      "references": [],
+      "severity": "medium",
+      "version": "8.0",
+      "vulnerability_type": "dependency"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 1,
+        "path": "pom.xml"
+      },
+      "identifiers": {
+        "CVE": "CVE-2021-32623",
+        "CWE": "CWE-776",
+        "GHSA": "GHSA-9gwx-9cwp-5c2m"
+      },
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "",
+      "metadata": null,
+      "name": "org.opencastproject:opencast-kernel",
+      "overview": "Billion laughs attack (XML bomb)",
+      "recommendation": "Update package to non-vulnerable version 9.6",
+      "references": [],
+      "severity": "high",
+      "version": "8.0",
+      "vulnerability_type": "dependency"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 1,
+        "path": "pom.xml"
+      },
+      "identifiers": {
+        "CVE": "CVE-2020-5222",
+        "CWE": "CWE-798",
+        "GHSA": "GHSA-mh8g-hprg-8363"
+      },
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "",
+      "metadata": null,
+      "name": "org.opencastproject:opencast-kernel",
+      "overview": "Hard-Coded Key Used For Remember-me Token in Opencast",
+      "recommendation": "Update package to non-vulnerable version 8.1,7.6",
+      "references": [],
+      "severity": "medium",
+      "version": "8.0",
+      "vulnerability_type": "dependency"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 1,
+        "path": "pom.xml"
+      },
+      "identifiers": {
+        "CVE": "CVE-2020-5206",
+        "CWE": "CWE-285",
+        "GHSA": "GHSA-vmm6-w4cf-7f3x"
+      },
+      "is_excluded": false,
+      "is_ignored": false,
+      "language": "",
+      "metadata": null,
+      "name": "org.opencastproject:opencast-kernel",
+      "overview": "Authentication Bypass For Endpoints With Anonymous Access in Opencast",
+      "recommendation": "Update package to non-vulnerable version 8.1,7.6",
+      "references": [],
+      "severity": "high",
+      "version": "8.0",
+      "vulnerability_type": "dependency"
+    }
+  ],
+  "warnings": []
+}

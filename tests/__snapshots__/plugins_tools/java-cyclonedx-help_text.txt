@@ -1,6 +1,6 @@
 short_description:
 ======================
-opensource java bill of materials (SBOM) generation utility
+opensource java bill of materials (SBOM) generation utility, also runs SCA via osv
 
 config_help:
 ======================
@@ -14,11 +14,19 @@ REPORT_FILE = "..."
 
 
 # MVN_REPORT_FILE str [OPTIONAL]
-# maven output bom.json location, will be loaded, parsed and copied to <REPORT_FILE>
+# maven output bom.json location, relative to pom.xml folder, will be loaded, parsed and copied to <REPORT_FILE>
 # default value: 
 #   MVN_REPORT_FILE = "target/bom.json"
 # 
 MVN_REPORT_FILE = "..."
+
+
+# SCA_ENABLED bool [OPTIONAL]
+# use osv data feeds to detect Maven vulnerabilities
+# default value: 
+#   SCA_ENABLED = true
+# 
+SCA_ENABLED = true / false
 
 
 # LICENSE_CHECK str [OPTIONAL]

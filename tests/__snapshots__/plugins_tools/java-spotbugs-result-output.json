@@ -1,11 +1,5 @@
-{
-  "bom": null,
-  "fatal_errors": [],
-  "run_details": {},
-  "sboms": null,
-  "summary": {},
-  "tool": "java-spotbugs",
-  "vulnerabilities": [
+[
+  [
     {
       "confidence": "",
       "file_location": {
@@ -27,6 +21,5 @@
       "version": "",
       "vulnerability_type": "code"
     }
-  ],
-  "warnings": []
-}
+  ]
+]

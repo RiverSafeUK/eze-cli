@@ -1,8 +1,12 @@
 """Spotbugs java tool class to detect bugs inside the project"""
 import re
 import shlex
+from pathlib import Path
 
 import xmltodict
+from eze.utils.log import log_debug
+
+from eze.utils.file_scanner import find_files_by_name
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
@@ -55,7 +59,7 @@ Warning: on production might want to set this to False to prevent found Secrets 
         "MVN_REPORT_FILE": {
             "type": str,
             "default": "target/spotbugsXml.xml",
-            "help_text": "maven output spotbugsXml.xml location, will be loaded, parsed and copied to <REPORT_FILE>",
+            "help_text": "maven output spotbugsXml.xml location, relative to pom.xml folder, will be loaded, parsed and copied to <REPORT_FILE>",
         },
     }
 
@@ -82,18 +86,39 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         :raises EzeError
         """
+        vulnerabilities_list: list = []
+        warnings_list: list = []
+        pom_files: list = find_files_by_name("pom.xml")
 
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
-        with open(self.config["MVN_REPORT_FILE"]) as xml_file:
-            spotbugs_report = xmltodict.parse(xml_file.read(), force_list={"BugInstance", "BugPattern"})
+        for pom_file in pom_files:
+            log_debug(f"run 'java cyclonedx' on {pom_file}")
+            maven_project = Path(pom_file).parent
+            maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
 
-        write_json(self.config["REPORT_FILE"], spotbugs_report)
-        report = self.parse_report(spotbugs_report)
+            completed_process = await run_async_cli_command(
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
+            )
 
-        if completed_process.stderr:
-            warnings = ignore_groovy_errors(completed_process.stderr)
-            for warning in warnings:
-                report.warnings.append(warning)
+            if completed_process.stderr:
+                warnings = ignore_groovy_errors(completed_process.stderr)
+                for warning in warnings:
+                    warnings_list.append(warning)
+
+            # TODO: refactor into load_xml util?
+            spotbugs_xml_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
+            with open(spotbugs_xml_fullpath) as xml_file:
+                spotbugs_report = xmltodict.parse(xml_file.read(), force_list={"BugInstance", "BugPattern"})
+
+            write_json(self.config["REPORT_FILE"], spotbugs_report)
+            [spotbugs_vulnerabilities_list] = self.parse_report(spotbugs_report)
+            vulnerabilities_list.extend(spotbugs_vulnerabilities_list)
+
+        if len(pom_files) == 0:
+            warnings_list.append("java-spotbugs not ran, no pom.xml files found")
+
+        report = ScanResult(
+            {"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings_list}
+        )
 
         return report
 
@@ -146,11 +171,4 @@ Warning: on production might want to set this to False to prevent found Secrets 
                         }
                     )
                 )
-
-        report = ScanResult(
-            {
-                "tool": self.TOOL_NAME,
-                "vulnerabilities": vulnerabilities_list,
-            }
-        )
-        return report
+        return [vulnerabilities_list]

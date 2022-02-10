@@ -2,7 +2,11 @@
 
 import re
 import shlex
+from pathlib import Path
 
+from eze.utils.log import log_debug
+
+from eze.utils.file_scanner import find_files_by_name
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
@@ -76,20 +80,38 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
 
         :raises EzeError
         """
+        vulnerabilities_list: list = []
+        warnings_list: list = []
+        pom_files: list = find_files_by_name("pom.xml")
 
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
-        owasp_report = load_json(self.config["MVN_REPORT_FILE"])
+        for pom_file in pom_files:
+            log_debug(f"run 'java depedency check' on {pom_file}")
+            maven_project = Path(pom_file).parent
+            maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
+            completed_process = await run_async_cli_command(
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
+            )
+            if completed_process.stderr:
+                tool_warnings = ignore_groovy_errors(completed_process.stderr)
+                for tool_warning in tool_warnings:
+                    warnings_list.append(tool_warning)
+            owasp_report_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
+            owasp_report = load_json(owasp_report_fullpath)
 
-        write_json(self.config["REPORT_FILE"], owasp_report)
-        report = self.parse_report(owasp_report)
-        if completed_process.stderr:
-            warnings = ignore_groovy_errors(completed_process.stderr)
-            for warning in warnings:
-                report.warnings.append(warning)
+            write_json(self.config["REPORT_FILE"], owasp_report)
+            [report_vulnerabilities_list, report_warnings_list] = self.parse_report(owasp_report, pom_file)
+            vulnerabilities_list.extend(report_vulnerabilities_list)
+            warnings_list.extend(report_warnings_list)
 
+        if len(pom_files) == 0:
+            warnings_list.append("java-spotbugs not ran, no pom.xml files found")
+
+        report = ScanResult(
+            {"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings_list}
+        )
         return report
 
-    def parse_report(self, parsed_json: dict) -> ScanResult:
+    def parse_report(self, parsed_json: dict, pom_project_file: str = "pom.xml") -> list:
         """convert report json into ScanResult"""
         report_events = parsed_json
         vulnerabilities_list = []
@@ -124,13 +146,13 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
                             "language": self.TOOL_LANGUAGE,
                             "severity": vulnerability["severity"],
                             "identifiers": {"cve": vulnerability["name"]},
+                            "file_location": {"path": pom_project_file, "line": 1},
                             "metadata": metadata,
                         }
                     )
                 )
 
-        report = ScanResult({"tool": self.TOOL_NAME, "vulnerabilities": vulnerabilities_list, "warnings": warnings})
-        return report
+        return [vulnerabilities_list, warnings]
 
 
 def remove_backslash(txt: str):

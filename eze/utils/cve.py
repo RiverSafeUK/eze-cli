@@ -1,14 +1,40 @@
-""" Tools for parsing and dealing with CVE scores
+"""
+Tools for parsing and dealing with CVE data feeds and scores
+https://cve.mitre.org/
+
 """
 
 import re
 from urllib.parse import quote
 
+from eze.core.enums import VulnerabilitySeverityEnum
 from pydash import py_
 from eze.utils.http import request_json
 from eze.utils.error import EzeNetworkingError
 
 CVE_IN_TEXT_RE = re.compile("cve-[0-9-]+", re.IGNORECASE)
+
+
+def severity_rating(base_score, cvss_version: str = "CVSS3"):
+    """
+    good description here https://nvd.nist.gov/vuln-metrics/cvss
+    """
+    if cvss_version == "CVSS3":
+        if base_score < 0.1:
+            return VulnerabilitySeverityEnum.none.name
+        if base_score < 4:
+            return VulnerabilitySeverityEnum.low.name
+        if base_score < 7:
+            return VulnerabilitySeverityEnum.medium.name
+        if base_score < 9:
+            return VulnerabilitySeverityEnum.high.name
+        return VulnerabilitySeverityEnum.critical.name
+    # assumed to be CVSS2
+    if base_score < 4:
+        return VulnerabilitySeverityEnum.low.name
+    if base_score < 7:
+        return VulnerabilitySeverityEnum.medium.name
+    return VulnerabilitySeverityEnum.high.name
 
 
 def detect_cve(fragment: str):

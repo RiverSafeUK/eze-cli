@@ -5,19 +5,17 @@ import shlex
 from eze.utils.log import log_debug
 
 from eze.utils.file_scanner import find_files_by_name
-from pydash import py_
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli import detect_pip_executable_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json, pretty_print_json
-from eze.utils.scan_result import convert_sbom_into_scan_result, convert_multi_sbom_into_scan_result
-from eze.utils.purl import purl_to_components, PurlBreakdown
-from eze.utils.pypi import get_pypi_package_data, PypiPackageVO
+from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.scan_result import convert_multi_sbom_into_scan_result
+from eze.utils.pypi import pypi_sca_sboms
 
 
 class PythonCyclonedxTool(ToolMeta):
-    """cyclonedx python bill of materials generator tool (SBOM/SCA) tool class"""
+    """cyclonedx python bill of materials generator & vulnerability detection tool (SBOM/SCA) tool class"""
 
     TOOL_NAME: str = "python-cyclonedx"
     TOOL_URL: str = "https://cyclonedx.org/"
@@ -63,7 +61,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         "SCA_ENABLED": {
             "type": bool,
             "default": True,
-            "help_text": "use pypi and nvd data feeds to detect vulnerabilities",
+            "help_text": "use pypi and nvd data feeds to Pypi detect vulnerabilities",
         },
         "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
         "LICENSE_ALLOWLIST": LICENSE_ALLOWLIST_CONFIG.copy(),
@@ -167,20 +165,6 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             warnings.append(completed_process.stderr)
         return [warnings, cyclonedx_bom]
 
-    def sca_component(self, component: dict, pip_project_file: str) -> list:
-        """populate license information on component dict, and detect warnings/vulnerabilities"""
-        purl = py_.get(component, "purl")
-        purl_breakdown: PurlBreakdown = purl_to_components(purl)
-        if not purl_breakdown or purl_breakdown.type != "pypi":
-            return [[], []]
-        pypi_data: PypiPackageVO = get_pypi_package_data(purl_breakdown.name, purl_breakdown.version, pip_project_file)
-        licenses = component.get("licenses", [])
-        if len(licenses) == 0:
-            for pypi_license in pypi_data.licenses:
-                licenses.append({"license": {"name": pypi_license}})
-            component["licenses"] = licenses
-        return [pypi_data.vulnerabilities, pypi_data.warnings]
-
     def parse_report(self, cyclonedx_boms: dict) -> ScanResult:
         """convert report json into ScanResult"""
         is_sca_enabled = self.config.get("SCA_ENABLED", False)
@@ -188,11 +172,8 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         if not is_sca_enabled:
             return scan_result
         # When SCA_ENABLED get SCA vulnerabilities/warnings directly from PYPI
-        for project_name in cyclonedx_boms:
-            cyclonedx_bom = cyclonedx_boms[project_name]
-            for component in py_.get(cyclonedx_bom, "components", []):
-                [pypi_vulnerabilities, pypi_warnings] = self.sca_component(component, project_name)
-                scan_result.vulnerabilities.extend(pypi_vulnerabilities)
-                scan_result.warnings.extend(pypi_warnings)
+        [pypi_vulnerabilities, pypi_warnings] = pypi_sca_sboms(cyclonedx_boms)
+        scan_result.vulnerabilities.extend(pypi_vulnerabilities)
+        scan_result.warnings.extend(pypi_warnings)
 
         return scan_result
