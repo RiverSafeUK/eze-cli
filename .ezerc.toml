@@ -21,6 +21,7 @@ LICENSE_DENYLIST = []
 # ========================================
 # TOOL CONFIG
 # ========================================
+# run for available tools "docker run -t --rm riversafe/eze-cli tools list"
 [trufflehog]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help trufflehog"
 USE_GIT_IGNORE = true
@@ -37,26 +38,18 @@ REPORT_FILE = ".eze/_truffleHog-report.json"
 USE_GIT_IGNORE = true
 DISABLE_DEFAULT_IGNORES = false
 PRINT_TIMING_INFO = true
+WINDOWS_DOCKER_WORKAROUND = true
 EXCLUDE = []
 REPORT_FILE = ".eze/_semgrep-report.json"
-WINDOWS_DOCKER_WORKAROUND = true
 
 [python-safety]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-safety"
 REPORT_FILE = ".eze/_python-safety-report.json"
-REQUIREMENTS_FILES = [
-    "requirements.txt",
-    "requirements-dev.txt"
-]
 IGNORE_BELOW_SEVERITY = "medium"
 
 [python-piprot]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-piprot"
 REPORT_FILE = ".eze/_python-piprot-report.json"
-REQUIREMENTS_FILES = [
-    "requirements.txt",
-    "requirements-dev.txt"
-]
 NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
 NEWER_MINOR_SEMVERSION_SEVERITY = "none"
 NEWER_PATCH_SEMVERSION_SEVERITY = "none"
@@ -74,9 +67,15 @@ IGNORED_FILES = [
     "eze/core/enums.py"
 ]
 
+[kics]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help kics"
+REPORT_FILE = ".eze/_checkmarx-kics.json"
+
+
 # ========================================
 # REPORT CONFIG
 # ========================================
+# run for available reporters "docker run -t --rm riversafe/eze-cli reporters list"
 [console]
 # Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help console"
 PRINT_SUMMARY_ONLY = false
@@ -84,14 +83,19 @@ PRINT_IGNORED = false
 
 [bom]
 # Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help bom"
-
+REPORT_FILE = ".eze/eze_%PROJECT%_bom.json"
 
 [json]
 # Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help json"
-
+REPORT_FILE = ".eze/eze_report.json"
 
 [sarif]
 # Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help sarif"
+REPORT_FILE = ".eze/eze_report.sarif"
+
+[markdown]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help markdown"
+REPORT_FILE = ".eze/eze_report.md"
 
 [eze]
 # Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help eze"
@@ -102,8 +106,8 @@ PRINT_SUMMARY_ONLY = false
 # SCAN CONFIG
 # ========================================
 [scan]
-tools = ["trufflehog","semgrep","python-safety","python-piprot","python-cyclonedx","python-bandit"]
-reporters = ["json", "console", "sarif", "bom"]
+tools = ["trufflehog","semgrep","python-safety","python-piprot","python-cyclonedx","python-bandit","kics"]
+reporters = ["console","bom","json","sarif","markdown"]
 
 [scan.ci]
-reporters = ["console", "json", "sarif", "bom", "eze"]
+reporters = ["console", "bom", "json", "sarif", "markdown", "eze"]

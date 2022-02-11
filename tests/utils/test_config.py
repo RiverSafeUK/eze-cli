@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
 import copy
+import os
+from unittest import mock
 
 from eze.utils.config import (
     get_config_key,
@@ -11,6 +13,8 @@ from eze.utils.config import (
     merge_from_root_base,
     merge_from_root_flat,
     merge_from_root_nested,
+    PluginConfigField,
+    get_config_key_via_environment_variable,
 )
 from eze.utils.io import create_tempfile_path
 from tests.__fixtures__.fixture_helper import get_snapshot_directory
@@ -37,6 +41,38 @@ def test_extract_embedded_run_type__underscore():
     input_run_type = None
     expected_output = ["hello", "world"]
     output = extract_embedded_run_type(input_plugin_name, input_run_type)
+    assert output == expected_output
+
+
+@mock.patch.dict(os.environ, {"foo": "bar"})
+def test_get_config_key_via_environment_variable__str_success():
+    input_field = PluginConfigField("TEST_FIELD", {"type": str, "environment_variable": "foo"})
+    expected_output = "bar"
+    output = get_config_key_via_environment_variable(input_field)
+    assert output == expected_output
+
+
+@mock.patch.dict(os.environ, {"foo": "b,a,r"})
+def test_get_config_key_via_environment_variable__list_success():
+    input_field = PluginConfigField("TEST_FIELD", {"type": list, "environment_variable": "foo"})
+    expected_output = ["b", "a", "r"]
+    output = get_config_key_via_environment_variable(input_field)
+    assert output == expected_output
+
+
+@mock.patch.dict(os.environ, {"foo": "TrUe"})
+def test_get_config_key_via_environment_variable__bool_success():
+    input_field = PluginConfigField("TEST_FIELD", {"type": bool, "environment_variable": "foo"})
+    expected_output = True
+    output = get_config_key_via_environment_variable(input_field)
+    assert output == expected_output
+
+
+@mock.patch.dict(os.environ, {})
+def test_get_config_key_via_environment_variable__misshit_failure():
+    input_field = PluginConfigField("TEST_FIELD", {"type": str, "environment_variable": "foo"})
+    expected_output = None
+    output = get_config_key_via_environment_variable(input_field)
     assert output == expected_output
 
 

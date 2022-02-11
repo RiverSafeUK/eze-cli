@@ -19,6 +19,7 @@ REQUIREMENTS_FILES = "[custom-requirements.txt]"
 # see https://github.com/pyupio/safety/blob/master/docs/api_key.md
 # default value: 
 #   APIKEY = "ENVIRONMENT VARIABLE <SAFETY_APIKEY>"
+# value can be set via environment variable: SAFETY_APIKEY
 # 
 APIKEY = "..."
 

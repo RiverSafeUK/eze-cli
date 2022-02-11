@@ -293,8 +293,8 @@ To immediately stop a docker image do the following
 $ docker stats
 CONTAINER ID   NAME                 CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O   PIDS
 f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     221MB / 4.73MB   0B / 0B     17
-# docker rm container id
-$ docker rm --force f0bef6e0bba7
+# docker stop container id
+$ docker stop -t 0 f0bef6e0bba7
 ```
 
 ## Asset Caching

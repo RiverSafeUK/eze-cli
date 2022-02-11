@@ -20,7 +20,7 @@ class TestSafetyTool(ToolMetaTestBase):
     def test_creation__no_config(self):
         # Given
         expected_config = {
-            "APIKEY": None,
+            "APIKEY": "",
             "REPORT_FILE": create_tempfile_path("tmp-safety-report.json"),
             "REQUIREMENTS_FILES": [],
             #

@@ -7,6 +7,7 @@ helps with low level:
 Actual logic inside EzeConfig
 """
 import json
+import os
 
 from eze.utils.error import EzeConfigError
 
@@ -18,6 +19,8 @@ class PluginConfigField:
         self.key: str = key
         self.required: bool = field_config.get("required", False)
         self.type: object = field_config.get("type", str)
+        # if environment_variable just this
+        self.environment_variable: str = field_config.get("environment_variable")
         # if not set, default value
         self.default: object = field_config.get("default")
         # sometimes example value isn't descriptive for help text
@@ -52,20 +55,46 @@ def extract_embedded_run_type(plugin_name: str, run_type: str = None) -> tuple:
 
 
 def get_config_keys(raw_config: dict, fields_config: dict, config: dict = None) -> dict:
-    """helper : takes raw config dict returns parsed config"""
+    """
+    helper : takes raw config dict returns parsed config
+    via environment_variable
+    via config key
+    via default
+    """
     if not config:
         config = {}
 
     for key in fields_config:
         field_config: dict = fields_config[key]
         plugin_field: PluginConfigField = PluginConfigField(key, field_config)
-        config[key] = get_config_key(raw_config, key, plugin_field.type, plugin_field.default)
+
+        value_from_environment_variable = get_config_key_via_environment_variable(plugin_field)
+        if value_from_environment_variable:
+            config[key] = value_from_environment_variable
+        else:
+            config[key] = get_config_key(raw_config, key, plugin_field.type, plugin_field.default)
         if plugin_field.required and not config[key]:
             error_message: str = f"required param '{key}' missing from configuration"
             if plugin_field.help_text:
                 error_message += "\n" + plugin_field.help_text
             raise EzeConfigError(error_message)
     return config
+
+
+def get_config_key_via_environment_variable(plugin_field: PluginConfigField):
+    """helper : takes raw config dict and get key or default"""
+    if not plugin_field.environment_variable:
+        return None
+    value: str = os.environ.get(plugin_field.environment_variable, None)
+    if not value:
+        return None
+    if plugin_field.type is bool:
+        # if want bool, match to true or 1
+        return value.lower() == "true" or value.lower() == "1"
+    if plugin_field.type is list:
+        # if want list, commas limited text as list
+        return value.split(",")
+    return value
 
 
 def get_config_key(config: dict, key: str, value_type: object, default=False):
@@ -103,6 +132,8 @@ def _create_config_help(fields_config: dict):
         if plugin_field.default_help_value:
             field_config_help += "default value: \n"
             field_config_help += f"  {plugin_field.key} = {json.dumps(plugin_field.default_help_value, default=vars)}\n"
+        if plugin_field.environment_variable:
+            field_config_help += f"value can be set via environment variable: {plugin_field.environment_variable}\n"
         field_config_help = "# " + "\n# ".join(field_config_help.split("\n")) + "\n"
         if plugin_field.help_example:
             field_config_help += f"{plugin_field.key} = {json.dumps(plugin_field.help_example, default=vars)}\n"
