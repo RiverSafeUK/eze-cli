@@ -127,11 +127,12 @@
     "kics": {
       "enabled_always": false,
       "enable_on_file": [
-        "Dockerfile"
+        "Dockerfile",
+        "main.tf"
       ],
       "enable_on_file_ext": [
         ".dockerfile",
-        "main.tf"
+        ".tfvars"
       ],
       "config": {
         "WINDOWS_DOCKER_WORKAROUND": false,

@@ -105,7 +105,7 @@ class AutoConfigRunner:
         newline_char = "\n"
         fragment = f"""
 # auto generated .ezerc.toml
-# recreate with "docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config'"
+# recreate with "docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config"
 
 # ===================================
 # GLOBAL CONFIG
