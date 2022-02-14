@@ -1,5 +1,15 @@
 # Eze Changelog
 
+## 0.15.0 - 14th February 2022
+Improvements:
+- ab-1024: terraform/docker multi project support added
+- ab-1022: updated docker to deb bullseye + python 3.9
+- ab-1027: java multi project support added
+- ab-1023: python multi project support added
+- ab-1005: default folder for all reports now .eze/
+- ab-1006: doc improvements
+- ab-979: npm installs are now async (non blocking)
+
 ## 0.14.0 - 4th February 2022
 Improvements:
 - ab-1001: improved auto /ezerc/toml engine
