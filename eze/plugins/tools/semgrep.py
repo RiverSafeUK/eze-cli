@@ -2,8 +2,6 @@
 import os
 import shlex
 import time
-from distutils.file_util import copy_file
-from pathlib import Path
 
 from pydash import py_
 
@@ -13,10 +11,10 @@ from eze.core.tool import (
     ScanResult,
 )
 from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json, create_tempfile_folder
+from eze.utils.io import create_tempfile_path, load_json
 from eze.utils.error import EzeError
 from eze.utils.log import log, log_debug
-from eze.utils.file_scanner import has_filetype, get_file_list
+from eze.utils.file_scanner import has_filetype, cache_workspace_into_tmp
 
 
 class SemGrepTool(ToolMeta):
@@ -116,9 +114,10 @@ maps to semgrep flag --exclude""",
         },
         "WINDOWS_DOCKER_WORKAROUND": {
             "type": bool,
-            "default": os.environ.get("WINDOWS_DOCKER_WORKAROUND", False),
+            "default": False,
+            "environment_variable": "WINDOWS_DOCKER_WORKAROUND",
             "help_text": """mounted volumes Docker running in Windows are extremely slow, fix this by copying code locally for scanning
-stores files inside TMP/.eze/semgrep-workspace
+stores files inside TMP/.eze/cached-workspace
 
 can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
         },
@@ -142,6 +141,8 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
             "SHORT_FLAGS": {"USE_GIT_IGNORE": "--use-git-ignore"},
         }
     }
+
+    DEFAULT_TEST_PATTERNS = ["test_*.py", "*.test.js", "tests", "__tests__"]
 
     @staticmethod
     def check_installed() -> str:
@@ -167,25 +168,20 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
         #
         cwd = None
         if self.config["WINDOWS_DOCKER_WORKAROUND"]:
-            workspace_folder = create_tempfile_folder("semgrep-workspace")
-            log_debug(f"running WINDOWS_DOCKER_WORKAROUND, copying files to {workspace_folder}")
-            cwd = workspace_folder
-            files = get_file_list()
-            for file in files:
-                dest_file = os.path.join(workspace_folder, file)
-                log_debug(f"copying {file} to {dest_file}")
-                os.makedirs(Path(dest_file) / "..", exist_ok=True)
-                copy_file(file, dest_file)
+            cwd = cache_workspace_into_tmp()
 
+        scan_config = self.config.copy()
+        self.config["EXCLUDE"] = self.config["EXCLUDE"].copy()
+        self.config["EXCLUDE"].extend(self.DEFAULT_TEST_PATTERNS)
         completed_process = await run_async_cli_command(
-            self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=cwd
+            self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, cwd=cwd
         )
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 60:
             log(
                 f"semgrep scan took a long time ({total_time:0.2f}s), "
-                f"you can often speed up significantly by tailoring your rule configs to your language or sub-dependancies"
+                f"you can often speed up significantly by ignoring compiled assets and test/dependency folders"
             )
         if (
             "OSError: [WinError 193] %1 is not a valid Win32 application" in completed_process.stderr
@@ -297,7 +293,6 @@ https://github.com/returntocorp/semgrep/issues/1330"""
                 parsed_config["CONFIGS"].append("p/phpcs-security-audit")
             if has_filetype(".conf") or has_filetype(".vhost"):
                 parsed_config["CONFIGS"].append("p/nginx")
-        # exit()
         return parsed_config
 
     @staticmethod

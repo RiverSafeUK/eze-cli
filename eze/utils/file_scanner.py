@@ -2,7 +2,12 @@
 """
 import os
 import re
+from distutils.file_util import copy_file
 from pathlib import Path
+
+from eze.utils.log import log_debug
+
+from eze.utils.io import create_tempfile_folder
 
 from eze.utils.error import EzeError
 
@@ -12,8 +17,12 @@ class Cache:
 
 
 __c = Cache()
-__c.discovered_files = None
 __c.discovered_folders = None
+__c.ignored_folders = None
+__c.discovered_files = None
+__c.discovered_filenames = None
+__c.discovered_types = None
+__c.cached_workspace = False
 
 IGNORED_FOLDERS: list = [
     # IDEs and Configs
@@ -88,6 +97,7 @@ def delete_file_cache() -> None:
     __c.discovered_files = None
     __c.discovered_filenames = None
     __c.discovered_types = None
+    __c.cached_workspace = False
 
 
 def _build_file_list(root_path: str = None) -> list:
@@ -187,3 +197,19 @@ def get_folder_list() -> list:
     """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
     initialise_cache()
     return __c.discovered_folders
+
+
+def cache_workspace_into_tmp() -> Path:
+    """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
+    workspace_folder = create_tempfile_folder("cached-workspace")
+    if __c.cached_workspace:
+        return workspace_folder
+    log_debug(f"running WINDOWS_DOCKER_WORKAROUND, copying files to {workspace_folder}")
+    files = get_file_list()
+    for file in files:
+        dest_file = os.path.join(workspace_folder, file)
+        log_debug(f"copying {file} to {dest_file}")
+        os.makedirs(Path(dest_file) / "..", exist_ok=True)
+        copy_file(file, dest_file)
+    __c.cached_workspace = True
+    return workspace_folder

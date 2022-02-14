@@ -54,7 +54,8 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         },
         "APIKEY": {
             "type": str,
-            "default": os.environ.get("SAFETY_APIKEY"),
+            "default": "",
+            "environment_variable": "SAFETY_APIKEY",
             "default_help_value": "ENVIRONMENT VARIABLE <SAFETY_APIKEY>",
             "help_text": """By default it uses the open Python vulnerability database Safety DB,
 but can be upgraded to use pyup.io's Safety API using the APIKEY option

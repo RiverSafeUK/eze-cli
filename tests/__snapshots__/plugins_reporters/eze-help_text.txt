@@ -12,6 +12,7 @@ config_help:
 # get EZE_APIKEY from eze console profile page
 # default value: 
 #   APIKEY = "ENVIRONMENT VARIABLE <EZE_APIKEY>"
+# value can be set via environment variable: EZE_APIKEY
 # 
 APIKEY = "..."
 
@@ -22,6 +23,7 @@ APIKEY = "..."
 # get EZE_CONSOLE_ENDPOINT from eze management console profile page
 # default value: 
 #   CONSOLE_ENDPOINT = "ENVIRONMENT VARIABLE <EZE_CONSOLE_ENDPOINT>"
+# value can be set via environment variable: EZE_CONSOLE_ENDPOINT
 # 
 CONSOLE_ENDPOINT = "..."
 

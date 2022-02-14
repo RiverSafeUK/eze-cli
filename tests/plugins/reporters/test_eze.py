@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 import pytest
 from git import InvalidGitRepositoryError
+
 from eze.plugins.reporters.eze import EzeReporter
 from eze.utils.error import EzeConfigError
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
@@ -94,6 +95,10 @@ get EZE_CONSOLE_ENDPOINT from eze management console profile page"""
         assert raised_error.value.message == expected_error_message
 
     def test_creation__simple_config_parsing(self):
+        # WORKAROUND: @mock.patch.dict(os.environ, {"foo": "bar"}) NOT WORKING
+        # USING __old = os.environ / os.environ = {}
+        __old = os.environ
+        os.environ = {}
         # Given
         input_config = {
             "APIKEY": "MOCK_APIKEY",
@@ -111,6 +116,7 @@ get EZE_CONSOLE_ENDPOINT from eze management console profile page"""
         testee = EzeReporter(input_config)
         # Then
         assert testee.config == expected_config
+        os.environ = __old
 
     @pytest.mark.skip(reason="Mocking of http endpoint not implemented")
     async def test_run_report_snapshot(self, monkeypatch, snapshot):

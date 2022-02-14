@@ -41,7 +41,6 @@
         "REPORT_FILE": ".eze/_java-cyclonedx-bom.json"
       }
     },
-    "java-dependencycheck": {},
     "java-spotbugs": {
       "enabled_always": false,
       "enable_on_file": [
@@ -125,8 +124,24 @@
         "REPORT_FILE": ".eze/_node-cyclonedx-bom.json"
       }
     },
+    "kics": {
+      "enabled_always": false,
+      "enable_on_file": [
+        "Dockerfile",
+        "main.tf"
+      ],
+      "enable_on_file_ext": [
+        ".dockerfile",
+        ".tfvars"
+      ],
+      "config": {
+        "WINDOWS_DOCKER_WORKAROUND": false,
+        "EXCLUDE": [],
+        "REPORT_FILE": ".eze/_checkmarx-kics.json"
+      }
+    },
+    "java-dependencycheck": {},
     "container-trivy": {},
-    "kics": {},
     "anchore-grype": {},
     "anchore-syft": {},
     "gitleaks": {}

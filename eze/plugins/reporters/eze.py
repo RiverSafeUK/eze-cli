@@ -23,7 +23,8 @@ class EzeReporter(ReporterMeta):
         "APIKEY": {
             "type": str,
             "required": False,
-            "default": os.environ.get("EZE_APIKEY", ""),
+            "default": "",
+            "environment_variable": "EZE_APIKEY",
             "default_help_value": "ENVIRONMENT VARIABLE <EZE_APIKEY>",
             "help_text": """EZE_APIKEY required to send to server
 WARNING: not stored in version control .ezerc.toml
@@ -33,7 +34,8 @@ get EZE_APIKEY from eze console profile page""",
         "CONSOLE_ENDPOINT": {
             "type": str,
             "required": True,
-            "default": os.environ.get("EZE_CONSOLE_ENDPOINT", ""),
+            "default": "",
+            "environment_variable": "EZE_CONSOLE_ENDPOINT",
             "default_help_value": "ENVIRONMENT VARIABLE <EZE_CONSOLE_ENDPOINT>",
             "help_text": """Management console url as specified by eze management console /profile page
 it can also be specified as the environment variable EZE_CONSOLE_ENDPOINT
