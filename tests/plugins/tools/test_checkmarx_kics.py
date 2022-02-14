@@ -23,7 +23,7 @@ class TestKicsTool(ToolMetaTestBase):
             "REPORT_FILENAME": "tmp-kics-report.json",
             "INCLUDE_FULL_REASON": True,
             "DISABLE_SECRET_SCANNING": False,
-            "ENABLE_SBOM": True,
+            "ENABLE_SBOM": False,
             "EXCLUDE": [".terraform"],
             "WINDOWS_DOCKER_WORKAROUND": False,
             #
@@ -55,7 +55,7 @@ class TestKicsTool(ToolMetaTestBase):
             "CONFIG_FILE": None,
             "INCLUDE_FULL_REASON": True,
             "DISABLE_SECRET_SCANNING": False,
-            "ENABLE_SBOM": True,
+            "ENABLE_SBOM": False,
             "EXCLUDE": [".terraform"],
             "WINDOWS_DOCKER_WORKAROUND": False,
             #
@@ -99,7 +99,7 @@ class TestKicsTool(ToolMetaTestBase):
             ],
         }
 
-        expected_cmd = 'kics scan -s --report-formats json,cyclonedx -p eze --bom --output-path . --output-name tmp-kics-report.json -e= "PATH-TO-EXCLUDED-FOLDER/.*" "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*" PATH-TO-EXCLUDED-FILE.js .terraform'
+        expected_cmd = 'kics scan -s --report-formats json,cyclonedx -p eze --output-path . --output-name tmp-kics-report.json -e= "PATH-TO-EXCLUDED-FOLDER/.*" "PATH-TO-NESTED-FOLDER/SOME_NESTING/.*" PATH-TO-EXCLUDED-FILE.js .terraform'
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
@@ -112,6 +112,6 @@ class TestKicsTool(ToolMetaTestBase):
             "SOURCE": "Dockerfile,azure-pipelines.yml",
             "REPORT_FILE": "C:/Users/User1/tmp-kics-report.json",
         }
-        expected_cmd = "kics scan -s --report-formats json,cyclonedx -p Dockerfile,azure-pipelines.yml --bom --output-path C:/Users/User1 --output-name tmp-kics-report.json -e= .terraform"
+        expected_cmd = "kics scan -s --report-formats json,cyclonedx -p Dockerfile,azure-pipelines.yml --output-path C:/Users/User1 --output-name tmp-kics-report.json -e= .terraform"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
