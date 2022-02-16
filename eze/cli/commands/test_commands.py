@@ -8,7 +8,7 @@ import asyncio
 import git
 import click
 
-from eze.utils.io import pretty_print_json
+from eze.utils.io.print import pretty_print_json
 from eze.cli.utils.command_helpers import base_options, pass_state
 from eze.core.engine import EzeCore
 from eze.core.config import EzeConfig

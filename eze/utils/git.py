@@ -3,12 +3,10 @@
 import os
 import re
 from pathlib import Path
-
-from eze.utils.error import EzeFileAccessError
-
-from eze.utils.io import load_text
 from pydash import py_
 
+from eze.utils.error import EzeFileAccessError
+from eze.utils.io.file import load_text
 from eze.utils.log import log_error
 
 MAX_RECURSION: int = 10

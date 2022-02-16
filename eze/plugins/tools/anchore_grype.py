@@ -4,9 +4,9 @@ import shlex
 from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
+from eze.utils.cli.run import run_async_cli_command
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.io import create_tempfile_path, write_text, parse_json
+from eze.utils.io.file import create_tempfile_path, write_text, parse_json
 from eze.utils.log import log_error
 
 
@@ -40,6 +40,7 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)
 """
     # https://github.com/anchore/grype/blob/main/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "grype version"}
 
     EZE_CONFIG: dict = {
         "SOURCE": {
@@ -89,12 +90,6 @@ You can also explicitly specify the scheme to use:
             "FLAGS": {"CONFIG_FILE": "-c="},
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version(["grype", "version"])
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

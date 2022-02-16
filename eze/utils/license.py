@@ -7,7 +7,7 @@ import re
 from pydash import py_
 
 from eze.core.enums import Vulnerability, Component, LicenseScanType, VulnerabilitySeverityEnum, VulnerabilityType
-from eze.utils.io import load_json
+from eze.utils.io.file import load_json
 from eze.utils.log import log_error
 
 LICENSE_TYPES = {

@@ -1,8 +1,7 @@
 """Quality reporter class implementation"""
-from eze import __version__
 from eze.core.enums import VulnerabilitySeverityEnum
 from eze.core.reporter import ReporterMeta
-from eze.utils.io import exit_app
+from eze.utils.io.file import exit_app
 from eze.utils.log import log_error
 
 
@@ -13,6 +12,7 @@ class QualityReporter(ReporterMeta):
     SHORT_DESCRIPTION: str = "quality gate check reporter"
     INSTALL_HELP: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     MORE_INFO: str = """Note: this reporter is used to "threshold" the results, and throw a Application error
 when a said threshold is exceeded (aka ala unit test suite)
 
@@ -88,11 +88,6 @@ of severity NONE exceeds VULNERABILITY_NONE_SEVERITY_LIMIT""",
 of severity NA exceeds VULNERABILITY_NA_SEVERITY_LIMIT""",
         },
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

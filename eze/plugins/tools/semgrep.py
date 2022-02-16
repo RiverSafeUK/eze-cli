@@ -1,5 +1,4 @@
 """SemGrep Python tool class"""
-import os
 import shlex
 import time
 
@@ -10,11 +9,11 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import create_tempfile_path, load_json
 from eze.utils.error import EzeError
-from eze.utils.log import log, log_debug
-from eze.utils.file_scanner import has_filetype, cache_workspace_into_tmp
+from eze.utils.log import log
+from eze.utils.io.file_scanner import has_filetype, cache_workspace_into_tmp
 
 
 class SemGrepTool(ToolMeta):
@@ -47,6 +46,11 @@ Tips and Tricks
 """
     # https://github.com/returntocorp/semgrep/blob/develop/LICENSE
     LICENSE: str = """LGPL"""
+    VERSION_CHECK: dict = {
+        "FROM_EXE": "semgrep --version",
+        "IGNORED_ERR_MESSAGES": ["A new version of Semgrep is available"],
+    }
+
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,
@@ -143,12 +147,6 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
     }
 
     DEFAULT_TEST_PATTERNS = ["test_*.py", "*.test.js", "tests", "__tests__"]
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        ignored_stderr_messages = ["A new version of Semgrep is available"]
-        return extract_cmd_version(["semgrep", "--version"], ignored_stderr_messages)
 
     async def run_scan(self) -> ScanResult:
         """

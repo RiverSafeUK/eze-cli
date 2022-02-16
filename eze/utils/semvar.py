@@ -4,7 +4,7 @@ https://semver.org/
 """
 import semantic_version
 
-from eze.core.tool import VulnerabilitySeverityEnum
+from eze.core.enums import VulnerabilitySeverityEnum
 
 
 def get_severity(installed_version: str, latest_version: str, config: dict):

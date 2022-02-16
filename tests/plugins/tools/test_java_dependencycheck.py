@@ -6,7 +6,7 @@ from unittest import mock
 import pytest
 
 from eze.plugins.tools.java_dependencycheck import JavaDependencyCheckTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -52,9 +52,7 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch(
-        "eze.plugins.tools.java_dependencycheck.extract_version_from_maven", mock.MagicMock(return_value="""2.5.2""")
-    )
+    @mock.patch("eze.core.config.extract_version_from_maven", mock.MagicMock(return_value="""2.5.2"""))
     def test_check_installed__success(self):
         # When
         expected_output = "2.5.2"
@@ -62,7 +60,7 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.java_dependencycheck.extract_version_from_maven", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_version_from_maven", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -85,9 +83,9 @@ class TestJavaDependencyCheckTool(ToolMetaTestBase):
             "plugins_tools/raw-java-dependencycheck-report--log4j-example-output.json",
         )
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.java_dependencycheck.find_files_by_name", mock.MagicMock(return_value=["pom.xml"]))
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given

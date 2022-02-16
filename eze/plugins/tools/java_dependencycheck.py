@@ -6,12 +6,12 @@ from pathlib import Path
 
 from eze.utils.log import log_debug
 
-from eze.utils.file_scanner import find_files_by_name
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_version_from_maven, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json, write_json
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file_scanner import find_files_by_name
+from eze.utils.io.file import create_tempfile_path, load_json, write_json
 from eze.utils.language.java import ignore_groovy_errors
 
 
@@ -43,6 +43,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
 """
     # https://github.com/jeremylong/DependencyCheck/blob/main/LICENSE.txt
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_MAVEN": "org.owasp:dependency-check-maven"}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -67,12 +68,6 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
             )
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_version_from_maven("org.owasp:dependency-check-maven")
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

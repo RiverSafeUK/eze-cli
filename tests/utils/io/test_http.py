@@ -5,9 +5,9 @@ from unittest import mock
 from io import StringIO
 import pytest
 
-from eze.utils.http import request, request_json, spine_case_url
+from eze.utils.io.http import request, request_json, spine_case_url
 from eze.utils.error import EzeNetworkingError
-from eze.utils.io import pretty_print_json
+from eze.utils.io.print import pretty_print_json
 
 
 @mock.patch("urllib.request.urlopen")

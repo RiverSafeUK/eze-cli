@@ -8,10 +8,9 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
-
-from eze.utils.io import (
+from eze.utils.io.print import pretty_print_json
+from eze.utils.io.file import (
     get_absolute_filename,
-    pretty_print_json,
     load_json,
     xescape,
     load_toml,
@@ -41,19 +40,6 @@ def teardown_module(self):
 
 class FakePermissionError(PermissionError):
     filename = "some-mocked-file.json"
-
-
-class DummyClass:
-    """Dummy Class"""
-
-    def __init__(self):
-        """constructor"""
-        self.field1 = "should appear"
-        self.field2 = "should appear"
-
-    def func_should_not_appear(self):
-        """dummy func"""
-        return "foo"
 
 
 def test_sane__empty():
@@ -137,7 +123,7 @@ def test_normalise_windows_regex_file_path():
     assert output == expected_output
 
 
-@mock.patch("eze.utils.io.os.name", "nt")
+@mock.patch("eze.utils.io.file.os.name", "nt")
 def test_is_windows_os__windows_case():
     # Given
     expected_output = True
@@ -147,7 +133,7 @@ def test_is_windows_os__windows_case():
     assert output == expected_output
 
 
-@mock.patch("eze.utils.io.os.name", "posix")
+@mock.patch("eze.utils.io.file.os.name", "posix")
 def test_is_windows_os__linux_case():
     # Given
     expected_output = False
@@ -189,25 +175,6 @@ def test_get_absolute_filename__relative_url():
     assert output == expected_output
 
 
-def test_pretty_print_json():
-    """Test normal case, especially tests if can seralise classes"""
-
-    expected_output = """{
-  "bool_is": true,
-  "class_is": {
-    "field1": "should appear",
-    "field2": "should appear"
-  },
-  "foo": "bar",
-  "hello": 1,
-  "list_is": []
-}"""
-    test_input = dict({"hello": 1, "foo": "bar", "bool_is": True, "list_is": [], "class_is": DummyClass()})
-
-    output = pretty_print_json(test_input)
-    assert output == expected_output
-
-
 def test_parse_json__happy_path():
     expected_output = {"Iam": "json", "someArray": [], "someInt": 1, "someNull": None, "someObject": {}}
     input_json = pretty_print_json(expected_output)
@@ -244,7 +211,7 @@ def test_load_json__sad_path__ab_898_json_error():
     assert expected_error in str(raised_error.value)
 
 
-@mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
+@mock.patch("eze.utils.io.file.open", side_effect=FakePermissionError())
 def test_load_json__sad_path__ab_688_permission_error(mock_write_text):
     # Given
     input_report_location = pathlib.Path(tempfile.gettempdir()) / ".eze-temp" / "report.json"
@@ -282,7 +249,7 @@ def test_write_json():
     assert written_location == input_report_location
 
 
-@mock.patch("eze.utils.io.os.makedirs", side_effect=FakePermissionError())
+@mock.patch("eze.utils.io.file.os.makedirs", side_effect=FakePermissionError())
 def test_write_json__ab_688_makedirs_exception(mock_make_dirs):
     """Test irregular case, can't create folder"""
 
@@ -298,7 +265,7 @@ def test_write_json__ab_688_makedirs_exception(mock_make_dirs):
     assert str(expected_error) == str(raised_error.value)
 
 
-@mock.patch("eze.utils.io.open", side_effect=FakePermissionError())
+@mock.patch("eze.utils.io.file.open", side_effect=FakePermissionError())
 def test_write_json__ab_688_write_exception(mock_write_text):
     """ab-688: Test irregular case, cant write text file"""
 

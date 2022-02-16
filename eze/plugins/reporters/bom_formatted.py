@@ -5,8 +5,8 @@ import shlex
 from pydash import py_
 
 from eze.core.reporter import ReporterMeta
-from eze.utils.cli import extract_cmd_version, run_cli_command
-from eze.utils.io import create_tempfile_path, write_json, sane
+from eze.utils.cli.run import run_cli_command
+from eze.utils.io.file import create_tempfile_path, write_json, sane
 from eze.utils.log import log, log_debug, log_error
 
 
@@ -30,6 +30,7 @@ Executable will need to be renamed after being downloaded
 """
     # https://github.com/CycloneDX/cyclonedx-cli/blob/main/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "cyclonedx-cli --version"}
     EZE_CONFIG: dict = {
         "OUTPUT_FORMAT": {
             "type": str,
@@ -65,12 +66,6 @@ By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for proje
             },
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        version = extract_cmd_version(["cyclonedx-cli", "--version"])
-        return version
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

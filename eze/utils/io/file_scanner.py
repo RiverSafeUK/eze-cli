@@ -7,7 +7,7 @@ from pathlib import Path
 
 from eze.utils.log import log_debug
 
-from eze.utils.io import create_tempfile_folder
+from eze.utils.io.file import create_tempfile_folder
 
 from eze.utils.error import EzeError
 

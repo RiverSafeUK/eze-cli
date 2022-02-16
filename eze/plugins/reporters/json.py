@@ -1,8 +1,7 @@
 """JSON reporter class implementation"""
 
-from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.utils.io import write_json
+from eze.utils.io.file import write_json
 from eze.utils.log import log
 
 
@@ -14,6 +13,7 @@ class JsonReporter(ReporterMeta):
     INSTALL_HELP: str = """inbuilt"""
     MORE_INFO: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -22,11 +22,6 @@ class JsonReporter(ReporterMeta):
 By default set to eze_report.json""",
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

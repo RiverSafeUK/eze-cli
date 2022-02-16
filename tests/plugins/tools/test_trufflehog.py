@@ -3,8 +3,8 @@ from unittest import mock
 
 import pytest
 
-from eze.plugins.tools.trufflehog import TruffleHogTool
-from eze.utils.io import create_tempfile_path
+from eze.plugins.tools.trufflehog import TruffleHogTool, extract_leading_number
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 DEFAULT_EXCLUDES_WITH_MOCKED_GIT_IGNORE = [
@@ -50,6 +50,13 @@ DEFAULT_EXCLUDES_WITH_MOCKED_GIT_IGNORE = [
     "venv",
     "~",
 ]
+
+
+def test_extract_leading_number__std():
+    expected_output = "1.45434"
+    test_input = "1.45434s"
+    output = extract_leading_number(test_input)
+    assert output == expected_output
 
 
 class TestTruffleHogTool(ToolMetaTestBase):
@@ -199,7 +206,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.trufflehog.detect_pip_executable_version", mock.MagicMock(return_value="2.0.5"))
+    @mock.patch("eze.core.config.detect_pip_executable_version", mock.MagicMock(return_value="2.0.5"))
     def test_check_installed__success(self):
         # When
         expected_output = "2.0.5"
@@ -207,7 +214,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.trufflehog.detect_pip_executable_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.detect_pip_executable_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -239,7 +246,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "plugins_tools/trufflehog-result-v3-output.json",
         )
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
     )
@@ -256,8 +263,8 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
@@ -283,8 +290,8 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
@@ -309,8 +316,8 @@ class TestTruffleHogTool(ToolMetaTestBase):
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])

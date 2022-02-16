@@ -1,4 +1,5 @@
 """TruffleHog Python tool class"""
+import re
 import shlex
 import time
 from pydash import py_
@@ -8,8 +9,8 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_leading_number, detect_pip_executable_version, run_async_cli_command
-from eze.utils.io import (
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import (
     load_json,
     create_tempfile_path,
     is_windows_os,
@@ -17,8 +18,17 @@ from eze.utils.io import (
     remove_non_folders,
 )
 from eze.utils.log import log
-from eze.utils.file_scanner import IGNORED_FOLDERS
+from eze.utils.io.file_scanner import IGNORED_FOLDERS
 from eze.utils.git import get_gitignore_paths
+
+
+def extract_leading_number(value: str) -> str:
+    """Take output and check for common version patterns"""
+    leading_number_regex = re.compile("^[0-9.]+")
+    leading_number = re.search(leading_number_regex, value)
+    if leading_number:
+        return value[leading_number.start() : leading_number.end()]
+    return ""
 
 
 class TruffleHogTool(ToolMeta):
@@ -48,6 +58,8 @@ Tips and Tricks
 """
 
     LICENSE: str = """GPL"""
+    VERSION_CHECK: dict = {"FROM_EXE": "trufflehog3", "FROM_PIP": "truffleHog3"}
+
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": list,
@@ -144,11 +156,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
         "*.min.css",
         # PYTHON
     ]
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return detect_pip_executable_version("truffleHog3", "trufflehog3")
 
     async def run_scan(self) -> ScanResult:
         """

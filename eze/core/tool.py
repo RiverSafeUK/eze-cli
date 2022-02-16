@@ -5,17 +5,18 @@ import asyncio
 import os
 import time
 import math
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Callable
 
 from copy import deepcopy
+
 from eze.core.reporter import ReporterManager
-from eze.core.config import EzeConfig
+from eze.core.config import EzeConfig, PluginMeta
 from eze.core.enums import VulnerabilitySeverityEnum, ToolType, Vulnerability
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
-from eze.utils.cli import EzeExecutableNotFoundError
-from eze.utils.io import normalise_file_paths, create_folder
-from eze.utils.print import pretty_print_table
+from eze.utils.cli.run import EzeExecutableNotFoundError
+from eze.utils.io.file import normalise_file_paths, create_folder
+from eze.utils.io.print import pretty_print_table
 from eze.utils.config import (
     get_config_key,
     get_config_keys,
@@ -24,7 +25,7 @@ from eze.utils.config import (
 )
 from eze.utils.error import EzeError, EzeConfigError
 from eze.utils.log import log, log_debug, log_error, status_message, clear_status_message
-from eze.utils.file_scanner import IGNORED_FOLDERS
+from eze.utils.io.file_scanner import IGNORED_FOLDERS
 
 
 class ScanResult:
@@ -61,18 +62,13 @@ class ScanResult:
         self.fatal_errors: list = get_config_key(vo, "fatal_errors", list, [])
 
 
-class ToolMeta(ABC):
+class ToolMeta(PluginMeta):
     """Base class for all scanner implementations"""
 
     TOOL_NAME: str = "AbstractTool"
     TOOL_URL: str = ""
     TOOL_TYPE: ToolType = ToolType.MISC
     SOURCE_SUPPORT: list = []
-    SHORT_DESCRIPTION: str = ""
-    INSTALL_HELP: str = ""
-    MORE_INFO: str = ""
-    LICENSE: str = "Unknown"
-    EZE_CONFIG: dict = {}
     COMMON_EZE_CONFIG: dict = {
         "ADDITIONAL_ARGUMENTS": {
             "type": str,
@@ -109,16 +105,10 @@ available levels: critical, high, medium, low, none, na""",
 
     DEFAULT_IGNORED_LOCATIONS: list = IGNORED_FOLDERS
 
-    def __init__(self, config: dict = None):
-        """constructor"""
-        if config is None:
-            config = {}
-        self.config = self._parse_config(config)
-
     def _parse_config(self, eze_config: dict) -> dict:
         """take raw config dict and normalise values based off "EZE_CONFIG" config,
         can be overridden for advanced behaviours"""
-        parsed_config = get_config_keys(eze_config, deepcopy(self.EZE_CONFIG))
+        parsed_config = super()._parse_config(eze_config)
         parsed_config = get_config_keys(eze_config, deepcopy(self.COMMON_EZE_CONFIG), parsed_config)
         return parsed_config
 
@@ -133,34 +123,9 @@ available levels: critical, high, medium, low, none, na""",
         return cls.SOURCE_SUPPORT
 
     @classmethod
-    def short_description(cls) -> str:
-        """Returns short description of tool"""
-        return cls.SHORT_DESCRIPTION
-
-    @classmethod
-    def more_info(cls) -> str:
-        """Returns more info about tool"""
-        return cls.MORE_INFO
-
-    @classmethod
-    def license(cls) -> str:
-        """Returns license of tool"""
-        return cls.LICENSE
-
-    @classmethod
     def config_help(cls) -> str:
         """Returns self help instructions how to configure the tool"""
         return create_config_help(cls.TOOL_NAME, cls.EZE_CONFIG.copy(), cls.COMMON_EZE_CONFIG.copy())
-
-    @classmethod
-    def install_help(cls) -> str:
-        """Returns self help instructions how to install the tool"""
-        return cls.INSTALL_HELP
-
-    @staticmethod
-    @abstractmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
 
     @abstractmethod
     async def run_scan(self) -> ScanResult:

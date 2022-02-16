@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from eze.plugins.tools.python_cyclonedx import PythonCyclonedxTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.__fixtures__.fixture_helper import (
     create_mocked_stream,
     load_json_fixture,
@@ -66,9 +66,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch(
-        "eze.plugins.tools.python_cyclonedx.detect_pip_executable_version", mock.MagicMock(return_value="1.10.3")
-    )
+    @mock.patch("eze.core.config.detect_pip_executable_version", mock.MagicMock(return_value="1.10.3"))
     def test_check_installed__success(self):
         # When
         expected_output = "1.10.3"
@@ -76,7 +74,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.python_cyclonedx.detect_pip_executable_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.detect_pip_executable_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -84,8 +82,8 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.utils.pypi.request_json")
-    @mock.patch("eze.utils.cve.request_json")
+    @mock.patch("eze.utils.data.pypi.request_json")
+    @mock.patch("eze.utils.data.cve.request_json")
     def test_parse_report__sca_enabled_snapshot(self, mock_cve_request_json, mock_pypi_request_json, snapshot):
         # Given, mocked the pypi and cve results
         mock_pypi_request_json.return_value = load_json_fixture(
@@ -114,8 +112,8 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             f"plugins_tools/{self.SNAPSHOT_PREFIX}-result-without-sca-output.json",
         )
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.python_cyclonedx.find_files_by_name", mock.MagicMock(return_value=[]))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std_single_project(self, mock_async_subprocess_run):

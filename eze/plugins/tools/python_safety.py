@@ -1,14 +1,13 @@
 """Safety Python tool class"""
-import os
 import shlex
 
-from eze.utils.file_scanner import find_files_by_name
+from eze.utils.io.file_scanner import find_files_by_name
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.cve import detect_cve, get_cve_data
-from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.data.cve import detect_cve, get_cve_data
+from eze.utils.io.file import load_json, create_tempfile_path
 from eze.utils.error import EzeError
 
 
@@ -42,6 +41,7 @@ safety offers a paid real-time vulnerabilty db service look on the safety websit
 """
     # https://github.com/pyupio/safety/blob/master/LICENSE
     LICENSE: str = """MIT"""
+    VERSION_CHECK: dict = {"FROM_EXE": "safety --version"}
     EZE_CONFIG: dict = {
         #
         "REQUIREMENTS_FILES": {
@@ -79,12 +79,6 @@ see https://github.com/pyupio/safety/blob/master/docs/api_key.md""",
             "FLAGS": {"APIKEY": "--api=", "COMPILED_REQUIREMENTS_FILES": "-r ", "REPORT_FILE": "--json --output "},
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version(["safety", "--version"])
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

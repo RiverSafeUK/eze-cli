@@ -6,7 +6,7 @@ from unittest import mock
 import pytest
 
 from eze.plugins.tools.java_cyclonedx import JavaCyclonedxTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -60,7 +60,7 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.java_cyclonedx.extract_version_from_maven", mock.MagicMock(return_value="""3.8.1"""))
+    @mock.patch("eze.core.config.extract_version_from_maven", mock.MagicMock(return_value="""3.8.1"""))
     def test_check_installed__success(self):
         # When
         expected_output = "3.8.1"
@@ -68,7 +68,7 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.java_cyclonedx.extract_version_from_maven", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_version_from_maven", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -80,9 +80,9 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
         # Test default fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.java_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["pom.xml"]))
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given

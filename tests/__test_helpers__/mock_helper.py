@@ -3,11 +3,11 @@
 import sys
 from io import StringIO
 
-from eze.utils.cli import CompletedProcess
+from eze.utils.cli.run import CompletedProcess
 
 from eze.utils.log import LogLevel
 
-from eze.utils.io import pretty_print_json
+from eze.utils.io.print import pretty_print_json
 
 from eze.utils.scan_result import name_and_time_summary, vulnerabilities_short_summary, bom_short_summary
 

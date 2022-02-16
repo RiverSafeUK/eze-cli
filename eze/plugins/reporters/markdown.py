@@ -1,17 +1,16 @@
 """Markdown reporter class implementation"""
 from pydash import py_
 
-from eze import __version__
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, Vulnerability
 from eze.core.reporter import ReporterMeta
 from eze.core.tool import ScanResult
-from eze.utils.io import write_text
+from eze.utils.io.file import write_text
 from eze.utils.scan_result import (
     vulnerabilities_short_summary,
     bom_short_summary,
     name_and_time_summary,
 )
-from eze.utils.print import generate_markdown_table
+from eze.utils.io.print import generate_markdown_table
 from eze.utils.license import annotated_sbom_table
 from eze.utils.log import log
 
@@ -24,6 +23,7 @@ class MarkdownReporter(ReporterMeta):
     INSTALL_HELP: str = """inbuilt"""
     MORE_INFO: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -34,11 +34,6 @@ By default set to eze_report.md""",
     }
 
     report_lines = []
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

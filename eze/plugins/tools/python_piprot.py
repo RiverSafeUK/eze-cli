@@ -8,10 +8,10 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import detect_pip_executable_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, write_text
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import create_tempfile_path, write_text
 from eze.utils.semvar import get_severity, get_recommendation
-from eze.utils.file_scanner import find_files_by_name
+from eze.utils.io.file_scanner import find_files_by_name
 
 
 class PiprotTool(ToolMeta):
@@ -52,6 +52,8 @@ $ pip freeze > requirements.txt
 """
     # https://github.com/sesh/piprot/blob/master/LICENCE.txt
     LICENSE: str = """MIT"""
+    VERSION_CHECK: dict = {"FROM_EXE": "piprot", "FROM_PIP": "piprot"}
+
     EZE_CONFIG: dict = {
         "REQUIREMENTS_FILES": {
             "type": list,
@@ -113,11 +115,6 @@ default is 182 (half a year)""",
             "FLAGS": {},
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return detect_pip_executable_version("piprot", "piprot")
 
     async def run_scan(self) -> ScanResult:
         """

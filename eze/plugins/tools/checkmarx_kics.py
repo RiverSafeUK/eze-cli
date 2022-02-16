@@ -2,7 +2,6 @@
 import shlex
 import os
 
-from eze.utils.file_scanner import cache_workspace_into_tmp
 from pydash import py_
 
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
@@ -10,8 +9,9 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import load_json, create_tempfile_path
+from eze.utils.io.file_scanner import cache_workspace_into_tmp
 
 
 class KicsTool(ToolMeta):
@@ -49,6 +49,7 @@ Also you can define a custom config file and pass the --config flag.
 """
     # https://github.com/Checkmarx/kics/blob/master/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "kics version"}
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,
@@ -131,12 +132,6 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
         parsed_config["EXCLUDE"].extend(self.DEFAULT_EXCLUDES)
 
         return parsed_config
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version(["kics", "version"])
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

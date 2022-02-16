@@ -4,7 +4,7 @@ from unittest import mock
 import os
 import pytest
 from eze.plugins.tools.checkmarx_kics import KicsTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -70,7 +70,7 @@ class TestKicsTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.checkmarx_kics.extract_cmd_version", mock.MagicMock(return_value="""1.4.4"""))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="""1.4.4"""))
     def test_check_installed__success(self):
         # When
         expected_output = "1.4.4"
@@ -82,8 +82,8 @@ class TestKicsTool(ToolMetaTestBase):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__multi_value_flag_exclude_and_no_folder_path_given(
         self, mock_async_subprocess_run
@@ -104,7 +104,7 @@ class TestKicsTool(ToolMetaTestBase):
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @pytest.mark.asyncio
     async def test_run_scan__cli_command_with_multi_sources_and_report(self, mock_async_subprocess_run):
         # Given

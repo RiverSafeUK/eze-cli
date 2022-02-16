@@ -7,12 +7,11 @@ import boto3
 from botocore.exceptions import ClientError
 from pydash import py_
 
-from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.utils.io import pretty_print_json
+from eze.utils.io.print import pretty_print_json
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
 from eze.utils.log import log, log_error
-from eze.utils.http import spine_case_url
+from eze.utils.io.http import spine_case_url
 
 
 class S3Reporter(ReporterMeta):
@@ -35,6 +34,7 @@ https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html#co
 https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
 """
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "BUCKET_NAME": {
             "type": str,
@@ -50,11 +50,6 @@ https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
             "help_text": """object key used to store the report json in s3 bucket""",
         },
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

@@ -4,7 +4,8 @@ from unittest import mock
 import pytest
 
 from eze.plugins.tools.python_piprot import PiprotTool
-from eze.utils.io import create_tempfile_path, pretty_print_json
+from eze.utils.io.print import pretty_print_json
+from eze.utils.io.file import create_tempfile_path
 from tests.__fixtures__.fixture_helper import (
     get_snapshot_directory,
     load_text_fixture,
@@ -68,7 +69,7 @@ class TestPiprotTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.python_piprot.detect_pip_executable_version", mock.MagicMock(return_value="1.7.0"))
+    @mock.patch("eze.core.config.detect_pip_executable_version", mock.MagicMock(return_value="1.7.0"))
     def test_check_installed__success(self):
         # When
         expected_output = "1.7.0"
@@ -76,7 +77,7 @@ class TestPiprotTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.python_piprot.detect_pip_executable_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.detect_pip_executable_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -98,8 +99,8 @@ class TestPiprotTool(ToolMetaTestBase):
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(output_snapshot, "plugins_tools/python-piprot-result-output.json")
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.python_piprot.find_files_by_name", mock.MagicMock(return_value=[]))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):

@@ -8,8 +8,8 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import load_json, create_tempfile_path
 from eze.utils.error import EzeConfigError
 
 
@@ -44,6 +44,7 @@ trivy image python:3.8-slim
 Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
     # https://github.com/aquasecurity/trivy/blob/main/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "trivy --version"}
     EZE_CONFIG: dict = {
         "IMAGE_NAME": {
             "type": str,
@@ -93,12 +94,6 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
             },
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version(["trivy", "--version"])
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

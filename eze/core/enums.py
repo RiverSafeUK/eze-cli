@@ -4,7 +4,7 @@
 from enum import Enum
 from pydash import py_
 from eze.utils.config import get_config_key
-from eze.utils.io import normalise_linux_file_path
+from eze.utils.io.file import normalise_linux_file_path
 
 
 class VulnerabilitySeverityEnum(Enum):
@@ -60,6 +60,7 @@ class SourceType(Enum):
     PYTHON = "PYTHON"  # Python project
     BASH = "BASH"  # Bash files
     NODE = "NODE"  # Node project
+    DOTNET = "DOTNET"  # C# and Dot Net project
     JAVA = "JAVA"  # Java Maven project
     GRADLE = "GRADLE"  # Java Gradle project
     SBT = "SBT"  # Java / Scala SBT project

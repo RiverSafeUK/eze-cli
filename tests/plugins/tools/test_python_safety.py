@@ -5,7 +5,7 @@ import pytest
 
 from eze.core.tool import ScanResult
 from eze.plugins.tools.python_safety import SafetyTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from eze.utils.error import EzeNetworkingError
 from tests.__fixtures__.fixture_helper import (
     create_mocked_stream,
@@ -60,7 +60,7 @@ class TestSafetyTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.python_safety.extract_cmd_version", mock.MagicMock(return_value="1.10.3"))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="1.10.3"))
     def test_check_installed__success(self):
         # When
         expected_output = "1.10.3"
@@ -68,7 +68,7 @@ class TestSafetyTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.python_safety.extract_cmd_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -99,8 +99,8 @@ class TestSafetyTool(ToolMetaTestBase):
             "unable to get cve data for CVE-2013-5123, Error: mocked error on networking"
         ]
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.python_safety.find_files_by_name", mock.MagicMock(return_value=[]))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):

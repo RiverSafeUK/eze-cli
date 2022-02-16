@@ -6,7 +6,7 @@ from unittest.mock import mock_open
 
 from jsonschema import validate
 
-from eze.utils.io import load_json, load_text
+from eze.utils.io.file import load_json, load_text
 
 
 def get_path_fixture(path_from_tests: str) -> Path:

@@ -1,12 +1,12 @@
 """Eze's Reports module"""
 
 import time
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Callable
 
-from eze.core.config import EzeConfig
-from eze.utils.config import extract_embedded_run_type, get_config_keys, create_config_help
-from eze.utils.print import pretty_print_table
+from eze.core.config import EzeConfig, PluginMeta
+from eze.utils.config import extract_embedded_run_type, create_config_help
+from eze.utils.io.print import pretty_print_table
 from eze.utils.error import EzeConfigError
 from eze.utils.log import log, log_debug, log_error
 
@@ -174,58 +174,17 @@ Reporter '{reporter}' Help
         log(reporter_class.more_info())
 
 
-class ReporterMeta(ABC):
+class ReporterMeta(PluginMeta):
     """Base class for all reporter implementations"""
 
     REPORTER_NAME: str = "AbstractReporter"
-    SHORT_DESCRIPTION: str = ""
-    INSTALL_HELP: str = ""
-    MORE_INFO: str = ""
-    LICENSE: str = "Unknown"
-    EZE_CONFIG: dict = {}
 
     REPORTER_CONFIG = {}
-
-    def __init__(self, config: dict = None):
-        """constructor"""
-        if config is None:
-            config = {}
-        self.config = self._parse_config(config)
-
-    def _parse_config(self, config: dict) -> dict:
-        """take raw config dict and normalise values, can be overridden for advanced behaviours"""
-        parsed_config = get_config_keys(config, self.EZE_CONFIG)
-        return parsed_config
-
-    @classmethod
-    def short_description(cls) -> str:
-        """Gives short description of reporter"""
-        return cls.SHORT_DESCRIPTION
-
-    @classmethod
-    def more_info(cls) -> str:
-        """Gives more info about tool"""
-        return cls.MORE_INFO
-
-    @classmethod
-    def license(cls) -> str:
-        """Returns license of tool"""
-        return cls.LICENSE
 
     @classmethod
     def config_help(cls) -> str:
         """Gives self help instructions how to configure the reporter"""
         return create_config_help(cls.REPORTER_NAME, cls.EZE_CONFIG)
-
-    @classmethod
-    def install_help(cls) -> str:
-        """Gives self help instructions how to install the reporter"""
-        return cls.INSTALL_HELP
-
-    @staticmethod
-    @abstractmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
 
     @abstractmethod
     async def run_report(self, scan_results: list):

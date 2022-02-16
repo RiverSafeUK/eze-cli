@@ -4,7 +4,7 @@ import os
 import shlex
 from pathlib import Path
 
-from eze.utils.cli import run_async_cmd
+from eze.utils.cli.run import run_async_cmd
 
 
 class Cache:

@@ -2,11 +2,11 @@
 from unittest import mock
 
 import pytest
-from eze.utils.file_scanner import delete_file_cache, populate_file_cache
 
+from eze.utils.io.file_scanner import delete_file_cache, populate_file_cache
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.utils.error import EzeError
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 from tests.__test_helpers__.mock_helper import mock_run_cmd
 
@@ -89,7 +89,7 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.semgrep.extract_cmd_version", mock.MagicMock(return_value="1.10.3"))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="1.10.3"))
     def test_check_installed__success(self):
         # When
         expected_output = "1.10.3"
@@ -97,7 +97,7 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.semgrep.extract_cmd_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -105,12 +105,24 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
+    @mock.patch(
+        "eze.core.config.extract_cmd_version",
+        mock.MagicMock(return_value="ModuleNotFoundError: No module named 'resource'"),
+    )
+    def test_check_installed__semgrep_not_installed(self):
+        # Given
+        expected_output = "ModuleNotFoundError: No module named 'resource'"
+        # When
+        output = SemGrepTool.check_installed()
+        # Then
+        assert expected_output in output
+
     def test_parse_report__snapshot(self, snapshot):
         # Test container fixture and snapshot
         self.assert_parse_report_snapshot_test(snapshot)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
@@ -121,20 +133,8 @@ class TestSemGrepTool(ToolMetaTestBase):
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
-    @mock.patch(
-        "eze.plugins.tools.semgrep.extract_cmd_version",
-        mock.MagicMock(return_value="ModuleNotFoundError: No module named 'resource'"),
-    )
-    def test_check_semgrep_not_installed(self):
-        # Given
-        expected_output = "ModuleNotFoundError: No module named 'resource'"
-        # When
-        output = SemGrepTool.check_installed()
-        # Then
-        assert expected_output in output
-
-    @mock.patch("eze.utils.cli.run_async_cmd")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.run_async_cmd")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan_without_semgrep_locally_installed_raise_eze_error(self, mocked_run_async_cmd):
         # Given

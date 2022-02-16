@@ -3,13 +3,13 @@ from pathlib import Path
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import create_tempfile_path, load_json
 from eze.utils.language.node import install_npm_in_path
 from eze.utils.log import log_debug
 from eze.utils.error import EzeExecutableError
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
-from eze.utils.file_scanner import find_files_by_name
+from eze.utils.io.file_scanner import find_files_by_name
 
 
 class NodeCyclonedxTool(ToolMeta):
@@ -44,6 +44,7 @@ This will be ran automatically, if npm install fails this tool can't be run
 """
     # https://github.com/CycloneDX/cyclonedx-node-module/blob/master/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "cyclonedx-bom --version"}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -64,12 +65,6 @@ This will be ran automatically, if npm install fails this tool can't be run
             "FLAGS": {"REPORT_FILE": "-o "},
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version(["cyclonedx-bom", "--version"])
-        return version
 
     @staticmethod
     def get_process_fatal_errors(completed_process) -> str:

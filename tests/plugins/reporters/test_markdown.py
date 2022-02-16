@@ -12,7 +12,7 @@ import pytest
 
 from eze.core.tool import ScanResult
 from eze.plugins.reporters.markdown import MarkdownReporter
-from eze.utils.io import load_text
+from eze.utils.io.file import load_text
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 from tests.__fixtures__.fixture_helper import get_snapshot_directory, load_json_fixture
 

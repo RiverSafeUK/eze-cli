@@ -6,11 +6,10 @@ from datetime import datetime
 
 from pydash import py_
 
-from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.core.enums import Vulnerability
 from eze.core.tool import ScanResult
-from eze.utils.io import xescape, write_text
+from eze.utils.io.file import xescape, write_text
 from eze.utils.log import log
 
 
@@ -22,6 +21,7 @@ class JunitReporter(ReporterMeta):
     INSTALL_HELP: str = """inbuilt"""
     MORE_INFO: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -30,11 +30,6 @@ class JunitReporter(ReporterMeta):
 By default set to eze_junit_report.xml""",
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

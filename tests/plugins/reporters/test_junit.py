@@ -10,7 +10,7 @@ import pytest
 
 from eze.core.tool import ScanResult
 from eze.plugins.reporters.junit import JunitReporter
-from eze.utils.io import load_text
+from eze.utils.io.file import load_text
 from tests.__fixtures__.fixture_helper import load_json_fixture, get_snapshot_directory
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 

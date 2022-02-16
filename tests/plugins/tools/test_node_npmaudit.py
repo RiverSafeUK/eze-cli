@@ -6,7 +6,7 @@ from unittest import mock
 import pytest
 
 from eze.plugins.tools.node_npmaudit import NpmAuditTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -52,7 +52,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.node_npmaudit.extract_cmd_version", mock.MagicMock(return_value="6.14.11"))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="6.14.11"))
     def test_check_installed__success(self):
         # When
         expected_output = "6.14.11"
@@ -60,7 +60,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.node_npmaudit.extract_cmd_version", mock.MagicMock(return_value="5.12.11"))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="5.12.11"))
     def test_check_installed__failure_version_low(self):
         # When
         expected_output = ""
@@ -68,7 +68,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.node_npmaudit.extract_cmd_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -287,9 +287,9 @@ Will install mocha@8.4.0"""
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.node_npmaudit.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
@@ -301,9 +301,9 @@ Will install mocha@8.4.0"""
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.node_npmaudit.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__non_prod(self, mock_async_subprocess_run):

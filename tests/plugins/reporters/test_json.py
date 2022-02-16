@@ -9,7 +9,7 @@ import pytest
 
 from eze.core.tool import ScanResult
 from eze.plugins.reporters.json import JsonReporter
-from eze.utils.io import load_json
+from eze.utils.io.file import load_json
 from tests.__fixtures__.fixture_helper import load_json_fixture
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 

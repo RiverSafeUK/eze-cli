@@ -4,7 +4,7 @@ from unittest import mock
 import pytest
 
 from eze.plugins.tools.container_trivy import TrivyTool
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from eze.utils.error import EzeConfigError
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
@@ -73,7 +73,7 @@ class TestTrivyTool(ToolMetaTestBase):
         # Then
         assert testee.config == expected_config
 
-    @mock.patch("eze.plugins.tools.container_trivy.extract_cmd_version", mock.MagicMock(return_value="1.7.0"))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="1.7.0"))
     def test_check_installed__success(self):
         # When
         expected_output = "1.7.0"
@@ -81,7 +81,7 @@ class TestTrivyTool(ToolMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.tools.container_trivy.extract_cmd_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False
@@ -96,8 +96,8 @@ class TestTrivyTool(ToolMetaTestBase):
         }
         self.assert_parse_report_snapshot_test(snapshot, input_config)
 
-    @mock.patch("eze.utils.cli.async_subprocess_run")
-    @mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
