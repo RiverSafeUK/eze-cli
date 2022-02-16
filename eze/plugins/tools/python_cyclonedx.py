@@ -164,12 +164,12 @@ gotcha: make sure it's a frozen version of the pip requirements""",
     def parse_report(self, cyclonedx_boms: dict) -> ScanResult:
         """convert report json into ScanResult"""
         is_sca_enabled = self.config.get("SCA_ENABLED", False)
-        scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
-        if not is_sca_enabled:
-            return scan_result
-        # When SCA_ENABLED get SCA vulnerabilities/warnings directly from PYPI
-        [pypi_vulnerabilities, pypi_warnings] = pypi_sca_sboms(cyclonedx_boms)
-        scan_result.vulnerabilities.extend(pypi_vulnerabilities)
-        scan_result.warnings.extend(pypi_warnings)
-
+        if is_sca_enabled:
+            # When SCA_ENABLED get SCA vulnerabilities/warnings directly from PYPI
+            [pypi_vulnerabilities, pypi_warnings] = pypi_sca_sboms(cyclonedx_boms)
+            scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
+            scan_result.vulnerabilities.extend(pypi_vulnerabilities)
+            scan_result.warnings.extend(pypi_warnings)
+        else:
+            scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
         return scan_result

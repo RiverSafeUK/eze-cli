@@ -24,7 +24,6 @@ class KicsTool(ToolMeta):
     SHORT_DESCRIPTION: str = "opensource infrastructure scanner"
     INSTALL_HELP: str = """Installation guide for KICS
 
-It is possible to install Gitleaks through:
 - Running install command:
     1. There is an automatic detection to download the appropriate latest binary package, just run: 
     `curl -sfL 'https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh' | bash`.
@@ -37,16 +36,7 @@ It is possible to install Gitleaks through:
 Last step, make sure you are able to run this command:
     kics --version
 """
-    MORE_INFO: str = """https://github.com/Checkmarx/kics
-
-Common Gotchas
-===========================
-You can use the Docker image available on https://hub.docker.com/r/checkmarx/kics
-or by using the command `docker pull checkmarx/kics:latest`
-
-
-Also you can define a custom config file and pass the --config flag.
-"""
+    MORE_INFO: str = """"""
     # https://github.com/Checkmarx/kics/blob/master/LICENSE
     LICENSE: str = """Apache-2.0"""
     VERSION_CHECK: dict = {"FROM_EXE": "kics version"}

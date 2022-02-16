@@ -1,4 +1,4 @@
-from eze.utils.cli import run_cmd
+from eze.utils.cli.run import run_cmd
 import re
 import shlex
 
