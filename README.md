@@ -311,6 +311,21 @@ When you provide a persistent .m2 folder which will speed up scans from 100s to 
 docker run -t -v $(pwd -W):/data  -v ~/.m2/:/home/ezeuser/.m2/ eze-cli test
 ```
 
+### Dotnet  sharing
+Dotnet can be slow downloading all the artifacts it requires
+
+When you provide a persistent .nuget/packages/ folder which will speed up scans
+
+```bash
+# example of sharing your local .nuget/packages/
+docker run -t -v $(pwd -W):/data  -v ~/.nuget/packages/:/home/ezeuser/.nuget/packages/ eze-cli test
+```
+
+```bash
+# example of sharing your local .m2
+docker run -t -v $(pwd -W):/data  -v ~/.m2/:/home/ezeuser/.m2/ eze-cli test
+```
+
 
 # Developers Documentation
 

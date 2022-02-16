@@ -9,75 +9,72 @@
 #
 
 # base image
-FROM python:3.9-slim-bullseye
+# comes with dotnet/git/curl/wget packages installed
+# https://github.com/dotnet/dotnet-docker//blob/main/src/sdk/6.0/bullseye-slim/amd64/Dockerfile
+# https://github.com/dotnet/dotnet-docker//blob/main/src/aspnet/6.0/bullseye-slim/amd64/Dockerfile
+# https://github.com/dotnet/dotnet-docker//blob/main/src/runtime/6.0/bullseye-slim/amd64/Dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim
 
 #
 # Explicitly fail docker build if commands below fail
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-#
-# Install apt-get Make Dependencies
-## Install editor
-# https://packages.ubuntu.com/
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends make \
-    && apt-get install -y --no-install-recommends nano \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-
-# Install maven (java tool dependency)
-ENV MAVEN_HOME=/usr/share/maven \
+# Setup Environment Variables
+ENV \
+    # java env
+    MAVEN_HOME=/usr/share/maven \
     MAVEN_CONFIG=/data/.m2 \
-    JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-
-# Install node (tool dependency)
-ENV NODE_ENV production
+    JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
+    # node env
+    NODE_ENV=production \
+    # python env
+    # http://bugs.python.org/issue19846
+    # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+    LANG=C.UTF-8 \
+    # CycloneDX BOM tools env
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
+    # dotnet env, add tools into PATH
+    PATH="$PATH:$HOME/.dotnet/tools/"
 
 RUN set -o pipefail \
+    # Update apt-get packages
     && apt-get update \
     && apt-get clean \
-    # Install apt-get Other Dependencies
-    && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
-    && apt-get install -y --no-install-recommends git curl \
-    # Install apt-get Java Dependencies
+    # Install apt-get IDE & Make Dependencies
+    && apt-get install -y --no-install-recommends make nano \
+    # Install maven (java tool dependency)
     # WORKAROUND: Fix to be able to install openjdk-11-jre. https://stackoverflow.com/a/61816355
     && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
     && apt-get install -y --no-install-recommends openjdk-11-jre-headless \
-    # Install maven (java tool dependency)
     && apt-get install -y --no-install-recommends maven \
     && chmod +x /usr/bin/mvn \
-    # Install node (tool dependency)
+    # Install node (npm tool dependency)
     && curl -fsSL https://deb.nodesource.com/setup_current.x | bash - \
     && apt-get install -y --no-install-recommends nodejs \
+    # Install python
+    && apt-get install -y --no-install-recommends python3 python3-pip \
+
     # CLEAN
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 #
-## install node security tools
+# install npm tools
 RUN npm install -g @cyclonedx/bom --only=production
 
 #
-# Install Tools
-## install pip based tools
-RUN pip3 install --no-cache-dir \
-    semgrep \
-    truffleHog3 \
-    bandit \
-    piprot \
-    safety \
-    cyclonedx-bom
-
-# BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
-# deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
-RUN rm `which cyclonedx-bom`
+# install pip tools
+RUN pip3 install --no-cache-dir semgrep truffleHog3 bandit piprot safety cyclonedx-bom \
+    # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
+    # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
+    && rm `which cyclonedx-bom`
 
 #
-## Install CycloneDX BOM tools
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+# install dotnet/C# tools
+RUN dotnet tool install --global CycloneDX
 
-
+#
+# install linux script tools
 RUN set -o pipefail \
     ## Install Anchore tools
     && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin \
