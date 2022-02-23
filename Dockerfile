@@ -76,6 +76,7 @@ ENV \
     PATH="$PATH:/app/bin"
 
 # apt-get installs
+# nosemgrep
 RUN apt-get update \
     && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
     # Install maven (java tool dependency)

@@ -294,35 +294,43 @@ https://github.com/returntocorp/semgrep/issues/1330"""
             rules[rule_id] = {"name": rule_id, "time": 0}
             rules_index.append(rule_id)
 
-        for rule_index, rule_parse_time in enumerate(time_info["rule_parse_info"]):
+        rule_parse_time = py_.get(time_info, "rule_parse_info", [])
+
+        for rule_index, rule_parse_time in enumerate(rule_parse_time):
             rule_id = rules_index[rule_index]
             rules[rule_id]["time"] += rule_parse_time
 
         total_parse_time = 0
         total_match_time = 0
         total_run_time = 0
-        for file in time_info["targets"]:
-            file_name = file["path"]
+        for file_timings in time_info["targets"]:
+            filename = file_timings["path"]
             file_time = 0
-            for rule_index, file_parse_time in enumerate(file["parse_times"]):
+            for rule_index, file_parse_time in enumerate(file_timings["parse_times"]):
                 rule_id = rules_index[rule_index]
                 rules[rule_id]["time"] += file_parse_time
                 file_time += file_parse_time
                 total_parse_time += file_parse_time
 
-            for rule_index, file_match_time in enumerate(file["match_times"]):
+            for rule_index, file_match_time in enumerate(file_timings["match_times"]):
                 rule_id = rules_index[rule_index]
                 rules[rule_id]["time"] += file_match_time
                 file_time += file_match_time
                 total_match_time += file_match_time
 
-            for rule_index, file_run_time in enumerate(file["run_times"]):
-                rule_id = rules_index[rule_index]
-                rules[rule_id]["time"] += file_run_time
-                file_time += file_run_time
-                total_run_time += file_run_time
+            v1_run_times = py_.get(file_timings, "run_times")
+            if v1_run_times:
+                for rule_index, file_run_time in enumerate(v1_run_times):
+                    rule_id = rules_index[rule_index]
+                    rules[rule_id]["time"] += file_run_time
+                    file_time += file_run_time
+                    total_run_time += file_run_time
+            else:
+                v2_run_time = py_.get(file_timings, "run_time", 0)
+                file_time += v2_run_time
+                total_run_time += v2_run_time
 
-            files[file_name] = {"name": file_name, "time": file_time}
+            files[filename] = {"name": filename, "time": file_time}
         rules = py_.sort_by(rules.values(), "time", reverse=True)
         files = py_.sort_by(files.values(), "time", reverse=True)
         log(
