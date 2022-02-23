@@ -8,6 +8,12 @@
 # Larger developer linux box for testing commands from windows
 #
 
+# Extract Debian binaries from kics offical docker image
+# no binaries provided via github, unsafe to run docker in docker
+# see https://github.com/Checkmarx/kics/blob/master/Dockerfile.debian
+# see https://github.com/Checkmarx/kics/releases (v1.5.2)
+FROM checkmarx/kics:v1.5.2-debian as kics_docker_image
+
 # base image
 # comes with dotnet/git/curl/wget packages installed
 # https://github.com/dotnet/dotnet-docker//blob/main/src/sdk/6.0/bullseye-slim/amd64/Dockerfile
@@ -34,7 +40,9 @@ ENV \
     # CycloneDX BOM tools env
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
     # dotnet env, add tools into PATH
-    PATH="$PATH:$HOME/.dotnet/tools/"
+    PATH="$PATH:$HOME/.dotnet/tools/" \
+    # kics env, add kics into PATH
+    PATH="$PATH:/app/bin"
 
 RUN set -o pipefail \
     # Update apt-get packages
@@ -91,9 +99,12 @@ RUN set -o pipefail \
     && curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/gitleaks-linux-amd64 -o gitleaks \
     && mv gitleaks /usr/local/bin/gitleaks \
     && chmod +x /usr/local/bin/gitleaks \
-    && gitleaks --version \
-    ## Install Kics tools
-    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin
+    && gitleaks --version
+
+# Add kics binaries from offical image
+COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
+COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
+COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
 
 #
 # set Work Dir

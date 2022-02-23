@@ -230,6 +230,15 @@ def exit_app(error_message: str) -> str:
     raise click.ClickException(error_message)
 
 
+def create_absolute_path(file_path: str, cwd: str = None) -> str:
+    """create absolute path from a absolute or relative path"""
+    if Path(file_path).is_absolute():
+        return file_path
+    if not cwd:
+        cwd = Path.cwd()
+    return Path(cwd) / file_path
+
+
 def create_tempfile_path(filename: str) -> str:
     """create a tempfile path, ensure folder exists"""
     eze_temp_folder = os.path.join(tempfile.gettempdir(), ".eze-temp")

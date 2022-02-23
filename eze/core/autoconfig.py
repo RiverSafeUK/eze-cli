@@ -121,6 +121,11 @@ LICENSE_ALLOWLIST = []
 # LICENSE_DENYLIST, {LICENSE_DENYLIST_CONFIG["help_text"]}
 LICENSE_DENYLIST = []
 
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+USE_SOURCE_COPY = True
+
 # ========================================
 # TOOL CONFIG
 # ========================================

@@ -2,6 +2,7 @@
 """
 import os
 import re
+import shutil
 from distutils.file_util import copy_file
 from pathlib import Path
 
@@ -204,12 +205,14 @@ def cache_workspace_into_tmp() -> Path:
     workspace_folder = create_tempfile_folder("cached-workspace")
     if __c.cached_workspace:
         return workspace_folder
-    log_debug(f"running WINDOWS_DOCKER_WORKAROUND, copying files to {workspace_folder}")
+    log_debug(f"running USE_SOURCE_COPY, copying files to {workspace_folder}")
+    log_debug(f"clear '{workspace_folder}'")
+    shutil.rmtree(workspace_folder)
     files = get_file_list()
     for file in files:
         dest_file = os.path.join(workspace_folder, file)
-        log_debug(f"copying {file} to {dest_file}")
-        os.makedirs(Path(dest_file) / "..", exist_ok=True)
+        log_debug(f"copying to '{dest_file}'")
+        os.makedirs(Path(dest_file).parent, exist_ok=True)
         copy_file(file, dest_file)
     __c.cached_workspace = True
     return workspace_folder

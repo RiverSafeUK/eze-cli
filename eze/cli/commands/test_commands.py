@@ -1,5 +1,4 @@
 """CLI test commands"""
-
 import urllib.request
 from urllib.error import HTTPError
 import urllib.parse

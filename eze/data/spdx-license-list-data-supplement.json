@@ -153,7 +153,7 @@
     },
     "OLDAP-[2-9].*": {
       "name": "Open LDAP Public License",
-      "type": "weak-permissive",
+      "type": "permissive",
       "isProfessional": true,
       "reference": "https://en.wikipedia.org/wiki/OpenLDAP",
       "notes": "v2+ complete license rewrite from v1 to make permissive"
@@ -169,6 +169,13 @@
       "type": "copyleft",
       "isProfessional": true,
       "reference": "https://en.wikipedia.org/wiki/Reciprocal_Public_License"
+    },
+    "http://go.microsoft.com/fwlink/?LinkId=329770": {
+      "name": "Microsoft .NET Library License",
+      "type": "permissive-with-conditions",
+      "isProfessional": true,
+      "reference": "https://dotnet.microsoft.com/en-us/dotnet_library_license.htm",
+      "notes": "well designed proprietary license which acts partially permissive and partially anti-copyleft"
     }
   },
   "pypiToSpdxLookup": {

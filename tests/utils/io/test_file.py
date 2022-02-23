@@ -23,6 +23,7 @@ from eze.utils.io.file import (
     exit_app,
     parse_json,
     sane,
+    create_absolute_path,
 )
 from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 from tests.__fixtures__.fixture_helper import get_path_fixture
@@ -324,6 +325,42 @@ def test_xescape__zero():
     output = xescape(test_input)
 
     assert output == expected_output
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="does not run on Linux")
+def test_create_absolute_path__happy_absolute_winnt():
+    test_input = "C:\\tmp\\absolute.json"
+    expected_output = "C:\\tmp\\absolute.json"
+    output = create_absolute_path(test_input)
+
+    assert str(output) == expected_output
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="does not run on Linux")
+def test_create_absolute_path__happy_relative_winnt():
+    test_input = "relative\\file.json"
+    expected_output = "C:\\relative-cwd\\relative\\file.json"
+    output = create_absolute_path(test_input, "C:\\relative-cwd")
+
+    assert str(output) == expected_output
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="does not run on Windows")
+def test_create_absolute_path__happy_absolute_posix():
+    test_input = "/tmp/absolute.json"
+    expected_output = "/tmp/absolute.json"
+    output = create_absolute_path(test_input)
+
+    assert str(output) == expected_output
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="does not run on Windows")
+def test_create_absolute_path__happy_relative_posix():
+    test_input = "relative/file.json"
+    expected_output = "/relative-cwd/relative/file.json"
+    output = create_absolute_path(test_input, "/relative-cwd/")
+
+    assert str(output) == expected_output
 
 
 def test_delete_file(tmp_path):

@@ -264,7 +264,7 @@ async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True, cwd
     :raises EzeExecutableNotFoundError
     """
     sanitised_command_str = __sanitise_command(cmd)
-    log_debug(f"running command '{sanitised_command_str}'")
+    log_debug(f"running command '{sanitised_command_str}'{f'({str(cwd)})' if cwd else ''}")
 
     try:
         process_output = await async_subprocess_run(cmd, cwd=cwd)

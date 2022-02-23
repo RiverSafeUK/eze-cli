@@ -4,7 +4,7 @@ from unittest import mock
 import pytest
 
 from eze.plugins.tools.trufflehog import TruffleHogTool, extract_leading_number
-from eze.utils.io.file import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path, create_absolute_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 DEFAULT_EXCLUDES_WITH_MOCKED_GIT_IGNORE = [
@@ -84,6 +84,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "USE_SOURCE_COPY": True,
         }
         # When
         testee = TruffleHogTool(input_config)
@@ -116,6 +117,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "USE_SOURCE_COPY": True,
         }
         # When
         testee = TruffleHogTool(input_config)
@@ -160,6 +162,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "USE_SOURCE_COPY": True,
         }
         # When
         testee = TruffleHogTool(input_config)
@@ -200,6 +203,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
+            "USE_SOURCE_COPY": True,
         }
         # When
         testee = TruffleHogTool(input_config)
@@ -250,6 +254,7 @@ class TestTruffleHogTool(ToolMetaTestBase):
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
     )
+    @mock.patch("eze.plugins.tools.trufflehog.cache_workspace_into_tmp", mock.MagicMock(return_value=None))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command(self, mock_async_subprocess_run):
         # Given
@@ -258,8 +263,10 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "REPORT_FILE": "tmp-truffleHog-report.json",
             "DISABLE_DEFAULT_IGNORES": True,
             "USE_GIT_IGNORE": False,
+            "USE_SOURCE_COPY": False,
         }
-        expected_cmd = "trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json"
+        absolute_report = create_absolute_path(input_config["REPORT_FILE"])
+        expected_cmd = f"trufflehog3 --no-history -f json eze -o '{absolute_report}'"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
@@ -268,6 +275,11 @@ class TestTruffleHogTool(ToolMetaTestBase):
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
+    )
+    @mock.patch("eze.plugins.tools.trufflehog.cache_workspace_into_tmp", mock.MagicMock(return_value=None))
+    @mock.patch(
+        "eze.plugins.tools.trufflehog.create_absolute_path",
+        mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json"),
     )
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__windows_ab_699_multi_value_flag_with_windows_path_escaping(
@@ -284,8 +296,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
             ],
             "DISABLE_DEFAULT_IGNORES": True,
             "USE_GIT_IGNORE": False,
+            "USE_SOURCE_COPY": False,
         }
-        expected_cmd = "trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json --exclude PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER\\\\.*' 'PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*'"
+        expected_cmd = f"trufflehog3 --no-history -f json eze -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json --exclude PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER\\\\.*' 'PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*'"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
@@ -295,6 +308,11 @@ class TestTruffleHogTool(ToolMetaTestBase):
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
+    )
+    @mock.patch("eze.plugins.tools.trufflehog.cache_workspace_into_tmp", mock.MagicMock(return_value=None))
+    @mock.patch(
+        "eze.plugins.tools.trufflehog.create_absolute_path",
+        mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json"),
     )
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__ab_699_multi_value_flag_with_linux(self, mock_async_subprocess_run):
@@ -310,9 +328,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
             ],
             "DISABLE_DEFAULT_IGNORES": True,
             "USE_GIT_IGNORE": False,
+            "USE_SOURCE_COPY": False,
         }
-
-        expected_cmd = "trufflehog3 --no-history -f json eze -o tmp-truffleHog-report.json --exclude 'FILE WITH SPACES.js' PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*'"
+        expected_cmd = f"trufflehog3 --no-history -f json eze -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json --exclude 'FILE WITH SPACES.js' PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*'"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
@@ -321,6 +339,11 @@ class TestTruffleHogTool(ToolMetaTestBase):
     @mock.patch("eze.plugins.tools.trufflehog.is_windows_os", mock.MagicMock(return_value=False))
     @mock.patch(
         "eze.plugins.tools.trufflehog.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
+    )
+    @mock.patch("eze.plugins.tools.trufflehog.cache_workspace_into_tmp", mock.MagicMock(return_value=None))
+    @mock.patch(
+        "eze.plugins.tools.trufflehog.create_absolute_path",
+        mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json"),
     )
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__ab_699_short_flag(self, mock_async_subprocess_run):
@@ -331,7 +354,10 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "NO_ENTROPY": True,
             "DISABLE_DEFAULT_IGNORES": True,
             "USE_GIT_IGNORE": False,
+            "USE_SOURCE_COPY": False,
         }
-        expected_cmd = "trufflehog3 --no-history -f json eze --no-entropy -o tmp-truffleHog-report.json"
+        expected_cmd = (
+            f"trufflehog3 --no-history -f json eze --no-entropy -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json"
+        )
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

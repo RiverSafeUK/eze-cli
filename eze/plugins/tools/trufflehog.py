@@ -2,6 +2,7 @@
 import re
 import shlex
 import time
+
 from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
@@ -16,9 +17,10 @@ from eze.utils.io.file import (
     is_windows_os,
     normalise_windows_regex_file_path,
     remove_non_folders,
+    create_absolute_path,
 )
 from eze.utils.log import log
-from eze.utils.io.file_scanner import IGNORED_FOLDERS
+from eze.utils.io.file_scanner import IGNORED_FOLDERS, cache_workspace_into_tmp
 from eze.utils.git import get_gitignore_paths
 
 
@@ -82,7 +84,7 @@ eze will automatically normalise folder separator "/" to os specific versions, "
         "DISABLE_DEFAULT_IGNORES": {
             "type": bool,
             "default": False,
-            "help_text": f"""by default truffle hog ignores common compile assets, to disable default ignore list
+            "help_text": f"""by default ignores common binary assets folder, ignore list
 {ToolMeta.DEFAULT_IGNORED_LOCATIONS}""",
         },
         "CONFIG_FILE": {
@@ -107,6 +109,14 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "type": bool,
             "default": True,
             "help_text": """ignore files specified in .gitignore""",
+        },
+        "USE_SOURCE_COPY": {
+            "type": bool,
+            "default": True,
+            "environment_variable": "USE_SOURCE_COPY",
+            "help_text": """speeds up SAST tools by using copied folder with no binary/dependencies assets
+for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+stored: TMP/.eze/cached-workspace""",
         },
     }
     DEFAULT_SEVERITY = VulnerabilitySeverityEnum.high.name
@@ -165,7 +175,14 @@ Warning: on production might want to set this to False to prevent found Secrets 
         """
 
         tic = time.perf_counter()
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+
+        scan_config = self.config.copy()
+        # make REPORT_FILE absolute in-case cwd changes
+        scan_config["REPORT_FILE"] = create_absolute_path(scan_config["REPORT_FILE"])
+        cwd = cache_workspace_into_tmp() if self.config["USE_SOURCE_COPY"] else None
+        completed_process = await run_async_cli_command(
+            self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, cwd=cwd
+        )
         toc = time.perf_counter()
         total_time = toc - tic
         if total_time > 10:

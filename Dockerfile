@@ -17,6 +17,7 @@
 # ====================================
 # Maven + Java jdk 11        240.1 MB
 # Node + npm                 187.0 MB
+# Python + pip               200.0 MB
 #
 # Tool Sizes
 # ====================================
@@ -34,10 +35,13 @@
 # python/safety                0.2 MB
 # python/piprot                0.1 MB
 #
-# ====================================
-# Total Image Size           948.0 MB
-#
-#
+
+# AB#1044 : Extract Debian binaries from kics offical docker image
+# no binaries provided via github, unsafe to run docker in docker
+# see https://github.com/Checkmarx/kics/blob/master/Dockerfile.debian
+# see https://github.com/Checkmarx/kics/releases (v1.5.2)
+FROM checkmarx/kics:v1.5.2-debian as kics_docker_image
+
 
 # base image
 # comes with dotnet/git/curl/wget packages installed
@@ -46,14 +50,11 @@
 # https://github.com/dotnet/dotnet-docker//blob/main/src/runtime/6.0/bullseye-slim/amd64/Dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim
 
-#
 # Explicitly fail docker build if commands below fail
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-#
 # set Work Dir
 WORKDIR /data
-
 
 # Setup Environment Variables
 ENV \
@@ -70,9 +71,10 @@ ENV \
     # CycloneDX BOM tools env
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
     # dotnet env, add tools into PATH
-    PATH="$PATH:$HOME/.dotnet/tools/"
+    PATH="$PATH:/home/ezeuser/.dotnet/tools" \
+    # kics env, add kics into PATH
+    PATH="$PATH:/app/bin"
 
-#
 # apt-get installs
 RUN apt-get update \
     && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
@@ -94,52 +96,46 @@ RUN apt-get update \
     && rm -rf /var/lib/dpkg/status* \
     && rm -rf /var/log/*
 
-#
-## install node security tools
+# install node security tools
 RUN npm install -g @cyclonedx/bom --only=production \
     && npm cache clean --force \
     && npm prune --production
 
-#
 # install pip tools
 RUN pip3 install --no-cache-dir semgrep truffleHog3 bandit piprot safety cyclonedx-bom \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
     && rm `which cyclonedx-bom`
 
-#
-# install dotnet/C# tools
-RUN dotnet tool install --global CycloneDX
 
-#
-## Install Anchore tools (grype / syft)
+# Install Anchore tools (grype / syft)
 RUN set -o pipefail \
     && curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin \
     && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
-#
-## Install CycloneDX BOM tools
+# Install CycloneDX BOM tools
 RUN curl -sSfL https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.22.0/cyclonedx-linux-x64 -o cyclonedx-cli \
     && mv cyclonedx-cli /usr/local/bin/cyclonedx-cli \
     && chmod +x /usr/local/bin/cyclonedx-cli
 
-#
-## Install Trivy Docker tools
+# Install Trivy Docker tools
 RUN curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.18.2/trivy_0.18.2_Linux-64bit.deb -o trivy_0.18.2_Linux-64bit.deb \
     && dpkg -i trivy_0.18.2_Linux-64bit.deb \
     && rm trivy_0.18.2_Linux-64bit.deb
 
-#
-## Install Gitleaks scanner tool
+# Install Gitleaks scanner tool
 RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/gitleaks-linux-amd64 -o gitleaks \
     && mv gitleaks /usr/local/bin/gitleaks \
     && chmod +x /usr/local/bin/gitleaks \
     && gitleaks --version
 
-#
-## Install Kics tools
-RUN set -o pipefail \
-    && curl -sSfL https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh | sh -s -- -b /usr/local/bin
+# Add kics binaries from offical image
+COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
+COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
+COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
+
+# install dotnet/C# tools
+RUN dotnet tool install --global CycloneDX
 
 #
 ## install eze
@@ -147,7 +143,6 @@ COPY scripts/eze-cli-*.tar.gz /tmp/eze-cli-latest.tar.gz
 RUN pip3 install --no-cache-dir /tmp/eze-cli-latest.tar.gz \
     && rm /tmp/eze-cli-latest.tar.gz
 
-#
 # create app user
 RUN useradd --create-home ezeuser
 USER ezeuser
