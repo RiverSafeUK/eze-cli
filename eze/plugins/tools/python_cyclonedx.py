@@ -59,6 +59,11 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             "default_help_value": "<tempdir>/.eze-temp/tmp-python-cyclonedx-bom.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
+        "EXCLUDE_DEV": {
+            "type": bool,
+            "default": True,
+            "help_text": "Exclude development dependencies from the BOM",
+        },
         "SCA_ENABLED": {
             "type": bool,
             "default": True,
@@ -103,11 +108,12 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         """
         warnings_list = []
         sboms = {}
-        requirements_files = find_files_by_name("requirements.txt")
-        requirements_files.extend(find_files_by_name("requirements-dev.txt"))
+        requirements_files = find_files_by_name("^requirements.txt$")
+        if not self.config["EXCLUDE_DEV"]:
+            requirements_files.extend(find_files_by_name("^requirements-dev.txt$"))
         requirements_files.extend(self.config["REQUIREMENTS_FILES"])
-        poetry_files = find_files_by_name("poetry.lock")
-        piplock_files = find_files_by_name("Pipfile.lock")
+        poetry_files = find_files_by_name("^poetry.lock$")
+        piplock_files = find_files_by_name("^Pipfile.lock$")
 
         has_found_packages: bool = False
 

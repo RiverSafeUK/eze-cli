@@ -38,16 +38,9 @@ def test_is_missing_exe_output__normal_output():
     assert output is False
 
 
-def test_extract_executable__safety_std():
+def test_extract_executable__happy_case_safety_std():
     expected_output = "safety"
     test_input = "safety check --full-report --api=1234 -r something/requirements.txt -r something-else/requirements.txt --json --output /tmp/something-temp something-at end"
-    output = _extract_executable(test_input)
-    assert output == expected_output
-
-
-def test_extract_executable__trufflehog_std():
-    expected_output = "trufflehog3"
-    test_input = "trufflehog3  -f json amplify public src scripts .ezerc.toml package.json -o /tmp/.eze-temp/tmp-truffleHog-report.json --exclude node_modules/.* #current-cloud-backend/.* backend/function/ezemcscanresult/src/node_modules/.* backend/awscloudformation/.*': 'trufflehog3  -f json amplify public src scripts .ezerc package.json -o /tmp/.eze-temp/tmp-truffleHog-report.json --exclude node_modules/.* #current-cloud-backend/.* backend/function/ezemcscanresult/src/node_modules/.* backend/awscloudformation/.*"
     output = _extract_executable(test_input)
     assert output == expected_output
 

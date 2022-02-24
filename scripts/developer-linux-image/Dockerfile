@@ -8,7 +8,7 @@
 # Larger developer linux box for testing commands from windows
 #
 
-# Extract Debian binaries from kics offical docker image
+# Extract Debian binaries from kics official docker image
 # no binaries provided via github, unsafe to run docker in docker
 # see https://github.com/Checkmarx/kics/blob/master/Dockerfile.debian
 # see https://github.com/Checkmarx/kics/releases (v1.5.2)
@@ -101,10 +101,15 @@ RUN set -o pipefail \
     && chmod +x /usr/local/bin/gitleaks \
     && gitleaks --version
 
-# Add kics binaries from offical image
+# Add kics binaries from official image
 COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
 COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
 COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
+
+# install dotnet/C# tools
+RUN dotnet tool install --tool-path /app/bin/ CycloneDX\
+    && chmod 755 /app/bin/dotnet-CycloneDX \
+    && chmod -R 755 /app/bin/.store/cyclonedx/
 
 #
 # set Work Dir

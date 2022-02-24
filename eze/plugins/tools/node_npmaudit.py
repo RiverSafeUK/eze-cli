@@ -31,10 +31,10 @@ npm --version"""
 https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 """
     EZE_CONFIG: dict = {
-        "ONLY_PROD": {
+        "EXCLUDE_DEV": {
             "type": bool,
             "default": True,
-            "help_text": """if to add a '--only=prod' flag to ignore devDependencies""",
+            "help_text": "Exclude development dependencies from the SCA, if to add a '--only=prod' flag to ignore devDependencies",
         },
         "REPORT_FILE": {
             "type": str,
@@ -54,7 +54,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         "CMD_CONFIG": {
             "BASE_COMMAND": shlex.split("npm audit --json"),
             # eze config fields -> flags
-            "SHORT_FLAGS": {"ONLY_PROD": "--only=prod"},
+            "SHORT_FLAGS": {"EXCLUDE_DEV": "--only=prod"},
         }
     }
 
@@ -65,7 +65,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         :raises EzeError
         """
         vulnerabilities_list = []
-        npm_package_jsons = find_files_by_name("package.json")
+        npm_package_jsons = find_files_by_name("^package.json$")
         for npm_package in npm_package_jsons:
             log_debug(f"run 'npm audit' on {npm_package}")
             npm_project = Path(npm_package).parent

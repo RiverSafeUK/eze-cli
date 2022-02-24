@@ -59,6 +59,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
             "default": "target/bom.json",
             "help_text": "maven output bom.json location, relative to pom.xml folder, will be loaded, parsed and copied to <REPORT_FILE>",
         },
+        # TODO: AB#1047: add option to SCA test dependencies: INCLUDE_TEST -DincludeTestScope=true
         "SCA_ENABLED": {
             "type": bool,
             "default": True,
@@ -85,7 +86,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         """
         warnings_list: list = []
         sboms: dict = {}
-        pom_files: list = find_files_by_name("pom.xml")
+        pom_files: list = find_files_by_name("^pom.xml$")
 
         for pom_file in pom_files:
             log_debug(f"run 'java cyclonedx' on {pom_file}")

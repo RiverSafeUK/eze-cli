@@ -75,7 +75,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
         :raises EzeError
         """
-        npm_package_jsons = find_files_by_name("package.json")
+        npm_package_jsons = find_files_by_name("^package.json$")
         vulnerabilities_list = []
         warnings_list = []
         for npm_package in npm_package_jsons:

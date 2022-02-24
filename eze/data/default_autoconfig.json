@@ -133,7 +133,7 @@
         ".csproj"
       ],
       "config": {
-        "REPORT_FILE": ".eze/_dotnet-cyclonedx-bom.json"
+        "REPORT_FILE": ".eze/_dotnet-cyclonedx-bom"
       }
     },
     "kics": {

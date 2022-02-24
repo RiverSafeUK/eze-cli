@@ -124,16 +124,16 @@ default is 182 (half a year)""",
         """
         # TODO: migrate from piprot, and implement directly into cyclonedx plugin (to match new SCA from pypi)
 
-        requirements_files = find_files_by_name("requirements.txt")
-        requirements_files.extend(find_files_by_name("requirements-dev.txt"))
+        requirements_files = find_files_by_name("^requirements.txt$")
+        requirements_files.extend(find_files_by_name("^requirements-dev.txt$"))
         requirements_files.extend(self.config["REQUIREMENTS_FILES"])
         warnings_list = []
 
-        poetry_files = find_files_by_name("poetry.lock")
+        poetry_files = find_files_by_name("^poetry.lock$")
         if len(poetry_files):
             warnings_list.append(f"piprot does not support poetry files, not scanned: {','.join(poetry_files)}")
 
-        piplock_files = find_files_by_name("Pipfile.lock")
+        piplock_files = find_files_by_name("^Pipfile.lock$")
         if len(piplock_files):
             warnings_list.append(f"piprot does not support piplock files, not scanned: {','.join(piplock_files)}")
 
