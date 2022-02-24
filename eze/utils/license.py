@@ -163,6 +163,8 @@ def get_bom_license(license_dict: dict) -> str:
     license_text = py_.get(license_dict, "license.name")
     if not license_text:
         license_text = py_.get(license_dict, "license.id")
+    if not license_text:
+        license_text = py_.get(license_dict, "license.url")
     if license_text:
         # normalise upper and lower case unknown entries
         if license_text.lower() == "unknown":
@@ -180,21 +182,30 @@ def get_license(license_text: str) -> dict:
         return licenses_data["licenses"][license_id]
     # by pypi long code, aka "License :: OSI Approved :: MIT License"
     pypi_license_id = convert_pypi_to_spdx(license_text)
-    if pypi_license_id and pypi_license_id in licenses_data["licenses"]:
-        return licenses_data["licenses"][pypi_license_id]
-    if pypi_license_id and pypi_license_id in licenses_data["licensesPatterns"]:
-        license_data = licenses_data["licensesPatterns"][pypi_license_id]
-        created_license_data = license_data.copy()
-        created_license_data["id"] = pypi_license_id
-        created_license_data["isOsiApproved"] = ":: OSI Approved ::" in license_text
-        created_license_data["isFsfLibre"] = None
-        created_license_data["isDeprecated"] = None
-        return created_license_data
+    if pypi_license_id:
+        if pypi_license_id in licenses_data["licenses"]:
+            return licenses_data["licenses"][pypi_license_id]
+        if pypi_license_id in licenses_data["licensesPatterns"]:
+            license_data = licenses_data["licensesPatterns"][pypi_license_id]
+            created_license_data = license_data.copy()
+            created_license_data["id"] = pypi_license_id
+            created_license_data["isOsiApproved"] = ":: OSI Approved ::" in license_text
+            created_license_data["isFsfLibre"] = None
+            created_license_data["isDeprecated"] = None
+            return created_license_data
     # by name, aka "MIT License"
     for key in licenses_data["licenses"]:
         license_data = licenses_data["licenses"][key]
         if license_text == license_data["name"]:
             return license_data
+    # by url, aka microsoft's "http://go.microsoft.com/fwlink/?LinkId=329770"
+    if license_text in licenses_data["licensesUrls"]:
+        license_data = licenses_data["licensesUrls"][license_text]
+        created_license_data = license_data.copy()
+        created_license_data["isOsiApproved"] = None
+        created_license_data["isFsfLibre"] = None
+        created_license_data["isDeprecated"] = None
+        return created_license_data
     # by pattern, aka "Apache-X.X lorem ipsum facto"
     for license_pattern in licenses_data["licensesPatterns"]:
         license_data = licenses_data["licensesPatterns"][license_pattern]

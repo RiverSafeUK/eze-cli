@@ -351,6 +351,16 @@ def test_get_bom_license__name_license():
     assert output == expected_output
 
 
+def test_get_bom_license__url_license():
+    # Given
+    test_input = {"license": {"url": "http://go.microsoft.com/fwlink/?LinkId=329770"}}
+    expected_output = "http://go.microsoft.com/fwlink/?LinkId=329770"
+    # When
+    output = get_bom_license(test_input)
+    # Then
+    assert output == expected_output
+
+
 def test_get_bom_license__normalise_unknown():
     # Given
     test_input = {"license": {"name": "UNKNOWN"}}
@@ -438,6 +448,18 @@ def test_get_license__spdx_happy_case():
     output = get_license(spdx_license)
     # Then
     assert output["id"] == expected_license
+
+
+def test_get_license__url_happy_case():
+    # Given
+    url_license = "http://go.microsoft.com/fwlink/?LinkId=329770"
+    expected_license_id = url_license
+    expected_license_name = "Microsoft .NET Library License"
+    # When
+    output = get_license(url_license)
+    # Then
+    assert output["name"] == expected_license_name
+    assert output["id"] == expected_license_id
 
 
 def test_get_license__pattern_happy_case():

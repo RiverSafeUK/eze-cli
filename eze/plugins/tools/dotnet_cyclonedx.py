@@ -103,6 +103,20 @@ https://cyclonedx.org/
             sboms[dotnet_project_file] = load_json(Path(self.config["REPORT_FILE"]) / "bom.json")
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
+            # "properties": {
+            #     "type": "array",
+            #     "title": "Properties",
+            #     "description": "Provides the ability to document properties in a name-value store. This provides flexibility to include data not officially supported in the standard without having to use additional namespaces or create extensions. Unlike key-value stores, properties support duplicate names, each potentially having different values. Property names of interest to the general public are encouraged to be registered in the [CycloneDX Property Taxonomy](https://github.com/CycloneDX/cyclonedx-property-taxonomy). Formal registration is OPTIONAL.",
+            #     "additionalItems": false,
+            #     "items": {"$ref": "#/definitions/property"}
+            # },
+            # annotate transitive packages
+            # "properties"."transitive" not "dependency" as too complex to calculate
+            # annotate outdated packages
+            # "properties"."latest"
+            # annotate vulnerabilities packages
+            # "vulnerabilities"."vulnerability"
+            # https://github.com/CycloneDX/specification/blob/1.4/schema/bom-1.4.schema.json
 
         report = self.parse_report(sboms)
         # add all warnings
