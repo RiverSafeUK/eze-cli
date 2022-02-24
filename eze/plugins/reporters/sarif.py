@@ -3,11 +3,10 @@
 from typing import List
 import uuid
 from pydash import py_
-from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.core.enums import Vulnerability
 from eze.core.tool import ScanResult
-from eze.utils.io import write_sarif
+from eze.utils.io.file import write_sarif
 from eze.utils.log import log
 
 
@@ -19,6 +18,7 @@ class SarifReporter(ReporterMeta):
     INSTALL_HELP: str = """inbuilt"""
     MORE_INFO: str = """SBOM plugins will not be exported by this reporter"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -27,11 +27,6 @@ class SarifReporter(ReporterMeta):
 By default set to eze_report.sarif""",
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning them into report output"""

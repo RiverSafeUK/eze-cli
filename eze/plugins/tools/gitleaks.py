@@ -7,8 +7,8 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import (
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import (
     load_json,
     create_tempfile_path,
 )
@@ -25,7 +25,6 @@ class GitLeaksTool(ToolMeta):
     SHORT_DESCRIPTION: str = "opensource static key scanner"
     INSTALL_HELP: str = """Installation guide for Gitleaks
 
-It is possible to install Gitleaks through:
 - Windows:
     1. Download the executable latest release, the appropriate gitleaks-windows-* file.
     2. Rename the file to "gitleaks.exe" and move it to a directory ( i.e. "C:\\Program Files\\Gitleaks").
@@ -40,6 +39,8 @@ gitleaks --version
 """
     # https://github.com/zricethezav/gitleaks/blob/master/LICENSE
     LICENSE: str = """MIT"""
+
+    VERSION_CHECK: dict = {"FROM_EXE": "gitleaks --version"}
     MORE_INFO: str = """https://github.com/zricethezav/gitleaks
 
 Helpful tips:
@@ -84,11 +85,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
             },
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return extract_cmd_version(["gitleaks", "--version"])
 
     async def run_scan(self) -> ScanResult:
         """

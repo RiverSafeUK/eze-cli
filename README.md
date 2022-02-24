@@ -60,21 +60,10 @@ These commands will run a security scan against code in the current folder
 | CLI                 | Command |
 | -----------         | ----------- |
 | linux/mac os bash   | ```docker run -t -v "$(pwd)":/data riversafe/eze-cli test```|
-| windows git bash    | ```docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v $(pwd -W):/data riversafe/eze-cli test```|
-| windows powershell  | ```docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v ${PWD}:/data riversafe/eze-cli test```|
-| windows cmd         | ```docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v %cd%:/data riversafe/eze-cli test```|
+| windows git bash    | ```docker run -t -v $(pwd -W | sed "s/\//\/\//g"):/data riversafe/eze-cli test```|
+| windows powershell  | ```docker run -t -v ${PWD}:/data riversafe/eze-cli test```|
+| windows cmd         | ```docker run -t -v %cd%:/data riversafe/eze-cli test```|
 
-### Running Eze Docker Image on Windows
-
-Windows mounted volumes are extremely slow, you can add the environment varibale "WINDOWS_DOCKER_WORKAROUND" to fix this
-
-Eze will copy code to /tmp on the image for scanning, stores files inside TMP/.eze/
-
-This will speed up windows scan be as much as 80%
-
-```bash
-docker run -t -e "WINDOWS_DOCKER_WORKAROUND=true" -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
-```
 
 # Configuring Eze
 
@@ -297,6 +286,17 @@ f0bef6e0bba7   optimistic_burnell   0.01%     104.8MiB / 12.33GiB   0.83%     22
 $ docker stop -t 0 f0bef6e0bba7
 ```
 
+
+## Running SAST against only Source
+
+(Windows) Mounted volumes are extremely slow, by default eze will copy source files into a tmp folder for use by SAST tools, this will speed up scans be as much as 80%, as don't need to needlessly scan depedencies or compiled assets
+
+You can turn this off with
+
+```bash
+docker run -t -e "USE_SOURCE_COPY=false" -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
+```
+
 ## Asset Caching
 Many tools such as maven and npm download dependencies from the internet
 
@@ -308,7 +308,43 @@ When you provide a persistent .m2 folder which will speed up scans from 100s to 
 
 ```bash
 # example of sharing your local .m2
-docker run -t -v $(pwd -W):/data  -v ~/.m2/:/home/ezeuser/.m2/ eze-cli test
+docker run -t -v LOCATION:/data  -v ~/.m2/:/home/ezeuser/.m2/ eze-cli test
+```
+
+### Dotnet sharing
+Dotnet can be slow downloading all the artifacts it requires
+
+When you provide a persistent .nuget/packages/ folder which will speed up scans
+
+```bash
+# example of sharing your local .nuget/packages/
+docker run -t -v LOCATION:/data  -v ~/.nuget/packages/:/home/ezeuser/.nuget/packages/ eze-cli test
+```
+
+### NPM cache sharing
+NPM can be slow downloading all the artifacts it requires
+
+When you provide a persistent .npm/ folder which will speed up scans
+
+ps your local node_modules will help as well
+
+```bash
+# example of sharing your local .npm
+docker run -t -v LOCATION:/data  -v ~/.npm/:/home/ezeuser/.npm/ eze-cli test
+```
+
+### terraform cache sharing
+terraform can be slow downloading all the artifacts it requires
+
+When you provide a persistent .terraform.d/ folder which will speed up scans
+
+
+
+ps your local node_modules will help as well
+
+```bash
+# example of sharing your local .npm
+docker run -t -v LOCATION:/data  -v ~/.terraform.d/:/home/ezeuser/.terraform.d/ eze-cli test
 ```
 
 

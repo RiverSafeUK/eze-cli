@@ -1,10 +1,10 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import mock
 
-from eze.utils.io import pretty_print_json
+from eze.utils.io.print import pretty_print_json
 
 from tests.__fixtures__.fixture_helper import load_json_fixture, convert_to_std_object, get_snapshot_directory
-from eze.utils.osv import from_maven_package_to_osv_id, get_osv_package_data, get_recommendation
+from eze.utils.data.osv import from_maven_package_to_osv_id, get_osv_package_data, get_recommendation
 
 
 def test_from_maven_package_to_osv_id__happy_case():
@@ -19,7 +19,7 @@ def test_from_maven_package_to_osv_id__happy_nothing_case():
     assert from_maven_package_to_osv_id(input) == expected
 
 
-@mock.patch("eze.utils.osv.request_json")
+@mock.patch("eze.utils.data.osv.request_json")
 def test_get_osv_package_data__happy_case(mock_osv_request_json, snapshot):
     # Given
     mock_osv_request_json.return_value = load_json_fixture(

@@ -4,6 +4,7 @@ from unittest import mock
 
 import pytest
 from click.testing import CliRunner
+from eze.core.enums import SourceType
 
 from eze.cli.commands.tool_commands import tools_group
 from tests.__fixtures__.fixture_helper import get_snapshot_directory
@@ -49,8 +50,8 @@ Available tool types are (SBOM,SCA,SAST,SECRET,MISC)
         result = runner.invoke(tools_group, ["list", "-s", "NOT_PYTHON"])
         assert (
             result.output
-            == """Could not find source type 'NOT_PYTHON'
-Available source types are (ALL,PYTHON,BASH,NODE,JAVA,GRADLE,SBT,RUBY,GO,PHP,CONTAINER)
+            == f"""Could not find source type 'NOT_PYTHON'
+Available source types are ({','.join(SourceType.__members__)})
 """
         )
         assert result.exit_code == 1

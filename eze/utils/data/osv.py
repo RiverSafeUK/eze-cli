@@ -7,19 +7,16 @@ Helper functions for osv vulnerability reports
 from enum import Enum
 
 import re
-
-from eze.utils.log import log_debug
-
-from eze.utils.purl import PurlBreakdown, purl_to_components
-
-from eze.core.enums import Vulnerability, VulnerabilityType, VulnerabilitySeverityEnum
-
-from eze.utils.io import pretty_print_json
 from pydash import py_
 
-from eze.utils.http import request_json
+from eze.utils.log import log_debug
+from eze.utils.purl import PurlBreakdown, purl_to_components
+from eze.core.enums import Vulnerability, VulnerabilityType, VulnerabilitySeverityEnum
+from eze.utils.io.print import pretty_print_json
+
+from eze.utils.io.http import request_json
 from eze.utils.error import EzeError
-from eze.utils.cve import severity_rating
+from eze.utils.data.cve import severity_rating
 
 LICENSE_CLASSIFIER = re.compile("license :: ", re.IGNORECASE)
 CVE_CLASSIFIER = re.compile("^CVE-[0-9-]+$", re.IGNORECASE)

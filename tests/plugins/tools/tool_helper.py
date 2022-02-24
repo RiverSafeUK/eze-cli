@@ -3,7 +3,7 @@ import shlex
 
 from eze.core.enums import ToolType, SourceType
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.io import pretty_print_json
+from eze.utils.io.print import pretty_print_json
 from tests.__fixtures__.fixture_helper import get_snapshot_directory, load_json_fixture
 
 

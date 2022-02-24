@@ -2,17 +2,15 @@
 import shlex
 from pathlib import Path
 
-from eze.utils.log import log_debug
-
-from eze.utils.file_scanner import find_files_by_name
-
 from eze.core.enums import ToolType, SourceType, LICENSE_DENYLIST_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_CHECK_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_version_from_maven, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json, write_json
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.log import log_debug
+from eze.utils.io.file import create_tempfile_path, load_json, write_json
+from eze.utils.io.file_scanner import find_files_by_name
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.language.java import ignore_groovy_errors
-from eze.utils.osv import osv_sca_sboms
+from eze.utils.data.osv import osv_sca_sboms
 
 
 class JavaCyclonedxTool(ToolMeta):
@@ -48,6 +46,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
 """
     # https://github.com/CycloneDX/cyclonedx-maven-plugin/blob/master/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_MAVEN": "org.cyclonedx:cyclonedx-maven-plugin"}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -77,12 +76,6 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
             )
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_version_from_maven("org.cyclonedx:cyclonedx-maven-plugin")
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

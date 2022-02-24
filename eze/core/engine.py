@@ -1,5 +1,7 @@
 """Core engine of Eze"""
+
 import click
+
 from pydash import py_
 
 from eze.core.config import EzeConfig

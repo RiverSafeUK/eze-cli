@@ -2,7 +2,7 @@
 from unittest import mock
 
 from tests.__fixtures__.fixture_helper import convert_to_std_object, load_json_fixture
-from eze.utils.pypi import filter_license_classifiers, get_pypi_package_data
+from eze.utils.data.pypi import filter_license_classifiers, get_pypi_package_data
 
 
 def test_filter_license_classifiers():
@@ -27,8 +27,8 @@ def test_filter_license_classifiers():
     assert output == expected_license
 
 
-@mock.patch("eze.utils.pypi.request_json")
-@mock.patch("eze.utils.cve.request_json")
+@mock.patch("eze.utils.data.pypi.request_json")
+@mock.patch("eze.utils.data.cve.request_json")
 def test_get_pypi_package_data__happy_case(mock_cve_request_json, mock_pypi_request_json):
     # Given
     mock_pypi_request_json.return_value = load_json_fixture(

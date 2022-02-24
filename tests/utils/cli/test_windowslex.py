@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 from unittest import TestCase
 
-import eze.utils.windowslex as windowslex
+import eze.utils.cli.windowslex as windowslex
 
 
 class TestWindowslex(TestCase):

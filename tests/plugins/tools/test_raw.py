@@ -5,7 +5,7 @@ from click import ClickException
 
 from eze import __version__
 from eze.plugins.tools.raw import RawTool
-from eze.utils.io import load_json
+from eze.utils.io.file import load_json
 from eze.utils.error import EzeConfigError
 from tests.__fixtures__.fixture_helper import (
     convert_to_std_object,

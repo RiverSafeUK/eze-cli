@@ -26,7 +26,7 @@ NO_ENTROPY = true / false
 
 
 # DISABLE_DEFAULT_IGNORES bool [OPTIONAL]
-# by default truffle hog ignores common compile assets, to disable default ignore list
+# by default ignores common binary assets folder, ignore list
 # ['.gradle', '.aws', '.idea', '.git', '.eze', '.coverage', '~', '.terraform', 'node_modules', 'build', 'target', 'vendor', '.pytest_cache', '__pycache__', '.env', '.venv', '.tox', 'venv', 'dist', 'sdist']
 # 
 DISABLE_DEFAULT_IGNORES = true / false
@@ -63,6 +63,17 @@ REPORT_FILE = "..."
 #   USE_GIT_IGNORE = true
 # 
 USE_GIT_IGNORE = true / false
+
+
+# USE_SOURCE_COPY bool [OPTIONAL]
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+# default value: 
+#   USE_SOURCE_COPY = true
+# value can be set via environment variable: USE_SOURCE_COPY
+# 
+USE_SOURCE_COPY = true / false
 
 
 

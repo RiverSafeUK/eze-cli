@@ -13,6 +13,7 @@ from xml.sax.saxutils import escape  # nosec # nosemgrep
 import xmltodict
 import click
 import toml
+from eze.utils.io.print import pretty_print_json
 
 from eze.utils.error import EzeFileAccessError, EzeFileParsingError
 from eze.utils.log import log, log_debug, log_error
@@ -72,11 +73,6 @@ def get_absolute_filename(user_inputted_filename: str) -> Path:
     """Clean up user inputted filename path, wraps os.path.abspath, returns Path object"""
     filename_location = Path(os.path.abspath(user_inputted_filename))
     return filename_location
-
-
-def pretty_print_json(obj) -> str:
-    """Helper, takes generic python class/object and convert into pretty json str"""
-    return json.dumps(obj, default=vars, indent=2, sort_keys=True)
 
 
 def load_text(file_path: str) -> str:
@@ -232,6 +228,15 @@ def exit_app(error_message: str) -> str:
     :raises click.ClickException
     """
     raise click.ClickException(error_message)
+
+
+def create_absolute_path(file_path: str, cwd: str = None) -> str:
+    """create absolute path from a absolute or relative path"""
+    if Path(file_path).is_absolute():
+        return file_path
+    if not cwd:
+        cwd = Path.cwd()
+    return Path(cwd) / file_path
 
 
 def create_tempfile_path(filename: str) -> str:

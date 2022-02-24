@@ -1,6 +1,6 @@
 import pytest
 
-from eze.utils.file_scanner import delete_file_cache, populate_file_cache, find_files_by_name, find_files_by_path
+from eze.utils.io.file_scanner import delete_file_cache, populate_file_cache, find_files_by_name, find_files_by_path
 
 
 def teardown_function(function):

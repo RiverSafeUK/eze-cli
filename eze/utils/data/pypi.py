@@ -13,8 +13,8 @@ from eze.utils.purl import PurlBreakdown, purl_to_components
 from pydash import py_
 
 from eze.core.enums import Vulnerability, VulnerabilitySeverityEnum, VulnerabilityType
-from eze.utils.http import request_json
-from eze.utils.cve import get_cve_data
+from eze.utils.io.http import request_json
+from eze.utils.data.cve import get_cve_data
 from eze.utils.error import EzeError
 
 LICENSE_CLASSIFIER = re.compile("license :: ", re.IGNORECASE)

@@ -1,5 +1,6 @@
 """Print helpers
 """
+import json
 
 
 def generate_markdown_table(table: list, has_nothing_message: bool = True) -> str:
@@ -52,3 +53,8 @@ def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
     output is compatible with markdown"""
     markdown_table = generate_markdown_table(table, has_nothing_message)
     print(markdown_table)
+
+
+def pretty_print_json(obj) -> str:
+    """Helper, takes generic python class/object and convert into pretty json str"""
+    return json.dumps(obj, default=vars, indent=2, sort_keys=True)

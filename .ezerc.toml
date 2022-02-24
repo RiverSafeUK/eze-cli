@@ -18,6 +18,11 @@ LICENSE_ALLOWLIST = []
 # LICENSE_DENYLIST, list of licenses to always report usage as a error
 LICENSE_DENYLIST = []
 
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+USE_SOURCE_COPY = true
+
 # ========================================
 # TOOL CONFIG
 # ========================================
@@ -38,7 +43,6 @@ REPORT_FILE = ".eze/_truffleHog-report.json"
 USE_GIT_IGNORE = true
 DISABLE_DEFAULT_IGNORES = false
 PRINT_TIMING_INFO = true
-WINDOWS_DOCKER_WORKAROUND = true
 EXCLUDE = []
 REPORT_FILE = ".eze/_semgrep-report.json"
 

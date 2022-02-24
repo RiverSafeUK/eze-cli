@@ -7,8 +7,8 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import build_cli_command, extract_cmd_version, run_async_cmd
-from eze.utils.io import load_json, create_tempfile_path
+from eze.utils.cli.run import build_cli_command, run_async_cmd
+from eze.utils.io.file import load_json, create_tempfile_path
 
 
 class BanditTool(ToolMeta):
@@ -33,6 +33,7 @@ Tips and Tricks
 """
     # https://github.com/PyCQA/bandit/blob/master/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "bandit --version"}
 
     EZE_CONFIG: dict = {
         "SOURCE": {
@@ -92,12 +93,6 @@ Warning: on production might want to set this to False to prevent found Secrets 
             },
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        version = extract_cmd_version(["bandit", "--version"])
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

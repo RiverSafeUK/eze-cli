@@ -11,7 +11,7 @@
       "config": {
         "USE_GIT_IGNORE": true,
         "DISABLE_DEFAULT_IGNORES": false,
-        "NO_ENTROPY": false,
+        "NO_ENTROPY": true,
         "INCLUDE_FULL_REASON": true,
         "EXCLUDE": [],
         "REPORT_FILE": ".eze/_truffleHog-report.json"
@@ -25,7 +25,6 @@
         "USE_GIT_IGNORE": true,
         "DISABLE_DEFAULT_IGNORES": false,
         "PRINT_TIMING_INFO": false,
-        "WINDOWS_DOCKER_WORKAROUND": false,
         "EXCLUDE": [],
         "REPORT_FILE": ".eze/_semgrep-report.json"
       }
@@ -124,6 +123,19 @@
         "REPORT_FILE": ".eze/_node-cyclonedx-bom.json"
       }
     },
+    "dotnet-cyclonedx": {
+      "enabled_always": false,
+      "enable_on_file": [
+        "packages.config"
+      ],
+      "enable_on_file_ext": [
+        ".sln",
+        ".csproj"
+      ],
+      "config": {
+        "REPORT_FILE": ".eze/_dotnet-cyclonedx-bom.json"
+      }
+    },
     "kics": {
       "enabled_always": false,
       "enable_on_file": [
@@ -135,7 +147,6 @@
         ".tfvars"
       ],
       "config": {
-        "WINDOWS_DOCKER_WORKAROUND": false,
         "EXCLUDE": [],
         "REPORT_FILE": ".eze/_checkmarx-kics.json"
       }

@@ -1,5 +1,4 @@
 """SemGrep Python tool class"""
-import os
 import shlex
 import time
 
@@ -10,11 +9,11 @@ from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
-from eze.utils.cli import extract_cmd_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
 from eze.utils.error import EzeError
-from eze.utils.log import log, log_debug
-from eze.utils.file_scanner import has_filetype, cache_workspace_into_tmp
+from eze.utils.log import log
+from eze.utils.io.file_scanner import has_filetype, cache_workspace_into_tmp
 
 
 class SemGrepTool(ToolMeta):
@@ -47,6 +46,11 @@ Tips and Tricks
 """
     # https://github.com/returntocorp/semgrep/blob/develop/LICENSE
     LICENSE: str = """LGPL"""
+    VERSION_CHECK: dict = {
+        "FROM_EXE": "semgrep --version",
+        "IGNORED_ERR_MESSAGES": ["A new version of Semgrep is available"],
+    }
+
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,
@@ -112,14 +116,13 @@ maps to semgrep flag --exclude""",
             "default_help_value": "<tempdir>/.eze-temp/tmp-semgrep-report.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
-        "WINDOWS_DOCKER_WORKAROUND": {
+        "USE_SOURCE_COPY": {
             "type": bool,
-            "default": False,
-            "environment_variable": "WINDOWS_DOCKER_WORKAROUND",
-            "help_text": """mounted volumes Docker running in Windows are extremely slow, fix this by copying code locally for scanning
-stores files inside TMP/.eze/cached-workspace
-
-can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
+            "default": True,
+            "environment_variable": "USE_SOURCE_COPY",
+            "help_text": """speeds up SAST tools by using copied folder with no binary/dependencies assets
+for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+stored: TMP/.eze/cached-workspace""",
         },
     }
 
@@ -144,12 +147,6 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
 
     DEFAULT_TEST_PATTERNS = ["test_*.py", "*.test.js", "tests", "__tests__"]
 
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        ignored_stderr_messages = ["A new version of Semgrep is available"]
-        return extract_cmd_version(["semgrep", "--version"], ignored_stderr_messages)
-
     async def run_scan(self) -> ScanResult:
         """
         Method for running a synchronous scan using tool
@@ -158,21 +155,12 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
         """
         tic = time.perf_counter()
 
-        #
-        # WORKAROUND: windows is bad at io in docker
-        # and becomes CPU bound and slow for file access
-        # (bad for costs as well!)
-        #
-        # Solution: copy files under test into tmp folder,
-        # and scan there (70% faster scans in windows)
-        #
-        cwd = None
-        if self.config["WINDOWS_DOCKER_WORKAROUND"]:
-            cwd = cache_workspace_into_tmp()
-
         scan_config = self.config.copy()
-        self.config["EXCLUDE"] = self.config["EXCLUDE"].copy()
-        self.config["EXCLUDE"].extend(self.DEFAULT_TEST_PATTERNS)
+        # make REPORT_FILE absolute in-case cwd changes
+        scan_config["REPORT_FILE"] = create_absolute_path(scan_config["REPORT_FILE"])
+        scan_config["EXCLUDE"] = scan_config["EXCLUDE"].copy()
+        scan_config["EXCLUDE"].extend(self.DEFAULT_TEST_PATTERNS)
+        cwd = cache_workspace_into_tmp() if scan_config["USE_SOURCE_COPY"] else None
         completed_process = await run_async_cli_command(
             self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, cwd=cwd
         )
@@ -193,7 +181,7 @@ can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable""",
 As of 2021 semgrep support for windows is limited, until support added you can use eze inside wsl2 to run semgrep on windows
 https://github.com/returntocorp/semgrep/issues/1330"""
             )
-        parsed_json = load_json(self.config["REPORT_FILE"])
+        parsed_json = load_json(scan_config["REPORT_FILE"])
         report = self.parse_report(parsed_json, total_time)
 
         return report
@@ -306,35 +294,43 @@ https://github.com/returntocorp/semgrep/issues/1330"""
             rules[rule_id] = {"name": rule_id, "time": 0}
             rules_index.append(rule_id)
 
-        for rule_index, rule_parse_time in enumerate(time_info["rule_parse_info"]):
+        rule_parse_time = py_.get(time_info, "rule_parse_info", [])
+
+        for rule_index, rule_parse_time in enumerate(rule_parse_time):
             rule_id = rules_index[rule_index]
             rules[rule_id]["time"] += rule_parse_time
 
         total_parse_time = 0
         total_match_time = 0
         total_run_time = 0
-        for file in time_info["targets"]:
-            file_name = file["path"]
+        for file_timings in time_info["targets"]:
+            filename = file_timings["path"]
             file_time = 0
-            for rule_index, file_parse_time in enumerate(file["parse_times"]):
+            for rule_index, file_parse_time in enumerate(file_timings["parse_times"]):
                 rule_id = rules_index[rule_index]
                 rules[rule_id]["time"] += file_parse_time
                 file_time += file_parse_time
                 total_parse_time += file_parse_time
 
-            for rule_index, file_match_time in enumerate(file["match_times"]):
+            for rule_index, file_match_time in enumerate(file_timings["match_times"]):
                 rule_id = rules_index[rule_index]
                 rules[rule_id]["time"] += file_match_time
                 file_time += file_match_time
                 total_match_time += file_match_time
 
-            for rule_index, file_run_time in enumerate(file["run_times"]):
-                rule_id = rules_index[rule_index]
-                rules[rule_id]["time"] += file_run_time
-                file_time += file_run_time
-                total_run_time += file_run_time
+            v1_run_times = py_.get(file_timings, "run_times")
+            if v1_run_times:
+                for rule_index, file_run_time in enumerate(v1_run_times):
+                    rule_id = rules_index[rule_index]
+                    rules[rule_id]["time"] += file_run_time
+                    file_time += file_run_time
+                    total_run_time += file_run_time
+            else:
+                v2_run_time = py_.get(file_timings, "run_time", 0)
+                file_time += v2_run_time
+                total_run_time += v2_run_time
 
-            files[file_name] = {"name": file_name, "time": file_time}
+            files[filename] = {"name": filename, "time": file_time}
         rules = py_.sort_by(rules.values(), "time", reverse=True)
         files = py_.sort_by(files.values(), "time", reverse=True)
         log(

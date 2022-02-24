@@ -16,7 +16,7 @@ from eze.utils.config import (
     PluginConfigField,
     get_config_key_via_environment_variable,
 )
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.__fixtures__.fixture_helper import get_snapshot_directory
 
 

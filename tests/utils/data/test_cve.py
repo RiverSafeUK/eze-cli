@@ -1,8 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 
-from unittest import TestCase, mock
+from unittest import mock
 
-from eze.utils.cve import detect_cve, get_cve_data, _get_cve_en_summary
+from eze.utils.data.cve import detect_cve, get_cve_data, _get_cve_en_summary
 from tests.__fixtures__.fixture_helper import get_path_fixture
 
 

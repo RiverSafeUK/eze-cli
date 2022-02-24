@@ -4,14 +4,14 @@ import shlex
 
 from eze.utils.log import log_debug
 
-from eze.utils.file_scanner import find_files_by_name
+from eze.utils.io.file_scanner import find_files_by_name
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import detect_pip_executable_version, run_async_cli_command
-from eze.utils.io import create_tempfile_path, load_json
+from eze.utils.cli.run import run_async_cli_command
+from eze.utils.io.file import create_tempfile_path, load_json
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
-from eze.utils.pypi import pypi_sca_sboms
+from eze.utils.data.pypi import pypi_sca_sboms
 
 
 class PythonCyclonedxTool(ToolMeta):
@@ -43,6 +43,7 @@ $ pip freeze > requirements.txt
 """
     # https://github.com/CycloneDX/cyclonedx-python/blob/master/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "cyclonedx-py", "FROM_PIP": "cyclonedx-bom"}
     EZE_CONFIG: dict = {
         "REQUIREMENTS_FILES": {
             "type": list,
@@ -81,11 +82,6 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             "SHORT_FLAGS": {"REQUIREMENTS_FILE": "-r", "PIPLOCK_FILE": "-pip", "POETRY_FILE": "-p"},
         }
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        return detect_pip_executable_version("cyclonedx-bom", "cyclonedx-py")
 
     def extract_unpinned_requirements(self, stdout_output: str) -> list:
         """Extract the unpinned requirement from stdout of python-cyclonedx"""
@@ -168,12 +164,12 @@ gotcha: make sure it's a frozen version of the pip requirements""",
     def parse_report(self, cyclonedx_boms: dict) -> ScanResult:
         """convert report json into ScanResult"""
         is_sca_enabled = self.config.get("SCA_ENABLED", False)
-        scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
-        if not is_sca_enabled:
-            return scan_result
-        # When SCA_ENABLED get SCA vulnerabilities/warnings directly from PYPI
-        [pypi_vulnerabilities, pypi_warnings] = pypi_sca_sboms(cyclonedx_boms)
-        scan_result.vulnerabilities.extend(pypi_vulnerabilities)
-        scan_result.warnings.extend(pypi_warnings)
-
+        if is_sca_enabled:
+            # When SCA_ENABLED get SCA vulnerabilities/warnings directly from PYPI
+            [pypi_vulnerabilities, pypi_warnings] = pypi_sca_sboms(cyclonedx_boms)
+            scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
+            scan_result.vulnerabilities.extend(pypi_vulnerabilities)
+            scan_result.warnings.extend(pypi_warnings)
+        else:
+            scan_result: ScanResult = convert_multi_sbom_into_scan_result(self, cyclonedx_boms)
         return scan_result

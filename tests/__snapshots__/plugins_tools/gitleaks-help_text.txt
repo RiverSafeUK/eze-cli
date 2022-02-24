@@ -94,7 +94,6 @@ install_help:
 ======================
 Installation guide for Gitleaks
 
-It is possible to install Gitleaks through:
 - Windows:
     1. Download the executable latest release, the appropriate gitleaks-windows-* file.
     2. Rename the file to "gitleaks.exe" and move it to a directory ( i.e. "C:\Program Files\Gitleaks").

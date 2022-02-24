@@ -8,7 +8,7 @@ from unittest import mock
 import pytest
 
 from eze.plugins.reporters.bom_formatted import BomFormattedReporter
-from eze.utils.io import create_tempfile_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.reporters.reporter_helper import ReporterMetaTestBase
 
 
@@ -24,7 +24,7 @@ class TestBomFormattedReporter(ReporterMetaTestBase):
     def mock_fail_report(self, text):
         self.mock_pass_fail += text
 
-    @mock.patch("eze.plugins.reporters.bom_formatted.extract_cmd_version", mock.MagicMock(return_value="1.7.0"))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value="1.7.0"))
     def test_check_installed__success(self):
         # When
         expected_output = "1.7.0"
@@ -32,7 +32,7 @@ class TestBomFormattedReporter(ReporterMetaTestBase):
         # Then
         assert output == expected_output
 
-    @mock.patch("eze.plugins.reporters.bom_formatted.extract_cmd_version", mock.MagicMock(return_value=False))
+    @mock.patch("eze.core.config.extract_cmd_version", mock.MagicMock(return_value=False))
     def test_check_installed__failure_unavailable(self):
         # When
         expected_output = False

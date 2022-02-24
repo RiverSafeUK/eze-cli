@@ -2,13 +2,12 @@
 import os
 import urllib.request
 
-from eze import __version__
 from eze.core.reporter import ReporterMeta
 from eze.utils.git import get_active_branch_name, get_active_branch_uri
-from eze.utils.io import pretty_print_json
 from eze.utils.error import EzeConfigError, EzeNetworkingError, EzeError
-from eze.utils.http import request_json
-from eze.utils.log import log, log_debug, log_error
+from eze.utils.io.print import pretty_print_json
+from eze.utils.io.http import request_json
+from eze.utils.log import log, log_error
 
 
 class EzeReporter(ReporterMeta):
@@ -19,6 +18,7 @@ class EzeReporter(ReporterMeta):
     INSTALL_HELP: str = """inbuilt"""
     MORE_INFO: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "APIKEY": {
             "type": str,
@@ -54,11 +54,6 @@ if not set, git repo url will be automatically determined via local git info and
 if not set, will be automatically determined via local git info""",
         },
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

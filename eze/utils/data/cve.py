@@ -9,7 +9,7 @@ from urllib.parse import quote
 
 from eze.core.enums import VulnerabilitySeverityEnum
 from pydash import py_
-from eze.utils.http import request_json
+from eze.utils.io.http import request_json
 from eze.utils.error import EzeNetworkingError
 
 CVE_IN_TEXT_RE = re.compile("cve-[0-9-]+", re.IGNORECASE)

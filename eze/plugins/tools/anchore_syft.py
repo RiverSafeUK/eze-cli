@@ -3,8 +3,8 @@ import shlex
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
-from eze.utils.cli import extract_cmd_version, run_cli_command, run_async_cli_command
-from eze.utils.io import create_tempfile_path, write_text, load_json
+from eze.utils.cli.run import run_cli_command, run_async_cli_command
+from eze.utils.io.file import create_tempfile_path, write_text, load_json
 from eze.utils.scan_result import convert_sbom_into_scan_result
 
 
@@ -46,6 +46,7 @@ Tips
 """
     # https://github.com/anchore/syft/blob/main/LICENSE
     LICENSE: str = """Apache-2.0"""
+    VERSION_CHECK: dict = {"FROM_EXE": "syft version"}
     EZE_CONFIG: dict = {
         "SOURCE": {
             "type": str,
@@ -103,14 +104,6 @@ From syft help
             "FLAGS": {"CONFIG_FILE": "-c="},
         },
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if tool installed and ready to run scan, returns version installed"""
-        # requires cyclonedx-cli for xml to json conversion
-        extract_cmd_version(["cyclonedx-cli", "--version"])
-        version = extract_cmd_version(["syft", "version"])
-        return version
 
     async def run_scan(self) -> ScanResult:
         """

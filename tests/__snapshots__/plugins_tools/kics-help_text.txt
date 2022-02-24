@@ -56,14 +56,15 @@ DISABLE_SECRET_SCANNING = true / false
 ENABLE_SBOM = true / false
 
 
-# WINDOWS_DOCKER_WORKAROUND bool [OPTIONAL]
-# mounted volumes Docker running in Windows are extremely slow, fix this by copying code locally for scanning
-# stores files inside TMP/.eze/cached-workspace
+# USE_SOURCE_COPY bool [OPTIONAL]
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+# default value: 
+#   USE_SOURCE_COPY = true
+# value can be set via environment variable: USE_SOURCE_COPY
 # 
-# can also pass WINDOWS_DOCKER_WORKAROUND as a environment variable
-# value can be set via environment variable: WINDOWS_DOCKER_WORKAROUND
-# 
-WINDOWS_DOCKER_WORKAROUND = true / false
+USE_SOURCE_COPY = true / false
 
 
 
@@ -116,7 +117,6 @@ install_help:
 ======================
 Installation guide for KICS
 
-It is possible to install Gitleaks through:
 - Running install command:
     1. There is an automatic detection to download the appropriate latest binary package, just run: 
     `curl -sfL 'https://raw.githubusercontent.com/Checkmarx/kics/master/install.sh' | bash`.
@@ -132,13 +132,4 @@ Last step, make sure you are able to run this command:
 
 more_info:
 ======================
-https://github.com/Checkmarx/kics
-
-Common Gotchas
-===========================
-You can use the Docker image available on https://hub.docker.com/r/checkmarx/kics
-or by using the command `docker pull checkmarx/kics:latest`
-
-
-Also you can define a custom config file and pass the --config flag.
 

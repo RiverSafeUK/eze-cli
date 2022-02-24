@@ -3,9 +3,8 @@ import re
 
 from pydash import py_
 
-from eze import __version__
 from eze.core.reporter import ReporterMeta
-from eze.utils.io import write_json, sane
+from eze.utils.io.file import write_json, sane
 from eze.utils.log import log, log_debug, log_error
 
 
@@ -16,6 +15,7 @@ class BomReporter(ReporterMeta):
     SHORT_DESCRIPTION: str = "json cyclonedx bill of materials reporter"
     INSTALL_HELP: str = """inbuilt"""
     LICENSE: str = """inbuilt"""
+    VERSION_CHECK: dict = {"FROM_EZE": True}
     EZE_CONFIG: dict = {
         "REPORT_FILE": {
             "type": str,
@@ -24,11 +24,6 @@ class BomReporter(ReporterMeta):
 By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for project inventory file aka pom.xml""",
         },
     }
-
-    @staticmethod
-    def check_installed() -> str:
-        """Method for detecting if reporter installed and ready to run report, returns version installed"""
-        return __version__
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output"""

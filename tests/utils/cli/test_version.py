@@ -2,46 +2,17 @@
 import shlex
 from unittest import mock
 
-import pytest
-from pydash import trim
+from eze.utils.cli.run import CompletedProcess
 
 from tests.__test_helpers__.mock_helper import mock_run_cmd
-from eze.utils.cli import (
-    _has_missing_exe_output,
+from eze.utils.cli.version import (
     _extract_version,
     extract_cmd_version,
-    _extract_executable,
-    build_cli_command,
-    extract_leading_number,
-    run_cmd,
-    EzeExecutableNotFoundError,
     cmd_exists,
-    run_cli_command,
     extract_version_from_maven,
-    detect_pip_command,
+    _detect_pip_command,
     detect_pip_executable_version,
-    CompletedProcess,
 )
-
-
-def test_is_missing_exe_output__linux_bash_file_missing():
-    test_input = """/bin/sh: 1: non-existant.sh: not found\n"""
-    output = _has_missing_exe_output(test_input)
-    assert output is True
-
-
-def test_is_missing_exe_output__windows_bash_file_missing():
-    test_input = """
-'safety' is not recognized as an internal or external command,
-operable program or batch file."""
-    output = _has_missing_exe_output(test_input)
-    assert output is True
-
-
-def test_is_missing_exe_output__normal_output():
-    test_input = """safety, version 1.10.3"""
-    output = _has_missing_exe_output(test_input)
-    assert output is False
 
 
 def test_extract_version__safety_version():
@@ -132,7 +103,7 @@ def test_extract_version__gitleaks_version():
     assert output == expected_output
 
 
-@mock.patch("eze.utils.cli.run_cmd")
+@mock.patch("eze.utils.cli.version.run_cmd")
 def test_extract_cmd_version__happy_pip(mocked_run_cmd):
     mock_stdout = """pip 21.1.2 from c:\\users\\riversafe\\.pyenv\\pyenv-win\\versions\\3.8.2\\lib\\site-packages\\pip (python 3.8)"""
     expected_output = "21.1.2"
@@ -141,7 +112,7 @@ def test_extract_cmd_version__happy_pip(mocked_run_cmd):
     assert output == expected_output
 
 
-@mock.patch("eze.utils.cli.run_cmd")
+@mock.patch("eze.utils.cli.version.run_cmd")
 def test_extract_cmd_version__full_test_happy(mocked_run_cmd):
     mock_stdout = "0.77.0"
     mock_stderr = "A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading"
@@ -152,7 +123,7 @@ def test_extract_cmd_version__full_test_happy(mocked_run_cmd):
     assert output == expected_output
 
 
-@mock.patch("eze.utils.cli.run_cmd")
+@mock.patch("eze.utils.cli.run.run_cmd")
 def test_extract_cmd_version__full_test_sad(mocked_run_cmd):
     mock_stdout = "0.77.0"
     mock_stderr = "A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading"
@@ -161,175 +132,6 @@ def test_extract_cmd_version__full_test_sad(mocked_run_cmd):
     mocked_run_cmd.return_value = CompletedProcess(mock_stdout, mock_stderr)
     output = extract_cmd_version(["some-command"], input_ignored_list)
     assert output == expected_output
-
-
-def test_extract_executable__safety_std():
-    expected_output = "safety"
-    test_input = "safety check --full-report --api=1234 -r something/requirements.txt -r something-else/requirements.txt --json --output /tmp/something-temp something-at end"
-    output = _extract_executable(test_input)
-    assert output == expected_output
-
-
-def test_extract_executable__trufflehog_std():
-    expected_output = "trufflehog3"
-    test_input = "trufflehog3  -f json amplify public src scripts .ezerc.toml package.json -o /tmp/.eze-temp/tmp-truffleHog-report.json --exclude node_modules/.* #current-cloud-backend/.* backend/function/ezemcscanresult/src/node_modules/.* backend/awscloudformation/.*': 'trufflehog3  -f json amplify public src scripts .ezerc package.json -o /tmp/.eze-temp/tmp-truffleHog-report.json --exclude node_modules/.* #current-cloud-backend/.* backend/function/ezemcscanresult/src/node_modules/.* backend/awscloudformation/.*"
-    output = _extract_executable(test_input)
-    assert output == expected_output
-
-
-def test_extract_leading_number__std():
-    expected_output = "1.45434"
-    test_input = "1.45434s"
-    output = extract_leading_number(test_input)
-    assert output == expected_output
-
-
-def test_build_command__safety_std():
-    expected_output = "safety check --full-report --api=1234 -r something/requirements.txt -r something-else/requirements.txt --json --output /tmp/something-temp something-at end"
-    input_cli_config = {
-        "BASE_COMMAND": shlex.split("safety check --full-report"),
-        "FLAGS": {"APIKEY": "--api=", "REQUIREMENTS_FILES": "-r ", "TEMP_REPORT_FILE": "--json --output "},
-    }
-    input_config = {
-        "APIKEY": "1234",
-        "REQUIREMENTS_FILES": ["something/requirements.txt", "something-else/requirements.txt"],
-        "ADDITIONAL_ARGUMENTS": "something-at end",
-        "TEMP_REPORT_FILE": "/tmp/something-temp",
-    }
-
-    output = shlex.join(build_cli_command(input_cli_config, input_config))
-
-    assert output == expected_output
-
-
-def test_build_command__tail_argument():
-    expected_output = "command start --middle=middle end"
-    input_cli_config = {
-        "BASE_COMMAND": shlex.split("command"),
-        "ARGUMENTS": ["START"],
-        "TAIL_ARGUMENTS": ["END"],
-        "FLAGS": {"MIDDLE": "--middle="},
-    }
-    input_config = {
-        "START": "start",
-        "END": "end",
-        "MIDDLE": "middle",
-    }
-
-    output = shlex.join(build_cli_command(input_cli_config, input_config))
-
-    assert output == expected_output
-
-
-def test_run_cmd__success():
-    # Given
-    expected_output_contains = "helloworld"
-    expected_error = """"""
-    input_cmd = shlex.split("echo 'helloworld'")
-    # When
-    completed_process = run_cmd(input_cmd, False)
-    # Then
-    assert expected_output_contains in completed_process.stdout.strip()
-    assert completed_process.stderr.strip() == expected_error.strip()
-
-
-@mock.patch("eze.utils.cli.subprocess.run")
-@mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
-def test_run_cmd__escape_arguments_with_spaces__ab_724_linux(mock_subprocess_run):
-    # Given
-    expected_command = "some-command --something 'PATH-TO-EXCLUDED-FOLDER/.*' 'some input with spaces'"
-    input_cmd = ["some-command", "--something", "PATH-TO-EXCLUDED-FOLDER/.*", "some input with spaces"]
-    mock_subprocess_run.reset_mock()
-    mock_subprocess_run.side_effect = Exception("Expected Exception")
-    # When
-    with pytest.raises(Exception) as raised_error:
-        run_cmd(input_cmd, False)
-    assert raised_error.value.args[0] == "Expected Exception"
-    # Then
-    cmd_arg = str(mock_subprocess_run.call_args.args[0])
-    assert cmd_arg == expected_command
-
-
-@mock.patch("eze.utils.cli.subprocess.run")
-@mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=False))
-def test_run_cmd__escape_shell_attacks__ab_724_linux(mock_subprocess_run):
-    # Given
-    expected_command = "some-command --something 'PATH-TO-EXCLUDED-FOLDER/.*' '| /bin/bad-bad-program -i 2>&1'"
-    input_cmd = ["some-command", "--something", "PATH-TO-EXCLUDED-FOLDER/.*", "| /bin/bad-bad-program -i 2>&1"]
-    mock_subprocess_run.reset_mock()
-    mock_subprocess_run.side_effect = Exception("Expected Exception")
-    # When
-    with pytest.raises(Exception) as raised_error:
-        run_cmd(input_cmd, False)
-    assert raised_error.value.args[0] == "Expected Exception"
-    # Then
-    cmd_arg = str(mock_subprocess_run.call_args.args[0])
-    assert cmd_arg == expected_command
-
-
-@mock.patch("eze.utils.cli.subprocess.run")
-@mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-def test_run_cmd__fixme__ab_724__windows(mock_subprocess_run):
-    # Given
-    expected_command = 'some-command --something "PATH-TO-EXCLUDED-FOLDER/.*" "some thing with spaces"'
-    input_cmd = ["some-command", "--something", "PATH-TO-EXCLUDED-FOLDER/.*", "some thing with spaces"]
-    mock_subprocess_run.reset_mock()
-    mock_subprocess_run.side_effect = Exception("Expected Exception")
-    # When
-    with pytest.raises(Exception) as raised_error:
-        run_cmd(input_cmd, False)
-    assert raised_error.value.args[0] == "Expected Exception"
-    # Then
-    cmd_arg = str(mock_subprocess_run.call_args.args[0])
-    assert cmd_arg == expected_command
-
-
-# TODO: AB-793: windows should escape detect powershell attacks
-# - Powershell expansion attacks
-#   PowerShell -Command "temperature | prismcom.exe usb"
-@mock.patch("eze.utils.cli.subprocess.run")
-@mock.patch("eze.utils.cli.is_windows_os", mock.MagicMock(return_value=True))
-def test_run_cmd__fixme__ab_724__windows__Powershell_expansion_attacks(mock_subprocess_run):
-    # Given
-    expected_command = 'PowerShell -Command "temperature | prismcom.exe usb"'
-    input_cmd = ["PowerShell", "-Command", "temperature | prismcom.exe usb"]
-    mock_subprocess_run.reset_mock()
-    mock_subprocess_run.side_effect = Exception("Expected Exception")
-    # When
-    with pytest.raises(Exception) as raised_error:
-        run_cmd(input_cmd, False)
-    assert raised_error.value.args[0] == "Expected Exception"
-    # Then
-    cmd_arg = str(mock_subprocess_run.call_args.args[0])
-    assert cmd_arg == expected_command
-
-
-def test_run_cmd__failure_no_throw_case():
-    # Given
-    expected_output = """"""
-    expected_windows_error = """'non-existant.sh' is not recognized as an internal or external command,
-operable program or batch file."""
-    expected_linux_error = "non-existant.sh: not found"
-
-    input_cmd = shlex.split("non-existant.sh some random arguments --api super-secret-apikey")
-    # When
-    completed_process = run_cmd(input_cmd, False)
-    # Then
-    assert completed_process.stdout.strip() == expected_output.strip()
-    assert (completed_process.stderr.strip() == expected_windows_error.strip()) or (
-        expected_linux_error in completed_process.stderr.strip()
-    )
-
-
-def test_run_cmd__failure_throw_case():
-    # Given
-    expected_error_message = """Executable not found 'non-existant.sh', when running command non-existant.sh some random arguments --api <xxx>"""
-    input_cmd = shlex.split("non-existant.sh some random arguments --api super-secret-apikey")
-    # When
-    with pytest.raises(EzeExecutableNotFoundError) as raised_error:
-        run_cmd(input_cmd)
-    # Then
-    assert raised_error.value.message == expected_error_message
 
 
 def test_cmd_exists__success():
@@ -350,16 +152,7 @@ def test_cmd_exists__failure():
     assert output is False
 
 
-def test_run_cli_command__sanity():
-    expected_output = "helloworld"
-    test_input = {"BASE_COMMAND": shlex.split("echo helloworld")}
-
-    completed_process = run_cli_command(test_input)
-    output = trim(completed_process.stdout)
-    assert output == expected_output
-
-
-@mock.patch("eze.utils.cli.run_cmd")
+@mock.patch("eze.utils.cli.version.run_cmd")
 def test_extract_version_from_maven_from_maven__ab_720_java_Dependency_Check_no_version_bug(mocked_run_cmd):
     expected_output = "6.5.3"
     mock_stderr = """WARNING: An illegal reflective access operation has occurred
@@ -416,7 +209,7 @@ running command 'mvn -B -Dplugin=com.github.spotbugs:spotbugs-maven-plugin help:
     assert output == expected_output
 
 
-@mock.patch("eze.utils.cli.run_cmd")
+@mock.patch("eze.utils.cli.version.run_cmd")
 def test_extract_version_from_maven_from_maven__java_spotbugs(mocked_run_cmd):
     expected_output = "4.3.0"
     mock_stdout = """[INFO] Scanning for projects...
@@ -465,7 +258,7 @@ For more information, run 'mvn help:describe [...] -Ddetail'
     assert output == expected_output
 
 
-@mock.patch("eze.utils.cli.run_cmd")
+@mock.patch("eze.utils.cli.run.run_cmd")
 def test_extract_version_from_maven_from_maven__windows_bash_file_missing(mocked_run_cmd):
     mock_stdout = """
 'safety' is not recognized as an internal or external command,
@@ -475,38 +268,38 @@ operable program or batch file."""
     assert output == ""
 
 
-@mock.patch("eze.utils.cli.run_cmd")
-def test_detect_pip_command___pip3(mocked_run_cmd):
+@mock.patch("eze.utils.cli.run.run_cmd")
+def test__detect_pip_command___pip3(mocked_run_cmd):
     mock_stdout = """pip 21.1.2 from c:\\users\\riversafe\\.pyenv\\pyenv-win\\versions\\3.8.2\\lib\\site-packages\\pip (python 3.8)"""
     mock_run_cmd(mocked_run_cmd, mock_stdout)
-    output = detect_pip_command()
+    output = _detect_pip_command()
     assert output == "pip3"
 
 
-@mock.patch("eze.utils.cli.run_cmd")
-def test_detect_pip_command___default_to_pip(mocked_run_cmd):
+@mock.patch("eze.utils.cli.version.run_cmd")
+def test__detect_pip_command___default_to_pip(mocked_run_cmd):
     mock_stdout = """bash: pipX: command not found"""
     mock_run_cmd(mocked_run_cmd, mock_stdout)
-    output = detect_pip_command()
+    output = _detect_pip_command()
     assert output == "pip"
 
 
-@mock.patch("eze.utils.cli.cmd_exists", mock.MagicMock(return_value=True))
-@mock.patch("eze.utils.cli.extract_version_from_pip", mock.MagicMock(return_value="0.8.9"))
+@mock.patch("eze.utils.cli.version.cmd_exists", mock.MagicMock(return_value=True))
+@mock.patch("eze.utils.cli.version._extract_version_from_pip", mock.MagicMock(return_value="0.8.9"))
 def test_detect_pip_executable_version___happy_path_has_version():
     output = detect_pip_executable_version("truffleHog3", "trufflehog3")
     assert output == "0.8.9"
 
 
-@mock.patch("eze.utils.cli.cmd_exists", mock.MagicMock(return_value=False))
-@mock.patch("eze.utils.cli.extract_version_from_pip", mock.MagicMock(return_value="0.8.9"))
+@mock.patch("eze.utils.cli.version.cmd_exists", mock.MagicMock(return_value=False))
+@mock.patch("eze.utils.cli.version._extract_version_from_pip", mock.MagicMock(return_value="0.8.9"))
 def test_detect_pip_executable_version___unhappy_path_no_executable():
     output = detect_pip_executable_version("truffleHog3", "trufflehog3")
     assert output == ""
 
 
-@mock.patch("eze.utils.cli.cmd_exists", mock.MagicMock(return_value=True))
-@mock.patch("eze.utils.cli.extract_version_from_pip", mock.MagicMock(return_value=""))
+@mock.patch("eze.utils.cli.version.cmd_exists", mock.MagicMock(return_value=True))
+@mock.patch("eze.utils.cli.version._extract_version_from_pip", mock.MagicMock(return_value=""))
 def test_detect_pip_executable_version___unhappy_path_no_pip_install():
     output = detect_pip_executable_version("truffleHog3", "trufflehog3")
     assert output == "Non-Pip version Installed"
