@@ -76,8 +76,14 @@ By default set to eze_report.sarif""",
             rule = {
                 "id": str(uuid.uuid4()),
                 "name": vulnerability.name,
-                "shortDescription": {"text": vulnerability.overview},
-                "fullDescription": {"text": vulnerability.overview + ". " + vulnerability.recommendation},
+                "shortDescription": {
+                    "text": vulnerability.overview[:70] + "..."
+                    if len(vulnerability.overview) > 70
+                    else vulnerability.overview[:70]
+                },
+                "fullDescription": {
+                    "text": self._split_long_lines(vulnerability.overview + " " + vulnerability.recommendation, 140)
+                },
             }
             rules.append(rule)
 
@@ -90,10 +96,10 @@ By default set to eze_report.sarif""",
             ):
                 result["level"] = "error"
             elif vulnerability.severity == "low":
-                result["level"] = "note"
+                result["level"] = "warning"
             elif vulnerability.severity == "none" or vulnerability.severity == "na":
                 result["level"] = "none"
-            result["message"] = {"text": vulnerability.recommendation}
+            result["message"] = {"text": self._split_long_lines(vulnerability.recommendation, 130)}
             location = {
                 "physicalLocation": {
                     "artifactLocation": {"uri": py_.get(vulnerability.file_location, "path", "unknown")},
@@ -105,3 +111,19 @@ By default set to eze_report.sarif""",
             results.append(result)
 
         return rules, results
+
+    def _split_long_lines(self, str, max_len) -> list:
+        full_str = str.replace("\\n", "")
+
+        formatted_str = ""
+        for words in full_str.split(" "):
+            line = ""
+            for letter in words:
+                if len(line) < max_len:
+                    line += letter
+                else:
+                    formatted_str += line + "\n"
+                    line = letter
+            formatted_str += line
+            formatted_str += " "
+        return formatted_str
