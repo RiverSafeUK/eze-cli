@@ -19,7 +19,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
-            "ONLY_PROD": True,
+            "_ONLY_PROD": True,
             #
             "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "",
@@ -39,7 +39,7 @@ class TestNpmAuditTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
-            "ONLY_PROD": True,
+            "_ONLY_PROD": True,
             #
             "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "",

@@ -41,7 +41,7 @@ defaults to false""",
         },
         "PRINT_TRANSITIVE_PACKAGES": {
             "type": bool,
-            "default": True,
+            "default": False,
             "environment_variable": "PRINT_TRANSITIVE_PACKAGES",
             "help_text": """print out non top level packages""",
         },

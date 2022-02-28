@@ -43,15 +43,10 @@ https://cyclonedx.org/
             "default_help_value": "<tempdir>/.eze-temp/tmp-dotnet-cyclonedx-bom/bom.json",
             "help_text": "output report directory location (will default to tmp file otherwise)",
         },
-        "EXCLUDE_DEV": {
+        "INCLUDE_DEV": {
             "type": bool,
-            "default": True,
-            "help_text": "Exclude development dependencies from the BOM",
-        },
-        "EXCLUDE_TEST": {
-            "type": bool,
-            "default": True,
-            "help_text": "Exclude test projects from the BOM",
+            "default": False,
+            "help_text": "Exclude test / development dependencies from the BOM",
         },
         "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
         "LICENSE_ALLOWLIST": LICENSE_ALLOWLIST_CONFIG.copy(),
@@ -66,7 +61,7 @@ https://cyclonedx.org/
             "ARGUMENTS": ["INPUT_FILE"],
             # eze config fields -> flags
             "FLAGS": {"REPORT_FILE": "-o "},
-            "SHORT_FLAGS": {"EXCLUDE_DEV": "-d", "EXCLUDE_TEST": "-t"},
+            "SHORT_FLAGS": {"INCLUDE_DEV": "-d", "_INCLUDE_TEST": "-t"},
         }
     }
 
@@ -110,10 +105,10 @@ https://cyclonedx.org/
             await annotate_transitive_licenses(sboms[dotnet_project_file], project_folder)
 
             # annotate deprecated packages
-            vulns.extend(await get_deprecated_packages(project_folder))
+            vulns.extend(await get_deprecated_packages(project_folder, dotnet_project_file))
 
             # annotate vulnerabilities packages
-            vulns.extend(await get_vulnerable_packages(project_folder))
+            vulns.extend(await get_vulnerable_packages(project_folder, dotnet_project_file))
 
         report = self.parse_report(sboms)
         # add all warnings
@@ -125,3 +120,12 @@ https://cyclonedx.org/
     def parse_report(self, sboms: dict) -> ScanResult:
         """convert report json into ScanResult"""
         return convert_multi_sbom_into_scan_result(self, sboms)
+
+    def _parse_config(self, eze_config: dict) -> dict:
+        """take raw config dict and normalise values"""
+        parsed_config = super()._parse_config(eze_config)
+
+        # ADDITION PARSING: replicate INCLUDE_DEV into INCLUDE_TEST(-d -t) flag
+        parsed_config["_INCLUDE_TEST"] = parsed_config["INCLUDE_DEV"]
+
+        return parsed_config

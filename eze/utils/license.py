@@ -9,6 +9,7 @@ from pydash import py_
 from eze.core.enums import Vulnerability, Component, LicenseScanType, VulnerabilitySeverityEnum, VulnerabilityType
 from eze.utils.io.file import load_json
 from eze.utils.log import log_error
+from eze.utils.io.print import truncate
 
 LICENSE_TYPES = {
     "unrestricted": {
@@ -233,7 +234,7 @@ def annotated_sbom_table(cyclonedx_bom: dict, print_transitive: bool = False) ->
                 "version": sbom_component.version,
                 "license": sbom_component.license,
                 "license type": sbom_component.license_type,
-                "description": sbom_component.description,
+                "description": truncate(sbom_component.description),
             }
         )
     sboms = sorted(sboms, key=lambda d: d["name"])

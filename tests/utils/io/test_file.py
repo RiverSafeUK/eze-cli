@@ -87,7 +87,7 @@ def test_normalise_file_paths():
     assert output == expected_output
 
 
-def test_normalise_file_path__forward():
+def test_normalise_linux_file_path__happy_path_forward():
     # Given
     test_input = "hello/world.json"
     expected_output = "hello/world.json"
@@ -99,10 +99,22 @@ def test_normalise_file_path__forward():
     assert output == expected_output
 
 
-def test_normalise_file_path__back():
+def test_normalise_linux_file_path__happy_path_back():
     # Given
     test_input = "hello\\world.json"
     expected_output = "hello/world.json"
+
+    # When
+    output = normalise_linux_file_path(test_input)
+
+    # Then
+    assert output == expected_output
+
+
+def test_normalise_linux_file_path__happy_path_dot():
+    # Given
+    test_input = "."
+    expected_output = "."
 
     # When
     output = normalise_linux_file_path(test_input)

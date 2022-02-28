@@ -56,7 +56,7 @@ def extract_deprecated_packages(stdout: str) -> list:
     return deprecated_packages
 
 
-async def get_deprecated_packages(project_folder: str) -> list:
+async def get_deprecated_packages(project_folder: str, dotnet_project_file: str) -> list:
     """
     use dotnet to get list of deprecated packages
     @see https://www.nuget.org/packages?q=deprecated
@@ -74,7 +74,7 @@ async def get_deprecated_packages(project_folder: str) -> list:
                     if deprecated_package.alternative
                     else None,
                     "severity": VulnerabilitySeverityEnum.medium.name,
-                    "file_location": {"path": project_folder, "line": 1},
+                    "file_location": {"path": dotnet_project_file, "line": 1},
                 }
             ),
             extract_deprecated_packages(completed_process.stdout),
@@ -98,7 +98,7 @@ def extract_vulnerable_packages(stdout: str) -> list:
     return deprecated_packages
 
 
-async def get_vulnerable_packages(project_folder: str) -> list:
+async def get_vulnerable_packages(project_folder: str, dotnet_project_file: str) -> list:
     """
     use dotnet to get list of deprecated packages
     @see https://www.nuget.org/packages?q=deprecated
@@ -109,7 +109,10 @@ async def get_vulnerable_packages(project_folder: str) -> list:
     vulnerabilities = []
     for vp in vulnerable_packages:
         if vp.advisory_id:
-            vulnerabilities.append(get_osv_id_data(vp.advisory_id, vp.package, vp.installed_version, project_folder))
+            osv_vuln = get_osv_id_data(vp.advisory_id, vp.package, vp.installed_version, dotnet_project_file)
+            if osv_vuln.severity == VulnerabilitySeverityEnum.na.name:
+                osv_vuln.severity = vp.severity.lower()
+            vulnerabilities.append(osv_vuln)
         else:
             vulnerabilities.append(
                 Vulnerability(
@@ -120,7 +123,7 @@ async def get_vulnerable_packages(project_folder: str) -> list:
                         "vulnerability_type": VulnerabilityType.dependency.name,
                         "recommendation": None,
                         "severity": vp.severity.lower(),
-                        "file_location": {"path": project_folder, "line": 1},
+                        "file_location": {"path": dotnet_project_file, "line": 1},
                     }
                 )
             )
@@ -160,14 +163,14 @@ def extract_transitive_packages(stdout: str) -> dict:
 
 async def annotate_transitive_licenses(sbom: dict, project_folder: str) -> dict:
     """adding annotations to licenses which are not top-level"""
-    completed_process = await run_async_cmd(shlex.split("dotnet list package --vulnerable"), cwd=project_folder)
+    completed_process = await run_async_cmd(shlex.split("dotnet list package --include-transitive"), cwd=project_folder)
     packages = extract_transitive_packages(completed_process.stdout)
     for component in sbom["components"]:
         component_name = component["name"]
-        is_transitive = component_name in packages["top_level"]
-        is_not_transitive = component_name in packages["transitive"]
+        is_not_transitive = component_name in packages["top_level"]
+        is_transitive = component_name in packages["transitive"]
         if is_transitive:
-            py_.set(component, "properties.transitive", False)
-        elif is_not_transitive:
             py_.set(component, "properties.transitive", True)
+        elif is_not_transitive:
+            py_.set(component, "properties.transitive", False)
     return packages

@@ -85,11 +85,12 @@ def test_extract_deprecated_packages():
 async def test_get_deprecated_packages(mocked_run_cmd):
     # Given
     input_package = "eze-test-package"
+    input_project = "EzeGoatApp.csproj"
     mocked_run_cmd.return_value = CompletedProcess(DEPRECATED_PACKAGE_STDOUT, "")
     expected_output = [
         {
             "confidence": "",
-            "file_location": {"line": 1, "path": "eze-test-package"},
+            "file_location": {"line": 1, "path": "EzeGoatApp.csproj"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
@@ -105,7 +106,7 @@ async def test_get_deprecated_packages(mocked_run_cmd):
         },
         {
             "confidence": "",
-            "file_location": {"line": 1, "path": "eze-test-package"},
+            "file_location": {"line": 1, "path": "EzeGoatApp.csproj"},
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
@@ -121,7 +122,7 @@ async def test_get_deprecated_packages(mocked_run_cmd):
         },
     ]
     # When
-    output = await get_deprecated_packages(input_package)
+    output = await get_deprecated_packages(input_package, input_project)
     # Then
     assert convert_to_std_object(output) == expected_output
 
@@ -151,6 +152,7 @@ def test_extract_vulnerable_packages():
 async def test_get_vulnerable_packages(mocked_get_osv_id_data, mocked_run_cmd):
     # Given
     input_package = "eze-test-package"
+    input_project = "EzeGoatApp.csproj"
     mocked_run_cmd.return_value = CompletedProcess(VULNERABLE_PACKAGE_STDOUT, "")
     mocked_get_osv_id_data.return_value = Vulnerability(
         {
@@ -176,7 +178,7 @@ async def test_get_vulnerable_packages(mocked_get_osv_id_data, mocked_run_cmd):
         }
     ]
     # When
-    output = await get_vulnerable_packages(input_package)
+    output = await get_vulnerable_packages(input_package, input_project)
     # Then
     assert convert_to_std_object(output) == expected_output
 

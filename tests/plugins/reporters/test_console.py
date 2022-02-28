@@ -32,7 +32,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
+        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": False}
         # When
         testee = ConsoleReporter()
         # Then
@@ -45,7 +45,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     async def test_run_report__snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": False}
-        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
+        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": False}
         input_scan_result = ScanResult(
             load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")[0]
         )
@@ -60,7 +60,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     async def test_run_report__print_ignored_snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": True}
-        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
+        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": False}
         input_scan_result = ScanResult(
             load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")[0]
         )
@@ -75,7 +75,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     async def test_run_report__print_summary_only_snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_SUMMARY_ONLY": True}
-        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": True, "PRINT_TRANSITIVE_PACKAGES": True}
+        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": True, "PRINT_TRANSITIVE_PACKAGES": False}
         input_scan_result = ScanResult(
             load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")[0]
         )

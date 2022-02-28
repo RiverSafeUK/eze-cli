@@ -1,0 +1,103 @@
+short_description:
+======================
+opensource C#/dotnet bill of materials (SBOM) generation utility
+
+config_help:
+======================
+[dotnet-cyclonedx]
+# REPORT_FILE str [OPTIONAL]
+# output report directory location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-dotnet-cyclonedx-bom/bom.json"
+# 
+REPORT_FILE = "..."
+
+
+# INCLUDE_DEV bool [OPTIONAL]
+# Exclude test / development dependencies from the BOM
+# 
+INCLUDE_DEV = true / false
+
+
+# LICENSE_CHECK str [OPTIONAL]
+# available modes:
+# - PROPRIETARY : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+# default value: 
+#   LICENSE_CHECK = "PROPRIETARY"
+# 
+LICENSE_CHECK = "PROPRIETARY"
+
+# LICENSE_ALLOWLIST list [OPTIONAL]
+# list of licenses to exempt from license checks
+# 
+LICENSE_ALLOWLIST = ["MIT-enna"]
+
+# LICENSE_DENYLIST list [OPTIONAL]
+# list of licenses to always report usage as a error
+# 
+LICENSE_DENYLIST = ["MIT-enna"]
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VULNERABILITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vulnerability mitigated or on track to be fixed
+# 
+IGNORED_VULNERABILITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vulnerability mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# files or prefix folders to exclude in the scanning process
+# 
+EXCLUDE = ["..."]
+
+
+
+
+install_help:
+======================
+In most cases all that is required is dotnet sdk 6+, and to install via nuget
+
+dotnet tool install --global CycloneDX
+
+
+more_info:
+======================
+
+https://github.com/CycloneDX/cyclonedx-dotnet
+https://owasp.org/www-project-cyclonedx/
+https://cyclonedx.org/
+

@@ -153,6 +153,7 @@ class Vulnerability:
 
     def update_ignored(self, tool_config: dict) -> bool:
         """detect if vulnerability is to be ignored"""
+        # TODO: move function to util
         if self.is_ignored:
             self.is_ignored = True
             return True
@@ -180,6 +181,7 @@ class Vulnerability:
 
     def update_excluded(self, tool_config: dict) -> bool:
         """detect if vulnerability is to be excluded"""
+        # TODO: move function to util
         if self.is_excluded:
             self.is_excluded = True
             return True

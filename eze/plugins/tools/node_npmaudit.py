@@ -54,7 +54,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         "CMD_CONFIG": {
             "BASE_COMMAND": shlex.split("npm audit --json"),
             # eze config fields -> flags
-            "SHORT_FLAGS": {"ONLY_PROD": "--only=prod"},
+            "SHORT_FLAGS": {"_ONLY_PROD": "--only=prod"},
         }
     }
 
@@ -259,7 +259,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         """take raw config dict and normalise values"""
         parsed_config = super()._parse_config(eze_config)
 
-        # ADDITION PARSING: invert INCLUDE_DEV into ONLY_PROD(--only-prod) flag
-        parsed_config["ONLY_PROD"] = not parsed_config["INCLUDE_DEV"]
+        # ADDITION PARSING: invert INCLUDE_DEV into _ONLY_PROD(--only-prod) flag
+        parsed_config["_ONLY_PROD"] = not parsed_config["INCLUDE_DEV"]
 
         return parsed_config

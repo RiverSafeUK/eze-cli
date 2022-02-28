@@ -161,7 +161,8 @@
     "console": {
       "config": {
         "PRINT_SUMMARY_ONLY": false,
-        "PRINT_IGNORED": false
+        "PRINT_IGNORED": false,
+        "PRINT_TRANSITIVE_PACKAGES": false
       }
     },
     "bom": {
