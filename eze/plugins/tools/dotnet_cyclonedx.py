@@ -65,15 +65,6 @@ https://cyclonedx.org/
         }
     }
 
-    @staticmethod
-    def get_process_fatal_errors(completed_process) -> str:
-        """Take output and check for common errors"""
-        if "node_modules does not exist." in completed_process.stdout:
-            return completed_process.stdout
-        if "Error: Cannot find module" in completed_process.stdout:
-            return completed_process.stdout
-        return None
-
     async def run_scan(self) -> ScanResult:
         """
         Method for running a synchronous scan using tool
@@ -94,9 +85,6 @@ https://cyclonedx.org/
             completed_process = await run_async_cli_command(
                 self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, True, cwd=project_folder
             )
-            fatal_errors = self.get_process_fatal_errors(completed_process)
-            if fatal_errors:
-                raise EzeExecutableError(fatal_errors)
             sboms[dotnet_project_file] = load_json(Path(self.config["REPORT_FILE"]) / "bom.json")
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
