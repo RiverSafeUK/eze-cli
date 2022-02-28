@@ -110,7 +110,7 @@ async def get_vulnerable_packages(project_folder: str, dotnet_project_file: str)
     for vp in vulnerable_packages:
         if vp.advisory_id:
             osv_vuln = get_osv_id_data(vp.advisory_id, vp.package, vp.installed_version, dotnet_project_file)
-            if osv_vuln.severity == VulnerabilitySeverityEnum.na.name:
+            if osv_vuln.severity == "" or osv_vuln.severity == VulnerabilitySeverityEnum.na.name:
                 osv_vuln.severity = vp.severity.lower()
             vulnerabilities.append(osv_vuln)
         else:

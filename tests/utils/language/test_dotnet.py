@@ -172,7 +172,7 @@ async def test_get_vulnerable_packages(mocked_get_osv_id_data, mocked_run_cmd):
             "overview": "mocked osv_id_data",
             "recommendation": "",
             "references": [],
-            "severity": "",
+            "severity": "critical",
             "version": "",
             "vulnerability_type": "generic",
         }
