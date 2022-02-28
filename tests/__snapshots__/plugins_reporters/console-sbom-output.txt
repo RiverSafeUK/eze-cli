@@ -2,7 +2,7 @@ Eze report results:
 
 
 BILL OF MATERIALS: python-cyclonedx (duration: 1.8s)
-        package.json components: 13 (non-transitive-licence:1, BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
+        package.json components: 12 (non-transitive-licence:1, BSD-3-Clause:1, BSD:3, MIT License:1, Apache 2.0:1, MIT:2, BSD-3-clause:1, unknown:1, Apache-2.0:1)
 
 
 Bill of Materials

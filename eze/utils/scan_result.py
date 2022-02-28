@@ -78,15 +78,21 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ", print_trans
     for project_name in scan_result.sboms:
         cyclonedx_bom = scan_result.sboms[project_name]
         license_counts = {}
-        component_count = len(cyclonedx_bom["components"])
+
+        # extract non transitive if desired
+        valid_components = []
+        for component in cyclonedx_bom["components"]:
+            is_transitive = py_.get(component, "properties.transitive", False)
+            if not print_transitive and is_transitive:
+                continue
+            valid_components.append(component)
+
+        component_count = len(valid_components)
         totals_txt = f"""{indent}{project_name} components: {component_count}"""
         if component_count > 0:
             totals_txt += " ("
             breakdowns = []
-            for component in cyclonedx_bom["components"]:
-                is_transitive = py_.get(component, "properties.transitive", False)
-                if not print_transitive and is_transitive:
-                    continue
+            for component in valid_components:
                 licenses = component.get("licenses", [])
                 if len(licenses) == 0:
                     license_counts["unknown"] = license_counts.get("unknown", 0) + 1
