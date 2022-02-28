@@ -68,10 +68,9 @@ def name_and_time_summary(scan_result: ScanResult, indent: str = "    ") -> str:
     return f"""{indent}{scan_type}{tool_name}{run_type} (scan duration: {duration_sec:0.1f} seconds)"""
 
 
-def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
+def bom_short_summary(scan_result: ScanResult, indent: str = "    ", print_transitive: bool = False) -> str:
     """convert bom into one line summary"""
-    sboms = scan_result.sboms
-    if not sboms:
+    if not has_sbom_data(scan_result):
         return ""
     if len(scan_result.fatal_errors) > 0:
         return "ERROR when creating SBOM"
@@ -85,6 +84,9 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ") -> str:
             totals_txt += " ("
             breakdowns = []
             for component in cyclonedx_bom["components"]:
+                is_transitive = py_.get(component, "properties.transitive", False)
+                if not print_transitive and is_transitive:
+                    continue
                 licenses = component.get("licenses", [])
                 if len(licenses) == 0:
                     license_counts["unknown"] = license_counts.get("unknown", 0) + 1
@@ -128,3 +130,13 @@ def _get_scan_summary_totals(summary_totals: dict, title: str, warnings: list) -
         totals_txt += ", ".join(breakdowns)
         totals_txt += ")"
     return totals_txt
+
+
+def has_sbom_data(scan_result: ScanResult) -> bool:
+    """if scanresult has sbom data"""
+    return bool(scan_result.sboms and len(scan_result.sboms) > 0)
+
+
+def has_vulnerability_data(scan_result: ScanResult) -> bool:
+    """if scanresult has vulnerability or has no sbom data (meaning vulnerabilities are zero)"""
+    return len(scan_result.vulnerabilities) > 0 or not has_sbom_data(scan_result)

@@ -10,6 +10,7 @@ from eze.utils.error import EzeExecutableError
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.io.file_scanner import find_files_by_name
 from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
+from eze.utils.language.dotnet import get_deprecated_packages, get_vulnerable_packages, annotate_transitive_licenses
 
 
 class DotnetCyclonedxTool(ToolMeta):
@@ -84,8 +85,9 @@ https://cyclonedx.org/
 
         :raises EzeError
         """
-        sboms = {}
-        warnings = []
+        sboms: dict = {}
+        warnings: list = []
+        vulns: list = []
         dotnet_projects = find_files_by_name(".*[.]csproj$")
         dotnet_solutions = find_files_by_name(".*[.]sln$")
         for dotnet_project_file in dotnet_projects + dotnet_solutions:
@@ -103,24 +105,20 @@ https://cyclonedx.org/
             sboms[dotnet_project_file] = load_json(Path(self.config["REPORT_FILE"]) / "bom.json")
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
-            # "properties": {
-            #     "type": "array",
-            #     "title": "Properties",
-            #     "description": "Provides the ability to document properties in a name-value store. This provides flexibility to include data not officially supported in the standard without having to use additional namespaces or create extensions. Unlike key-value stores, properties support duplicate names, each potentially having different values. Property names of interest to the general public are encouraged to be registered in the [CycloneDX Property Taxonomy](https://github.com/CycloneDX/cyclonedx-property-taxonomy). Formal registration is OPTIONAL.",
-            #     "additionalItems": false,
-            #     "items": {"$ref": "#/definitions/property"}
-            # },
             # annotate transitive packages
             # "properties"."transitive" not "dependency" as too complex to calculate
-            # annotate outdated packages
-            # "properties"."latest"
+            await annotate_transitive_licenses(sboms[dotnet_project_file], project_folder)
+
+            # annotate deprecated packages
+            vulns.extend(await get_deprecated_packages(project_folder))
+
             # annotate vulnerabilities packages
-            # "vulnerabilities"."vulnerability"
-            # https://github.com/CycloneDX/specification/blob/1.4/schema/bom-1.4.schema.json
+            vulns.extend(await get_vulnerable_packages(project_folder))
 
         report = self.parse_report(sboms)
         # add all warnings
         report.warnings.extend(warnings)
+        report.vulnerabilities.extend(vulns)
 
         return report
 

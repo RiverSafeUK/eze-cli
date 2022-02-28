@@ -74,7 +74,6 @@ def convert_vulnerability(
             "vulnerability_type": VulnerabilityType.dependency.name,
             "recommendation": get_recommendation(vulnerability),
             "severity": cve_data["severity"] if cve_data else VulnerabilitySeverityEnum.high.name,
-            "is_ignored": False,
             "file_location": {"path": pip_project_file, "line": 1},
         }
     )

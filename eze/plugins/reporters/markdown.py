@@ -9,6 +9,8 @@ from eze.utils.scan_result import (
     vulnerabilities_short_summary,
     bom_short_summary,
     name_and_time_summary,
+    has_sbom_data,
+    has_vulnerability_data,
 )
 from eze.utils.io.print import generate_markdown_table
 from eze.utils.license import annotated_sbom_table
@@ -52,7 +54,7 @@ By default set to eze_report.md""",
         for scan_result in scan_results:
             if self._has_printable_vulnerabilities(scan_result):
                 scan_results_with_vulnerabilities.append(scan_result)
-            if scan_result.sboms:
+            if has_sbom_data(scan_result):
                 scan_results_with_sboms.append(scan_result)
             if len(scan_result.warnings) > 0:
                 scan_results_with_warnings.append(scan_result)
@@ -83,7 +85,7 @@ By default set to eze_report.md""",
             )
             duration_sec = py_.get(run_details, "duration_sec", "unknown")
 
-            if scan_result.sboms:
+            if has_sbom_data(scan_result):
                 sboms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
                 sboms.append(f"    {bom_short_summary(scan_result)}")
 
@@ -99,7 +101,7 @@ By default set to eze_report.md""",
                 "Time": "{:.1f}s".format(duration_sec),
             }
 
-            if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
+            if has_vulnerability_data(scan_result):
                 entry["Ignored"] = str(scan_result.summary["ignored"]["total"])
                 entry["Critical"] = str(scan_result.summary["totals"]["critical"])
                 entry["High"] = str(scan_result.summary["totals"]["high"])
@@ -158,11 +160,11 @@ By default set to eze_report.md""",
         scan_summary = f"""{prefix}TOOL REPORT: {name_and_time_summary(scan_result, "")}\n"""
 
         # bom count if exists
-        if scan_result.bom:
+        if has_sbom_data(scan_result):
             scan_summary += bom_short_summary(scan_result, prefix + "    ")
 
         # if bom only scan, do not print vulnerability count
-        if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
+        if has_vulnerability_data(scan_result):
             scan_summary += vulnerabilities_short_summary(scan_result, prefix + "    ")
         self.report_lines.append(scan_summary)
 

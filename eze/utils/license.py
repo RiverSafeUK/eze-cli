@@ -219,11 +219,13 @@ def get_license(license_text: str) -> dict:
     return None
 
 
-def annotated_sbom_table(cyclonedx_bom: dict) -> list:
+def annotated_sbom_table(cyclonedx_bom: dict, print_transitive: bool = False) -> list:
     """annotated and sorted sboms table data"""
     sbom_components = annotate_licenses(cyclonedx_bom)
     sboms = []
     for sbom_component in sbom_components:
+        if not print_transitive and sbom_component.is_transitive:
+            continue
         sboms.append(
             {
                 "type": sbom_component.type,
@@ -239,7 +241,7 @@ def annotated_sbom_table(cyclonedx_bom: dict) -> list:
 
 
 def annotate_licenses(sbom: dict) -> list:
-    """adding annotations to licenses for violations of policies"""
+    """return components list with annotations for transitive and licenses for violations of policies"""
     sbom_components = []
     for component in sbom["components"]:
         # manual parsing for name and id
@@ -268,6 +270,7 @@ def annotate_licenses(sbom: dict) -> list:
                 "version": component["version"],
                 "license": license_id,
                 "description": component.get("description", ""),
+                "is_transitive": py_.get(component, "properties.transitive", False),
             }
         )
         if not license_id:

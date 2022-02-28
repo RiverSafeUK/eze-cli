@@ -9,6 +9,8 @@ from eze.utils.scan_result import (
     vulnerabilities_short_summary,
     bom_short_summary,
     name_and_time_summary,
+    has_sbom_data,
+    has_vulnerability_data,
 )
 from eze.utils.io.print import pretty_print_table
 from eze.utils.license import annotated_sbom_table
@@ -33,8 +35,15 @@ defaults to false""",
         "PRINT_IGNORED": {
             "type": bool,
             "default": False,
+            "environment_variable": "PRINT_IGNORED",
             "help_text": """Whether or not to print out ignored vulnerabilities
 defaults to false""",
+        },
+        "PRINT_TRANSITIVE_PACKAGES": {
+            "type": bool,
+            "default": True,
+            "environment_variable": "PRINT_TRANSITIVE_PACKAGES",
+            "help_text": """print out non top level packages""",
         },
     }
 
@@ -53,7 +62,7 @@ defaults to false""",
         for scan_result in scan_results:
             if self._has_printable_vulnerabilities(scan_result):
                 scan_results_with_vulnerabilities.append(scan_result)
-            if scan_result.sboms:
+            if has_sbom_data(scan_result):
                 scan_results_with_sboms.append(scan_result)
             if len(scan_result.warnings) > 0:
                 scan_results_with_warnings.append(scan_result)
@@ -78,9 +87,9 @@ defaults to false""",
             )
             duration_sec = py_.get(run_details, "duration_sec", "unknown")
 
-            if scan_result.sboms:
+            if has_sbom_data(scan_result):
                 sboms.append(f"BILL OF MATERIALS: {tool_name}{run_type} (duration: {'{:.1f}s'.format(duration_sec)})")
-                sboms.append(f"    {bom_short_summary(scan_result)}")
+                sboms.append(f"    {bom_short_summary(scan_result, '    ', self.config['PRINT_TRANSITIVE_PACKAGES'])}")
 
             entry = {
                 "Name": tool_name + run_type,
@@ -94,7 +103,7 @@ defaults to false""",
                 "Time": "{:.1f}s".format(duration_sec),
             }
 
-            if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
+            if has_vulnerability_data(scan_result):
                 entry["Ignored"] = str(scan_result.summary["ignored"]["total"])
                 entry["Critical"] = str(scan_result.summary["totals"]["critical"])
                 entry["High"] = str(scan_result.summary["totals"]["high"])
@@ -117,11 +126,11 @@ defaults to false""",
         scan_summary = f"""{prefix}TOOL REPORT: {name_and_time_summary(scan_result, "")}\n"""
 
         # bom count if exists
-        if scan_result.bom:
-            scan_summary += bom_short_summary(scan_result, prefix + "    ")
+        if has_sbom_data(scan_result):
+            scan_summary += bom_short_summary(scan_result, prefix + "    ", self.config["PRINT_TRANSITIVE_PACKAGES"])
 
         # if bom only scan, do not print vulnerability count
-        if len(scan_result.vulnerabilities) > 0 or not scan_result.bom:
+        if has_vulnerability_data(scan_result):
             scan_summary += vulnerabilities_short_summary(scan_result, prefix + "    ")
         log(scan_summary)
 
@@ -204,7 +213,7 @@ Bill of Materials
 [{tool_name}{run_type}] {project_name} SBOM
 ================================="""
                 )
-                sboms = annotated_sbom_table(cyclonedx_bom)
+                sboms = annotated_sbom_table(cyclonedx_bom, self.config["PRINT_TRANSITIVE_PACKAGES"])
                 pretty_print_table(sboms)
 
     def _print_scan_report_warnings(self, scan_results_with_warnings: list):

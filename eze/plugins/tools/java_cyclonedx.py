@@ -59,7 +59,6 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
             "default": "target/bom.json",
             "help_text": "maven output bom.json location, relative to pom.xml folder, will be loaded, parsed and copied to <REPORT_FILE>",
         },
-        # TODO: AB#1047: add option to SCA test dependencies: INCLUDE_TEST -DincludeTestScope=true
         "SCA_ENABLED": {
             "type": bool,
             "default": True,
@@ -96,6 +95,11 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
             completed_process = await run_async_cli_command(
                 self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
             )
+            # TODO: AB#1047: add option to SCA test dependencies: INCLUDE_TEST -DincludeTestScope=true
+            # TODO: AB#1048: EZE CLI: mark java-cyclonedx transitive packages
+            # "properties"."transitive" not "dependency" as too complex to calculate
+            # mvn dependency:tree -DoutputType=dot  -Dverbose
+            # https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html
             bom_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
             cyclonedx_bom = load_json(str(bom_fullpath))
 

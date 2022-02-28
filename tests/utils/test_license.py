@@ -37,6 +37,7 @@ def test_annotate_licenses__happy_path_sdpx_id():
             "name": "x-xss-protection",
             "type": "library",
             "version": "1.0.0",
+            "is_transitive": False,
         }
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-report.json")
@@ -60,6 +61,7 @@ def test_annotate_licenses__happy_path_long_name():
             "name": "x-xss-protection",
             "type": "library",
             "version": "1.0.0",
+            "is_transitive": False,
         }
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-mit-long-name-report.json")
@@ -83,9 +85,34 @@ def test_annotate_licenses__happy_path_gpl():
             "name": "x-xss-protection",
             "type": "library",
             "version": "1.0.0",
+            "is_transitive": False,
         }
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-copyleft-report.json")
+    # When
+    output_licenses = convert_to_std_object(annotate_licenses(input_sbom))
+    # Then
+    assert output_licenses == expected_components
+
+
+def test_annotate_licenses__happy_path_transitive_component():
+    # Given
+    expected_components = [
+        {
+            "description": "Middleware to set the X-XSS-Protection header",
+            "license": "GPL-2.0-only",
+            "license_is_deprecated": False,
+            "license_is_fsf_libre": True,
+            "license_is_osi_approved": True,
+            "license_is_professional": True,
+            "license_type": "copyleft",
+            "name": "non-top-level-transitive-package",
+            "type": "library",
+            "version": "1.0.0",
+            "is_transitive": True,
+        }
+    ]
+    input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-transitive-report.json")
     # When
     output_licenses = convert_to_std_object(annotate_licenses(input_sbom))
     # Then
@@ -106,6 +133,7 @@ def test_annotate_licenses__sad_path__unnormalised_standard_id__apache():
             "name": "x-xss-protection",
             "type": "library",
             "version": "1.0.0",
+            "is_transitive": False,
         }
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-apache-unnormalised-report.json")
@@ -129,6 +157,7 @@ def test_annotate_licenses__sad_path__non_standard_id__bsd():
             "name": "x-xss-protection",
             "type": "library",
             "version": "1.0.0",
+            "is_transitive": False,
         }
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-bsd-pattern-name-report.json")
@@ -152,6 +181,7 @@ def test_annotate_licenses__sad_path_unknown():
             "name": "x-xss-protection",
             "type": "library",
             "version": "1.0.0",
+            "is_transitive": False,
         }
     ]
     input_sbom = load_json_fixture("__fixtures__/sbom/sbom-with-unknown-license-report.json")
@@ -453,7 +483,7 @@ def test_get_license__spdx_happy_case():
 def test_get_license__url_happy_case():
     # Given
     url_license = "http://go.microsoft.com/fwlink/?LinkId=329770"
-    expected_license_id = url_license
+    expected_license_id = ".NET-Library"
     expected_license_name = "Microsoft .NET Library License"
     # When
     output = get_license(url_license)

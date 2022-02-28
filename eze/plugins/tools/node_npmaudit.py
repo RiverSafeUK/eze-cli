@@ -31,10 +31,10 @@ npm --version"""
 https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 """
     EZE_CONFIG: dict = {
-        "EXCLUDE_DEV": {
+        "INCLUDE_DEV": {
             "type": bool,
-            "default": True,
-            "help_text": "Exclude development dependencies from the SCA, if to add a '--only=prod' flag to ignore devDependencies",
+            "default": False,
+            "help_text": "Include development dependencies from the SCA, if false adds '--only=prod' flag to ignore devDependencies",
         },
         "REPORT_FILE": {
             "type": str,
@@ -54,7 +54,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         "CMD_CONFIG": {
             "BASE_COMMAND": shlex.split("npm audit --json"),
             # eze config fields -> flags
-            "SHORT_FLAGS": {"EXCLUDE_DEV": "--only=prod"},
+            "SHORT_FLAGS": {"ONLY_PROD": "--only=prod"},
         }
     }
 
@@ -254,3 +254,12 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
         return vulnerabilities_list
+
+    def _parse_config(self, eze_config: dict) -> dict:
+        """take raw config dict and normalise values"""
+        parsed_config = super()._parse_config(eze_config)
+
+        # ADDITION PARSING: invert INCLUDE_DEV into ONLY_PROD(--only-prod) flag
+        parsed_config["ONLY_PROD"] = not parsed_config["INCLUDE_DEV"]
+
+        return parsed_config

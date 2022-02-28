@@ -32,7 +32,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False}
+        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
         # When
         testee = ConsoleReporter()
         # Then
@@ -45,7 +45,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     async def test_run_report__snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": False}
-        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False}
+        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
         input_scan_result = ScanResult(
             load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")[0]
         )
@@ -60,7 +60,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     async def test_run_report__print_ignored_snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_IGNORED": True}
-        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False}
+        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
         input_scan_result = ScanResult(
             load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")[0]
         )
@@ -75,7 +75,7 @@ class TestConsoleReporter(ReporterMetaTestBase):
     async def test_run_report__print_summary_only_snapshot(self, snapshot):
         # Given
         input_config = {"PRINT_SUMMARY_ONLY": True}
-        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": True}
+        expected_config = {"PRINT_IGNORED": False, "PRINT_SUMMARY_ONLY": True, "PRINT_TRANSITIVE_PACKAGES": True}
         input_scan_result = ScanResult(
             load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")[0]
         )
@@ -87,12 +87,25 @@ class TestConsoleReporter(ReporterMetaTestBase):
         )
 
     @pytest.mark.asyncio
-    async def test_run_report__print_sbom(self, snapshot):
+    async def test_run_report__print_sbom__without_transitive_packages(self, snapshot):
         # Given
-        input_config = {"PRINT_IGNORED": True}
-        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False}
+        input_config = {"PRINT_IGNORED": True, "PRINT_TRANSITIVE_PACKAGES": False}
+        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": False}
         input_scan_result = ScanResult(load_json_fixture("__fixtures__/plugins_reporters/eze_sample_sbom.json")[0])
         snapshot_location = "plugins_reporters/console-sbom-output.txt"
+
+        # Then
+        await self.assert_run_report_snapshot(
+            snapshot, input_config, expected_config, input_scan_result, snapshot_location
+        )
+
+    @pytest.mark.asyncio
+    async def test_run_report__print_sbom__with_transitive_packages(self, snapshot):
+        # Given
+        input_config = {"PRINT_IGNORED": True, "PRINT_TRANSITIVE_PACKAGES": True}
+        expected_config = {"PRINT_IGNORED": True, "PRINT_SUMMARY_ONLY": False, "PRINT_TRANSITIVE_PACKAGES": True}
+        input_scan_result = ScanResult(load_json_fixture("__fixtures__/plugins_reporters/eze_sample_sbom.json")[0])
+        snapshot_location = "plugins_reporters/console-sbom-output-with-transitive-packages.txt"
 
         # Then
         await self.assert_run_report_snapshot(

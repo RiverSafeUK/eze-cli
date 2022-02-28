@@ -205,6 +205,7 @@ class Component:
         self.name: str = get_config_key(vo, "name", str, "")
         self.version: str = get_config_key(vo, "version", str, "")
         self.description: str = get_config_key(vo, "description", str, "")
+        self.is_transitive = get_config_key(vo, "is_transitive", bool, False)
         self.license: str = get_config_key(vo, "license", str, "unknown")
         self.license_type: str = get_config_key(vo, "license_type", str, "unknown")
         self.license_is_professional: str = get_config_key(vo, "license_is_professional", bool, None)

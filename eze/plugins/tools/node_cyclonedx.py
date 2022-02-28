@@ -54,7 +54,7 @@ This will be ran automatically, if npm install fails this tool can't be run
         },
         "INCLUDE_DEV": {
             "type": bool,
-            "default": True,
+            "default": False,
             "help_text": "Include development dependencies from the SCA",
         },
         "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
@@ -105,6 +105,8 @@ This will be ran automatically, if npm install fails this tool can't be run
             sboms[npm_package] = load_json(self.config["REPORT_FILE"])
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
+            # TODO: AB#1049: mark node-cyclonedx transitive packages
+            # "properties"."transitive" not "dependency" as too complex to calculate
 
         report = self.parse_report(sboms)
         # add all warnings

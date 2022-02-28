@@ -108,7 +108,9 @@ def get_severity(raw_vulnerability: dict, package_name: str) -> str:
     return severity_rating(cvss_score, "CVSS2")
 
 
-def convert_vulnerability(raw_vulnerability: dict, package_name: str, package_version: str, project_name: str) -> Vulnerability:
+def convert_vulnerability(
+    raw_vulnerability: dict, package_name: str, package_version: str, project_name: str
+) -> Vulnerability:
     primary_id: str = py_.get(raw_vulnerability, "id")
 
     # Populate identifiers
@@ -132,7 +134,6 @@ def convert_vulnerability(raw_vulnerability: dict, package_name: str, package_ve
             "vulnerability_type": VulnerabilityType.dependency.name,
             "recommendation": get_recommendation(raw_vulnerability, package_name),
             "severity": get_severity(raw_vulnerability, package_name),
-            "is_ignored": False,
             "file_location": {"path": project_name, "line": 1},
         }
     )
@@ -174,7 +175,6 @@ def get_osv_package_data(ecosystem: str, package_name: str, package_version: str
     )
 
 
-
 def get_osv_id_data(vulnerability_id: str, package_name: str, package_version: str, project_name: str) -> Vulnerability:
     """
     download and extract vulnerability information for given id aka GHSA-2cwj-8chv-9pp9
@@ -189,11 +189,12 @@ def get_osv_id_data(vulnerability_id: str, package_name: str, package_version: s
         log_debug(f"osv_id {vulnerability_id} for {package_name}({package_version})")
         osv_data = request_json(pypi_url, method="GET")
     except EzeError as error:
-        warnings.append(f"unable to get osv data for {vulnerability_id}:{package_name}:{package_version}, Error: {error}")
+        warnings.append(
+            f"unable to get osv data for {vulnerability_id}:{package_name}:{package_version}, Error: {error}"
+        )
 
-    return convert_vulnerability(
-        osv_data, package_name, package_version, project_name
-    )
+    return convert_vulnerability(osv_data, package_name, package_version, project_name)
+
 
 def purl_to_osv_ecosystem(purl_type: str):
     """
