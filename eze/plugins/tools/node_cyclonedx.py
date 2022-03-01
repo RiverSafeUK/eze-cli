@@ -115,7 +115,7 @@ This will be ran automatically, if npm install fails this tool can't be run
             # "properties"."transitive" not "dependency" as too complex to calculate
             await annotate_transitive_licenses(sboms[npm_package], npm_project_fullpath, self.config["INCLUDE_DEV"])
 
-            report = self.parse_report(sboms)
+        report = self.parse_report(sboms)
         # add all warnings
         report.warnings.extend(warnings)
 

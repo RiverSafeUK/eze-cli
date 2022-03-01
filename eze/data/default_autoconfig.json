@@ -120,8 +120,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/raw/_node-cyclonedx-bom.json",
-        "REPORT_LIST_FILE": ".eze/raw/_node-npm-list.json"
+        "REPORT_FILE": ".eze/raw/_node-cyclonedx-bom.json"
       }
     },
     "dotnet-cyclonedx": {
