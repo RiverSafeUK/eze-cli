@@ -16,7 +16,7 @@
                 "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
               },
               "fullDescription": {
-                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0 "
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
               }
             },
             {
@@ -26,7 +26,7 @@
                 "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
               },
               "fullDescription": {
-                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0 "
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
               }
             }
           ]
@@ -38,7 +38,7 @@
           "ruleIndex": 0,
           "level": "error",
           "message": {
-            "text": "requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0 "
+            "text": "requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
           },
           "locations": [
             {
@@ -58,7 +58,7 @@
           "ruleIndex": 1,
           "level": "none",
           "message": {
-            "text": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0 "
+            "text": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
           },
           "locations": [
             {
@@ -90,7 +90,7 @@
                 "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
               },
               "fullDescription": {
-                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0 "
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
               }
             },
             {
@@ -100,7 +100,7 @@
                 "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
               },
               "fullDescription": {
-                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0 "
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
               }
             }
           ]
@@ -112,7 +112,7 @@
           "ruleIndex": 0,
           "level": "error",
           "message": {
-            "text": "requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0 "
+            "text": "requests (2.4.0) 2510 days out of date. update to a newer version, latest version: 2.26.0"
           },
           "locations": [
             {
@@ -132,7 +132,7 @@
           "ruleIndex": 1,
           "level": "none",
           "message": {
-            "text": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0 "
+            "text": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
           },
           "locations": [
             {
