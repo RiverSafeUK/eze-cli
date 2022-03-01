@@ -56,7 +56,7 @@ https://cyclonedx.org/
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("dotnet CycloneDX"),
+            "BASE_COMMAND": shlex.split("dotnet CycloneDX --json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["INPUT_FILE"],
             # eze config fields -> flags
@@ -83,11 +83,12 @@ https://cyclonedx.org/
             scan_config["INPUT_FILE"] = Path(dotnet_project_file).name
             scan_config["REPORT_FILE"] = str(create_absolute_path(scan_config["REPORT_FILE"]))
             completed_process = await run_async_cli_command(
-                self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, True, cwd=project_folder
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, False, cwd=project_folder
             )
             sboms[dotnet_project_file] = load_json(Path(self.config["REPORT_FILE"]) / "bom.json")
             if completed_process.stderr:
-                warnings.append(completed_process.stderr)
+                warnings.append(f"Errored when parsing {dotnet_project_file}: {completed_process.stderr}")
+                continue
             # annotate transitive packages
             # "properties"."transitive" not "dependency" as too complex to calculate
             await annotate_transitive_licenses(sboms[dotnet_project_file], project_folder)

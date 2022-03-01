@@ -92,7 +92,7 @@ class TestDotnetCyclonedxTool(ToolMetaTestBase):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json", "INCLUDE_DEV": False}
         expected_cwd = Path(".")
-        expected_cmd = "dotnet CycloneDX Ezeproject.csproj -o OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"
+        expected_cmd = "dotnet CycloneDX --json Ezeproject.csproj -o OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)
@@ -111,7 +111,7 @@ class TestDotnetCyclonedxTool(ToolMetaTestBase):
         # Given
         input_config = {"REPORT_FILE": "foo_report.json", "INCLUDE_DEV": True}
         expected_cwd = Path(".")
-        expected_cmd = "dotnet CycloneDX Ezeproject.csproj -d -t -o OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"
+        expected_cmd = "dotnet CycloneDX --json Ezeproject.csproj -d -t -o OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run, expected_cwd)
