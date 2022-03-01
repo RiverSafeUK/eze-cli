@@ -84,7 +84,7 @@ async def get_deprecated_packages(project_folder: str, dotnet_project_file: str)
 
 def extract_vulnerable_packages(stdout: str) -> list:
     """
-    extract deprecated packages from dotnet output
+    extract vulnerable packages from dotnet output
     TODO: upgrade to --json dotnet once available
     """
     deprecated_package_re = re.compile(r"^[ ]+>[ ]+([^ ]+)[ ]+([^ ]+)[ ]+([^ ]+)[ ]+([^ ]+)[ ]+(.+)", re.ASCII)
@@ -100,8 +100,8 @@ def extract_vulnerable_packages(stdout: str) -> list:
 
 async def get_vulnerable_packages(project_folder: str, dotnet_project_file: str) -> list:
     """
-    use dotnet to get list of deprecated packages
-    @see https://www.nuget.org/packages?q=deprecated
+    use dotnet to get list of vulnerable packages
+    @see https://www.nuget.org/packages
     """
     completed_process = await run_async_cmd(shlex.split("dotnet list package --vulnerable"), cwd=project_folder)
     vulnerable_packages = extract_vulnerable_packages(completed_process.stdout)
