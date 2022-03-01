@@ -78,7 +78,7 @@ By default set to eze_report.sarif""",
             rule = {
                 "id": str(uuid.uuid4()),
                 "name": vulnerability.name,
-                "shortDescription": {"text": truncate(vulnerability.overview, 70)},
+                "shortDescription": {"text": truncate(vulnerability.overview, 70, "...")},
                 "fullDescription": {
                     "text": " ".join(
                         textwrap.wrap(vulnerability.overview + " " + vulnerability.recommendation, width=140)

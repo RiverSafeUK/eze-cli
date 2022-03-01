@@ -97,10 +97,10 @@
               "id": "d45662fb-577e-4fd8-9950-f5cfd7923450",
               "name": "requests",
               "shortDescription": {
-                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0"
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0. current..."
               },
               "fullDescription": {
-                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0 update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
+                "text": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0. current version is 22 minor versions out of date update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0"
               }
             }
           ]

@@ -133,7 +133,7 @@
                 "language": "python",
                 "metadata": {},
                 "name": "requests",
-                "overview": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0",
+                "overview": "requests (2.4.0) is 2510 days out of date. Latest is 2.26.0. current version is 22 minor versions out of date",
                 "recommendation": "update requests (2.4.0) to a newer version, current version is 22 minor versions out of date. Latest is 2.26.0",
                 "references": [],
                 "severity": "none",
