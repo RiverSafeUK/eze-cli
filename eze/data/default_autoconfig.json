@@ -14,7 +14,7 @@
         "NO_ENTROPY": true,
         "INCLUDE_FULL_REASON": true,
         "EXCLUDE": [],
-        "REPORT_FILE": ".eze/_truffleHog-report.json"
+        "REPORT_FILE": ".eze/raw/_truffleHog-report.json"
       }
     },
     "semgrep": {
@@ -26,7 +26,7 @@
         "DISABLE_DEFAULT_IGNORES": false,
         "PRINT_TIMING_INFO": false,
         "EXCLUDE": [],
-        "REPORT_FILE": ".eze/_semgrep-report.json"
+        "REPORT_FILE": ".eze/raw/_semgrep-report.json"
       }
     },
     "java-cyclonedx": {
@@ -37,7 +37,7 @@
       "enable_on_file_ext": [],
       "config": {
         "SCA_ENABLED": true,
-        "REPORT_FILE": ".eze/_java-cyclonedx-bom.json"
+        "REPORT_FILE": ".eze/raw/_java-cyclonedx-bom.json"
       }
     },
     "java-spotbugs": {
@@ -47,7 +47,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_java-spotbugs-report.json"
+        "REPORT_FILE": ".eze/raw/_java-spotbugs-report.json"
       }
     },
     "python-safety": {
@@ -57,7 +57,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_python-safety-report.json"
+        "REPORT_FILE": ".eze/raw/_python-safety-report.json"
       }
     },
     "python-piprot": {
@@ -67,7 +67,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_python-piprot-report.json"
+        "REPORT_FILE": ".eze/raw/_python-piprot-report.json"
       }
     },
     "python-cyclonedx": {
@@ -80,7 +80,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_python-cyclonedx-bom.json"
+        "REPORT_FILE": ".eze/raw/_python-cyclonedx-bom.json"
       }
     },
     "python-bandit": {
@@ -90,7 +90,7 @@
         ".py"
       ],
       "config": {
-        "REPORT_FILE": ".eze/_python-bandit-report.json"
+        "REPORT_FILE": ".eze/raw/_python-bandit-report.json"
       }
     },
     "node-npmaudit": {
@@ -100,7 +100,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_node-npmaudit-report.json"
+        "REPORT_FILE": ".eze/raw/_node-npmaudit-report.json"
       }
     },
     "node-npmoutdated": {
@@ -110,7 +110,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_node-npmoutdated-report.json"
+        "REPORT_FILE": ".eze/raw/_node-npmoutdated-report.json"
       }
     },
     "node-cyclonedx": {
@@ -120,7 +120,7 @@
       ],
       "enable_on_file_ext": [],
       "config": {
-        "REPORT_FILE": ".eze/_node-cyclonedx-bom.json"
+        "REPORT_FILE": ".eze/raw/_node-cyclonedx-bom.json"
       }
     },
     "dotnet-cyclonedx": {
@@ -133,7 +133,7 @@
         ".csproj"
       ],
       "config": {
-        "REPORT_FILE": ".eze/_dotnet-cyclonedx-bom"
+        "REPORT_FILE": ".eze/raw/_dotnet-cyclonedx-bom"
       }
     },
     "kics": {
@@ -148,7 +148,7 @@
       ],
       "config": {
         "EXCLUDE": [],
-        "REPORT_FILE": ".eze/_checkmarx-kics.json"
+        "REPORT_FILE": ".eze/raw/_checkmarx-kics.json"
       }
     },
     "java-dependencycheck": {},
@@ -183,6 +183,11 @@
     "markdown": {
       "config": {
         "REPORT_FILE": ".eze/eze_report.md"
+      }
+    },
+    "html": {
+      "config": {
+        "REPORT_FILE": ".eze/eze_report.html"
       }
     }
   }

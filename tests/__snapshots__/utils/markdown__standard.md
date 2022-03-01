@@ -8,8 +8,8 @@
 
 ![critical](https://img.shields.io/static/v1?style=plastic&label=critical&message=0&color=red)
 ![high](https://img.shields.io/static/v1?style=plastic&label=high&message=0&color=orange)
-![medium](https://img.shields.io/static/v1?style=plastic&label=medium&message=1&color=yellow)
-![low](https://img.shields.io/static/v1?style=plastic&label=low&message=1&color=lightgrey)
+![medium](https://img.shields.io/static/v1?style=plastic&label=medium&message=0&color=yellow)
+![low](https://img.shields.io/static/v1?style=plastic&label=low&message=0&color=lightgrey)
 
 
 
@@ -19,6 +19,12 @@
 * Safety (unknown)
 
 
+## Errors
+---
+
+
+### [safety] Errors
+Executable not found 'semgrep', when running command semgrep --optimizations all --json --time --disable-metrics -q -c p/ci -c p/nodejs -o reports/semgrep-node-report.json --exclude tests --exclude reports/truffleHog-node-report.json --exclude reports/semgrep-node-report.json --exclude reports/npmaudit-node-report.json --exclude reports/npmoutdated-node-report.json --exclude reports/cyclonedx-node-bom.json --exclude eze_bom.json --exclude eze_report.json --exclude eze_junit_report.xml
 
 ## Vulnerabilities
 ---
@@ -42,21 +48,6 @@ CVE: CVE-2013-5123
 
 
 
-**[NA DEPENDENCY] : dependency-na-pip-no-cve (1.3.0)**
-
-
-**overview**: The pip package before 19.2 for Python allows Directory Traversal when a URL is given in an install command, because a Content-Disposition header can have ../ in a filename, as demonstrated by overwriting the /root/.ssh/authorized_keys file. This occurs in _download_http_url in _internal/download.py.
-
-
-
-
-**recommendation**: Update pip (1.3.0), vulnerable versions: <19.2
-
-
-
-
-
-
 **[MEDIUM DEPENDENCY] : dependency-ignored-pip (1.3.0)**
 
 
@@ -68,27 +59,6 @@ CVE: CVE-2013-5123
 **recommendation**: Update pip (1.3.0), vulnerable versions: <6.1.0
 
 
-
-
-
-
-**[HIGH SECRET] : Found Hardcoded 'Password in URL' Pattern**
-
-
-**overview**: Found Hardcoded 'Password in URL' Pattern in __fixture__\secrets\all_the_hard_coded_secrets.py
-
-
-
-
-**recommendation**: Investigate
- __fixture__\secrets\all_the_hard_coded_secrets.py
- Line 1 for 'Password in URL' strings
- Full Match: 1 SERVER_LOCATION =
- https://username:password@localhost:1234
-
-
-
-**file**: __fixture__\secrets\all_the_hard_coded_secrets.py (line 1)
 
 
 
