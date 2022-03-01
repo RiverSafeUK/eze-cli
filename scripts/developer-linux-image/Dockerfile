@@ -39,10 +39,10 @@ ENV \
     LANG=C.UTF-8 \
     # CycloneDX BOM tools env
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
-    # dotnet env, add tools into PATH
-    PATH="$PATH:$HOME/.dotnet/tools/" \
-    # kics env, add kics into PATH
-    PATH="$PATH:/app/bin"
+    # kics env, add kics / dotnet-CycloneDx into PATH
+    PATH="${PATH}:/app/bin" \
+    # TOOL VERSIONS
+    TRUFFLEHOG3_VERSION="3.0.4"
 
 RUN set -o pipefail \
     # Update apt-get packages
@@ -72,7 +72,7 @@ RUN npm install -g @cyclonedx/bom --only=production
 
 #
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep truffleHog3 bandit piprot safety cyclonedx-bom \
+RUN pip3 install --no-cache-dir semgrep truffleHog3==${TRUFFLEHOG3_VERSION} bandit piprot safety cyclonedx-bom \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
     && rm `which cyclonedx-bom`
