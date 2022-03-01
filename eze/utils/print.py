@@ -47,8 +47,7 @@ def generate_markdown_table(table: list, has_nothing_message: bool = True) -> st
 
 
 def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
-    """given kv with print it as a pretty printed table
-
+    """given kv print it as a pretty printed table
     output is compatible with markdown"""
     markdown_table = generate_markdown_table(table, has_nothing_message)
     print(markdown_table)

@@ -3,197 +3,51 @@
             <html lang="en">
             <head>
                 <title>Eze Scanning report</title>
-                <link 
-                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" 
-                    rel="stylesheet" 
-                    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" 
+                <link
+                    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+                    rel="stylesheet"
+                    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
                     crossorigin="anonymous">
             </head>
 
             <body>
                 <div class="container">
-                    <h1> Eze Report Results </h1>
-                    
-                        <br>
-                        <h2>Summary  <img src=https://img.shields.io/static/v1?style=plastic&label=Tools&message=1&color=blue /></h2>
-                        <hr />
-
-                            <img src=https://img.shields.io/static/v1?style=plastic&label=critical&message=0&color=red />
-                            <img src=https://img.shields.io/static/v1?style=plastic&label=high&message=0&color=orange />
-                            <img src=https://img.shields.io/static/v1?style=plastic&label=medium&message=1&color=yellow />
-                            <img src=https://img.shields.io/static/v1?style=plastic&label=low&message=1&color=lightgrey />
-                        <br>
-                        
-                        <br>
-                        <b>Tools executed: </b>
-                        <br>
-                        <ul>
-                            <li>safety </li>
-                        </ul>
-            
-                    
-                <br>
-                <h2>Errors</h2>
-                <hr />
-                
-            <div class="alert alert-light" role="alert">
-                No errors
-            </div>
-            
-            
-                    
-            <br>
-            <h2>Vulnerabilities</h2>
-            <hr />
-            
-            <br>
-            <h3> [safety] Vulnerabilities</h3>
-            <h4> TOOL REPORT: safety (scan duration: 1.6s)</h4>
-
-            <p>(        total: 3 (medium:1, low:1, na:1, warnings:true)
-        ignored: 1 (medium:1, warnings:true)
-)</p>
-
-            <table class="table table-bordered">
-            <tr>
-                <th colspan=2 class="text-break">
-                   1. [MEDIUM DEPENDENCY] : dependency-pip-medium-with-cve  (1.3.0)
-                </th>
-            </tr>
-            <tr>
-                <th>identifiers</td>
-                <td>CVE: CVE-2013-5123</td>
-            </tr>
-            <tr>
-                <th>overview</th>
-                <td class="text-break">
-                    The mirroring support (-M, --use-mirrors) in Python Pip before 1.5 uses insecure DNS querying and authenticity checks which allows attackers to perform man-in-the-middle attacks.
-                </td>
-            </tr>
-            <tr>
-                <th>recommendation</th>
-                <td class="text-break">
-                    Update pip (1.3.0), vulnerable versions: &lt;1.5
-                </td>
-            </tr>
-            <tr>
-                <th>file</th>
-                <td>
-                    unknown (line unknown)
-                </td>
-            </tr>
-        </table>
-
-<table class="table table-bordered">
-            <tr>
-                <th colspan=2 class="text-break">
-                   2. [NA DEPENDENCY] : dependency-na-pip-no-cve  (1.3.0)
-                </th>
-            </tr>
-            <tr>
-                <th>identifiers</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <th>overview</th>
-                <td class="text-break">
-                    The pip package before 19.2 for Python allows Directory Traversal when a URL is given in an install command, because a Content-Disposition header can have ../ in a filename, as demonstrated by overwriting the /root/.ssh/authorized_keys file. This occurs in _download_http_url in _internal/download.py.
-                </td>
-            </tr>
-            <tr>
-                <th>recommendation</th>
-                <td class="text-break">
-                    Update pip (1.3.0), vulnerable versions: &lt;19.2
-                </td>
-            </tr>
-            <tr>
-                <th>file</th>
-                <td>
-                    unknown (line unknown)
-                </td>
-            </tr>
-        </table>
-
-<table class="table table-bordered">
-            <tr>
-                <th colspan=2 class="text-break">
-                   3. [MEDIUM DEPENDENCY] : dependency-ignored-pip  (1.3.0)
-                </th>
-            </tr>
-            <tr>
-                <th>identifiers</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <th>overview</th>
-                <td class="text-break">
-                    The resolve_redirects function in sessions.py in requests 2.1.0 through 2.5.3 allows remote attackers to conduct session fixation attacks via a cookie without a host value in a redirect. <a href="http://cwe.mitre.org/data/definitions/384.html">CWE-384: Session Fixation</a>
-                </td>
-            </tr>
-            <tr>
-                <th>recommendation</th>
-                <td class="text-break">
-                    Update pip (1.3.0), vulnerable versions: &lt;6.1.0
-                </td>
-            </tr>
-            <tr>
-                <th>file</th>
-                <td>
-                    unknown (line unknown)
-                </td>
-            </tr>
-        </table>
-
-<table class="table table-bordered">
-            <tr>
-                <th colspan=2 class="text-break">
-                   4. [HIGH SECRET] : Found Hardcoded 'Password in URL' Pattern 
-                </th>
-            </tr>
-            <tr>
-                <th>identifiers</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <th>overview</th>
-                <td class="text-break">
-                    Found Hardcoded 'Password in URL' Pattern in __fixture__\secrets\all_the_hard_coded_secrets.py
-                </td>
-            </tr>
-            <tr>
-                <th>recommendation</th>
-                <td class="text-break">
-                    Investigate
- __fixture__\secrets\all_the_hard_coded_secrets.py
+                    <h1>Eze Report Results</h1>
+<h2>Summary  <img alt="tools" src="https://img.shields.io/static/v1?style=plastic&amp;label=Tools&amp;message=1&amp;color=blue"></h2>
+<hr>
+<p><img alt="critical" src="https://img.shields.io/static/v1?style=plastic&amp;label=critical&amp;message=0&amp;color=red">
+<img alt="high" src="https://img.shields.io/static/v1?style=plastic&amp;label=high&amp;message=0&amp;color=orange">
+<img alt="medium" src="https://img.shields.io/static/v1?style=plastic&amp;label=medium&amp;message=1&amp;color=yellow">
+<img alt="low" src="https://img.shields.io/static/v1?style=plastic&amp;label=low&amp;message=1&amp;color=lightgrey"></p>
+<p><b>Tools executed: 1</b>
+* Safety (unknown)</p>
+<h2>Vulnerabilities</h2>
+<hr>
+<h3>[safety] Vulnerabilities</h3>
+<p><strong>[MEDIUM DEPENDENCY] : dependency-pip-medium-with-cve (1.3.0)</strong></p>
+<p><strong>overview</strong>: The mirroring support (-M, --use-mirrors) in Python Pip before 1.5 uses insecure DNS querying and authenticity checks which allows attackers to perform man-in-the-middle attacks.</p>
+<p>CVE: CVE-2013-5123</p>
+<p><strong>recommendation</strong>: Update pip (1.3.0), vulnerable versions: &lt;1.5</p>
+<p><strong>[NA DEPENDENCY] : dependency-na-pip-no-cve (1.3.0)</strong></p>
+<p><strong>overview</strong>: The pip package before 19.2 for Python allows Directory Traversal when a URL is given in an install command, because a Content-Disposition header can have ../ in a filename, as demonstrated by overwriting the /root/.ssh/authorized_keys file. This occurs in _download_http_url in _internal/download.py.</p>
+<p><strong>recommendation</strong>: Update pip (1.3.0), vulnerable versions: &lt;19.2</p>
+<p><strong>[MEDIUM DEPENDENCY] : dependency-ignored-pip (1.3.0)</strong></p>
+<p><strong>overview</strong>: The resolve_redirects function in sessions.py in requests 2.1.0 through 2.5.3 allows remote attackers to conduct session fixation attacks via a cookie without a host value in a redirect. <a href="http://cwe.mitre.org/data/definitions/384.html">CWE-384: Session Fixation</a></p>
+<p><strong>recommendation</strong>: Update pip (1.3.0), vulnerable versions: &lt;6.1.0</p>
+<p><strong>[HIGH SECRET] : Found Hardcoded 'Password in URL' Pattern</strong></p>
+<p><strong>overview</strong>: Found Hardcoded 'Password in URL' Pattern in <strong>fixture</strong>\secrets\all_the_hard_coded_secrets.py</p>
+<p><strong>recommendation</strong>: Investigate
+ <strong>fixture</strong>\secrets\all_the_hard_coded_secrets.py
  Line 1 for 'Password in URL' strings
  Full Match: 1 SERVER_LOCATION =
- https://username:password@localhost:1234
-                </td>
-            </tr>
-            <tr>
-                <th>file</th>
-                <td>
-                    __fixture__\secrets\all_the_hard_coded_secrets.py (line 1)
-                </td>
-            </tr>
-        </table>
-
-            
-                    
-                    
-            <br>
-            <h2>Warnings</h2>
-            <hr />
-            <h3>safety</h3>
-                    <div class="alert alert-warning" role="alert">
-                        Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.
-Warning: unpinned requirement 'click' found in tests-integration/__fixture__/python/requirements.txt, unable to check.
-
-                    </div>
-                    
-            
+ https://username:password@localhost:1234</p>
+<p><strong>file</strong>: <strong>fixture</strong>\secrets\all_the_hard_coded_secrets.py (line 1)</p>
+<h2>Warnings</h2>
+<hr>
+<h3>[safety] Warnings</h3>
+<p>Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.
+Warning: unpinned requirement 'click' found in tests-integration/<strong>fixture</strong>/python/requirements.txt, unable to check.</p>
                 </div>
             </body>
-
             </html>
             
