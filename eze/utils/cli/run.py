@@ -126,7 +126,7 @@ async def run_async_cli_command(
 
 
 def _append_to_list(command_list: list, appendees, config: dict) -> list:
-    """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
+    """annotate command string with appendees which value flags aka --variable value ( if list: --variable value1 --variable value2)"""
     for config_key in appendees:
         flag_arg = ""
         if isinstance(appendees, dict):
@@ -143,7 +143,7 @@ def _append_to_list(command_list: list, appendees, config: dict) -> list:
 
 
 def _append_multi_value_to_list(command_list: list, appendees, config: dict) -> list:
-    """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
+    """annotate command string with appendees which multi value flags aka --variable value1 value2 ..."""
     for config_key in appendees:
         flag_arg = ""
         if isinstance(appendees, dict):
@@ -160,7 +160,7 @@ def _append_multi_value_to_list(command_list: list, appendees, config: dict) -> 
 
 
 def _append_short_flags_to_list(command_list: list, appendees, config: dict) -> list:
-    """annotate command string with appendees which are "dict args=config-key kv" or "list of config-keys" """
+    """annotate command string with appendees which short flags aka --version"""
     for config_key in appendees:
         flag_arg = ""
         if isinstance(appendees, dict):
@@ -230,7 +230,8 @@ async def async_subprocess_run(cmd: list, cwd=None) -> CompletedProcess:
     )
     await process.wait()
     stdout, stderr = await process.communicate()
-    process_output = CompletedProcess(stdout.decode(), stderr.decode())
+    # WORKAROUND: ignore encoding issues
+    process_output = CompletedProcess(stdout.decode(errors="ignore"), stderr.decode(errors="ignore"))
     return process_output
 
 
@@ -264,7 +265,7 @@ async def run_async_cmd(cmd: list, error_on_missing_executable: bool = True, cwd
     :raises EzeExecutableNotFoundError
     """
     sanitised_command_str = __sanitise_command(cmd)
-    log_debug(f"running command '{sanitised_command_str}'{f'({str(cwd)})' if cwd else ''}")
+    log_debug(f"running command '{sanitised_command_str}'{f' (cwd={str(cwd)})' if cwd else ''}")
 
     try:
         process_output = await async_subprocess_run(cmd, cwd=cwd)

@@ -49,7 +49,7 @@ $ pip freeze > requirements.txt
             "type": list,
             "default": [],
             "help_text": """surplus custom requirements.txt file
-any requirements files named requirements.txt or requirements-dev.txt will be automatically collected
+any requirements files named requirements.txt will be automatically collected (or requirements-dev.txt with INCLUDE_DEV=true flag)
 gotcha: make sure it's a frozen version of the pip requirements""",
             "help_example": "[custom-requirements.txt]",
         },
@@ -58,6 +58,11 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             "default": create_tempfile_path("tmp-python-cyclonedx-bom.json"),
             "default_help_value": "<tempdir>/.eze-temp/tmp-python-cyclonedx-bom.json",
             "help_text": "output report location (will default to tmp file otherwise)",
+        },
+        "INCLUDE_DEV": {
+            "type": bool,
+            "default": False,
+            "help_text": "Exclude development dependencies from the BOM, aka requirements-dev.txt",
         },
         "SCA_ENABLED": {
             "type": bool,
@@ -103,11 +108,12 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         """
         warnings_list = []
         sboms = {}
-        requirements_files = find_files_by_name("requirements.txt")
-        requirements_files.extend(find_files_by_name("requirements-dev.txt"))
+        requirements_files = find_files_by_name("^requirements.txt$")
+        if self.config["INCLUDE_DEV"]:
+            requirements_files.extend(find_files_by_name("^requirements-dev.txt$"))
         requirements_files.extend(self.config["REQUIREMENTS_FILES"])
-        poetry_files = find_files_by_name("poetry.lock")
-        piplock_files = find_files_by_name("Pipfile.lock")
+        poetry_files = find_files_by_name("^poetry.lock$")
+        piplock_files = find_files_by_name("^Pipfile.lock$")
 
         has_found_packages: bool = False
 

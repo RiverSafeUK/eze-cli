@@ -39,8 +39,6 @@ class ScanResult:
 
         # bom and boms in Cyclonedx format
         # https://cyclonedx.org/
-        # self.bom @deprecated to be replaced by self.boms to allow for multi project scans
-        self.bom: dict = get_config_key(vo, "bom", dict, None)
         self.sboms: dict = get_config_key(vo, "sboms", dict, None)
 
         raw_vulnerabilities = get_config_key(vo, "vulnerabilities", list, [])

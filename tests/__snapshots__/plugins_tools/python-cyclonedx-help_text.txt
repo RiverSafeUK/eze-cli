@@ -7,7 +7,7 @@ config_help:
 [python-cyclonedx]
 # REQUIREMENTS_FILES list [OPTIONAL]
 # surplus custom requirements.txt file
-# any requirements files named requirements.txt or requirements-dev.txt will be automatically collected
+# any requirements files named requirements.txt will be automatically collected (or requirements-dev.txt with INCLUDE_DEV=true flag)
 # gotcha: make sure it's a frozen version of the pip requirements
 # 
 REQUIREMENTS_FILES = "[custom-requirements.txt]"
@@ -18,6 +18,12 @@ REQUIREMENTS_FILES = "[custom-requirements.txt]"
 #   REPORT_FILE = "<tempdir>/.eze-temp/tmp-python-cyclonedx-bom.json"
 # 
 REPORT_FILE = "..."
+
+
+# INCLUDE_DEV bool [OPTIONAL]
+# Exclude development dependencies from the BOM, aka requirements-dev.txt
+# 
+INCLUDE_DEV = true / false
 
 
 # SCA_ENABLED bool [OPTIONAL]

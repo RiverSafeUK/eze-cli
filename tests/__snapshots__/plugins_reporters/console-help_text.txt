@@ -15,8 +15,16 @@ PRINT_SUMMARY_ONLY = true / false
 # PRINT_IGNORED bool [OPTIONAL]
 # Whether or not to print out ignored vulnerabilities
 # defaults to false
+# value can be set via environment variable: PRINT_IGNORED
 # 
 PRINT_IGNORED = true / false
+
+
+# PRINT_TRANSITIVE_PACKAGES bool [OPTIONAL]
+# print out non top level packages
+# value can be set via environment variable: PRINT_TRANSITIVE_PACKAGES
+# 
+PRINT_TRANSITIVE_PACKAGES = true / false
 
 
 

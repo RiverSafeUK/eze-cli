@@ -8,7 +8,7 @@
 # Larger developer linux box for testing commands from windows
 #
 
-# Extract Debian binaries from kics offical docker image
+# Extract Debian binaries from kics official docker image
 # no binaries provided via github, unsafe to run docker in docker
 # see https://github.com/Checkmarx/kics/blob/master/Dockerfile.debian
 # see https://github.com/Checkmarx/kics/releases (v1.5.2)
@@ -39,10 +39,10 @@ ENV \
     LANG=C.UTF-8 \
     # CycloneDX BOM tools env
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
-    # dotnet env, add tools into PATH
-    PATH="$PATH:$HOME/.dotnet/tools/" \
-    # kics env, add kics into PATH
-    PATH="$PATH:/app/bin"
+    # kics env, add kics / dotnet-CycloneDx into PATH
+    PATH="${PATH}:/app/bin" \
+    # TOOL VERSIONS
+    TRUFFLEHOG3_VERSION="3.0.4"
 
 RUN set -o pipefail \
     # Update apt-get packages
@@ -72,7 +72,7 @@ RUN npm install -g @cyclonedx/bom --only=production
 
 #
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep truffleHog3 bandit piprot safety cyclonedx-bom \
+RUN pip3 install --no-cache-dir semgrep truffleHog3==${TRUFFLEHOG3_VERSION} bandit piprot safety cyclonedx-bom \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
     && rm `which cyclonedx-bom`
@@ -101,10 +101,15 @@ RUN set -o pipefail \
     && chmod +x /usr/local/bin/gitleaks \
     && gitleaks --version
 
-# Add kics binaries from offical image
+# Add kics binaries from official image
 COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
 COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
 COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
+
+# install dotnet/C# tools
+RUN dotnet tool install --tool-path /app/bin/ CycloneDX\
+    && chmod 755 /app/bin/dotnet-CycloneDX \
+    && chmod -R 755 /app/bin/.store/cyclonedx/
 
 #
 # set Work Dir

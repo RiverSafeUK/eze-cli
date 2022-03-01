@@ -133,7 +133,7 @@
         ".csproj"
       ],
       "config": {
-        "REPORT_FILE": ".eze/_dotnet-cyclonedx-bom.json"
+        "REPORT_FILE": ".eze/_dotnet-cyclonedx-bom"
       }
     },
     "kics": {
@@ -161,7 +161,8 @@
     "console": {
       "config": {
         "PRINT_SUMMARY_ONLY": false,
-        "PRINT_IGNORED": false
+        "PRINT_IGNORED": false,
+        "PRINT_TRANSITIVE_PACKAGES": false
       }
     },
     "bom": {

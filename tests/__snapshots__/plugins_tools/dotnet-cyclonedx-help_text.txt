@@ -1,20 +1,20 @@
 short_description:
 ======================
-opensource node bill of materials (SBOM) generation utility
+opensource C#/dotnet bill of materials (SBOM) generation utility
 
 config_help:
 ======================
-[node-cyclonedx]
+[dotnet-cyclonedx]
 # REPORT_FILE str [OPTIONAL]
-# output report location (will default to tmp file otherwise)
+# output report directory location (will default to tmp file otherwise)
 # default value: 
-#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-node-cyclonedx-bom.json"
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-dotnet-cyclonedx-bom/bom.json"
 # 
 REPORT_FILE = "..."
 
 
 # INCLUDE_DEV bool [OPTIONAL]
-# Include development dependencies from the SCA
+# Exclude test / development dependencies from the BOM
 # 
 INCLUDE_DEV = true / false
 
@@ -89,28 +89,15 @@ EXCLUDE = ["..."]
 
 install_help:
 ======================
-In most cases all that is required is node and npm (version 6+), and cyclonedx installed via npm
-        
-npm install -g @cyclonedx/bom
+In most cases all that is required is dotnet sdk 6+, and to install via nuget
+
+dotnet tool install --global CycloneDX
 
 
 more_info:
 ======================
 
-https://github.com/CycloneDX/cyclonedx-node-module
+https://github.com/CycloneDX/cyclonedx-dotnet
 https://owasp.org/www-project-cyclonedx/
 https://cyclonedx.org/
-
-Common Gotchas
-===========================
-NPM Installing
-
-A bill-of-material such as CycloneDX expects exact version numbers. 
-Therefore the dependencies in node_modules needs installed
-
-This can be accomplished via:
-
-$ npm install
-
-This will be ran automatically, if npm install fails this tool can't be run
 

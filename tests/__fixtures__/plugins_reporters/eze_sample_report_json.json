@@ -27,7 +27,6 @@
       }
     },
     "tool": "Safety",
-    "bom": null,
     "sboms": null,
     "vulnerabilities": [
       {

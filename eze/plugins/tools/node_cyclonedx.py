@@ -52,6 +52,11 @@ This will be ran automatically, if npm install fails this tool can't be run
             "default_help_value": "<tempdir>/.eze-temp/tmp-node-cyclonedx-bom.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
+        "INCLUDE_DEV": {
+            "type": bool,
+            "default": False,
+            "help_text": "Include development dependencies from the SCA",
+        },
         "LICENSE_CHECK": LICENSE_CHECK_CONFIG.copy(),
         "LICENSE_ALLOWLIST": LICENSE_ALLOWLIST_CONFIG.copy(),
         "LICENSE_DENYLIST": LICENSE_DENYLIST_CONFIG.copy(),
@@ -63,6 +68,8 @@ This will be ran automatically, if npm install fails this tool can't be run
             "BASE_COMMAND": ["cyclonedx-bom"],
             # eze config fields -> flags
             "FLAGS": {"REPORT_FILE": "-o "},
+            # eze config fields -> flags
+            "SHORT_FLAGS": {"INCLUDE_DEV": "--include-dev"},
         }
     }
 
@@ -83,7 +90,7 @@ This will be ran automatically, if npm install fails this tool can't be run
         """
         sboms = {}
         warnings = []
-        npm_package_jsons = find_files_by_name("package.json")
+        npm_package_jsons = find_files_by_name("^package.json$")
         for npm_package in npm_package_jsons:
             log_debug(f"run 'cyclonedx-bom' on {npm_package}")
             npm_project = Path(npm_package).parent
@@ -98,6 +105,8 @@ This will be ran automatically, if npm install fails this tool can't be run
             sboms[npm_package] = load_json(self.config["REPORT_FILE"])
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
+            # TODO: AB#1049: mark node-cyclonedx transitive packages
+            # "properties"."transitive" not "dependency" as too complex to calculate
 
         report = self.parse_report(sboms)
         # add all warnings

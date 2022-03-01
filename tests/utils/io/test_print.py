@@ -1,5 +1,7 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
-from eze.utils.io.print import pretty_print_table, pretty_print_json
+import pytest
+
+from eze.utils.io.print import pretty_print_table, pretty_print_json, truncate
 from tests.__test_helpers__.mock_helper import unmock_print, mock_print
 
 
@@ -76,4 +78,34 @@ def test_pretty_print_json():
     test_input = dict({"hello": 1, "foo": "bar", "bool_is": True, "list_is": [], "class_is": DummyClass()})
 
     output = pretty_print_json(test_input)
+    assert output == expected_output
+
+
+truncate_test_data = [
+    ("short string test", "short text", "short text"),
+    ("empty string test", "", ""),
+    ("multiline string test", "line 1\nline 2\nline 3", "line 1"),
+    (
+        "long string test",
+        """Provides an older in-memory Extensible Markup Language (XML) programming interface that enables you to modify XML documents. Developers should prefer the classes in the System.Xml.XDocument package.
+
+Commonly Used Types:
+System.Xml.XmlNode
+System.Xml.XmlElement
+System.Xml.XmlAttribute
+System.Xml.XmlDocument
+System.Xml.XmlDeclaration
+System.Xml.XmlText
+System.Xml.XmlComment
+System.Xml.XmlNodeList
+System.Xml.XmlWhitespace
+System.Xml.XmlCDataSection""",
+        "Provides an older in-memory Extensible Markup Language (XML) programming interf…",
+    ),
+]
+
+
+@pytest.mark.parametrize("title,input_str,expected_output", truncate_test_data)
+def test_truncate(title, input_str, expected_output):
+    output = truncate(input_str)
     assert output == expected_output
