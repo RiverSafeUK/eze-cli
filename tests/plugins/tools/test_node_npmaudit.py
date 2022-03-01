@@ -19,8 +19,9 @@ class TestNpmAuditTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
-            "ONLY_PROD": True,
+            "_ONLY_PROD": True,
             #
+            "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
             "EXCLUDE": [],
@@ -38,8 +39,9 @@ class TestNpmAuditTool(ToolMetaTestBase):
         input_config = {}
         expected_config = {
             "REPORT_FILE": create_tempfile_path("tmp-npmaudit-report.json"),
-            "ONLY_PROD": True,
+            "_ONLY_PROD": True,
             #
+            "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
             "EXCLUDE": [],
@@ -294,7 +296,7 @@ Will install mocha@8.4.0"""
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
-        input_config = {"REPORT_FILE": "foo_report.json"}
+        input_config = {"REPORT_FILE": "foo_report.json", "INCLUDE_DEV": False}
         expected_cwd = Path(os.getcwd())
         expected_cmd = "npm audit --json --only=prod"
 
@@ -308,7 +310,7 @@ Will install mocha@8.4.0"""
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__non_prod(self, mock_async_subprocess_run):
         # Given
-        input_config = {"REPORT_FILE": "foo_report.json", "ONLY_PROD": False}
+        input_config = {"REPORT_FILE": "foo_report.json", "INCLUDE_DEV": True}
         expected_cwd = Path(os.getcwd())
         expected_cmd = "npm audit --json"
 

@@ -36,7 +36,7 @@ INCLUDE_FULL_REASON = true
 EXCLUDE = [
     "tests"
 ]
-REPORT_FILE = ".eze/_truffleHog-report.json"
+REPORT_FILE = ".eze/raw/_truffleHog-report.json"
 
 [semgrep]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help semgrep"
@@ -44,16 +44,16 @@ USE_GIT_IGNORE = true
 DISABLE_DEFAULT_IGNORES = false
 PRINT_TIMING_INFO = true
 EXCLUDE = []
-REPORT_FILE = ".eze/_semgrep-report.json"
+REPORT_FILE = ".eze/raw/_semgrep-report.json"
 
 [python-safety]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-safety"
-REPORT_FILE = ".eze/_python-safety-report.json"
+REPORT_FILE = ".eze/raw/_python-safety-report.json"
 IGNORE_BELOW_SEVERITY = "medium"
 
 [python-piprot]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-piprot"
-REPORT_FILE = ".eze/_python-piprot-report.json"
+REPORT_FILE = ".eze/raw/_python-piprot-report.json"
 NEWER_MAJOR_SEMVERSION_SEVERITY = "medium"
 NEWER_MINOR_SEMVERSION_SEVERITY = "none"
 NEWER_PATCH_SEMVERSION_SEVERITY = "none"
@@ -61,11 +61,11 @@ IGNORE_BELOW_SEVERITY = "low"
 
 [python-cyclonedx]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-cyclonedx"
-REPORT_FILE = ".eze/_python-cyclonedx-bom.json"
+REPORT_FILE = ".eze/raw/_python-cyclonedx-bom.json"
 
 [python-bandit]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-bandit"
-REPORT_FILE = ".eze/_python-bandit-report.json"
+REPORT_FILE = ".eze/raw/_python-bandit-report.json"
 SOURCE = "eze"
 IGNORED_FILES = [
     "eze/core/enums.py"
@@ -73,7 +73,7 @@ IGNORED_FILES = [
 
 [kics]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help kics"
-REPORT_FILE = ".eze/_checkmarx-kics.json"
+REPORT_FILE = ".eze/raw/_checkmarx-kics.json"
 
 
 # ========================================
@@ -111,7 +111,7 @@ PRINT_SUMMARY_ONLY = false
 # ========================================
 [scan]
 tools = ["trufflehog","semgrep","python-safety","python-piprot","python-cyclonedx","python-bandit","kics"]
-reporters = ["console","bom","json","sarif","markdown"]
+reporters = ["console","bom","json","sarif","markdown", "html"]
 
 [scan.ci]
-reporters = ["console", "bom", "json", "sarif", "markdown", "eze"]
+reporters = ["console", "bom", "json", "sarif", "markdown", "eze", "html"]

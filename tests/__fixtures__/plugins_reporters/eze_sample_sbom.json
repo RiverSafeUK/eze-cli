@@ -5,6 +5,46 @@
         "bomFormat": "CycloneDX",
         "components": [
           {
+            "type": "library",
+            "bom-ref": "pkg:nuget/System.Threading.toplevel-dotnet-package@4.3.0",
+            "publisher": "Microsoft",
+            "name": "System.Threading.toplevel-dotnet-package",
+            "version": "4.3.0",
+            "description": "top level dotnet package",
+            "scope": "required",
+            "licenses": [
+              {
+                "license": {
+                  "id": "non-transitive-licence"
+                }
+              }
+            ],
+            "purl": "pkg:nuget/System.Threading.toplevel-dotnet-package@4.3.0",
+            "properties": {
+              "transitive": false
+            }
+          },
+          {
+            "type": "library",
+            "bom-ref": "pkg:nuget/System.Threading.transitive-dotnet-package@5.3.0",
+            "publisher": "Microsoft",
+            "name": "System.Threading.transitive-dotnet-package",
+            "version": "5.3.0",
+            "description": "transitive dotnet package",
+            "scope": "required",
+            "licenses": [
+              {
+                "license": {
+                  "id": "transitive-licence"
+                }
+              }
+            ],
+            "purl": "pkg:nuget/System.Threading.transitive-dotnet-package@5.3.0",
+            "properties": {
+              "transitive": true
+            }
+          },
+          {
             "description": "Composable command line interface toolkit",
             "hashes": [
               {

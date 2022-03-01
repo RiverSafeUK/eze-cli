@@ -8,6 +8,7 @@ from eze.core.reporter import ReporterMeta
 from eze.utils.cli.run import run_cli_command
 from eze.utils.io.file import create_tempfile_path, write_json, sane
 from eze.utils.log import log, log_debug, log_error
+from eze.utils.scan_result import has_sbom_data
 
 
 class BomFormattedReporter(ReporterMeta):
@@ -75,7 +76,7 @@ By default set to eze_%PROJECT%_bom.json %PROJECT% will be substituted for proje
         """convert scan sboms into bom files"""
         scan_results_with_sboms = []
         for scan_result in scan_results:
-            if scan_result.sboms:
+            if has_sbom_data(scan_result):
                 scan_results_with_sboms.append(scan_result)
         if len(scan_results_with_sboms) <= 0:
             log_error(

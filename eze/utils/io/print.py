@@ -48,8 +48,7 @@ def generate_markdown_table(table: list, has_nothing_message: bool = True) -> st
 
 
 def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
-    """given kv with print it as a pretty printed table
-
+    """given kv print it as a pretty printed table
     output is compatible with markdown"""
     markdown_table = generate_markdown_table(table, has_nothing_message)
     print(markdown_table)
@@ -58,3 +57,13 @@ def pretty_print_table(table: list, has_nothing_message: bool = True) -> None:
 def pretty_print_json(obj) -> str:
     """Helper, takes generic python class/object and convert into pretty json str"""
     return json.dumps(obj, default=vars, indent=2, sort_keys=True)
+
+
+def truncate(value: str, limit: int = 80, ellipsis: str = "…") -> str:
+    """
+    Helper, truncates string to character limit
+    """
+    value = value.strip().split("\n")[0].strip()
+    if len(value) > limit - 1:
+        return value[: limit - 1].strip() + ellipsis
+    return value

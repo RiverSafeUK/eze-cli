@@ -29,6 +29,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
             "EXCLUDE": [],
+            "INCLUDE_DEV": False,
             "IGNORED_VULNERABILITIES": None,
             "IGNORE_BELOW_SEVERITY": None,
             "DEFAULT_SEVERITY": None,
@@ -50,6 +51,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "REQUIREMENTS_FILES": ["requirements-dev.txt"],
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
             #
+            "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "IGNORED_FILES": None,
             "EXCLUDE": [],

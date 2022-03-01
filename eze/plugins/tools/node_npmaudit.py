@@ -31,10 +31,10 @@ npm --version"""
 https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 """
     EZE_CONFIG: dict = {
-        "ONLY_PROD": {
+        "INCLUDE_DEV": {
             "type": bool,
-            "default": True,
-            "help_text": """if to add a '--only=prod' flag to ignore devDependencies""",
+            "default": False,
+            "help_text": "Include development dependencies from the SCA, if false adds '--only=prod' flag to ignore devDependencies",
         },
         "REPORT_FILE": {
             "type": str,
@@ -54,7 +54,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         "CMD_CONFIG": {
             "BASE_COMMAND": shlex.split("npm audit --json"),
             # eze config fields -> flags
-            "SHORT_FLAGS": {"ONLY_PROD": "--only=prod"},
+            "SHORT_FLAGS": {"_ONLY_PROD": "--only=prod"},
         }
     }
 
@@ -65,7 +65,7 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         :raises EzeError
         """
         vulnerabilities_list = []
-        npm_package_jsons = find_files_by_name("package.json")
+        npm_package_jsons = find_files_by_name("^package.json$")
         for npm_package in npm_package_jsons:
             log_debug(f"run 'npm audit' on {npm_package}")
             npm_project = Path(npm_package).parent
@@ -254,3 +254,12 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
             vulnerabilities_list.append(Vulnerability(vulnerability_vo))
 
         return vulnerabilities_list
+
+    def _parse_config(self, eze_config: dict) -> dict:
+        """take raw config dict and normalise values"""
+        parsed_config = super()._parse_config(eze_config)
+
+        # ADDITION PARSING: invert INCLUDE_DEV into _ONLY_PROD(--only-prod) flag
+        parsed_config["_ONLY_PROD"] = not parsed_config["INCLUDE_DEV"]
+
+        return parsed_config

@@ -36,7 +36,7 @@
 # python/piprot                0.1 MB
 #
 
-# AB#1044 : Extract Debian binaries from kics offical docker image
+# AB#1044 : Extract Debian binaries from kics official docker image
 # no binaries provided via github, unsafe to run docker in docker
 # see https://github.com/Checkmarx/kics/blob/master/Dockerfile.debian
 # see https://github.com/Checkmarx/kics/releases (v1.5.2)
@@ -50,11 +50,14 @@ FROM checkmarx/kics:v1.5.2-debian as kics_docker_image
 # https://github.com/dotnet/dotnet-docker//blob/main/src/runtime/6.0/bullseye-slim/amd64/Dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim
 
+USER root
+RUN groupadd -r -g 999 ezeuser && useradd --create-home -r -g ezeuser -u 999 ezeuser
+RUN mkdir /data && chown -R ezeuser:ezeuser /data && chmod o+rw /data
+VOLUME ["/data"]
+WORKDIR /data
+
 # Explicitly fail docker build if commands below fail
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-# set Work Dir
-WORKDIR /data
 
 # Setup Environment Variables
 ENV \
@@ -70,15 +73,14 @@ ENV \
     LANG=C.UTF-8 \
     # CycloneDX BOM tools env
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
-    # dotnet env, add tools into PATH
-    PATH="$PATH:/home/ezeuser/.dotnet/tools" \
-    # kics env, add kics into PATH
-    PATH="$PATH:/app/bin"
+    # kics env, add kics / dotnet-CycloneDx into PATH
+    PATH="${PATH}:/app/bin" \
+    # TOOL VERSIONS
+    TRUFFLEHOG3_VERSION="3.0.4"
 
 # apt-get installs
 # nosemgrep
 RUN apt-get update \
-    && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
     # Install maven (java tool dependency)
     # WORKAROUND: Fix to be able to install openjdk-11-jre. https://stackoverflow.com/a/61816355
     && mkdir -p /usr/share/man/man1 /usr/share/man/man2 \
@@ -103,7 +105,7 @@ RUN npm install -g @cyclonedx/bom --only=production \
     && npm prune --production
 
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep truffleHog3 bandit piprot safety cyclonedx-bom \
+RUN pip3 install --no-cache-dir semgrep truffleHog3==${TRUFFLEHOG3_VERSION} bandit piprot safety cyclonedx-bom \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
     && rm `which cyclonedx-bom`
@@ -130,23 +132,22 @@ RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/
     && chmod +x /usr/local/bin/gitleaks \
     && gitleaks --version
 
-# Add kics binaries from offical image
+# Add kics binaries from official image
 COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
 COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
 COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
 
 # install dotnet/C# tools
-RUN dotnet tool install --global CycloneDX
+RUN dotnet tool install --tool-path /app/bin/ CycloneDX\
+    && chmod 755 /app/bin/dotnet-CycloneDX \
+    && chmod -R 755 /app/bin/.store/cyclonedx/
 
-#
 ## install eze
 COPY scripts/eze-cli-*.tar.gz /tmp/eze-cli-latest.tar.gz
 RUN pip3 install --no-cache-dir /tmp/eze-cli-latest.tar.gz \
     && rm /tmp/eze-cli-latest.tar.gz
 
-# create app user
-RUN useradd --create-home ezeuser
-USER ezeuser
+USER ezeuser:ezeuser
 
 # cli eze
 # run with "docker run --rm -v $(pwd -W):/data eze-docker --version"

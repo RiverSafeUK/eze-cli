@@ -9,6 +9,7 @@ from pydash import py_
 from eze.core.enums import Vulnerability, Component, LicenseScanType, VulnerabilitySeverityEnum, VulnerabilityType
 from eze.utils.io.file import load_json
 from eze.utils.log import log_error
+from eze.utils.io.print import truncate
 
 LICENSE_TYPES = {
     "unrestricted": {
@@ -163,6 +164,8 @@ def get_bom_license(license_dict: dict) -> str:
     license_text = py_.get(license_dict, "license.name")
     if not license_text:
         license_text = py_.get(license_dict, "license.id")
+    if not license_text:
+        license_text = py_.get(license_dict, "license.url")
     if license_text:
         # normalise upper and lower case unknown entries
         if license_text.lower() == "unknown":
@@ -180,21 +183,30 @@ def get_license(license_text: str) -> dict:
         return licenses_data["licenses"][license_id]
     # by pypi long code, aka "License :: OSI Approved :: MIT License"
     pypi_license_id = convert_pypi_to_spdx(license_text)
-    if pypi_license_id and pypi_license_id in licenses_data["licenses"]:
-        return licenses_data["licenses"][pypi_license_id]
-    if pypi_license_id and pypi_license_id in licenses_data["licensesPatterns"]:
-        license_data = licenses_data["licensesPatterns"][pypi_license_id]
-        created_license_data = license_data.copy()
-        created_license_data["id"] = pypi_license_id
-        created_license_data["isOsiApproved"] = ":: OSI Approved ::" in license_text
-        created_license_data["isFsfLibre"] = None
-        created_license_data["isDeprecated"] = None
-        return created_license_data
+    if pypi_license_id:
+        if pypi_license_id in licenses_data["licenses"]:
+            return licenses_data["licenses"][pypi_license_id]
+        if pypi_license_id in licenses_data["licensesPatterns"]:
+            license_data = licenses_data["licensesPatterns"][pypi_license_id]
+            created_license_data = license_data.copy()
+            created_license_data["id"] = pypi_license_id
+            created_license_data["isOsiApproved"] = ":: OSI Approved ::" in license_text
+            created_license_data["isFsfLibre"] = None
+            created_license_data["isDeprecated"] = None
+            return created_license_data
     # by name, aka "MIT License"
     for key in licenses_data["licenses"]:
         license_data = licenses_data["licenses"][key]
         if license_text == license_data["name"]:
             return license_data
+    # by url, aka microsoft's "http://go.microsoft.com/fwlink/?LinkId=329770"
+    if license_text in licenses_data["licensesUrls"]:
+        license_data = licenses_data["licensesUrls"][license_text]
+        created_license_data = license_data.copy()
+        created_license_data["isOsiApproved"] = None
+        created_license_data["isFsfLibre"] = None
+        created_license_data["isDeprecated"] = None
+        return created_license_data
     # by pattern, aka "Apache-X.X lorem ipsum facto"
     for license_pattern in licenses_data["licensesPatterns"]:
         license_data = licenses_data["licensesPatterns"][license_pattern]
@@ -208,11 +220,13 @@ def get_license(license_text: str) -> dict:
     return None
 
 
-def annotated_sbom_table(cyclonedx_bom: dict) -> list:
+def annotated_sbom_table(cyclonedx_bom: dict, print_transitive: bool = False) -> list:
     """annotated and sorted sboms table data"""
     sbom_components = annotate_licenses(cyclonedx_bom)
     sboms = []
     for sbom_component in sbom_components:
+        if not print_transitive and sbom_component.is_transitive:
+            continue
         sboms.append(
             {
                 "type": sbom_component.type,
@@ -220,7 +234,7 @@ def annotated_sbom_table(cyclonedx_bom: dict) -> list:
                 "version": sbom_component.version,
                 "license": sbom_component.license,
                 "license type": sbom_component.license_type,
-                "description": sbom_component.description,
+                "description": truncate(sbom_component.description),
             }
         )
     sboms = sorted(sboms, key=lambda d: d["name"])
@@ -228,7 +242,7 @@ def annotated_sbom_table(cyclonedx_bom: dict) -> list:
 
 
 def annotate_licenses(sbom: dict) -> list:
-    """adding annotations to licenses for violations of policies"""
+    """return components list with annotations for transitive and licenses for violations of policies"""
     sbom_components = []
     for component in sbom["components"]:
         # manual parsing for name and id
@@ -257,6 +271,7 @@ def annotate_licenses(sbom: dict) -> list:
                 "version": component["version"],
                 "license": license_id,
                 "description": component.get("description", ""),
+                "is_transitive": py_.get(component, "properties.transitive", False),
             }
         )
         if not license_id:

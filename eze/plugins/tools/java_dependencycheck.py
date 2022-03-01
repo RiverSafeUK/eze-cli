@@ -77,7 +77,7 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
         """
         vulnerabilities_list: list = []
         warnings_list: list = []
-        pom_files: list = find_files_by_name("pom.xml")
+        pom_files: list = find_files_by_name("^pom.xml$")
 
         for pom_file in pom_files:
             log_debug(f"run 'java depedency check' on {pom_file}")

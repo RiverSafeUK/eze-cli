@@ -25,6 +25,7 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
             "LICENSE_CHECK": "PROPRIETARY",
             "LICENSE_DENYLIST": [],
             #
+            "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
             "EXCLUDE": [],
@@ -46,6 +47,7 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
             "LICENSE_CHECK": "PROPRIETARY",
             "LICENSE_DENYLIST": [],
             #
+            "INCLUDE_DEV": False,
             "ADDITIONAL_ARGUMENTS": "--foo",
             "IGNORED_FILES": None,
             "EXCLUDE": [],
@@ -85,7 +87,7 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
-        input_config = {"REPORT_FILE": "foo_report.json"}
+        input_config = {"REPORT_FILE": "foo_report.json", "INCLUDE_DEV": False}
         expected_cwd = Path(os.getcwd())
         expected_cmd = "cyclonedx-bom -o foo_report.json"
 

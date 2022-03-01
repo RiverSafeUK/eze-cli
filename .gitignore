@@ -12,6 +12,7 @@ eze*_bom.json
 eze_junit_report.xml
 spdx-license-list-data.json
 .eze
+OS_NON_SPECIFIC_ABSOLUTE/
 
 # IDE: ignore IDE config files
 .idea
