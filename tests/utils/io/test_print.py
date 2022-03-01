@@ -1,8 +1,91 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 import pytest
 
-from eze.utils.io.print import pretty_print_table, pretty_print_json, truncate
+from eze.utils.io.print import (
+    pretty_print_table,
+    pretty_print_json,
+    truncate,
+    generate_markdown_list,
+    generate_markdown_header,
+)
 from tests.__test_helpers__.mock_helper import unmock_print, mock_print
+
+
+def generate_header__std_case():
+    # Given
+    test_input = " hello world"
+    expected_output = """
+# hello world"""
+    # When
+    output = generate_markdown_header(test_input)
+    # Then
+    assert output == expected_output
+
+
+def generate_header__level_2_std_case():
+    # Given
+    test_input = " hello world"
+    expected_output = """
+## hello world"""
+    # When
+    output = generate_markdown_header(test_input, 2)
+    # Then
+    assert output == expected_output
+
+
+def test_generate_markdown_list__std_case():
+    # Given
+    test_input = ["hello ", " line", " world "]
+    expected_output = """* hello
+* line
+* world"""
+    # When
+    output = generate_markdown_list(test_input)
+    # Then
+    assert output == expected_output
+
+
+def test_generate_markdown_list__std_multiline_case():
+    # Given
+    test_input = [
+        "hello ",
+        """ line1
+    line2
+line3""",
+        " world ",
+    ]
+    expected_output = """* hello
+* line1
+  line2
+  line3
+* world"""
+    # When
+    output = generate_markdown_list(test_input)
+    # Then
+    assert output == expected_output
+
+
+def test_generate_markdown_list__std_multiline_with_empty_case():
+    # Given
+    test_input = [
+        "hello ",
+        """ line1
+
+    line2
+    
+
+line3""",
+        " world ",
+    ]
+    expected_output = """* hello
+* line1
+  line2
+  line3
+* world"""
+    # When
+    output = generate_markdown_list(test_input)
+    # Then
+    assert output == expected_output
 
 
 def test_pretty_print_table__empty():

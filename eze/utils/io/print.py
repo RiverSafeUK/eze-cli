@@ -3,8 +3,38 @@
 import json
 
 
+def generate_markdown_header(title: str, headerLevel=1) -> str:
+    """
+    turn a str into a header
+
+    @see https://www.markdownguide.org/basic-syntax/
+    """
+    return f"\n{'#'*headerLevel} {title}"
+
+
+def generate_markdown_list(items: list) -> str:
+    """
+    turn a list of strs into a markdown list
+
+    @see https://www.markdownguide.org/basic-syntax/
+    """
+    strip_and_add_list_indent: callable = (
+        lambda line: "* " + line[1].strip() if line[0] == 0 else "  " + line[1].strip()
+    )
+    is_empty: callable = lambda i: i.strip() != ""
+    return "\n".join(
+        map(
+            lambda item: "\n".join(map(strip_and_add_list_indent, enumerate(filter(is_empty, item.split("\n"))))), items
+        )
+    )
+
+
 def generate_markdown_table(table: list, has_nothing_message: bool = True) -> str:
-    """given kv create markdown string of table"""
+    """
+    given kv create markdown string of table
+
+    @see https://www.markdownguide.org/basic-syntax/
+    """
     # WARNING: special print functions
     if len(table) == 0:
         if has_nothing_message:

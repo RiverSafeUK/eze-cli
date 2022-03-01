@@ -1,8 +1,8 @@
 
 # Eze Report Results
 
-
 ## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools&message=1&color=blue)
+
 ---
 
 
@@ -18,10 +18,8 @@
 
 * Safety (unknown)
 
-
 ## Errors
 ---
-
 
 ### [safety] Errors
 Executable not found 'semgrep', when running command semgrep --optimizations all --json --time --disable-metrics -q -c p/ci -c p/nodejs -o reports/semgrep-node-report.json --exclude tests --exclude reports/truffleHog-node-report.json --exclude reports/semgrep-node-report.json --exclude reports/npmaudit-node-report.json --exclude reports/npmoutdated-node-report.json --exclude reports/cyclonedx-node-bom.json --exclude eze_bom.json --exclude eze_report.json --exclude eze_junit_report.xml
@@ -29,9 +27,7 @@ Executable not found 'semgrep', when running command semgrep --optimizations all
 ## Vulnerabilities
 ---
 
-
 ### [safety] Vulnerabilities
-
 
 **[MEDIUM DEPENDENCY] : dependency-pip-medium-with-cve (1.3.0)**
 
@@ -67,7 +63,6 @@ CVE: CVE-2013-5123
 ## Warnings
 ---
 
-
 ### [safety] Warnings
-Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.
-Warning: unpinned requirement 'click' found in tests-integration/__fixture__/python/requirements.txt, unable to check.
+* Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.
+  Warning: unpinned requirement 'click' found in tests-integration/__fixture__/python/requirements.txt, unable to check.

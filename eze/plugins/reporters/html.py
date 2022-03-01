@@ -32,19 +32,49 @@ By default set to eze_report.html""",
 
         report_str = scan_results_as_markdown(scan_results=scan_results)
         html_content = markdown.markdown(report_str, output_format="html", extensions=["tables", "attr_list"])
-        html = f"""
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <title>Eze Scanning report</title>
-            </head>
-
-            <body>
-                <div class="container">
-                    {html_content}
-                </div>
-            </body>
-            </html>
+        html = (
             """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+thead th {
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+}
+tbody tr>:first-child {
+    border-left: 1px solid #000;
+}
+tbody>tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+tbody tr td {
+    border: 1px solid #bbb;
+}
+td, th {
+    line-height: 1.1;
+    padding: 8px;
+    vertical-align: top;
+}
+</style>
+<title>Eze Scanning report</title>
+</head>
+
+<body>
+<div class="container">
+"""
+            + html_content
+            + """
+</div>
+</body>
+</html>
+"""
+        )
         file_location = write_text(self.config["REPORT_FILE"], html)
         log(f"Written html report : {file_location}")

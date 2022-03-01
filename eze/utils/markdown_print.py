@@ -3,7 +3,7 @@
 
 from eze.core.enums import Vulnerability, VulnerabilitySeverityEnum, VulnerabilityType
 from eze.core.tool import ScanResult
-from eze.utils.io.print import generate_markdown_table
+from eze.utils.io.print import generate_markdown_table, generate_markdown_list, generate_markdown_header
 from eze.utils.scan_result import (
     bom_short_summary,
     name_and_time_summary,
@@ -18,73 +18,55 @@ from eze.utils.license import annotated_sbom_table
 def _print_errors_from_scan_results(scan_results: list) -> str:
     """print errors from scan_results"""
 
-    str_list = []
+    str_buffer = []
     if len(scan_results) <= 0:
         return ""
 
-    str_list.append(
-        """
-## Errors
----
-"""
-    )
+    str_buffer.append(generate_markdown_header("Errors", 2))
+    str_buffer.append("""---""")
     for scan_result in scan_results:
         run_details = scan_result.run_details
         tool_name = py_.get(run_details, "tool_name", "unknown")
         run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
         run_type_concat = ":" + run_type if run_type != "" else run_type
-        str_list.append(
-            f"""
-### [{tool_name}{run_type_concat}] Errors"""
-        )
-        for fatal_error in scan_result.fatal_errors:
-            str_list.append(f"""{fatal_error}""")
 
-    return "\n".join(str_list)
+        str_buffer.append(generate_markdown_header(f"[{tool_name}{run_type_concat}] Errors", 3))
+        for fatal_error in scan_result.fatal_errors:
+            str_buffer.append(f"""{fatal_error}""")
+
+    return "\n".join(str_buffer)
 
 
 def _print_warnings_from_scan_results(scan_results: list) -> str:
     """print warnings from scan_results"""
 
-    str_list = []
+    str_buffer = []
     if len(scan_results) <= 0:
         return ""
 
-    str_list.append(
-        """
-## Warnings
----
-"""
-    )
+    str_buffer.append(generate_markdown_header("Warnings", 2))
+    str_buffer.append("---")
     for scan_result in scan_results:
         run_details = scan_result.run_details
         tool_name = py_.get(run_details, "tool_name", "unknown")
         run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
-        str_list.append(
-            f"""
-### [{tool_name}{run_type}] Warnings"""
-        )
-        for warning in scan_result.warnings:
-            endline = "\n"
-            str_list.append(f"""{warning.replace(endline, f"{endline}")}""")
+        if len(scan_result.warnings) > 0:
+            str_buffer.append(generate_markdown_header(f"[{tool_name}{run_type}] Warnings", 3))
+            str_buffer.append(generate_markdown_list(scan_result.warnings))
 
-    return endline.join(str_list)
+    return "\n".join(str_buffer)
 
 
 def _print_sboms_from_scan_results(scan_results: list) -> str:
     """print scan sbom"""
 
-    str_list = []
+    str_buffer = []
     if len(scan_results) <= 0:
         return ""
-    str_list.append(
-        """
-## Bill of Materials
----
-"""
-    )
+    str_buffer.append(generate_markdown_header("Bill of Materials", 2))
+    str_buffer.append("""---""")
 
-    str_list.append("")
+    str_buffer.append("")
 
     for scan_result in scan_results:
         run_details = scan_result.run_details
@@ -94,9 +76,9 @@ def _print_sboms_from_scan_results(scan_results: list) -> str:
             cyclonedx_bom = scan_result.sboms[project_name]
             sboms = annotated_sbom_table(cyclonedx_bom)
 
-            str_list.append(
+            str_buffer.append(generate_markdown_header(f"[{tool_name}{run_type}] {project_name} SBOM", 3))
+            str_buffer.append(
                 f"""
-### [{tool_name}{run_type}] {project_name} SBOM
 ![components](https://img.shields.io/static/v1?style=plastic&label=components&message={len(sboms)}&color=blue)
 """
             )
@@ -104,35 +86,28 @@ def _print_sboms_from_scan_results(scan_results: list) -> str:
             # generating SBOM markdown adding to report
             markdown_sboms = generate_markdown_table(sboms)
             markdown_sboms_lines = markdown_sboms.split("\n")
-            str_list.extend(markdown_sboms_lines)
-        str_list.append("\n")
+            str_buffer.extend(markdown_sboms_lines)
+        str_buffer.append("\n")
 
-    return "\n".join(str_list)
+    return "\n".join(str_buffer)
 
 
 def _print_vulnerabilities_from_scan_results(scan_results_with_vulnerabilities: list) -> str:
     """Method for taking scan vulnerabilities and printing them"""
 
-    str_list = []
+    str_buffer = []
 
     if len(scan_results_with_vulnerabilities) <= 0:
         return ""
 
-    str_list.append(
-        """
-## Vulnerabilities
----
-"""
-    )
+    str_buffer.append(generate_markdown_header("Vulnerabilities", 2))
+    str_buffer.append("""---""")
     for scan_result in scan_results_with_vulnerabilities:
         run_details = scan_result.run_details
         tool_name = py_.get(run_details, "tool_name", "unknown")
         run_type = f":{run_details['run_type']}" if "run_type" in run_details and run_details["run_type"] else ""
-        str_list.append(
-            f"""
-### [{tool_name}{run_type}] Vulnerabilities
-"""
-        )
+
+        str_buffer.append(generate_markdown_header(f"[{tool_name}{run_type}] Vulnerabilities", 3))
         _print_scan_summary_title(scan_result, "    ")
         vulnerability: Vulnerability = None
         for vulnerability in scan_result.vulnerabilities:
@@ -170,16 +145,16 @@ def _print_vulnerabilities_from_scan_results(scan_results_with_vulnerabilities: 
 
 {location_block}
 """
-            str_list.append(vulnerability_str)
-            str_list.append("")
+            str_buffer.append(vulnerability_str)
+            str_buffer.append("")
 
-    return "\n".join(str_list)
+    return "\n".join(str_buffer)
 
 
 def _print_scan_summary_table(scan_results: list):
     """Print scan summary as table"""
 
-    str_list = []
+    str_buffer = []
     sboms = []
     summaries = []
 
@@ -231,14 +206,19 @@ def _print_scan_summary_table(scan_results: list):
         medium += int(py_.get(entry, "Medium", 0))
         low += int(py_.get(entry, "Low", 0))
 
-    str_list.append(
+    str_buffer.append(
+        generate_markdown_header(
+            f"Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools&message={len(scan_results)}&color=blue)",
+            2,
+        )
+    )
+    str_buffer.append(
         f"""
-## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools&message={len(scan_results)}&color=blue)
 ---
 """
     )
 
-    str_list.append(
+    str_buffer.append(
         f"""
 ![critical](https://img.shields.io/static/v1?style=plastic&label=critical&message={critical}&color=red)
 ![high](https://img.shields.io/static/v1?style=plastic&label=high&message={high}&color=orange)
@@ -251,18 +231,18 @@ def _print_scan_summary_table(scan_results: list):
 
     git_branch = "unknown" if len(scan_results) == 0 else py_.get(scan_results[0].run_details, "git_branch", "unknown")
     if git_branch != "unknown":
-        str_list.append(f"<b>Branch tested:</b>&nbsp;{git_branch}")
+        str_buffer.append(f"<b>Branch tested:</b>&nbsp;{git_branch}")
 
-    str_list.append(f"<b>Tools executed:</b>&nbsp;{len(scan_results)}")
-    str_list.append("\n")
+    str_buffer.append(f"<b>Tools executed:</b>&nbsp;{len(scan_results)}")
+    str_buffer.append("\n")
+    tool_names = []
     for tool in scan_results:
         run_details = py_.get(tool, "run_details", "unknown")
-        str_list.append(
-            f"""* {py_.get(tool, "tool", "unknown")} ({run_details["tool_type"] if "tool_type" in run_details and run_details["tool_type"] else "unknown"})
-"""
-        )
-
-    return "\n".join(str_list)
+        name = py_.get(tool, "tool", "unknown")
+        type = run_details["tool_type"] if "tool_type" in run_details and run_details["tool_type"] else "unknown"
+        tool_names.append(f"{name} ({type})")
+    str_buffer.append(generate_markdown_list(tool_names))
+    return "\n".join(str_buffer)
 
 
 def _print_scan_summary_title(scan_result: ScanResult, prefix: str = "") -> str:
@@ -284,17 +264,13 @@ def _print_scan_summary_title(scan_result: ScanResult, prefix: str = "") -> str:
 def scan_results_as_markdown(scan_results: list):
     """Method for taking scans and turning then into report output"""
 
-    report_lines = []
-    report_lines.append(
-        """
-# Eze Report Results
-"""
-    )
+    str_buffer = []
+    str_buffer.append(generate_markdown_header("Eze Report Results", 1))
     scan_results_with_vulnerabilities = []
     scan_results_with_sboms = []
     scan_results_with_warnings = []
     scan_results_with_errors = []
-    report_lines.append(_print_scan_summary_table(scan_results))
+    str_buffer.append(_print_scan_summary_table(scan_results))
 
     for scan_result in scan_results:
         if _has_printable_vulnerabilities(scan_result):
@@ -306,12 +282,12 @@ def scan_results_as_markdown(scan_results: list):
         if len(scan_result.fatal_errors) > 0:
             scan_results_with_errors.append(scan_result)
 
-    report_lines.append(_print_errors_from_scan_results(scan_results_with_errors))
-    report_lines.append(_print_vulnerabilities_from_scan_results(scan_results_with_vulnerabilities))
-    report_lines.append(_print_sboms_from_scan_results(scan_results_with_sboms))
-    report_lines.append(_print_warnings_from_scan_results(scan_results_with_warnings))
+    str_buffer.append(_print_errors_from_scan_results(scan_results_with_errors))
+    str_buffer.append(_print_vulnerabilities_from_scan_results(scan_results_with_vulnerabilities))
+    str_buffer.append(_print_sboms_from_scan_results(scan_results_with_sboms))
+    str_buffer.append(_print_warnings_from_scan_results(scan_results_with_warnings))
 
-    return "\n".join(report_lines)
+    return "\n".join(str_buffer)
 
 
 def _has_printable_vulnerabilities(scan_result: ScanResult) -> bool:
