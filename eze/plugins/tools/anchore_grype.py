@@ -4,7 +4,7 @@ import shlex
 from pydash import py_
 
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
-from eze.utils.cli.run import run_async_cli_command
+from eze.utils.cli.run import run_cli_command
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.io.file import create_tempfile_path, write_text, parse_json
 from eze.utils.log import log_error
@@ -83,7 +83,7 @@ You can also explicitly specify the scheme to use:
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("grype -o=json"),
+            "BASE_COMMAND": shlex.split("grype -q -o=json"),
             # eze config fields -> arguments
             "TAIL_ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
@@ -97,8 +97,8 @@ You can also explicitly specify the scheme to use:
 
         :raises EzeError
         """
-
-        completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
+        # WORKAROUND: grype crashes on async, using run_cli_command (jerkier but no crash)
+        completed_process = run_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME)
         report_text = completed_process.stdout
         write_text(self.config["REPORT_FILE"], report_text)
         report_events = parse_json(report_text)

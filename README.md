@@ -343,7 +343,7 @@ When you provide a persistent .terraform.d/ folder which will speed up scans
 ps your local node_modules will help as well
 
 ```bash
-# example of sharing your local .npm
+# example of sharing your local .terraform.d
 docker run -t -v LOCATION:/data  -v ~/.terraform.d/:/home/ezeuser/.terraform.d/ eze-cli test
 ```
 

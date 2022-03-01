@@ -3,6 +3,8 @@
 import sys
 from io import StringIO
 
+from eze.utils.io.file_scanner import populate_file_cache, delete_file_cache
+
 from eze.utils.cli.run import CompletedProcess
 
 from eze.utils.log import LogLevel
@@ -207,3 +209,30 @@ def unmock_print():
 def mock_run_cmd(mocked_run_cmd, stdout: str, stderr: str = "") -> CompletedProcess:
     """mock the patched eze-cli/eze/utils/cli:run_cmd / run_async_cmd command"""
     mocked_run_cmd.return_value = CompletedProcess(stdout, stderr)
+
+
+MOCK_DISCOVERED_FOLDERS: list = ["src"]
+MOCK_IGNORED_FOLDERS: list = ["node_modules"]
+MOCK_DISCOVERED_FILES: list = ["Dockerfile", "src/thing.js"]
+MOCK_DISCOVERED_FILENAMES: list = ["Dockerfile", "thing.js"]
+MOCK_DISCOVERED_TYPES: dict = {"Dockerfile": 1, ".js": 1}
+
+
+def mock_file_scanner(
+    mock_discovered_folders: list = None,
+    mock_ignored_folders: list = None,
+    mock_discovered_files: list = None,
+    mock_discovered_filenames: list = None,
+    mock_discovered_types: dict = None,
+):
+    populate_file_cache(
+        mock_discovered_folders if mock_discovered_folders else MOCK_DISCOVERED_FOLDERS,
+        mock_ignored_folders if mock_ignored_folders else MOCK_IGNORED_FOLDERS,
+        mock_discovered_files if mock_discovered_files else MOCK_DISCOVERED_FILES,
+        mock_discovered_filenames if mock_discovered_filenames else MOCK_DISCOVERED_FILENAMES,
+        mock_discovered_types if mock_discovered_types else MOCK_DISCOVERED_TYPES,
+    )
+
+
+def unmock_file_scanner():
+    delete_file_cache()

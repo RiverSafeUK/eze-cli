@@ -366,27 +366,3 @@ def test_purl_to_components(test_data):
         assert output is None
         return
     assert convert_to_std_object(output) == expected_output
-
-
-# describe('purlToComponents', () => {
-#     _.each(cyclone_dx_test_cases, (testData) => {
-#     test(`success: ${testData.description}`, () => {
-#
-# let expectedOutput = {
-#     scheme: 'pkg',
-#     type: testData.type,
-#     namespace: testData.namespace,
-#     full_name: testData.namespace ? testData.namespace + '/' + testData.name : testData.name,
-# name: testData.name,
-# version: testData.version,
-# qualifiers: testData.qualifiers,
-# subpath: testData.subpath
-# }
-# if (testData.is_invalid) {
-# expectedOutput = null
-# }
-# const output = purlToComponents(input)
-# expect(output).toEqual(expectedOutput)
-# })
-# })
-# })

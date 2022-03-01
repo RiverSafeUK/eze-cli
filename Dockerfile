@@ -75,6 +75,14 @@ ENV \
     # kics env, add kics into PATH
     PATH="$PATH:/app/bin"
 
+# Setup Common Cache
+ENV \
+    # https://github.com/anchore/syft & https://github.com/anchore/grype
+    GRYPE_DB_CACHE_DIR=/data/.eze/caches/grype \
+    XDG_CONFIG_HOME=/data/.eze/caches/xdg \
+    # maven
+    MAVEN_OPTS="-Dmaven.repo.local=/data/.eze/caches/maven"
+
 # apt-get installs
 # nosemgrep
 RUN apt-get update \
