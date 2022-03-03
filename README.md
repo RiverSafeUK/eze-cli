@@ -43,15 +43,17 @@ docker run -t -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
 
 # Eze Usage
 
-Just one line, via [docker](https://docs.docker.com/) it'll automatically run the eze scan, and generate a configuration file for tailoring the scan _".ezerc.toml"_
-
-_add -t to docker to enable terminal colours_
+Just one line, via [docker](https://docs.docker.com/) will run eze, and generate a configuration file _".ezerc.toml"_ based off the current codebase
 
 ```bash
 docker run -t -v FOLDER_TO_SCAN:/data riversafe/eze-cli test
 ```
 
-_*_ For sysadmin and power users wanting to build their own images, see the [README-DEVELOPMENT.md](README-DEVELOPMENT.md)
+_add `-t` to docker to enable terminal colours_
+
+_add `--debug` to docker to enable terminal colours_
+
+_for sysadmin and power users wanting to build their own images, see the [README-DEVELOPMENT.md](README-DEVELOPMENT.md)_
 
 ## Docker cli shortcuts
 
@@ -59,10 +61,10 @@ These commands will run a security scan against code in the current folder
 
 | CLI                 | Command |
 | -----------         | ----------- |
-| linux/mac os bash   | ```docker run -t -v "$(pwd)":/data riversafe/eze-cli test```|
-| windows git bash    | ```docker run -t -v $(pwd -W | sed "s/\//\/\//g"):/data riversafe/eze-cli test```|
-| windows powershell  | ```docker run -t -v ${PWD}:/data riversafe/eze-cli test```|
-| windows cmd         | ```docker run -t -v %cd%:/data riversafe/eze-cli test```|
+| linux/mac os bash   | ```docker run -it -v "$(pwd)":/data riversafe/eze-cli test```|
+| windows git bash    | ```docker run -it -v $(pwd -W):/data riversafe/eze-cli test```|
+| windows powershell  | ```docker run -it -v ${PWD}:/data riversafe/eze-cli test```|
+| windows cmd         | ```docker run -it -v %cd%:/data riversafe/eze-cli test```|
 
 
 # Language Support
@@ -233,27 +235,27 @@ _Updated: 2022/02/08_
 
 ## Opensource Tools in Eze
 
-
-| Type   | Name                 | Version      | License    | Sources                            | Description                                                                           |
-| ------ | -------------------- | ------------ | ---------- | ---------------------------------- | ------------------------------------------------------------------------------------- |
-| MISC   | raw                  | 0.14.0-alpha | inbuilt    | ALL                                | input for saved eze json reports                                                      |
-| SECRET | trufflehog           | 3.0.4        | GPL        | ALL                                | opensource secret scanner                                                             |
-| SAST   | semgrep              | 0.81.0       | LGPL       | ALL                                | opensource multi language SAST scanner                                                |
-| SCA    | anchore-grype        | 0.32.0       | Apache-2.0 | RUBY,NODE,JAVA,PYTHON,CONTAINER    | opensource multi language SCA and container scanner                                   |
-| SBOM   | anchore-syft         | 0.36.0       | Apache-2.0 | RUBY,NODE,JAVA,PYTHON,GO,CONTAINER | opensource multi language and container bill of materials (SBOM) generation utility   |
-| SECRET | gitleaks             | 7.5.0        | MIT        | ALL                                | opensource static key scanner                                                         |
-| SBOM   | java-cyclonedx       | 2.5.3        | Apache-2.0 | JAVA                               | opensource java bill of materials (SBOM) generation utility                           |
-| SCA    | java-dependencycheck | 6.5.3        | Apache-2.0 | JAVA                               | opensource java SCA tool class                                                        |
-| SAST   | java-spotbugs        | 4.5.3        | LGPL       | JAVA                               | opensource java SAST tool class                                                       |
-| SAST   | python-safety        | 1.10.3       | MIT        | PYTHON                             | opensource python SCA scanner                                                         |
-| SCA    | python-piprot        | 0.9.11       | MIT        | PYTHON                             | opensource python outdated dependency scanner                                         |
-| SAST   | python-bandit        | 1.7.2        | Apache-2.0 | PYTHON                             | opensource python SAST scanner                                                        |
-| SBOM   | python-cyclonedx     | 2.0.1        | Apache-2.0 | PYTHON                             | opensource python bill of materials (SBOM) generation utility, also runs SCA via pypi |
-| SCA    | node-npmaudit        | 8.3.1        | NPM        | NODE                               | opensource node SCA scanner                                                           |
-| SCA    | node-npmoutdated     | 8.3.1        | NPM        | NODE                               | opensource node outdated dependency scanner                                           |
-| SBOM   | node-cyclonedx       | 3.4.0        | Apache-2.0 | NODE                               | opensource node bill of materials (SBOM) generation utility                           |
-| SCA    | container-trivy      | 0.18.2       | Apache-2.0 | CONTAINER                          | opensource container scanner                                                          |
-| SCA    | kics                 | 1.5.1        | Apache-2.0 | CONTAINER                          | opensource infrastructure scanner                                                     |
+| Type   | Name                 | Version      | License    | Description                                                                           |
+| ------ | -------------------- | ------------ | ---------- | ------------------------------------------------------------------------------------- |
+| SCA    | anchore-grype        | 0.33.1       | Apache-2.0 | opensource multi language SCA and container scanner                                   |
+| SBOM   | anchore-syft         | 0.39.3       | Apache-2.0 | opensource multi language and container bill of materials (SBOM) generation utility   |
+| SCA    | container-trivy      | 0.18.2       | Apache-2.0 | opensource container scanner                                                          |
+| SBOM   | dotnet-cyclonedx     | 2.3.0.0      | Apache-2.0 | opensource C#/dotnet bill of materials (SBOM) generation utility                      |
+| SECRET | gitleaks             | 7.5.0        | MIT        | opensource static key scanner                                                         |
+| SCA    | kics                 | 1.5.2        | Apache-2.0 | opensource infrastructure scanner                                                     |
+| SBOM   | java-cyclonedx       | 2.5.3        | Apache-2.0 | opensource java bill of materials (SBOM) generation utility, also runs SCA via osv    |
+| SCA    | java-dependencycheck | 7.0.0        | Apache-2.0 | opensource java SCA tool class                                                        |
+| SAST   | java-spotbugs        | 4.5.3        | LGPL       | opensource java SAST tool class                                                       |
+| SCA    | node-npmaudit        | 8.5.1        | NPM        | opensource node SCA scanner                                                           |
+| SCA    | node-npmoutdated     | 8.5.1        | NPM        | opensource node outdated dependency scanner                                           |
+| SBOM   | node-cyclonedx       | 3.4.1        | Apache-2.0 | opensource node bill of materials (SBOM) generation utility                           |
+| SAST   | python-safety        | 1.10.3       | MIT        | opensource python SCA scanner                                                         |
+| SCA    | python-piprot        | 0.9.11       | MIT        | opensource python outdated dependency scanner                                         |
+| SAST   | python-bandit        | 1.7.3        | Apache-2.0 | opensource python SAST scanner                                                        |
+| SBOM   | python-cyclonedx     | 3.0.0        | Apache-2.0 | opensource python bill of materials (SBOM) generation utility, also runs SCA via pypi |
+| MISC   | raw                  | 0.15.0-alpha | inbuilt    | input for saved eze json reports                                                      |
+| SAST   | semgrep              | 0.82.0       | LGPL       | opensource multi language SAST scanner                                                |
+| SECRET | trufflehog           | 3.0.4        | GPL        | opensource secret scanner                                                             |
 
 An updated list of tools, licenses, and sizes pre-installed in latest Eze Cli Dockerimage can be found using the command
 
@@ -267,17 +269,17 @@ docker run -t --rm riversafe/eze-cli tools help <tool-name>
 
 | Name          | Version      | License    | Description                               |
 | ------------- | ------------ | ---------- | ----------------------------------------- |
-| console       | 0.14.0-alpha | inbuilt    | standard command line reporter            |
-| json          | 0.14.0-alpha | inbuilt    | json output file reporter                 |
-| s3            | 0.14.0-alpha | inbuilt    | s3 uploader reporter                      |
-| junit         | 0.14.0-alpha | inbuilt    | junit output file reporter                |
-| quality       | 0.14.0-alpha | inbuilt    | quality gate check reporter               |
-| eze           | 0.14.0-alpha | inbuilt    | eze management console reporter           |
-| bom           | 0.14.0-alpha | inbuilt    | json cyclonedx bill of materials reporter |
-| bom-formatted | 0.15.2       | Apache-2.0 | bill of materials multiformat reporter    |
-| sarif         | 0.14.0-alpha | inbuilt    | sarif output file reporter                |
-| markdown      | 0.14.0-alpha | inbuilt    | markdown output file formatter            |
-
+| console       | 0.15.0-alpha | inbuilt    | standard command line reporter            |
+| json          | 0.15.0-alpha | inbuilt    | json output file reporter                 |
+| s3            | 0.15.0-alpha | inbuilt    | s3 uploader reporter                      |
+| junit         | 0.15.0-alpha | inbuilt    | junit output file reporter                |
+| quality       | 0.15.0-alpha | inbuilt    | quality gate check reporter               |
+| eze           | 0.15.0-alpha | inbuilt    | eze management console reporter           |
+| bom           | 0.15.0-alpha | inbuilt    | json cyclonedx bill of materials reporter |
+| bom-formatted | 0.22.0       | Apache-2.0 | bill of materials multiformat reporter    |
+| sarif         | 0.15.0-alpha | inbuilt    | sarif output file reporter                |
+| markdown      | 0.15.0-alpha | inbuilt    | markdown output file formatter            |
+| html          | 0.15.0-alpha | inbuilt    | html output file formatter                |
 
 An updated list of reporters can be found using the command
 
