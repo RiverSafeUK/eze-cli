@@ -165,7 +165,7 @@ async def annotate_transitive_licenses(sbom: dict, project_folder: str) -> dict:
     """adding annotations to licenses which are not top-level"""
     completed_process = await run_async_cmd(shlex.split("dotnet list package --include-transitive"), cwd=project_folder)
     packages = extract_transitive_packages(completed_process.stdout)
-    for component in sbom["components"]:
+    for component in py_.get(sbom, "components", []):
         component_name = component["name"]
         is_not_transitive = component_name in packages["top_level"]
         is_transitive = component_name in packages["transitive"]

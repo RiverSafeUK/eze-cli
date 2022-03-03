@@ -1,5 +1,9 @@
 # Eze Changelog
 
+## 0.16.1 - 3rd March 2022
+Improvements:
+- ab-misc: better handling for corrupted cyclonedx json
+
 ## 0.16.0 - 3rd March 2022
 Improvements:
 - ab-1017: dotnet/c# support

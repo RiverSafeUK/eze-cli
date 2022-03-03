@@ -42,7 +42,7 @@ async def annotate_transitive_licenses(sbom: dict, project_folder: str, include_
     report_text = completed_process.stdout
     parsed_json = parse_json(report_text)
     top_level_packages = py_.get(parsed_json, "dependencies", {})
-    for component in sbom["components"]:
+    for component in py_.get(sbom, "components", []):
         component_name = component["name"]
         is_not_transitive = component_name in top_level_packages
         py_.set(component, "properties.transitive", not is_not_transitive)

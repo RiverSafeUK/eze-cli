@@ -81,7 +81,7 @@ def bom_short_summary(scan_result: ScanResult, indent: str = "    ", print_trans
 
         # extract non transitive if desired
         valid_components = []
-        for component in cyclonedx_bom["components"]:
+        for component in py_.get(cyclonedx_bom, "components", []):
             is_transitive = py_.get(component, "properties.transitive", False)
             if not print_transitive and is_transitive:
                 continue

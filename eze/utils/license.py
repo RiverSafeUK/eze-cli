@@ -244,7 +244,7 @@ def annotated_sbom_table(cyclonedx_bom: dict, print_transitive: bool = False) ->
 def annotate_licenses(sbom: dict) -> list:
     """return components list with annotations for transitive and licenses for violations of policies"""
     sbom_components = []
-    for component in sbom["components"]:
+    for component in py_.get(sbom, "components", []):
         # manual parsing for name and id
         component_name = component["name"]
         component_group = component.get("group")
