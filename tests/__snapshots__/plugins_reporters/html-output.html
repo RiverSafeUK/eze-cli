@@ -1,13 +1,39 @@
 
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <title>Eze Scanning report</title>
-            </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+thead th {
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+}
+tbody tr>:first-child {
+    border-left: 1px solid #000;
+}
+tbody>tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+tbody tr td {
+    border: 1px solid #bbb;
+}
+td, th {
+    line-height: 1.1;
+    padding: 8px;
+    vertical-align: top;
+}
+</style>
+<title>Eze Scanning report</title>
+</head>
 
-            <body>
-                <div class="container">
-                    <h1>Eze Report Results</h1>
+<body>
+<div class="container">
+<h1>Eze Report Results</h1>
 <h2>Summary  <img alt="tools" src="https://img.shields.io/static/v1?style=plastic&amp;label=Tools&amp;message=1&amp;color=blue"></h2>
 <hr>
 <p><img alt="critical" src="https://img.shields.io/static/v1?style=plastic&amp;label=critical&amp;message=0&amp;color=red">
@@ -42,9 +68,10 @@
 <h2>Warnings</h2>
 <hr>
 <h3>[safety] Warnings</h3>
-<p>Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.
-Warning: unpinned requirement 'click' found in tests-integration/<strong>fixture</strong>/python/requirements.txt, unable to check.</p>
-                </div>
-            </body>
-            </html>
-            
+<ul>
+<li>Warning: unpinned requirement 'blackduck' found in C:/dev/repos/sacbdnotify/requirements.txt, unable to check.
+  Warning: unpinned requirement 'click' found in tests-integration/<strong>fixture</strong>/python/requirements.txt, unable to check.</li>
+</ul>
+</div>
+</body>
+</html>

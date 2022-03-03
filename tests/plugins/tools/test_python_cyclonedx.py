@@ -117,6 +117,10 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.python_cyclonedx.find_files_by_name", mock.MagicMock(return_value=[]))
+    @mock.patch(
+        "eze.plugins.tools.python_cyclonedx.create_absolute_path",
+        mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/foo-python-cyclonedx-bom.json"),
+    )
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std_single_project(self, mock_async_subprocess_run):
         # Given
@@ -126,7 +130,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
             "REPORT_FILE": "foo-python-cyclonedx-bom.json",
         }
 
-        expected_cmd = "cyclonedx-py --format=json --force -r -i=requirements-dev.txt -o=foo-python-cyclonedx-bom.json --something foo"
+        expected_cmd = "cyclonedx-py --format=json --force -r -i=requirements-dev.txt -o=OS_NON_SPECIFIC_ABSOLUTE/foo-python-cyclonedx-bom.json --something foo"
 
         # Test run calls correct program
 

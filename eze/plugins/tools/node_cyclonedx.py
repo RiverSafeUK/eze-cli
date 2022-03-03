@@ -1,14 +1,16 @@
 """cyclonedx SBOM tool class"""
+import shlex
 from pathlib import Path
+
 
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
-from eze.utils.io.file import create_tempfile_path, load_json
-from eze.utils.language.node import install_npm_in_path
+from eze.utils.language.node import install_npm_in_path, annotate_transitive_licenses
 from eze.utils.log import log_debug
 from eze.utils.error import EzeExecutableError
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
+from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
 from eze.utils.io.file_scanner import find_files_by_name
 
 
@@ -65,7 +67,7 @@ This will be ran automatically, if npm install fails this tool can't be run
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": ["cyclonedx-bom"],
+            "BASE_COMMAND": shlex.split("cyclonedx-bom"),
             # eze config fields -> flags
             "FLAGS": {"REPORT_FILE": "-o "},
             # eze config fields -> flags
@@ -91,13 +93,17 @@ This will be ran automatically, if npm install fails this tool can't be run
         sboms = {}
         warnings = []
         npm_package_jsons = find_files_by_name("^package.json$")
+        # make REPORT_FILE absolute in-case cwd changes
+        ABSOLUTE_REPORT_FILE = create_absolute_path(self.config["REPORT_FILE"])
+        scan_config = self.config.copy()
+        scan_config["REPORT_FILE"] = ABSOLUTE_REPORT_FILE
         for npm_package in npm_package_jsons:
             log_debug(f"run 'cyclonedx-bom' on {npm_package}")
             npm_project = Path(npm_package).parent
             npm_project_fullpath = Path.joinpath(Path.cwd(), npm_project)
             await install_npm_in_path(npm_project)
             completed_process = await run_async_cli_command(
-                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, True, cwd=npm_project_fullpath
+                self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, True, cwd=npm_project_fullpath
             )
             fatal_errors = self.get_process_fatal_errors(completed_process)
             if fatal_errors:
@@ -105,8 +111,9 @@ This will be ran automatically, if npm install fails this tool can't be run
             sboms[npm_package] = load_json(self.config["REPORT_FILE"])
             if completed_process.stderr:
                 warnings.append(completed_process.stderr)
-            # TODO: AB#1049: mark node-cyclonedx transitive packages
+            # mark node-cyclonedx transitive packages
             # "properties"."transitive" not "dependency" as too complex to calculate
+            await annotate_transitive_licenses(sboms[npm_package], npm_project_fullpath, self.config["INCLUDE_DEV"])
 
         report = self.parse_report(sboms)
         # add all warnings

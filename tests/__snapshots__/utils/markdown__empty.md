@@ -1,8 +1,8 @@
 
 # Eze Report Results
 
-
 ## Summary  ![tools](https://img.shields.io/static/v1?style=plastic&label=Tools&message=0&color=blue)
+
 ---
 
 
@@ -14,6 +14,7 @@
 
 
 <b>Tools executed:</b>&nbsp;0
+
 
 
 

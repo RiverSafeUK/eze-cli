@@ -9,7 +9,7 @@ from eze.utils.io.file_scanner import find_files_by_name
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
-from eze.utils.io.file import create_tempfile_path, load_json
+from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.data.pypi import pypi_sca_sboms
 
@@ -116,11 +116,13 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         piplock_files = find_files_by_name("^Pipfile.lock$")
 
         has_found_packages: bool = False
+        # make REPORT_FILE absolute in-case cwd changes
+        ABSOLUTE_REPORT_FILE = create_absolute_path(self.config["REPORT_FILE"])
 
         for requirements_file in requirements_files:
             log_debug(f"run 'cyclonedx-py' on {requirements_file}")
             [warnings, cyclonedx_bom] = await self.run_individual_scan(
-                {"PACKAGE_FILE": requirements_file, "REQUIREMENTS_FILE": True}
+                {"PACKAGE_FILE": requirements_file, "REQUIREMENTS_FILE": True, "REPORT_FILE": ABSOLUTE_REPORT_FILE}
             )
             warnings_list.extend(warnings)
             sboms[requirements_file] = cyclonedx_bom
@@ -129,7 +131,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         for poetry_file in poetry_files:
             log_debug(f"run 'cyclonedx-py' on {poetry_file}")
             [warnings, cyclonedx_bom] = await self.run_individual_scan(
-                {"PACKAGE_FILE": poetry_file, "POETRY_FILE": True}
+                {"PACKAGE_FILE": poetry_file, "POETRY_FILE": True, "REPORT_FILE": ABSOLUTE_REPORT_FILE}
             )
             warnings_list.extend(warnings)
             sboms[poetry_file] = cyclonedx_bom
@@ -138,7 +140,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         for piplock_file in piplock_files:
             log_debug(f"run 'cyclonedx-py' on {piplock_file}")
             [warnings, cyclonedx_bom] = await self.run_individual_scan(
-                {"PACKAGE_FILE": piplock_file, "PIPLOCK_FILE": True}
+                {"PACKAGE_FILE": piplock_file, "PIPLOCK_FILE": True, "REPORT_FILE": ABSOLUTE_REPORT_FILE}
             )
             warnings_list.extend(warnings)
             sboms[piplock_file] = cyclonedx_bom
@@ -156,7 +158,8 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         """run individual scan of cyclonedx"""
         warnings = []
         scan_config = self.config.copy()
-        scan_config = {**settings, **scan_config}
+        scan_config = {**scan_config, **settings}
+
         completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME)
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
         if "Some of your dependencies do not have pinned version" in completed_process.stdout:
