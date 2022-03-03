@@ -65,6 +65,20 @@ These commands will run a security scan against code in the current folder
 | windows cmd         | ```docker run -t -v %cd%:/data riversafe/eze-cli test```|
 
 
+# Language Support
+
+| Language  | SBOM                | SCA                 | SAST                |
+| --------- | ------------------- | ------------------- | ------------------- |
+| Java      | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
+| Node      | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
+| Python    | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
+| C#        | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
+| Terraform |                     |                     | :heavy_check_mark:  |
+| Docker    | :heavy_check_mark:* | :heavy_check_mark:* | :heavy_check_mark:  |
+
+- Auto Configured = :heavy_check_mark:
+- Manually Configured = :heavy_check_mark:*
+
 # Configuring Eze
 
 ## Custom configuration
