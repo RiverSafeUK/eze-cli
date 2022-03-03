@@ -2,4 +2,4 @@
 Eze version
 """
 
-__version__ = "0.15.0-alpha"
+__version__ = "0.16.0-alpha"

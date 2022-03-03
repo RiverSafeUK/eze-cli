@@ -1,5 +1,15 @@
 # Eze Changelog
 
+## 0.16.0 - 3rd March 2022
+Improvements:
+- ab-1017: dotnet/c# support
+- ab-1043: added html reporter
+- ab-1049: added top-level/transitive package support for node
+
+Bug Fixes:
+- ab-1007: fixes for github sarif format
+- ab-1000: fixes for grype reporter with latest code
+
 ## 0.15.0 - 14th February 2022
 Improvements:
 - ab-1024: terraform/docker multi project support added

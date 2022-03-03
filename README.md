@@ -73,8 +73,12 @@ These commands will run a security scan against code in the current folder
 | Node      | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
 | Python    | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
 | C#        | :heavy_check_mark:  | :heavy_check_mark:  | :heavy_check_mark:  |
-| Terraform |                     |                     | :heavy_check_mark:  |
 | Docker    | :heavy_check_mark:* | :heavy_check_mark:* | :heavy_check_mark:  |
+| Terraform |                     |                     | :heavy_check_mark:  |
+| Go        |                     |                     | :heavy_check_mark:  |
+| Ruby      |                     |                     | :heavy_check_mark:  |
+| ocaml     |                     |                     | :heavy_check_mark:  |
+| PHP       |                     |                     | :heavy_check_mark:  |
 
 - Auto Configured = :heavy_check_mark:
 - Manually Configured = :heavy_check_mark:*
