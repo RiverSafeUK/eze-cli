@@ -1,0 +1,96 @@
+
+# auto generated .ezerc.toml
+# recreate with "docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config"
+
+# ===================================
+# GLOBAL CONFIG
+# ===================================
+[global]
+# LICENSE_CHECK, available modes:
+# - PROPRIETARY (default) : for commercial projects, check for non-commercial, strong-copyleft, and source-available licenses
+# - PERMISSIVE : for permissive open source projects (aka MIT, LGPL), check for strong-copyleft licenses
+# - OPENSOURCE : for copyleft open source projects (aka GPL), check for non-OSI or FsfLibre certified licenses
+# - OFF : no license checks
+# All modes will also warn on "unprofessional", "deprecated", and "permissive with conditions" licenses
+LICENSE_CHECK = "PROPRIETARY"
+# LICENSE_ALLOWLIST, list of licenses to exempt from license checks
+LICENSE_ALLOWLIST = []
+# LICENSE_DENYLIST, list of licenses to always report usage as a error
+LICENSE_DENYLIST = []
+
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+USE_SOURCE_COPY = true
+
+# Should SCA scan test or development dependencies
+INCLUDE_DEV = false
+
+# ========================================
+# TOOL CONFIG
+# ========================================
+# run for available tools "docker run -t --rm riversafe/eze-cli tools list"
+[trufflehog]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help trufflehog"
+USE_GIT_IGNORE = true
+DISABLE_DEFAULT_IGNORES = false
+NO_ENTROPY = true
+INCLUDE_FULL_REASON = true
+EXCLUDE = []
+REPORT_FILE = ".eze/raw/_truffleHog-report.json"
+
+[semgrep]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help semgrep"
+USE_GIT_IGNORE = true
+DISABLE_DEFAULT_IGNORES = false
+PRINT_TIMING_INFO = false
+EXCLUDE = []
+REPORT_FILE = ".eze/raw/_semgrep-report.json"
+
+[java-cyclonedx]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help java-cyclonedx"
+SCA_ENABLED = true
+REPORT_FILE = ".eze/raw/_java-cyclonedx-bom.json"
+
+[java-spotbugs]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help java-spotbugs"
+REPORT_FILE = ".eze/raw/_java-spotbugs-report.json"
+
+
+# ========================================
+# REPORT CONFIG
+# ========================================
+# run for available reporters "docker run -t --rm riversafe/eze-cli reporters list"
+[console]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help console"
+PRINT_SUMMARY_ONLY = false
+PRINT_IGNORED = false
+PRINT_TRANSITIVE_PACKAGES = false
+
+[bom]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help bom"
+REPORT_FILE = ".eze/eze_%PROJECT%_bom.json"
+
+[json]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help json"
+REPORT_FILE = ".eze/eze_report.json"
+
+[sarif]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help sarif"
+REPORT_FILE = ".eze/eze_report.sarif"
+
+[markdown]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help markdown"
+REPORT_FILE = ".eze/eze_report.md"
+
+[html]
+# Full List of Fields and Reporter Help available "docker run riversafe/eze-cli reporters help html"
+REPORT_FILE = ".eze/eze_report.html"
+
+
+# ========================================
+# SCAN CONFIG
+# ========================================
+[scan]
+tools = ["trufflehog","semgrep","java-cyclonedx","java-spotbugs"]
+reporters = ["console","bom","json","sarif","markdown","html"]

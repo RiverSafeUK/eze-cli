@@ -92,10 +92,11 @@ class TestGrypeTool(ToolMetaTestBase):
             "plugins_tools/anchore-grype-result-sca-npm-output.json",
         )
 
-    @mock.patch("eze.utils.cli.run.async_subprocess_run")
+    # WORKAROUND: grype crashes on async
+    @mock.patch("eze.utils.cli.run.subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
-    async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
+    async def test_run_scan__cli_command__std(self, mock_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "python",
@@ -104,7 +105,7 @@ class TestGrypeTool(ToolMetaTestBase):
             "REPORT_FILE": "foo-report.json",
         }
 
-        expected_cmd = "grype -o=json -c=something.json python --something foo"
+        expected_cmd = "grype -q -o=json -c=something.json python --something foo"
 
         # Test run calls correct program
-        await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
+        await self.assert_run_scan_command(input_config, expected_cmd, mock_subprocess_run)
