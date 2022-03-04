@@ -92,7 +92,7 @@ stored: TMP/.eze/cached-workspace""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix
-            "BASE_COMMAND": shlex.split("kics scan --ci --report-formats 'json,cyclonedx' -p"),
+            "BASE_COMMAND": shlex.split("kics scan --ci --report-formats 'json' -p"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags

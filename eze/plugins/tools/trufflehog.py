@@ -216,6 +216,15 @@ stored: TMP/.eze/cached-workspace""",
                 recommendation += f" Full Match: <on long line ({len(line_containing_secret)} characters)>"
             else:
                 recommendation += " Full Match: " + line_containing_secret
+
+        # Rules in Trufflehog considered these reasons as low, however we defined as high
+        severity = ""
+        if reason in ("Password in URL", "Generic Secret", "Generic API Key"):
+            severity = "HIGH"
+
+        else:
+            severity = report_event["rule"]["severity"]
+
         return Vulnerability(
             {
                 "vulnerability_type": VulnerabilityType.secret.name,
@@ -224,7 +233,7 @@ stored: TMP/.eze/cached-workspace""",
                 "overview": summary,
                 "recommendation": recommendation,
                 "language": "file",
-                "severity": report_event["rule"]["severity"],
+                "severity": severity,
                 "identifiers": {},
                 "metadata": None,
                 "file_location": {"path": path, "line": line},
