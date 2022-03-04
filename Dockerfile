@@ -76,7 +76,15 @@ ENV \
     # kics env, add kics / dotnet-CycloneDx into PATH
     PATH="${PATH}:/app/bin" \
     # TOOL VERSIONS
-    TRUFFLEHOG3_VERSION="3.0.4"
+    TRUFFLEHOG3_VERSION="3.0.4" \
+    BANDIT_VERSION="1.7.3" \
+    SEMGREP_VERSION="0.82.0" \
+    PIPROT_VERSION="0.9.11" \
+    SAFETY_VERSION="1.10.3" \
+    TRIVY_VERSION="0.18.2" \
+    CYCLONEDX_TOOLS_VERSION="0.22.0" \
+    CYCLONEDX_PYTHON_VERSION="3.0.0" \
+    CYCLONEDX_NODE_VERSION="3.4.1"
 
 # Setup Common Cache
 ENV \
@@ -108,12 +116,12 @@ RUN apt-get update \
     && rm -rf /var/log/*
 
 # install node security tools
-RUN npm install -g @cyclonedx/bom --only=production \
+RUN npm install -g @cyclonedx/bom@${CYCLONEDX_NODE_VERSION} --only=production \
     && npm cache clean --force \
     && npm prune --production
 
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep truffleHog3==${TRUFFLEHOG3_VERSION} bandit piprot safety cyclonedx-bom \
+RUN pip3 install --no-cache-dir semgrep==${SEMGREP_VERSION} truffleHog3==${TRUFFLEHOG3_VERSION} bandit==${BANDIT_VERSION} piprot==${PIPROT_VERSION} safety==${SAFETY_VERSION} cyclonedx-bom==${CYCLONEDX_PYTHON_VERSION} \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
     && rm `which cyclonedx-bom`
@@ -125,14 +133,14 @@ RUN set -o pipefail \
     && curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 
 # Install CycloneDX BOM tools
-RUN curl -sSfL https://github.com/CycloneDX/cyclonedx-cli/releases/download/v0.22.0/cyclonedx-linux-x64 -o cyclonedx-cli \
+RUN curl -sSfL https://github.com/CycloneDX/cyclonedx-cli/releases/download/v${CYCLONEDX_TOOLS_VERSION}/cyclonedx-linux-x64 -o cyclonedx-cli \
     && mv cyclonedx-cli /usr/local/bin/cyclonedx-cli \
     && chmod +x /usr/local/bin/cyclonedx-cli
 
 # Install Trivy Docker tools
-RUN curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v0.18.2/trivy_0.18.2_Linux-64bit.deb -o trivy_0.18.2_Linux-64bit.deb \
-    && dpkg -i trivy_0.18.2_Linux-64bit.deb \
-    && rm trivy_0.18.2_Linux-64bit.deb
+RUN curl -sSfL https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.deb -o trivy_Linux-64bit.deb \
+    && dpkg -i trivy_Linux-64bit.deb \
+    && rm trivy_Linux-64bit.deb
 
 # Install Gitleaks scanner tool
 RUN curl -sSfL https://github.com/zricethezav/gitleaks/releases/download/v7.5.0/gitleaks-linux-amd64 -o gitleaks \

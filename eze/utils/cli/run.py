@@ -109,11 +109,6 @@ async def run_async_cli_command(
     command_list = build_cli_command(cli_config, config)
     completed_process = await run_async_cmd(command_list, cwd=cwd)
 
-    log_debug(
-        f"""{command_name} ran with output:
-    {completed_process.stdout}"""
-    )
-
     if completed_process.stderr:
         sanitised_command_str = __sanitise_command(command_list)
         message = f"""{command_name} ran with warnings/errors:
