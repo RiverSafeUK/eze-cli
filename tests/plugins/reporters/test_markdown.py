@@ -34,7 +34,7 @@ class TestMarkdownReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"REPORT_FILE": ".eze/eze_report.md"}
+        expected_config = {"PRINT_TRANSITIVE_PACKAGES": False, "REPORT_FILE": ".eze/eze_report.md"}
         # When
         testee = MarkdownReporter()
         # Then
@@ -43,7 +43,7 @@ class TestMarkdownReporter(ReporterMetaTestBase):
     def test_creation__simple_config_parsing(self):
         # Given
         input_config = {"REPORT_FILE": "helloworld.md"}
-        expected_config = {"REPORT_FILE": "helloworld.md"}
+        expected_config = {"PRINT_TRANSITIVE_PACKAGES": False, "REPORT_FILE": "helloworld.md"}
         # When
         testee = MarkdownReporter(input_config)
         # Then
@@ -61,7 +61,7 @@ class TestMarkdownReporter(ReporterMetaTestBase):
         input_scan_result = ScanResult(scan_result_fixture[0])
         expected_scan_result_fixture = load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")
         expected_json = [expected_scan_result_fixture[0]]
-        expected_config = {"REPORT_FILE": str(input_report_location)}
+        expected_config = {"PRINT_TRANSITIVE_PACKAGES": False, "REPORT_FILE": str(input_report_location)}
 
         # When
         testee = MarkdownReporter(input_config)

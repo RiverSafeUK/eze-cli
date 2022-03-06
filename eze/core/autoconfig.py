@@ -1,4 +1,4 @@
-"""Eze's Languages module"""
+"""Eze's Auto configuration module"""
 from __future__ import annotations
 
 import json

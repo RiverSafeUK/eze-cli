@@ -7,7 +7,6 @@ import pytest
 from eze.plugins.tools.python_cyclonedx import PythonCyclonedxTool
 from eze.utils.io.file import create_tempfile_path
 from tests.__fixtures__.fixture_helper import (
-    create_mocked_stream,
     load_json_fixture,
 )
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
@@ -160,10 +159,10 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
 
         input_config = {}
 
-        expected_output = [
-            "Warning: unpinned requirement 'semantic-version' found in requirements.txt, unable to check",
-            "Warning: unpinned requirement 'toml' found in requirements.txt, unable to check",
-            "Warning: unpinned requirement 'xmltodict' found in requirements.txt, unable to check",
+        expected_vulnerabilities_overview = [
+            "unpinned requirement 'semantic-version' found",
+            "unpinned requirement 'toml' found",
+            "unpinned requirement 'xmltodict' found",
         ]
 
         # When
@@ -173,4 +172,5 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
         # Then
         # https://www.w3schools.com/python/ref_set_issubset.asp
         # report.warnings may contain other warnings so we can't assert by "=="
-        assert set(expected_output).issubset(set(report.warnings))
+        vulnerabilities_overview = list(map(lambda i: i.overview, report.vulnerabilities))
+        assert vulnerabilities_overview == expected_vulnerabilities_overview

@@ -147,32 +147,6 @@ class TestEzeConfig(TestCase):
         # Then
         assert output == expected_config
 
-    def test_get_plugin_config__language_run_case(self):
-        # Given
-        inital_dict = {
-            "safety": {"some": "key", "another": ["key"]},
-            "safety_special": {"some": "special-key", "another": ["very-key"]},
-            "python": {
-                "safety": {"some": "change", "some-thing": "from-python-dev"},
-                "safety_special": {"some": "super-special-key", "another": ["very-super-special-thing"]},
-            },
-            "scan": {},
-        }
-        input_tool_name = "safety"
-        input_scan_type = None
-        input_run_type = "special"
-        input_language = "python"
-        expected_config = {
-            "some": "super-special-key",
-            "another": ["very-super-special-thing"],
-            "some-thing": "from-python-dev",
-        }
-        testee = EzeConfig([inital_dict])
-        # When
-        output = testee.get_plugin_config(input_tool_name, input_scan_type, input_run_type, input_language)
-        # Then
-        assert output == expected_config
-
     def test_get_plugin_config__real_toml_complex_case(self):
         # Given
         external_file = get_path_fixture("__fixtures__/config/example_complex_ezerc.toml")

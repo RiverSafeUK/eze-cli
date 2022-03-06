@@ -17,7 +17,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": {
         "asvs": {
           "control_id": "5.3.8 OS Command Injection",
@@ -52,7 +51,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": {
         "cwe": "CWE-611: Improper Restriction of XML External Entity Reference",
         "owasp": "A4: XML External Entities (XXE)"
@@ -77,7 +75,6 @@
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": {},
       "name": "tests/utils/test_cve.py: python.lang.best-practice.open-never-closed.open-never-closed",
       "overview": "file object opened without corresponding close",
@@ -99,7 +96,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": {
         "cwe": "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')",
         "owasp": "A1: Injection"
@@ -128,7 +124,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": {
         "asvs": {
           "control_id": "5.2.4 Dyanmic Code Execution Features",
@@ -162,7 +157,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": {
         "asvs": {
           "control_id": "5.2.4 Dyanmic Code Execution Features",

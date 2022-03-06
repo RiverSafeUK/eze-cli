@@ -50,16 +50,6 @@
         "REPORT_FILE": ".eze/raw/_java-spotbugs-report.json"
       }
     },
-    "python-safety": {
-      "enabled_always": false,
-      "enable_on_file": [
-        "requirements.txt"
-      ],
-      "enable_on_file_ext": [],
-      "config": {
-        "REPORT_FILE": ".eze/raw/_python-safety-report.json"
-      }
-    },
     "python-piprot": {
       "enabled_always": false,
       "enable_on_file": [
@@ -151,6 +141,7 @@
         "REPORT_FILE": ".eze/raw/_checkmarx-kics.json"
       }
     },
+    "python-safety": {},
     "java-dependencycheck": {},
     "container-trivy": {},
     "anchore-grype": {},

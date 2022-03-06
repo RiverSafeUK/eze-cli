@@ -11,7 +11,6 @@
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
-      "language": "python",
       "metadata": {
         "safety": {
           "id": "25959"
@@ -33,7 +32,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "python",
       "metadata": {
         "safety": {
           "id": "37752"

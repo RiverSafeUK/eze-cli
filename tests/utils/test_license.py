@@ -210,7 +210,6 @@ def test_check_licenses__sad_path_PROPRIETARY_policy__copyleft_not_ok():
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
-            "language": "",
             "metadata": None,
             "name": "Invalid License GPL-2.0-only(x-xss-protection), copyleft license in " "proprietary project",
             "overview": "Strong Copyleft licenses should not be used in Proprietary " "projects",
@@ -248,7 +247,6 @@ def test_check_licenses__sad_path_PERMISSIVE_policy__copyleft_not_ok():
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
-            "language": "",
             "metadata": None,
             "name": "Invalid License GPL-2.0-only(x-xss-protection), copyleft license in "
             "permissive opensource project",
@@ -328,7 +326,6 @@ def test_check_licenses__denylist():
             "identifiers": {},
             "is_excluded": False,
             "is_ignored": False,
-            "language": "",
             "metadata": None,
             "name": "License MIT-enna(x-xss-protection), not allowed",
             "overview": "MIT-enna in project license_denylist",

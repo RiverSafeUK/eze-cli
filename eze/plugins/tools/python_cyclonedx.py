@@ -2,11 +2,22 @@
 import re
 import shlex
 
+from pydash import py_
+
 from eze.utils.log import log_debug
 
 from eze.utils.io.file_scanner import find_files_by_name
 
-from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
+from eze.core.enums import (
+    ToolType,
+    SourceType,
+    LICENSE_CHECK_CONFIG,
+    LICENSE_ALLOWLIST_CONFIG,
+    LICENSE_DENYLIST_CONFIG,
+    VulnerabilityType,
+    Vulnerability,
+    VulnerabilitySeverityEnum,
+)
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
 from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
@@ -88,17 +99,42 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         }
     }
 
-    def extract_unpinned_requirements(self, stdout_output: str) -> list:
+    def extract_unpinned_requirements(self, stdout_output: str, pip_project_file: str) -> dict:
         """Extract the unpinned requirement from stdout of python-cyclonedx"""
+        if not "Some of your dependencies do not have pinned version" in stdout_output:
+            return {"packages": [], "vulnerabilities": []}
+
         pattern = re.compile(r"(?<=->\s)(.*?)(?=\s*!!)")
         matches = pattern.finditer(stdout_output)
 
-        results = []
+        cyclonedx_components = []
+        vulnerabilities = []
         for match in matches:
-            results.append(
-                f"Warning: unpinned requirement '{match.group()}' found in requirements.txt, unable to check"
+            package = match.group()
+            cyclonedx_components.append(
+                {"type": "library", "name": package, "version": None, "purl": f"pkg:pypi/{package}"}
             )
-        return results
+            name = f"unpinned requirement '{package}' found"
+            recommendation = (
+                f"pin version with '{package}==xxx', or update to mature dependency system, aka poetry or pipenv"
+            )
+            vulnerabilities.append(
+                Vulnerability(
+                    {
+                        "name": package,
+                        "overview": name,
+                        "identifiers": {
+                            # external input (aka default latest package) can code what code is executed
+                            "CWE": "CWE-470"
+                        },
+                        "vulnerability_type": VulnerabilityType.code.name,
+                        "recommendation": recommendation,
+                        "severity": VulnerabilitySeverityEnum.medium.name,
+                        "file_location": {"path": pip_project_file, "line": 1},
+                    }
+                )
+            )
+        return {"cyclonedx_components": cyclonedx_components, "vulnerabilities": vulnerabilities}
 
     async def run_scan(self) -> ScanResult:
         """
@@ -107,6 +143,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         :raises EzeError
         """
         warnings_list = []
+        vulnerabilities_list = []
         sboms = {}
         requirements_files = find_files_by_name("^requirements.txt$")
         if self.config["INCLUDE_DEV"]:
@@ -121,12 +158,20 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         for requirements_file in requirements_files:
             log_debug(f"run 'cyclonedx-py' on {requirements_file}")
-            [warnings, cyclonedx_bom] = await self.run_individual_scan(
+            [warnings, cyclonedx_bom, completed_process_stdout] = await self.run_individual_scan(
                 {"PACKAGE_FILE": requirements_file, "REQUIREMENTS_FILE": True, "REPORT_FILE": ABSOLUTE_REPORT_FILE}
             )
             warnings_list.extend(warnings)
             sboms[requirements_file] = cyclonedx_bom
             has_found_packages = True
+            # AB#1054: additional parsing for unpinned assets
+            # add unpinned assets as vulnerabilities
+            # append unpinned assets into cyclonedx
+            unpinned_requirements = self.extract_unpinned_requirements(completed_process_stdout, requirements_file)
+            vulnerabilities_list.extend(unpinned_requirements["vulnerabilities"])
+            components = py_.get(sboms[requirements_file], "components", [])
+            components.extend(unpinned_requirements["cyclonedx_components"])
+            sboms[requirements_file]["components"] = components
 
         for poetry_file in poetry_files:
             log_debug(f"run 'cyclonedx-py' on {poetry_file}")
@@ -151,6 +196,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         report = self.parse_report(sboms)
         report.warnings.extend(warnings_list)
+        report.vulnerabilities.extend(vulnerabilities_list)
 
         return report
 
@@ -162,13 +208,9 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         completed_process = await run_async_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME)
         cyclonedx_bom = load_json(self.config["REPORT_FILE"])
-        if "Some of your dependencies do not have pinned version" in completed_process.stdout:
-            unpinned_requirements_list = self.extract_unpinned_requirements(completed_process.stdout)
-            for unpinned_requirement in unpinned_requirements_list:
-                warnings.append(unpinned_requirement)
         if completed_process.stderr:
             warnings.append(completed_process.stderr)
-        return [warnings, cyclonedx_bom]
+        return [warnings, cyclonedx_bom, completed_process.stdout]
 
     def parse_report(self, cyclonedx_boms: dict) -> ScanResult:
         """convert report json into ScanResult"""

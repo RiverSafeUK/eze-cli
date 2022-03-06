@@ -11,7 +11,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "java",
       "metadata": {
         "vulnerability": {
           "id": "CVE-2008-0732"
@@ -36,7 +35,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "java",
       "metadata": {
         "vulnerability": {
           "id": "CVE-2011-5034"

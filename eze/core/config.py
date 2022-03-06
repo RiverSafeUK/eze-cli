@@ -155,35 +155,27 @@ class EzeConfig:
             raise EzeConfigError(error_message)
         return scan_config
 
-    def get_plugin_config(
-        self, plugin_name: str, scan_type: str = None, run_type: str = None, parent_container: str = None
-    ) -> dict:
+    def get_plugin_config(self, plugin_name: str, scan_type: str = None, run_type: str = None) -> dict:
         """Gives plugin's configuration, and any custom config from a named scan or run type"""
         composite_config = {}
         [plugin_name, run_type] = extract_embedded_run_type(plugin_name, run_type)
         # step 1) clone default plugin config
         # (normal tool <ROOT>.<tool>)
         config_root = py_.get(self, "config", None)
-        # step 2) clone default plugin config
-        # (language tool <ROOT>.<language>.<tool>)
-        language_root = py_.get(self, f"""config.{parent_container}""", None)
-        # step 3) append "custom named" scan config
+        # step 2) append "custom named" scan config
         # (language tool <ROOT>.scan.<scan-type>.<tool>)
         scantype_root = py_.get(self, f"""config.scan.{scan_type}""", None)
 
         # (normal tool <ROOT>.<tool>)
         merge_from_root_base(config_root, composite_config, plugin_name)
-        merge_from_root_base(language_root, composite_config, plugin_name)
         merge_from_root_base(scantype_root, composite_config, plugin_name)
 
         # look in flat {PLUGIN}_{RUN} key
         merge_from_root_flat(config_root, composite_config, plugin_name, run_type)
-        merge_from_root_flat(language_root, composite_config, plugin_name, run_type)
         merge_from_root_flat(scantype_root, composite_config, plugin_name, run_type)
 
         # look in nested {PLUGIN}.{RUN} key
         merge_from_root_nested(config_root, composite_config, plugin_name, run_type)
-        merge_from_root_nested(language_root, composite_config, plugin_name, run_type)
         merge_from_root_nested(scantype_root, composite_config, plugin_name, run_type)
         return composite_config
 

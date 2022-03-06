@@ -33,7 +33,7 @@ class TestHtmlReporter(ReporterMetaTestBase):
 
     def test_creation__no_config(self):
         # Given
-        expected_config = {"REPORT_FILE": ".eze/eze_report.html"}
+        expected_config = {"PRINT_TRANSITIVE_PACKAGES": False, "REPORT_FILE": ".eze/eze_report.html"}
         # When
         testee = HtmlReporter()
         # Then
@@ -42,7 +42,7 @@ class TestHtmlReporter(ReporterMetaTestBase):
     def test_creation__simple_config(self):
         # Given
         input_config = {"REPORT_FILE": ".eze/eze_report_1.html"}
-        expected_config = {"REPORT_FILE": ".eze/eze_report_1.html"}
+        expected_config = {"PRINT_TRANSITIVE_PACKAGES": False, "REPORT_FILE": ".eze/eze_report_1.html"}
         # When
         testee = HtmlReporter(input_config)
         # Then
@@ -58,7 +58,7 @@ class TestHtmlReporter(ReporterMetaTestBase):
 
         scan_result_fixture = load_json_fixture("__fixtures__/plugins_reporters/eze_sample_report_json.json")
         input_scan_result = ScanResult(scan_result_fixture[0])
-        expected_config = {"REPORT_FILE": str(input_report_location)}
+        expected_config = {"PRINT_TRANSITIVE_PACKAGES": False, "REPORT_FILE": str(input_report_location)}
 
         # When
         testee = HtmlReporter(input_config)

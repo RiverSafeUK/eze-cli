@@ -14,7 +14,6 @@
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
-      "language": "file",
       "metadata": null,
       "name": "Found Secret 'Asymmetric Private Key'",
       "overview": "Found Secret 'Asymmetric Private Key' in goat-owasp-node\\artifacts\\cert\\server.key",
