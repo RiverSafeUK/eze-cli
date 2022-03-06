@@ -1,4 +1,6 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
+import os
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -28,6 +30,7 @@ class TestBanditTool(ToolMetaTestBase):
             "EXCLUDE": "",
             "INI_PATH": "",
             "INCLUDE_FULL_REASON": True,
+            "USE_SOURCE_COPY": True,
             #
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "IGNORED_FILES": None,
@@ -75,11 +78,15 @@ class TestBanditTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
+    @mock.patch("eze.plugins.tools.python_bandit.cache_workspace_into_tmp", mock.MagicMock(return_value=None))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
-        input_config = {"SOURCE": "src", "REPORT_FILE": "foo_report.json"}
-
+        input_config = {
+            "SOURCE": "src",
+            "REPORT_FILE": "foo_report.json",
+            "USE_SOURCE_COPY": False,
+        }
         expected_cmd = "bandit -f json -o foo_report.json -r src"
 
         # Test run calls correct program

@@ -2,13 +2,15 @@
 import json
 import shlex
 
+from eze.utils.io.file_scanner import cache_workspace_into_tmp
+
 from eze.core.enums import VulnerabilityType, VulnerabilitySeverityEnum, ToolType, SourceType, Vulnerability
 from eze.core.tool import (
     ToolMeta,
     ScanResult,
 )
 from eze.utils.cli.run import build_cli_command, run_async_cmd
-from eze.utils.io.file import load_json, create_tempfile_path
+from eze.utils.io.file import load_json, create_tempfile_path, create_absolute_path
 
 
 class BanditTool(ToolMeta):
@@ -75,6 +77,14 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "default_help_value": "<tempdir>/.eze-temp/tmp-bandit-report.json",
             "help_text": "output report location (will default to tmp file otherwise)",
         },
+        "USE_SOURCE_COPY": {
+            "type": bool,
+            "default": True,
+            "environment_variable": "USE_SOURCE_COPY",
+            "help_text": """speeds up SAST tools by using copied folder with no binary/dependencies assets
+for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+stored: TMP/.eze/cached-workspace""",
+        },
     }
 
     DEFAULT_SEVERITY = VulnerabilitySeverityEnum.high.name
@@ -100,8 +110,12 @@ Warning: on production might want to set this to False to prevent found Secrets 
 
         :raises EzeError
         """
+        scan_config = self.config.copy()
+        # make REPORT_FILE absolute in-case cwd changes
+        scan_config["REPORT_FILE"] = create_absolute_path(scan_config["REPORT_FILE"])
+        cwd = cache_workspace_into_tmp() if scan_config["USE_SOURCE_COPY"] else None
         command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
-        await run_async_cmd(command_str)
+        await run_async_cmd(command_str, cwd=cwd)
 
         parsed_json = load_json(self.config["REPORT_FILE"])
         report = self.parse_report(parsed_json)

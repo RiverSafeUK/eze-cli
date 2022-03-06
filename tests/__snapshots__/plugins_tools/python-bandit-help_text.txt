@@ -51,6 +51,17 @@ INCLUDE_FULL_REASON = true / false
 REPORT_FILE = "..."
 
 
+# USE_SOURCE_COPY bool [OPTIONAL]
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+# default value: 
+#   USE_SOURCE_COPY = true
+# value can be set via environment variable: USE_SOURCE_COPY
+# 
+USE_SOURCE_COPY = true / false
+
+
 
 # Common Tool Config
 
