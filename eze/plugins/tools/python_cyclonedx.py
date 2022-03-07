@@ -102,19 +102,19 @@ gotcha: make sure it's a frozen version of the pip requirements""",
     def extract_unpinned_requirements(self, stdout_output: str, pip_project_file: str) -> dict:
         """Extract the unpinned requirement from stdout of python-cyclonedx"""
         if not "Some of your dependencies do not have pinned version" in stdout_output:
-            return {"packages": [], "vulnerabilities": []}
+            return {"cyclonedx_components": [], "vulnerabilities": []}
 
         pattern = re.compile(r"(?<=->\s)(.*?)(?=\s*!!)")
         matches = pattern.finditer(stdout_output)
 
-        cyclonedx_components = []
-        vulnerabilities = []
+        cyclonedx_components: list = []
+        vulnerabilities: list = []
         for match in matches:
-            package = match.group()
+            package: str = match.group()
             cyclonedx_components.append(
                 {"type": "library", "name": package, "version": None, "purl": f"pkg:pypi/{package}"}
             )
-            name = f"unpinned requirement '{package}' found"
+            name: str = f"unpinned requirement '{package}' found"
             recommendation = (
                 f"pin version with '{package}==xxx', or update to mature dependency system, aka poetry or pipenv"
             )
@@ -169,7 +169,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
             # append unpinned assets into cyclonedx
             unpinned_requirements = self.extract_unpinned_requirements(completed_process_stdout, requirements_file)
             vulnerabilities_list.extend(unpinned_requirements["vulnerabilities"])
-            components = py_.get(sboms[requirements_file], "components", [])
+            components = py_.get(sboms[requirements_file], "components") or []
             components.extend(unpinned_requirements["cyclonedx_components"])
             sboms[requirements_file]["components"] = components
 
