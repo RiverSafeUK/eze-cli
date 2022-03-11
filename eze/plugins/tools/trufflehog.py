@@ -94,6 +94,14 @@ eze will automatically normalise folder separator "/" to os specific versions, "
 see https://github.com/feeltheajf/trufflehog3
 see https://github.com/feeltheajf/truffleHog3/blob/master/examples/trufflehog.yaml""",
         },
+        "RULES_FILE": {
+            "type": str,
+            "default": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../data/trufflehog_rules.yml"
+            ),
+            "help_text": """Rules yaml file with patterns to identify insecure code, by default we have a custom rule file.
+see https://github.com/feeltheajf/trufflehog3/blob/b7b4e4177002ea6db198ab63073d0bf044169108/trufflehog3/static/rules.yml""",
+        },
         "INCLUDE_FULL_REASON": {
             "type": bool,
             "default": True,
@@ -125,14 +133,13 @@ stored: TMP/.eze/cached-workspace""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix. Uses a custom rules file (ab#849)
-            "BASE_COMMAND": shlex.split(
-                f"trufflehog3 --no-history -f json -r '{os.path.normpath(os.path.dirname(os.path.abspath(__file__)) + '/../../data/trufflehog_rules.yml')}'"
-            ),
+            "BASE_COMMAND": shlex.split(f"trufflehog3 --no-history -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
             "FLAGS": {
                 "CONFIG_FILE": "-c ",
+                "RULES_FILE": "-r ",
                 "REPORT_FILE": "-o ",
             },
             "FLAGS_WITH_MULTI_FIELDS": {

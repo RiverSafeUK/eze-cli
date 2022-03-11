@@ -40,6 +40,15 @@ DISABLE_DEFAULT_IGNORES = true / false
 CONFIG_FILE = "..."
 
 
+# RULES_FILE str [OPTIONAL]
+# Rules yaml file with patterns to identify insecure code, by default we have a custom rule file.
+# see https://github.com/feeltheajf/trufflehog3/blob/b7b4e4177002ea6db198ab63073d0bf044169108/trufflehog3/static/rules.yml
+# default value: 
+#   RULES_FILE = "C:\\dev\\repos\\eze-cli\\eze\\data\\trufflehog_rules.yml"
+# 
+RULES_FILE = "..."
+
+
 # INCLUDE_FULL_REASON bool [OPTIONAL]
 # Optional include the full reason in report
 # Warning: on production might want to set this to False to prevent found Secrets appearing in reports
