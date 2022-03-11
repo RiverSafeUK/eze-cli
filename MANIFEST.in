@@ -6,3 +6,4 @@ include Dockerfile
 include requirements.txt
 include eze/data/spdx-license-list-data-supplement.json
 include eze/data/default_autoconfig.json
+include eze/data/trufflehog_rules.yml

@@ -2,6 +2,7 @@
 import re
 import shlex
 import time
+import os
 
 from pydash import py_
 
@@ -123,8 +124,10 @@ stored: TMP/.eze/cached-workspace""",
 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
-            # tool command prefix
-            "BASE_COMMAND": shlex.split("trufflehog3 --no-history -f json"),
+            # tool command prefix. Uses a custom rules file (ab#849)
+            "BASE_COMMAND": shlex.split(
+                f"trufflehog3 --no-history -f json -r '{os.path.normpath(os.path.dirname(os.path.abspath(__file__)) + '/../../data/trufflehog_rules.yml')}'"
+            ),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
@@ -217,13 +220,7 @@ stored: TMP/.eze/cached-workspace""",
             else:
                 recommendation += " Full Match: " + line_containing_secret
 
-        # Rules in Trufflehog considered these reasons as low, however we defined as high
-        severity = ""
-        if reason in ("Password in URL", "Generic Secret", "Generic API Key"):
-            severity = "HIGH"
-
-        else:
-            severity = report_event["rule"]["severity"]
+        severity = report_event["rule"]["severity"]
 
         return Vulnerability(
             {
