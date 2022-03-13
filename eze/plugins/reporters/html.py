@@ -25,12 +25,18 @@ class HtmlReporter(ReporterMeta):
             "help_text": """report file location
 By default set to eze_report.html""",
         },
+        "PRINT_TRANSITIVE_PACKAGES": {
+            "type": bool,
+            "default": False,
+            "environment_variable": "PRINT_TRANSITIVE_PACKAGES",
+            "help_text": """print out non top level packages""",
+        },
     }
 
     async def run_report(self, scan_results: list):
         """Method for taking scans and turning then into report output for html format"""
 
-        report_str = scan_results_as_markdown(scan_results=scan_results)
+        report_str = scan_results_as_markdown(scan_results, self.config["PRINT_TRANSITIVE_PACKAGES"])
         html_content = markdown.markdown(report_str, output_format="html", extensions=["tables", "attr_list"])
         html = (
             """

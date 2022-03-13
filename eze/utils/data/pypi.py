@@ -79,14 +79,20 @@ def convert_vulnerability(
     )
 
 
-def get_pypi_package_data(package_name: str, package_version: str, python_project_file: str) -> PypiPackageVO:
+def get_pypi_package_data(
+    package_name: str, package_version: str = None, python_project_file: str = "."
+) -> PypiPackageVO:
     """
     download and extract license and vulnerability information for package
 
     @see https://github.com/pypa/advisory-db
     @see https://warehouse.pypa.io/api-reference/json.html
     """
-    pypi_url: str = f"https://pypi.org/pypi/{quote(package_name)}/{quote(package_version)}/json"
+    pypi_url: str = (
+        f"https://pypi.org/pypi/{quote(package_name)}/{quote(package_version)}/json"
+        if package_version
+        else f"https://pypi.org/pypi/{quote(package_name)}/json"
+    )
     warnings = []
     package_metadata: dict = {}
     try:

@@ -38,7 +38,6 @@
                 "file_location": null,
                 "is_ignored": false,
                 "is_excluded": false,
-                "language": "python",
                 "metadata": {
                     "cves": [
                         {
@@ -69,7 +68,6 @@
                 "file_location": null,
                 "is_ignored": true,
                 "is_excluded": false,
-                "language": "python",
                 "metadata": {
                     "cves": [],
                     "safety": {

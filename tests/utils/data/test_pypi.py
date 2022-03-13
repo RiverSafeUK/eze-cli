@@ -48,7 +48,6 @@ def test_get_pypi_package_data__happy_case(mock_cve_request_json, mock_pypi_requ
                 "identifiers": {"CVE": "CVE-2020-8897", "PYSEC": "PYSEC-2020-261"},
                 "is_excluded": False,
                 "is_ignored": False,
-                "language": "",
                 "metadata": None,
                 "name": "aws-encryption-sdk",
                 "overview": "The mirroring support (-M, --use-mirrors) in "

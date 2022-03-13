@@ -14,6 +14,13 @@ config_help:
 REPORT_FILE = "..."
 
 
+# PRINT_TRANSITIVE_PACKAGES bool [OPTIONAL]
+# print out non top level packages
+# value can be set via environment variable: PRINT_TRANSITIVE_PACKAGES
+# 
+PRINT_TRANSITIVE_PACKAGES = true / false
+
+
 
 
 install_help:

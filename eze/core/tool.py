@@ -177,9 +177,7 @@ class ToolManager:
             plugin_tools = plugin.get_tools()
             self._add_tools(plugin_tools)
 
-    async def run_tool(
-        self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
-    ) -> ScanResult:
+    async def run_tool(self, tool_name: str, scan_type: str = None, run_type: str = None) -> ScanResult:
         """
         Runs a instance of a tool, populated with it's configuration
 
@@ -187,7 +185,7 @@ class ToolManager:
         """
         tic = time.perf_counter()
         [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
-        tool_instance = self.get_tool(tool_name, scan_type, run_type, parent_language_name)
+        tool_instance = self.get_tool(tool_name, scan_type, run_type)
         tool_instance.prepare_folder()
         try:
             process = {"scan_result": None}
@@ -273,7 +271,7 @@ Looks like {tool_name} is not installed
             "git_branch": git_branch,
         }
         # get tool config for ignore list
-        tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
+        tool_config = self._get_tool_config(tool_name, scan_type, run_type)
         # normalise vulnerabilities list
         scan_result.vulnerabilities = self._normalise_vulnerabilities(scan_result.vulnerabilities, tool_config)
         # create counts of vulnerabilities
@@ -291,9 +289,7 @@ Looks like {tool_name} is not installed
         tool_class = self.tools[tool_name]
         return tool_class
 
-    def get_tool(
-        self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
-    ) -> ToolMeta:
+    def get_tool(self, tool_name: str, scan_type: str = None, run_type: str = None) -> ToolMeta:
         """
         Gets a instance of a tool, populated with it's configuration
 
@@ -302,7 +298,7 @@ Looks like {tool_name} is not installed
 
         [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
 
-        tool_config = self._get_tool_config(tool_name, scan_type, run_type, parent_language_name)
+        tool_config = self._get_tool_config(tool_name, scan_type, run_type)
         tool_class = self.get_tool_class(tool_name)
         tool_instance = tool_class(tool_config)
         return tool_instance
@@ -474,16 +470,14 @@ Tool '{tool_id}' Help
                 log_error(f"-- skipping invalid tool '{tool_name}'")
                 continue
 
-    def _get_tool_config(
-        self, tool_name: str, scan_type: str = None, run_type: str = None, parent_language_name: str = None
-    ):
+    def _get_tool_config(self, tool_name: str, scan_type: str = None, run_type: str = None):
         """
         Get Tool Config, handle default config parameters
 
         :raises EzeConfigError
         """
         eze_config = EzeConfig.get_instance()
-        tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type, parent_language_name)
+        tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type)
 
         # Warnings for corrupted config
         if tool_name not in self.tools:
@@ -507,8 +501,8 @@ Tool '{tool_id}' Help
         tool_config["IGNORED_FILES"] = normalise_file_paths(raw_ignored_files)
 
         raw_excluded_files = get_config_key(tool_config, "EXCLUDE", list, [])
-        raw_excluded_files.extend(self.find_tool_output_files(scan_type, run_type, parent_language_name))
-        raw_excluded_files.extend(self.find_reporter_files(scan_type, run_type, parent_language_name))
+        raw_excluded_files.extend(self.find_tool_output_files(scan_type, run_type))
+        raw_excluded_files.extend(self.find_reporter_files(scan_type, run_type))
         tool_config["EXCLUDE"] = normalise_file_paths(raw_excluded_files)
 
         ignore_below_severity_name = get_config_key(
@@ -520,16 +514,16 @@ Tool '{tool_id}' Help
         tool_config["IGNORE_BELOW_SEVERITY_INT"] = VulnerabilitySeverityEnum[ignore_below_severity_name].value
         return tool_config
 
-    def find_tool_output_files(self, scan_type: str, run_type: str, parent_language_name: str):
+    def find_tool_output_files(self, scan_type: str, run_type: str):
         """Get Tool Config, handle default config parameters"""
         eze_config = EzeConfig.get_instance()
         report_files = []
         for tool_name in self.tools:
-            tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type, parent_language_name)
+            tool_config = eze_config.get_plugin_config(tool_name, scan_type, run_type)
             report_files.append(tool_config.get("REPORT_FILE", None))
         return [rf for rf in report_files if rf]
 
-    def find_reporter_files(self, scan_type: str, run_type: str, parent_language_name: str):
+    def find_reporter_files(self, scan_type: str, run_type: str):
         """Get Tool Config, handle default config parameters"""
         reporters = []
         try:

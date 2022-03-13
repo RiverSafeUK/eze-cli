@@ -143,13 +143,7 @@ You can also explicitly specify the scheme to use:
 
             grype_severity = py_.get(grype_match, "vulnerability.severity", [])
             severity = self.grype_severity_to_cwe_severity(grype_severity)
-
-            language = py_.get(grype_match, "artifact.language", None)
-            if not language:
-                language = "container"
-
             file_location = None
-
             vulnerable_package = py_.get(grype_match, "artifact.name", None)
             installed_version = py_.get(grype_match, "artifact.version", None)
             fixed_version = py_.get(grype_match, "vulnerability.fix.versions[0]", None)
@@ -157,31 +151,26 @@ You can also explicitly specify the scheme to use:
             recommendation = ""
             if fixed_version:
                 recommendation = f"Update {vulnerable_package} ({installed_version}) to a non vulnerable version, fix version: {fixed_version}"
-
             identifiers = {}
             identifier_id = py_.get(grype_match, "vulnerability.id", None)
             if identifier_id.startswith("CVE"):
                 identifiers["cve"] = identifier_id
             elif identifier_id.startswith("GHSA"):
                 identifiers["ghsa"] = identifier_id
-
             overview = py_.get(grype_match, "vulnerability.description", [])
             related_vulnerability = py_.get(grype_match, "relatedVulnerabilities[0].id", None)
             if related_vulnerability and related_vulnerability == identifier_id and not recommendation:
                 overview = py_.get(grype_match, "relatedVulnerabilities[0].description", None)
-
             unique_key = f"{vulnerable_package}_{severity}_{installed_version}"
             if dup_key_list.get(unique_key):
                 continue
             dup_key_list[unique_key] = True
-
             vulnerability_raw = {
                 "vulnerability_type": VulnerabilityType.dependency.name,
                 "name": vulnerable_package,
                 "version": installed_version,
                 "overview": overview,
                 "recommendation": recommendation,
-                "language": language,
                 "severity": severity,
                 "identifiers": identifiers,
                 "file_location": file_location,

@@ -124,7 +124,6 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
                 "version": installed_version,
                 "overview": "",
                 "recommendation": semver_recommendation,
-                "language": self.TOOL_LANGUAGE,
                 "severity": semver_severity,
                 "identifiers": {},
                 "metadata": None,

@@ -11,7 +11,6 @@
       },
       "is_excluded": false,
       "is_ignored": false,
-      "language": "java",
       "metadata": null,
       "name": "An apparent infinite loop",
       "overview": "'An apparent infinite loop', in com/mycompany/app/FindBugsOne.java",

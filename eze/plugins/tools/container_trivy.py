@@ -160,7 +160,6 @@ Total: 112 (UNKNOWN: 2, LOW: 74, MEDIUM: 11, HIGH: 21, CRITICAL: 4)"""
                 "version": py_.get(report_event, "InstalledVersion", "unknown"),
                 "overview": py_.get(report_event, "Description", "unknown"),
                 "recommendation": recommendation,
-                "language": self.TOOL_LANGUAGE,
                 "severity": severity,
                 "identifiers": identifiers,
                 "references": references,

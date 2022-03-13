@@ -140,8 +140,6 @@ class Vulnerability:
         self.is_excluded: bool = get_config_key(vo, "is_excluded", bool, False)
         # [optional] containers cve/cwe info
         self.identifiers: dict = get_config_key(vo, "identifiers", dict, {})
-        # [optional] language of Vulnerability found in
-        self.language: str = get_config_key(vo, "language", str, "")
         # [optional] pair of File/Line
         self.file_location: dict = get_config_key(vo, "file_location", dict, None)
         # [optional] version of object under test

@@ -138,7 +138,6 @@ https://jeremylong.github.io/DependencyCheck/general/suppression.html
                             "version": pkg_version,
                             "overview": vulnerability["description"],
                             "recommendation": recommendation,
-                            "language": self.TOOL_LANGUAGE,
                             "severity": vulnerability["severity"],
                             "identifiers": {"cve": vulnerability["name"]},
                             "file_location": {"path": pom_project_file, "line": 1},
