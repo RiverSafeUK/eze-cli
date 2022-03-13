@@ -175,7 +175,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         for poetry_file in poetry_files:
             log_debug(f"run 'cyclonedx-py' on {poetry_file}")
-            [warnings, cyclonedx_bom] = await self.run_individual_scan(
+            [warnings, cyclonedx_bom, completed_process_stdout] = await self.run_individual_scan(
                 {"PACKAGE_FILE": poetry_file, "POETRY_FILE": True, "REPORT_FILE": ABSOLUTE_REPORT_FILE}
             )
             warnings_list.extend(warnings)
@@ -184,7 +184,7 @@ gotcha: make sure it's a frozen version of the pip requirements""",
 
         for piplock_file in piplock_files:
             log_debug(f"run 'cyclonedx-py' on {piplock_file}")
-            [warnings, cyclonedx_bom] = await self.run_individual_scan(
+            [warnings, cyclonedx_bom, completed_process_stdout] = await self.run_individual_scan(
                 {"PACKAGE_FILE": piplock_file, "PIPLOCK_FILE": True, "REPORT_FILE": ABSOLUTE_REPORT_FILE}
             )
             warnings_list.extend(warnings)
