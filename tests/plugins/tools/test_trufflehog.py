@@ -2,6 +2,7 @@
 from unittest import mock
 
 import pytest
+import os
 
 from eze.plugins.tools.trufflehog import TruffleHogTool, extract_leading_number
 from eze.utils.io.file import create_tempfile_path, create_absolute_path
@@ -74,6 +75,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "DISABLE_DEFAULT_IGNORES": False,
             "EXCLUDE": DEFAULT_EXCLUDES_WITH_MOCKED_GIT_IGNORE,
             "CONFIG_FILE": None,
+            "RULES_FILE": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+            ),
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-report.json"),
             "INCLUDE_FULL_REASON": True,
             "NO_ENTROPY": False,
@@ -100,6 +104,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "SOURCE": ["eze"],
             "ADDITIONAL_ARGUMENTS": "--something foo",
             "CONFIG_FILE": "truffle-config.yaml",
+            "RULES_FILE": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+            ),
             "INCLUDE_FULL_REASON": False,
         }
         expected_config = {
@@ -107,6 +114,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "DISABLE_DEFAULT_IGNORES": False,
             "EXCLUDE": DEFAULT_EXCLUDES_WITH_MOCKED_GIT_IGNORE,
             "CONFIG_FILE": "truffle-config.yaml",
+            "RULES_FILE": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+            ),
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-report.json"),
             "INCLUDE_FULL_REASON": False,
             "NO_ENTROPY": False,
@@ -150,6 +160,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
         expected_config = {
             "SOURCE": ["eze"],
             "CONFIG_FILE": None,
+            "RULES_FILE": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+            ),
             "EXCLUDE": sorted(EXPECTED_EXCLUDE),
             "INCLUDE_FULL_REASON": True,
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-report.json"),
@@ -191,6 +204,9 @@ class TestTruffleHogTool(ToolMetaTestBase):
         expected_config = {
             "SOURCE": ["eze"],
             "CONFIG_FILE": None,
+            "RULES_FILE": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+            ),
             "EXCLUDE": sorted(EXPECTED_EXCLUDE),
             "INCLUDE_FULL_REASON": True,
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-report.json"),
@@ -266,7 +282,14 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "USE_SOURCE_COPY": False,
         }
         absolute_report = create_absolute_path(input_config["REPORT_FILE"])
-        expected_cmd = f"trufflehog3 --no-history -f json eze -o '{absolute_report}'"
+        rules_path = os.path.normpath(
+            os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+        )
+
+        rules_path = os.path.normpath(
+            os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+        )
+        expected_cmd = f"trufflehog3 --no-history -f json eze -r '{rules_path}' -o '{absolute_report}'"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
@@ -298,7 +321,11 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "USE_GIT_IGNORE": False,
             "USE_SOURCE_COPY": False,
         }
-        expected_cmd = f"trufflehog3 --no-history -f json eze -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json --exclude PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER\\\\.*' 'PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*'"
+
+        rules_path = os.path.normpath(
+            os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+        )
+        expected_cmd = f"trufflehog3 --no-history -f json eze -r '{rules_path}' -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json --exclude PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER\\\\.*' 'PATH-TO-NESTED-FOLDER\\\\SOME_NESTING\\\\.*'"
 
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
@@ -330,7 +357,11 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "USE_GIT_IGNORE": False,
             "USE_SOURCE_COPY": False,
         }
-        expected_cmd = f"trufflehog3 --no-history -f json eze -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json --exclude 'FILE WITH SPACES.js' PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*'"
+
+        rules_path = os.path.normpath(
+            os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
+        )
+        expected_cmd = f"trufflehog3 --no-history -f json eze -r '{rules_path}' -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json --exclude 'FILE WITH SPACES.js' PATH-TO-EXCLUDED-FILE.js 'PATH-TO-EXCLUDED-FOLDER/.*' 'PATH-TO-NESTED-FOLDER/SOME_NESTING/.*'"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)
 
@@ -356,8 +387,10 @@ class TestTruffleHogTool(ToolMetaTestBase):
             "USE_GIT_IGNORE": False,
             "USE_SOURCE_COPY": False,
         }
-        expected_cmd = (
-            f"trufflehog3 --no-history -f json eze --no-entropy -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json"
+
+        rules_path = os.path.normpath(
+            os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
         )
+        expected_cmd = f"trufflehog3 --no-history -f json eze --no-entropy -r '{rules_path}' -o OS_NON_SPECIFIC_ABSOLUTE/tmp-truffleHog-report.json"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

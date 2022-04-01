@@ -91,6 +91,6 @@ class TestKicsTool(ToolMetaTestBase):
             "REPORT_FILE": "tmp-kics-report.json",
             "USE_SOURCE_COPY": False,
         }
-        expected_cmd = f"kics scan --ci --report-formats json,cyclonedx -p Dockerfile,azure-pipelines.yml --output-path OS_NON_SPECIFIC_ABSOLUTE --output-name tmp-kics-report.json"
+        expected_cmd = f"kics scan --ci --report-formats json -p Dockerfile,azure-pipelines.yml --output-path OS_NON_SPECIFIC_ABSOLUTE --output-name tmp-kics-report.json"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

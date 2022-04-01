@@ -2,6 +2,7 @@
 import re
 import shlex
 import time
+import os
 
 from pydash import py_
 
@@ -93,6 +94,14 @@ eze will automatically normalise folder separator "/" to os specific versions, "
 see https://github.com/feeltheajf/trufflehog3
 see https://github.com/feeltheajf/truffleHog3/blob/master/examples/trufflehog.yaml""",
         },
+        "RULES_FILE": {
+            "type": str,
+            "default": os.path.normpath(
+                os.path.dirname(os.path.abspath(__file__)) + "/../../data/trufflehog_rules.yml"
+            ),
+            "help_text": """Rules yaml file with patterns to identify insecure code, by default we have a custom rule file.
+see https://github.com/feeltheajf/trufflehog3/blob/b7b4e4177002ea6db198ab63073d0bf044169108/trufflehog3/static/rules.yml""",
+        },
         "INCLUDE_FULL_REASON": {
             "type": bool,
             "default": True,
@@ -123,13 +132,14 @@ stored: TMP/.eze/cached-workspace""",
 
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
-            # tool command prefix
-            "BASE_COMMAND": shlex.split("trufflehog3 --no-history -f json"),
+            # tool command prefix. Uses a custom rules file (ab#849)
+            "BASE_COMMAND": shlex.split(f"trufflehog3 --no-history -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags
             "FLAGS": {
                 "CONFIG_FILE": "-c ",
+                "RULES_FILE": "-r ",
                 "REPORT_FILE": "-o ",
             },
             "FLAGS_WITH_MULTI_FIELDS": {
@@ -216,6 +226,9 @@ stored: TMP/.eze/cached-workspace""",
                 recommendation += f" Full Match: <on long line ({len(line_containing_secret)} characters)>"
             else:
                 recommendation += " Full Match: " + line_containing_secret
+
+        severity = report_event["rule"]["severity"]
+
         return Vulnerability(
             {
                 "vulnerability_type": VulnerabilityType.secret.name,
@@ -224,7 +237,7 @@ stored: TMP/.eze/cached-workspace""",
                 "overview": summary,
                 "recommendation": recommendation,
                 "language": "file",
-                "severity": report_event["rule"]["severity"],
+                "severity": severity,
                 "identifiers": {},
                 "metadata": None,
                 "file_location": {"path": path, "line": line},

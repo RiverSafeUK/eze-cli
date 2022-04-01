@@ -37,7 +37,7 @@
       "overview": "Found Hardcoded 'Password in URL' Pattern in src/super-insecure-lib.py",
       "recommendation": "Investigate 'src/super-insecure-lib.py' Line 5 for 'Password in URL' strings (add '# nosecret' to line if false positive) Full Match: INSECURE_URL_WITH_HARDCODED_BASIC_AUTH = \"https://admin:god@hackers.com\"",
       "references": [],
-      "severity": "low",
+      "severity": "high",
       "version": "",
       "vulnerability_type": "secret"
     }
