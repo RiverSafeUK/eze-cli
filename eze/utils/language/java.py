@@ -1,6 +1,14 @@
-"""helper functions for dealling with mvn and java issues"""
+"""helper functions for dealing with mvn and java issues"""
 
 import re
+
+from eze.utils.io.file_scanner import find_files_by_name
+
+
+def get_maven_projects() -> []:
+    """give a list of maven projects"""
+    pom_files: list = find_files_by_name("^pom.xml$")
+    return pom_files
 
 
 def is_groovy_errors(warning_text: str) -> bool:

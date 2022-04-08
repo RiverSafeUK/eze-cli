@@ -7,9 +7,8 @@ from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
 from eze.utils.log import log_debug
 from eze.utils.io.file import create_tempfile_path, load_json, write_json
-from eze.utils.io.file_scanner import find_files_by_name
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
-from eze.utils.language.java import ignore_groovy_errors
+from eze.utils.language.java import ignore_groovy_errors, get_maven_projects
 from eze.utils.data.osv import osv_sca_sboms
 
 
@@ -85,7 +84,7 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         """
         warnings_list: list = []
         sboms: dict = {}
-        pom_files: list = find_files_by_name("^pom.xml$")
+        pom_files: list = get_maven_projects()
 
         for pom_file in pom_files:
             log_debug(f"run 'java cyclonedx' on {pom_file}")

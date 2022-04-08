@@ -213,7 +213,7 @@ def _print_scan_summary_table(scan_results: list, print_transitive: bool = False
         )
     )
     str_buffer.append(
-        f"""
+        """
 ---
 """
     )

@@ -7,7 +7,6 @@ See table for reason why toml not json/yaml was chosen,
 also it's what all the cool rust and python projects use
 https://www.python.org/dev/peps/pep-0518/#overview-of-file-formats-considered
 """
-from eze import __version__
 from pathlib import Path
 import click
 from pydash import py_
@@ -15,6 +14,7 @@ import shlex
 from abc import ABC
 from copy import deepcopy
 
+from eze import __version__
 from eze.utils.io.file import load_toml
 from eze.utils.config import (
     extract_embedded_run_type,

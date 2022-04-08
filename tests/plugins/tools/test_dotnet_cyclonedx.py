@@ -80,9 +80,7 @@ class TestDotnetCyclonedxTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch(
-        "eze.plugins.tools.dotnet_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["Ezeproject.csproj"])
-    )
+    @mock.patch("eze.utils.language.dotnet.find_files_by_name", mock.MagicMock(return_value=["Ezeproject.csproj"]))
     @mock.patch(
         "eze.plugins.tools.dotnet_cyclonedx.create_absolute_path",
         mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"),
@@ -99,9 +97,7 @@ class TestDotnetCyclonedxTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch(
-        "eze.plugins.tools.dotnet_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["Ezeproject.csproj"])
-    )
+    @mock.patch("eze.utils.language.dotnet.find_files_by_name", mock.MagicMock(return_value=["Ezeproject.csproj"]))
     @mock.patch(
         "eze.plugins.tools.dotnet_cyclonedx.create_absolute_path",
         mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"),

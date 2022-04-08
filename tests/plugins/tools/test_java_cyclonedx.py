@@ -82,7 +82,7 @@ class TestJavaCyclonedxTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.plugins.tools.java_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["pom.xml"]))
+    @mock.patch("eze.utils.language.java.find_files_by_name", mock.MagicMock(return_value=["pom.xml"]))
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given

@@ -9,6 +9,7 @@ from pydash import py_
 from eze.utils.io.file import parse_json
 
 from eze.utils.cli.run import run_async_cmd
+from eze.utils.io.file_scanner import find_files_by_name
 
 
 class Cache:
@@ -17,6 +18,12 @@ class Cache:
 
 __c = Cache()
 __c.installed_in_folder = {}
+
+
+def get_npm_projects() -> []:
+    """give a list of npm projects"""
+    npm_package_jsons = find_files_by_name("^package.json$")
+    return npm_package_jsons
 
 
 def delete_npm_cache() -> None:
