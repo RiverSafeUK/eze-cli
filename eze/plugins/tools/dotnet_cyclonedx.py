@@ -6,11 +6,15 @@ from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_A
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
 from eze.utils.log import log_debug
-from eze.utils.error import EzeExecutableError
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
-from eze.utils.io.file_scanner import find_files_by_name
 from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
-from eze.utils.language.dotnet import get_deprecated_packages, get_vulnerable_packages, annotate_transitive_licenses
+from eze.utils.language.dotnet import (
+    get_deprecated_packages,
+    get_vulnerable_packages,
+    annotate_transitive_licenses,
+    get_dotnet_projects,
+    get_dotnet_solutions,
+)
 
 
 class DotnetCyclonedxTool(ToolMeta):
@@ -74,8 +78,8 @@ https://cyclonedx.org/
         sboms: dict = {}
         warnings: list = []
         vulns: list = []
-        dotnet_projects = find_files_by_name(".*[.]csproj$")
-        dotnet_solutions = find_files_by_name(".*[.]sln$")
+        dotnet_projects = get_dotnet_projects()
+        dotnet_solutions = get_dotnet_solutions()
         for dotnet_project_file in dotnet_projects + dotnet_solutions:
             log_debug(f"run 'dotnet-cyclonedx' on {dotnet_project_file}")
             project_folder = Path(dotnet_project_file).parent

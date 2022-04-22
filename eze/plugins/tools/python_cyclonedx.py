@@ -23,6 +23,7 @@ from eze.utils.cli.run import run_async_cli_command
 from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.data.pypi import pypi_sca_sboms
+from eze.utils.language.python import get_requirements_projects, get_poetry_projects, get_piplock_projects
 
 
 class PythonCyclonedxTool(ToolMeta):
@@ -145,12 +146,13 @@ gotcha: make sure it's a frozen version of the pip requirements""",
         warnings_list = []
         vulnerabilities_list = []
         sboms = {}
-        requirements_files = find_files_by_name("^requirements.txt$")
+
+        requirements_files = get_requirements_projects()
         if self.config["INCLUDE_DEV"]:
             requirements_files.extend(find_files_by_name("^requirements-dev.txt$"))
         requirements_files.extend(self.config["REQUIREMENTS_FILES"])
-        poetry_files = find_files_by_name("^poetry.lock$")
-        piplock_files = find_files_by_name("^Pipfile.lock$")
+        poetry_files = get_poetry_projects()
+        piplock_files = get_piplock_projects()
 
         has_found_packages: bool = False
         # make REPORT_FILE absolute in-case cwd changes

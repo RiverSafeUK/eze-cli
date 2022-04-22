@@ -133,7 +133,7 @@ stored: TMP/.eze/cached-workspace""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix. Uses a custom rules file (ab#849)
-            "BASE_COMMAND": shlex.split(f"trufflehog3 --no-history -f json"),
+            "BASE_COMMAND": shlex.split("trufflehog3 --no-history -f json"),
             # eze config fields -> arguments
             "ARGUMENTS": ["SOURCE"],
             # eze config fields -> flags

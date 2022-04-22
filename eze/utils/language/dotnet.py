@@ -1,3 +1,5 @@
+"""helper functions for dealing with dotnet"""
+
 import re
 import shlex
 
@@ -7,6 +9,7 @@ from eze.utils.data.osv import get_osv_id_data
 
 from eze.core.enums import Vulnerability, VulnerabilitySeverityEnum, VulnerabilityType
 from eze.utils.cli.run import run_async_cmd
+from eze.utils.io.file_scanner import find_files_by_name
 
 
 class DeprecatedPackage:
@@ -38,6 +41,18 @@ class DotnetPackage:
         if len(vo) == 4:
             self.request_version = vo[1]
             self.installed_version = vo[3]
+
+
+def get_dotnet_projects() -> []:
+    """give a list of dotnet_projects"""
+    dotnet_projects = find_files_by_name(".*[.]csproj$")
+    return dotnet_projects
+
+
+def get_dotnet_solutions() -> []:
+    """give a list of dotnet_solutions"""
+    dotnet_solutions = find_files_by_name(".*[.]sln$")
+    return dotnet_solutions
 
 
 def extract_deprecated_packages(stdout: str) -> list:

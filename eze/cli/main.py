@@ -9,6 +9,7 @@ from eze.cli.commands.housekeeping_commands import housekeeping_group
 from eze.cli.commands.reporter_commands import reporters_group
 from eze.cli.commands.tool_commands import tools_group
 from eze.cli.commands.test_commands import test_remote_command, test_online_command, test_command
+from eze.cli.commands.projects_commands import projects_command
 from eze.core.reporter import ReporterManager
 from eze.core.tool import ToolManager
 from eze.utils.package import get_plugins
@@ -35,3 +36,4 @@ cli.add_command(reporters_group)
 cli.add_command(test_command)
 cli.add_command(test_online_command)
 cli.add_command(test_remote_command)
+cli.add_command(projects_command)

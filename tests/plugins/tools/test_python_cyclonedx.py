@@ -115,7 +115,7 @@ class TestPythonCyclonedxTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.plugins.tools.python_cyclonedx.find_files_by_name", mock.MagicMock(return_value=[]))
+    @mock.patch("eze.utils.language.python.find_files_by_name", mock.MagicMock(return_value=[]))
     @mock.patch(
         "eze.plugins.tools.python_cyclonedx.create_absolute_path",
         mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/foo-python-cyclonedx-bom.json"),

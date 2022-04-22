@@ -82,7 +82,7 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.plugins.tools.node_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
+    @mock.patch("eze.utils.language.node.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch(
         "eze.plugins.tools.node_cyclonedx.create_absolute_path",
         mock.MagicMock(return_value="OS_NON_SPECIFIC_ABSOLUTE/foo_report.json"),
@@ -100,7 +100,7 @@ class TestNodeCyclonedxTool(ToolMetaTestBase):
 
     @mock.patch("eze.utils.cli.run.run_async_cmd")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
-    @mock.patch("eze.plugins.tools.node_cyclonedx.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
+    @mock.patch("eze.utils.language.node.find_files_by_name", mock.MagicMock(return_value=["package.json"]))
     @mock.patch("eze.utils.language.node.install_npm_in_path", mock.MagicMock(return_value=True))
     @pytest.mark.asyncio
     async def test_run_scan__throw_eze_error_on_broken_package(self, mocked_run_cmd):

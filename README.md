@@ -174,10 +174,16 @@ When a ```.ezerc.toml``` is present, this will be used instead of the autoconfig
 see list of available tools and reporters using these commands
 
 ```bash
+# which tools are available in eze
 docker run -t riversafe/eze-cli tools list
 docker run -t riversafe/eze-cli tools help <TOOL>
+
+# which reporters are available in eze
 docker run -t riversafe/eze-cli reporters list
 docker run -t riversafe/eze-cli reporters help <TOOL>
+
+# which projects are being detected by eze
+docker run -t -v FOLDER_TO_SCAN:/data riversafe/eze-cli projects
 ```
 
 ## Advanced Configuration: .ezerc.toml format

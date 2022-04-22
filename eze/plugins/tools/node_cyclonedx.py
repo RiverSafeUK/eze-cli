@@ -6,12 +6,11 @@ from pathlib import Path
 from eze.core.enums import ToolType, SourceType, LICENSE_CHECK_CONFIG, LICENSE_ALLOWLIST_CONFIG, LICENSE_DENYLIST_CONFIG
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
-from eze.utils.language.node import install_npm_in_path, annotate_transitive_licenses
+from eze.utils.language.node import install_npm_in_path, annotate_transitive_licenses, get_npm_projects
 from eze.utils.log import log_debug
 from eze.utils.error import EzeExecutableError
 from eze.utils.scan_result import convert_multi_sbom_into_scan_result
 from eze.utils.io.file import create_tempfile_path, load_json, create_absolute_path
-from eze.utils.io.file_scanner import find_files_by_name
 
 
 class NodeCyclonedxTool(ToolMeta):
@@ -92,7 +91,7 @@ This will be ran automatically, if npm install fails this tool can't be run
         """
         sboms = {}
         warnings = []
-        npm_package_jsons = find_files_by_name("^package.json$")
+        npm_package_jsons = get_npm_projects()
         # make REPORT_FILE absolute in-case cwd changes
         ABSOLUTE_REPORT_FILE = create_absolute_path(self.config["REPORT_FILE"])
         scan_config = self.config.copy()
