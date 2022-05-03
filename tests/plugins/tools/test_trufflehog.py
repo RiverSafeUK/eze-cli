@@ -286,9 +286,6 @@ class TestTruffleHogTool(ToolMetaTestBase):
             os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
         )
 
-        rules_path = os.path.normpath(
-            os.path.dirname(os.path.abspath(__file__)) + "/../../../eze/data/trufflehog_rules.yml"
-        )
         expected_cmd = f"trufflehog3 --no-history -f json eze -r '{rules_path}' -o '{absolute_report}'"
         # Test run calls correct program
         await self.assert_run_scan_command(input_config, expected_cmd, mock_async_subprocess_run)

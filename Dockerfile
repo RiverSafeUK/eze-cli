@@ -43,6 +43,9 @@
 FROM checkmarx/kics:v1.5.2-debian as kics_docker_image
 
 
+# see https://github.com/trufflesecurity/trufflehog (v3.4.1)
+FROM trufflesecurity/trufflehog:3.4.1 as trufflehog_docker_image
+
 # base image
 # comes with dotnet/git/curl/wget packages installed
 # https://github.com/dotnet/dotnet-docker//blob/main/src/sdk/6.0/bullseye-slim/amd64/Dockerfile
@@ -153,8 +156,12 @@ COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
 COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
 COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
 
+# Add trufflehog binaries from official image
+COPY --from=trufflehog_docker_image /usr/bin/trufflehog /app/bin/trufflehog 
+RUN  chown -R ezeuser:ezeuser /app/bin/trufflehog  && chmod 755 /app/bin/trufflehog
+
 # install dotnet/C# tools
-RUN dotnet tool install --tool-path /app/bin/ CycloneDX\
+RUN dotnet tool install --tool-path /app/bin CycloneDX --version 2.3.0 \
     && chmod 755 /app/bin/dotnet-CycloneDX \
     && chmod -R 755 /app/bin/.store/cyclonedx/
 
@@ -163,7 +170,7 @@ COPY scripts/eze-cli-*.tar.gz /tmp/eze-cli-latest.tar.gz
 RUN pip3 install --no-cache-dir /tmp/eze-cli-latest.tar.gz \
     && rm /tmp/eze-cli-latest.tar.gz
 
-USER ezeuser:ezeuser
+# USER ezeuser:ezeuser
 
 # cli eze
 # run with "docker run --rm -v $(pwd -W):/data eze-docker --version"

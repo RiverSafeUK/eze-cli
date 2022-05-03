@@ -27,6 +27,7 @@ from eze.plugins.tools.python_safety import SafetyTool
 from eze.plugins.tools.raw import RawTool
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
+from eze.plugins.tools.trufflehog_v3 import TruffleHogv3Tool
 from eze.plugins.tools.checkmarx_kics import KicsTool
 from eze.plugins.tools.dotnet_cyclonedx import DotnetCyclonedxTool
 
@@ -79,4 +80,5 @@ def get_tools() -> dict:
         "semgrep": SemGrepTool,
         # Secrets Tool
         "trufflehog": TruffleHogTool,
+        "trufflehog-v3": TruffleHogv3Tool,
     }

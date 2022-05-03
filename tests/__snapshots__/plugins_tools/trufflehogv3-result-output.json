@@ -1,0 +1,46 @@
+{
+  "fatal_errors": [],
+  "run_details": {},
+  "sboms": null,
+  "summary": {},
+  "tool": "trufflehog-v3",
+  "vulnerabilities": [
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 3,
+        "path": "keys.py"
+      },
+      "identifiers": {},
+      "is_excluded": false,
+      "is_ignored": false,
+      "metadata": null,
+      "name": "Found Hardcoded 'Trufflehog Detector Type: 17. Sensitive password/key' Pattern",
+      "overview": "Found Hardcoded 'Trufflehog Detector Type: 17. Sensitive password/key' Pattern in keys.py",
+      "recommendation": "Investigate 'keys.py' Line 3 for 'Trufflehog Detector Type: 17. Sensitive password/key' strings (add '# nosecret' to line if false positive) Full Match: https://*****:*****@the-internet.herokuapp.com/basic_auth",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "secret"
+    },
+    {
+      "confidence": "",
+      "file_location": {
+        "line": 3,
+        "path": "keys.py"
+      },
+      "identifiers": {},
+      "is_excluded": false,
+      "is_ignored": false,
+      "metadata": null,
+      "name": "Found Hardcoded 'Trufflehog Detector Type: 15. Sensitive password/key' Pattern",
+      "overview": "Found Hardcoded 'Trufflehog Detector Type: 15. Sensitive password/key' Pattern in keys.py",
+      "recommendation": "Investigate 'keys.py' Line 3 for 'Trufflehog Detector Type: 15. Sensitive password/key' strings (add '# nosecret' to line if false positive) Full Match: -----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFl",
+      "references": [],
+      "severity": "medium",
+      "version": "",
+      "vulnerability_type": "secret"
+    }
+  ],
+  "warnings": []
+}
