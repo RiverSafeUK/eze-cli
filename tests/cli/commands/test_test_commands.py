@@ -69,7 +69,7 @@ class TestTestCommands:
         # Given
         # When
         runner = CliRunner()
-        result = runner.invoke(remote_test_command, ["--url", "https://google.com", "--branch", "main"])
+        result = runner.invoke(remote_test_command, ["--url", "https://google.com", "--branch", "main", "s3-file"])
         # Then
         assert result.exception is None
         snapshot.snapshot_dir = get_snapshot_directory()

@@ -17,9 +17,9 @@ repos:
         require_serial: true
         types: [python]
         always_run: true
-      - id: pytest-check
-        name: pytest-check
-        entry: "pytest tests"
-        language: system
-        pass_filenames: false
-        always_run: true
+      # - id: pytest-check
+      #   name: pytest-check
+      #   entry: "pytest tests"
+      #   language: system
+      #   pass_filenames: false
+      #   always_run: true
