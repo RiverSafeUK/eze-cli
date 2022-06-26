@@ -80,7 +80,11 @@ def test_online_command(state, config_file: str, url: str) -> None:
     required=True,
 )
 @click.option("--branch", "-b", help="Specify the branch name to run scan against, aka 'main'")
-def test_remote_command(state, config_file: str, scan_type, url: str, branch: str, s3_report_file: str) -> None:
+@click.option("--s3-bucket", "-s", help="Specify the s3 bucket where to upload the file")
+@click.option("--s3-file", "-f", help="Specify the filename")
+def test_remote_command(
+    state, config_file: str, scan_type, url: str, branch: str, s3_bucket: str, s3_file: str
+) -> None:
     """Eze run scan against git repo, and report back to management console"""
     temp_dir = os.path.join(os.getcwd(), "test-remote")
 
@@ -95,10 +99,8 @@ def test_remote_command(state, config_file: str, scan_type, url: str, branch: st
     # rescan for new .ezerc.toml inside downloaded repo
     state.config = EzeConfig.refresh_ezerc_config()
     EzeCore.auto_build_ezerc()
-    # TODO: Unfix value
-    object_name = "2022-06-19-eze-4"
 
-    if s3_report_file == "":
+    if s3_bucket == "":
         eze_core = EzeCore.get_instance()
         asyncio.run(eze_core.run_scan(scan_type, ["console", "eze"]))
 
@@ -108,9 +110,9 @@ def test_remote_command(state, config_file: str, scan_type, url: str, branch: st
         with open(config_file, "a", encoding="utf-8") as toml:
             toml.write(
                 f"""
-            [s3.test]
-            BUCKET_NAME = "ezemc-reporters-development"
-            OBJECT_KEY = {object_name}
+    [s3.test]
+    BUCKET_NAME = "{s3_bucket}"
+    OBJECT_KEY = {s3_file}
              """
             )
 
