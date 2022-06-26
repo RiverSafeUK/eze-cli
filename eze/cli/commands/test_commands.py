@@ -1,4 +1,5 @@
 """CLI test commands"""
+import textwrap
 import urllib.request
 from urllib.error import HTTPError
 import urllib.parse
@@ -79,7 +80,7 @@ def test_online_command(state, config_file: str, url: str) -> None:
     help="Specify the url of the remote repository to run scan. ex https://user:pass@github.com/repo-url",  # nosecret
     required=True,
 )
-@click.option("--branch", "-b", help="Specify the branch name to run scan against, aka 'main'")
+@click.option("--branch", "-b", help="Specify the branch name to run scan against, aka 'main'", default="main")
 @click.option("--s3-bucket", "-s", help="Specify the s3 bucket where to upload the file")
 @click.option("--s3-file", "-f", help="Specify the filename")
 def test_remote_command(
@@ -89,6 +90,7 @@ def test_remote_command(
     temp_dir = os.path.join(os.getcwd(), "test-remote")
 
     try:
+        os.mkdir(temp_dir)
         os.chdir(temp_dir)
         # TODO: migrate all git helper functions into eze.utils.git
         repo = git.Repo.clone_from(url, temp_dir, branch=branch)
@@ -109,14 +111,16 @@ def test_remote_command(
         config_file = EzeConfig.get_local_config_filename()
         with open(config_file, "a", encoding="utf-8") as toml:
             toml.write(
-                f"""
+                textwrap.dedent(
+                    f"""
     [s3.test]
     BUCKET_NAME = "{s3_bucket}"
-    OBJECT_KEY = {s3_file}
+                OBJECT_KEY = "{s3_file}.json"
              """
+                )
             )
 
         state.config = EzeConfig.refresh_ezerc_config()
 
         eze_core = EzeCore.get_instance()
-        asyncio.run(eze_core.run_scan("test", ["s3"]))
+        asyncio.run(eze_core.run_scan("test", ["s3:test"]))
