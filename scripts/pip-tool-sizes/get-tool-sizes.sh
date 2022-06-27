@@ -51,11 +51,6 @@ echo "==============================="
 ./tool-size.sh piprot
 
 echo ""
-echo "Size of safety"
-echo "==============================="
-./tool-size.sh safety
-
-echo ""
 echo "Size of cyclonedx-bom"
 echo "==============================="
 ./tool-size.sh cyclonedx-bom

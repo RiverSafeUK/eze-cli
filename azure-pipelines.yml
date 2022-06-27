@@ -42,7 +42,7 @@ steps:
 
   # See https://pypi.org/project/pytest-azurepipelines/
   - script: |
-      pip install semgrep truffleHog3 bandit piprot safety cyclonedx-bom
+      pip install semgrep truffleHog3 bandit piprot cyclonedx-bom
       rm -f dist/*.tar.gz
       python setup.py sdist
       cd dist

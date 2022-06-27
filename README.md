@@ -250,12 +250,10 @@ _Updated: 2022/02/08_
 | SECRET | gitleaks             | 7.5.0        | MIT        | opensource static key scanner                                                         |
 | SCA    | kics                 | 1.5.2        | Apache-2.0 | opensource infrastructure scanner                                                     |
 | SBOM   | java-cyclonedx       | 2.5.3        | Apache-2.0 | opensource java bill of materials (SBOM) generation utility, also runs SCA via osv    |
-| SCA    | java-dependencycheck | 7.0.0        | Apache-2.0 | opensource java SCA tool class                                                        |
 | SAST   | java-spotbugs        | 4.5.3        | LGPL       | opensource java SAST tool class                                                       |
 | SCA    | node-npmaudit        | 8.5.1        | NPM        | opensource node SCA scanner                                                           |
 | SCA    | node-npmoutdated     | 8.5.1        | NPM        | opensource node outdated dependency scanner                                           |
 | SBOM   | node-cyclonedx       | 3.4.1        | Apache-2.0 | opensource node bill of materials (SBOM) generation utility                           |
-| SAST   | python-safety        | 1.10.3       | MIT        | opensource python SCA scanner                                                         |
 | SCA    | python-piprot        | 0.9.11       | MIT        | opensource python outdated dependency scanner                                         |
 | SAST   | python-bandit        | 1.7.3        | Apache-2.0 | opensource python SAST scanner                                                        |
 | SBOM   | python-cyclonedx     | 3.0.0        | Apache-2.0 | opensource python bill of materials (SBOM) generation utility, also runs SCA via pypi |
@@ -263,7 +261,7 @@ _Updated: 2022/02/08_
 | SAST   | semgrep              | 0.82.0       | LGPL       | opensource multi language SAST scanner                                                |
 | SECRET | trufflehog           | 3.0.4        | GPL        | opensource secret scanner                                                             |
 
-An updated list of tools, licenses, and sizes pre-installed in latest Eze Cli Dockerimage can be found using the command
+An updated list of tools, licenses, and sizes pre-installed in latest Eze Cli Docker image can be found using the command
 
 ```bash
 docker run -t --rm riversafe/eze-cli tools list

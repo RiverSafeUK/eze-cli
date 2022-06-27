@@ -15,7 +15,6 @@ from eze.plugins.tools.anchore_syft import SyftTool
 from eze.plugins.tools.container_trivy import TrivyTool
 from eze.plugins.tools.gitleaks import GitLeaksTool
 from eze.plugins.tools.java_cyclonedx import JavaCyclonedxTool
-from eze.plugins.tools.java_dependencycheck import JavaDependencyCheckTool
 from eze.plugins.tools.java_spotbugs import JavaSpotbugsTool
 from eze.plugins.tools.node_cyclonedx import NodeCyclonedxTool
 from eze.plugins.tools.node_npmaudit import NpmAuditTool
@@ -23,7 +22,6 @@ from eze.plugins.tools.node_npmoutdated import NpmOutdatedTool
 from eze.plugins.tools.python_bandit import BanditTool
 from eze.plugins.tools.python_cyclonedx import PythonCyclonedxTool
 from eze.plugins.tools.python_piprot import PiprotTool
-from eze.plugins.tools.python_safety import SafetyTool
 from eze.plugins.tools.raw import RawTool
 from eze.plugins.tools.semgrep import SemGrepTool
 from eze.plugins.tools.trufflehog import TruffleHogTool
@@ -63,14 +61,12 @@ def get_tools() -> dict:
         "kics": KicsTool,
         # Java Tools
         "java-cyclonedx": JavaCyclonedxTool,
-        "java-dependencycheck": JavaDependencyCheckTool,
         "java-spotbugs": JavaSpotbugsTool,
         # Node Tools
         "node-npmaudit": NpmAuditTool,
         "node-npmoutdated": NpmOutdatedTool,
         "node-cyclonedx": NodeCyclonedxTool,
         # Python Tools
-        "python-safety": SafetyTool,
         "python-piprot": PiprotTool,
         "python-bandit": BanditTool,
         "python-cyclonedx": PythonCyclonedxTool,

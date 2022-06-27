@@ -32,15 +32,14 @@
 # python/cyclonedx-bom         4.9 MB
 # node/@cyclonedx/bom          4.7 MB
 # python/bandit                1.4 MB
-# python/safety                0.2 MB
 # python/piprot                0.1 MB
 #
 
 # AB#1044 : Extract Debian binaries from kics official docker image
 # no binaries provided via github, unsafe to run docker in docker
 # see https://github.com/Checkmarx/kics/blob/master/Dockerfile.debian
-# see https://github.com/Checkmarx/kics/releases (v1.5.2)
-FROM checkmarx/kics:v1.5.2-debian as kics_docker_image
+# see https://github.com/Checkmarx/kics/releases
+FROM checkmarx/kics:v1.5.11-debian as kics_docker_image
 
 
 # base image
@@ -75,16 +74,17 @@ ENV \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 \
     # kics env, add kics / dotnet-CycloneDx into PATH
     PATH="${PATH}:/app/bin" \
-    # TOOL VERSIONS
-    TRUFFLEHOG3_VERSION="3.0.4" \
-    BANDIT_VERSION="1.7.3" \
-    SEMGREP_VERSION="0.82.0" \
+    # PYTHON TOOL VERSIONS
+    TRUFFLEHOG3_VERSION="3.0.5" \
+    BANDIT_VERSION="1.7.4" \
+    SEMGREP_VERSION="0.100.0" \
     PIPROT_VERSION="0.9.11" \
-    SAFETY_VERSION="1.10.3" \
+    CYCLONEDX_PYTHON_VERSION="3.4.0" \
+    # NODE TOOL VERSIONS
+    CYCLONEDX_NODE_VERSION="3.10.1" \
+    # OTHER TOOLS VERSIONS
     TRIVY_VERSION="0.18.2" \
-    CYCLONEDX_TOOLS_VERSION="0.22.0" \
-    CYCLONEDX_PYTHON_VERSION="3.0.0" \
-    CYCLONEDX_NODE_VERSION="3.4.1"
+    CYCLONEDX_TOOLS_VERSION="0.24.0"
 
 # Setup Common Cache
 ENV \
@@ -107,6 +107,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends nodejs \
     # Install python (eze + pip tool dependency)
     && apt-get install -y --no-install-recommends python3 python3-pip \
+
     # Cleanup
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -121,10 +122,12 @@ RUN npm install -g @cyclonedx/bom@${CYCLONEDX_NODE_VERSION} --only=production \
     && npm prune --production
 
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep==${SEMGREP_VERSION} truffleHog3==${TRUFFLEHOG3_VERSION} bandit==${BANDIT_VERSION} piprot==${PIPROT_VERSION} safety==${SAFETY_VERSION} cyclonedx-bom==${CYCLONEDX_PYTHON_VERSION} \
+RUN pip3 install --no-cache-dir semgrep==${SEMGREP_VERSION} bandit==${BANDIT_VERSION} piprot==${PIPROT_VERSION} cyclonedx-bom==${CYCLONEDX_PYTHON_VERSION} \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
-    && rm `which cyclonedx-bom`
+    && rm `which cyclonedx-bom` \
+    # BUGFIX: prep for moving to pipx
+    && pip3 install --no-cache-dir --ignore-installed  truffleHog3==${TRUFFLEHOG3_VERSION}
 
 
 # Install Anchore tools (grype / syft)
