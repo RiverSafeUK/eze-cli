@@ -90,7 +90,6 @@ def test_remote_command(
     temp_dir = os.path.join(os.getcwd(), "test-remote")
 
     try:
-        os.mkdir(temp_dir)
         os.chdir(temp_dir)
         # TODO: migrate all git helper functions into eze.utils.git
         repo = git.Repo.clone_from(url, temp_dir, branch=branch)
