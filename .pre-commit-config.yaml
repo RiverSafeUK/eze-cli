@@ -20,7 +20,6 @@ repos:
       - id: pytest-check
         name: pytest-check
         entry: "pytest tests"
-        language: python
+        language: system
         pass_filenames: false
         always_run: true
-        additional_dependencies: [pre-commit, pytest]
