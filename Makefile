@@ -34,10 +34,10 @@ lint:
 	pylint --fail-under=8 --rcfile .pylintrc eze
 
 test:
-	$(PYTHON) -m pytest tests -vv --cov=eze --cov-branch --cov-report=term-missing --cov-report html:reports/coverage/cov_html --cov-report=xml:reports/coverage/coverage.xml --junitxml=reports/xunit/test-results.xml -o junit_family=xunit1 || true
+	$(PYTHON) -m pytest tests/$(filter) -vv --cov=eze --cov-branch --cov-report=term-missing --cov-report html:reports/coverage/cov_html --cov-report=xml:reports/coverage/coverage.xml --junitxml=reports/xunit/test-results.xml -o junit_family=xunit1 || true
 
 test-snapshot-update:
-	$(PYTHON) -m pytest tests --snapshot-update
+	$(PYTHON) -m pytest tests/$(filter) --snapshot-update
 
 ##############################################
 # EZE CLI PACKAGE COMMANDS
