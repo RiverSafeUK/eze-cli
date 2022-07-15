@@ -21,8 +21,9 @@ from eze.utils.io.file import (
     write_json,
 )
 from eze.utils.log import log
-from eze.utils.io.file_scanner import IGNORED_FOLDERS, cache_workspace_into_tmp
+
 from eze.utils.git import get_gitignore_paths
+from eze.utils.io.file_scanner import IGNORED_FOLDERS, cache_workspace_into_tmp
 
 
 def extract_leading_number(value: str) -> str:
@@ -79,25 +80,11 @@ Tips
 eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\\\" for windows""",
             "help_example": ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"],
         },
-        "NO_ENTROPY": {
-            "type": bool,
-            "default": False,
-            "help_text": """disable entropy checks, maps to flag --no-entropy""",
-        },
         "DISABLE_DEFAULT_IGNORES": {
             "type": bool,
             "default": False,
             "help_text": f"""by default ignores common binary assets folder, ignore list
-{ToolMeta.DEFAULT_IGNORED_LOCATIONS}""",
-        },
-        "CONFIG_FILE": {
-            "type": str,
-            "help_text": """TruffleHog3 config file to use
-see https://github.com/trufflesecurity/trufflehog""",
-        },
-        "REGEXES_EXCLUDE_FILE": {
-            "type": str,
-            "help_text": """File with newline separated regexes for files to exclude in the scan.""",
+        {ToolMeta.DEFAULT_IGNORED_LOCATIONS}""",
         },
         "INCLUDE_FULL_REASON": {
             "type": bool,
@@ -132,7 +119,7 @@ stored: TMP/.eze/cached-workspace""",
             # tool command prefix.
             "BASE_COMMAND": shlex.split("trufflehog git file://. --json"),
             # eze config fields -> flags
-            "FLAGS": {"REGEXES_EXCLUDE_FILE": "-r "},
+            "FLAGS": {"EXCLUDE": "--exclude-paths "},
         }
     }
 
@@ -174,16 +161,16 @@ stored: TMP/.eze/cached-workspace""",
     def _trufflehog_line(self, report_event):
         """trufflehog format parse support"""
         source_metadata = py_.get(report_event, "SourceMetadata", {})
-        path = py_.get(source_metadata, "Data.Git.file", "-")
-        line = py_.get(source_metadata, "Data.Git.line", "-")
-        detector_name = report_event["DetectorName"]
-        detector_type = report_event["DetectorType"]
-        reason = f"Sensitive {detector_name} (Type {detector_type})."
+        path = py_.get(source_metadata, "Data.Git.file", "unknown")
+        line = py_.get(source_metadata, "Data.Git.line", None)
+        location_str = path if line is None else path + ":" + str(line)
+        detector_name = py_.get(report_event, "DetectorName", "")
+        reason = f"Sensitive {detector_name}"
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
         recommendation = (
-            f"Investigate '{path}' Line {line} for '{reason}' strings (add '# nosecret' to line if false positive)"
+            f"Investigate '{location_str}' for '{reason}' strings. (add '# nosecret' to line if false positive)"
         )
 
         # only include full reason if include_full_reason true
@@ -234,6 +221,18 @@ stored: TMP/.eze/cached-workspace""",
     def _parse_config(self, eze_config: dict) -> dict:
         """take raw config dict and normalise values"""
         parsed_config = super()._parse_config(eze_config)
+
+        # ADDITION PARSING: EXCLUDE
+        # convert to space separated, clean os specific regex
+        if not parsed_config["DISABLE_DEFAULT_IGNORES"]:
+            parsed_config["EXCLUDE"].extend(IGNORED_FOLDERS)
+            # parsed_config["EXCLUDE"].extend(get_gitignore_paths())
+
+        # ADDITION PARSING: USE_GIT_IGNORE
+        # add git ignore onto excludes
+        if parsed_config["USE_GIT_IGNORE"]:
+            gitignore_paths = get_gitignore_paths()
+            parsed_config["EXCLUDE"].extend(gitignore_paths)
 
         # remove from SOURCE
         parsed_config["SOURCE"] = remove_non_folders(parsed_config["SOURCE"], ["."], "trufflehog")

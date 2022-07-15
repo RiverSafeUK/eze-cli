@@ -2,10 +2,9 @@
 from unittest import mock
 
 import pytest
-import os
 
 from eze.plugins.tools.trufflehog_v3 import TruffleHogv3Tool
-from eze.utils.io.file import create_tempfile_path, create_absolute_path
+from eze.utils.io.file import create_tempfile_path
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -14,7 +13,8 @@ class TestTruffleHogv3Tool(ToolMetaTestBase):
     SNAPSHOT_PREFIX = "trufflehog-v3"
 
     @mock.patch(
-        "eze.plugins.tools.trufflehog_v3.get_gitignore_paths", mock.MagicMock(return_value=["some-gitignore-statement"])
+        "eze.plugins.tools.trufflehog_v3.get_gitignore_paths",
+        mock.MagicMock(return_value=["file-to-ignore1", "file-to-ignore2"]),
     )
     def test_creation__no_config(self):
         # Given
@@ -22,14 +22,37 @@ class TestTruffleHogv3Tool(ToolMetaTestBase):
         expected_config = {
             "SOURCE": ["eze"],
             "DISABLE_DEFAULT_IGNORES": False,
-            "CONFIG_FILE": None,
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-v3-report.json"),
             "INCLUDE_FULL_REASON": True,
-            "NO_ENTROPY": False,
             "USE_GIT_IGNORE": True,
-            "REGEXES_EXCLUDE_FILE": None,
             #
-            "EXCLUDE": [],
+            "EXCLUDE": [  # IDEs and Configs
+                ".gradle",
+                ".aws",
+                ".idea",
+                ".git",
+                ".eze",
+                ".coverage",
+                "~",
+                # TERRAFORM
+                ".terraform",
+                # NODE
+                "node_modules",
+                "build",
+                "target",
+                "vendor",
+                # PYTHON
+                ".pytest_cache",
+                "__pycache__",
+                ".env",
+                ".venv",
+                ".tox",
+                "venv",
+                "dist",
+                "sdist",
+                "file-to-ignore1",
+                "file-to-ignore2",
+            ],
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
             "IGNORED_VULNERABILITIES": None,
@@ -56,7 +79,6 @@ class TestTruffleHogv3Tool(ToolMetaTestBase):
         expected_output = False
         output = TruffleHogv3Tool.check_installed()
         # Then
-        print(output)
         assert output == expected_output
 
     def test_parse_report(self, snapshot):

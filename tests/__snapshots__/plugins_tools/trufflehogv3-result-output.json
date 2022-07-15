@@ -8,16 +8,16 @@
     {
       "confidence": "",
       "file_location": {
-        "line": 3,
+        "line": 2,
         "path": "keys.py"
       },
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
       "metadata": null,
-      "name": "Found Hardcoded 'Trufflehog Detector Type: 17. Sensitive password/key' Pattern",
-      "overview": "Found Hardcoded 'Trufflehog Detector Type: 17. Sensitive password/key' Pattern in keys.py",
-      "recommendation": "Investigate 'keys.py' Line 3 for 'Trufflehog Detector Type: 17. Sensitive password/key' strings (add '# nosecret' to line if false positive) Full Match: https://*****:*****@the-internet.herokuapp.com/basic_auth",
+      "name": "Found Hardcoded 'Sensitive ' Pattern",
+      "overview": "Found Hardcoded 'Sensitive ' Pattern in keys.py",
+      "recommendation": "Investigate 'keys.py:2' for 'Sensitive ' strings. (add '# nosecret' to line if false positive) Full Match: https://*****:*****@the-internet.herokuapp.com/basic_auth",
       "references": [],
       "severity": "medium",
       "version": "",
@@ -26,16 +26,16 @@
     {
       "confidence": "",
       "file_location": {
-        "line": 3,
-        "path": "keys.py"
+        "line": 5,
+        "path": "insecure/src/super-insecure-lib.py"
       },
       "identifiers": {},
       "is_excluded": false,
       "is_ignored": false,
       "metadata": null,
-      "name": "Found Hardcoded 'Trufflehog Detector Type: 15. Sensitive password/key' Pattern",
-      "overview": "Found Hardcoded 'Trufflehog Detector Type: 15. Sensitive password/key' Pattern in keys.py",
-      "recommendation": "Investigate 'keys.py' Line 3 for 'Trufflehog Detector Type: 15. Sensitive password/key' strings (add '# nosecret' to line if false positive) Full Match: -----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAACmFl",
+      "name": "Found Hardcoded 'Sensitive URI' Pattern",
+      "overview": "Found Hardcoded 'Sensitive URI' Pattern in insecure/src/super-insecure-lib.py",
+      "recommendation": "Investigate 'insecure/src/super-insecure-lib.py:5' for 'Sensitive URI' strings. (add '# nosecret' to line if false positive) Full Match: https://admin:***@hackers.com",
       "references": [],
       "severity": "medium",
       "version": "",
