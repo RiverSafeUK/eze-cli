@@ -130,7 +130,7 @@ stored: TMP/.eze/cached-workspace""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix.
-            "BASE_COMMAND": shlex.split("trufflehog filesystem --directory . --json"),
+            "BASE_COMMAND": shlex.split("trufflehog git file://. --json"),
             # eze config fields -> flags
             "FLAGS": {"REGEXES_EXCLUDE_FILE": "-r "},
         }
@@ -173,12 +173,12 @@ stored: TMP/.eze/cached-workspace""",
 
     def _trufflehog_line(self, report_event):
         """trufflehog format parse support"""
-        event_metadata = py_.get(report_event, "SourceMetadata", {})
-        path = event_metadata["Data"]["Filesystem"]["file"]
-        line = ""
+        source_metadata = py_.get(report_event, "SourceMetadata", {})
+        path = py_.get(source_metadata, "Data.Git.file", "-")
+        line = py_.get(source_metadata, "Data.Git.line", "-")
         detector_name = report_event["DetectorName"]
         detector_type = report_event["DetectorType"]
-        reason = f"Trufflehog Type: {detector_type} - Sensitive {detector_name}."
+        reason = f"Sensitive {detector_name} (Type {detector_type})."
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
@@ -194,6 +194,7 @@ stored: TMP/.eze/cached-workspace""",
             else:
                 recommendation += " Full Match: " + line_containing_secret
 
+        # TODO: assume medium as no severity is provided
         severity = "MEDIUM"
 
         return Vulnerability(
