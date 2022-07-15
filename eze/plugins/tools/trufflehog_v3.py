@@ -130,7 +130,7 @@ stored: TMP/.eze/cached-workspace""",
     TOOL_CLI_CONFIG = {
         "CMD_CONFIG": {
             # tool command prefix.
-            "BASE_COMMAND": shlex.split("trufflehog git file://. --json"),
+            "BASE_COMMAND": shlex.split("trufflehog filesystem --directory . --json"),
             # eze config fields -> flags
             "FLAGS": {"REGEXES_EXCLUDE_FILE": "-r "},
         }
@@ -149,15 +149,10 @@ stored: TMP/.eze/cached-workspace""",
         # make REPORT_FILE absolute in-case cwd changes
         scan_config["REPORT_FILE"] = create_absolute_path(scan_config["REPORT_FILE"])
         cwd = cache_workspace_into_tmp() if self.config["USE_SOURCE_COPY"] else None
-        print(1)
         await run_async_cmd(["git", "init"], cwd=cwd)
-        print(1)
         completed_process = await run_async_cli_command(
             self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config, self.TOOL_NAME, cwd=cwd
         )
-        print("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-        print(2)
-
         write_json(
             scan_config["REPORT_FILE"], json.loads("[" + ",\n".join(completed_process.stdout.strip().split("\n")) + "]")
         )
@@ -179,10 +174,11 @@ stored: TMP/.eze/cached-workspace""",
     def _trufflehog_line(self, report_event):
         """trufflehog format parse support"""
         event_metadata = py_.get(report_event, "SourceMetadata", {})
-        path = event_metadata["Data"]["Git"]["file"]
-        line = int(event_metadata["Data"]["Git"]["line"]) + 1
+        path = event_metadata["Data"]["Filesystem"]["file"]
+        line = ""
+        detector_name = report_event["DetectorName"]
         detector_type = report_event["DetectorType"]
-        reason = f"Trufflehog Detector Type: {detector_type}. Sensitive password/key"
+        reason = f"Trufflehog Type: {detector_type} - Sensitive {detector_name}."
 
         name = f"Found Hardcoded '{reason}' Pattern"
         summary = f"Found Hardcoded '{reason}' Pattern in {path}"
