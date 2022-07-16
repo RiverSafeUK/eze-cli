@@ -1,0 +1,138 @@
+short_description:
+======================
+opensource secret scanner
+
+config_help:
+======================
+[trufflehog-v3]
+# SOURCE list
+# TruffleHog v3 list of source folders to scan for secrets
+# default value: 
+#   SOURCE = "."
+# 
+SOURCE = ["..."]
+
+
+# EXCLUDE list [OPTIONAL]
+# array of regex str of folders/files to exclude from scan for secrets
+# eze will automatically normalise folder separator "/" to os specific versions, "/" for unix, "\\" for windows
+# 
+EXCLUDE = ["PATH-TO-EXCLUDED-FOLDER/.*", "PATH-TO-EXCLUDED-FILE.js", ".*\\.jpeg"]
+
+# DISABLE_DEFAULT_IGNORES bool [OPTIONAL]
+# by default ignores common binary assets folder, ignore list
+#         ['.gradle', '.aws', '.idea', '.git', '.eze', '.coverage', '~', '.terraform', 'node_modules', 'build', 'target', 'vendor', '.pytest_cache', '__pycache__', '.env', '.venv', '.tox', 'venv', 'dist', 'sdist']
+# 
+DISABLE_DEFAULT_IGNORES = true / false
+
+
+# INCLUDE_FULL_REASON bool [OPTIONAL]
+# Optional include the full reason in report
+# Warning: on production might want to set this to False to prevent found Secrets appearing in reports
+# default value: 
+#   INCLUDE_FULL_REASON = true
+# 
+INCLUDE_FULL_REASON = true / false
+
+
+# REPORT_FILE str [OPTIONAL]
+# output report location (will default to tmp file otherwise)
+# default value: 
+#   REPORT_FILE = "<tempdir>/.eze-temp/tmp-truffleHog-v3-report.json"
+# 
+REPORT_FILE = "..."
+
+
+# USE_GIT_IGNORE bool [OPTIONAL]
+# ignore files specified in .gitignore
+# default value: 
+#   USE_GIT_IGNORE = true
+# 
+USE_GIT_IGNORE = true / false
+
+
+# REGEXES_EXCLUDE_FILE str [OPTIONAL]
+# File with newline separated regexes for files to exclude in the scan.
+# 
+REGEXES_EXCLUDE_FILE = "..."
+
+
+# USE_SOURCE_COPY bool [OPTIONAL]
+# speeds up SAST tools by using copied folder with no binary/dependencies assets
+# for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules
+# stored: TMP/.eze/cached-workspace
+# default value: 
+#   USE_SOURCE_COPY = true
+# value can be set via environment variable: USE_SOURCE_COPY
+# 
+USE_SOURCE_COPY = true / false
+
+
+
+# Common Tool Config
+
+# ADDITIONAL_ARGUMENTS str [OPTIONAL]
+# common field that can be used to postfix arbitrary arguments onto any plugin cli tooling
+# 
+ADDITIONAL_ARGUMENTS = "..."
+
+
+# IGNORE_BELOW_SEVERITY str [OPTIONAL]
+# vulnerabilities severities to ignore, by CVE severity level
+# aka if set to medium, would ignore medium/low/none/na
+# available levels: critical, high, medium, low, none, na
+# 
+IGNORE_BELOW_SEVERITY = "..."
+
+
+# IGNORED_VULNERABILITIES list [OPTIONAL]
+# vulnerabilities to ignore, by CVE code or by name
+# feature only for use when vulnerability mitigated or on track to be fixed
+# 
+IGNORED_VULNERABILITIES = ["..."]
+
+
+# IGNORED_FILES list [OPTIONAL]
+# vulnerabilities in files or prefix folders to ignore
+# feature only for use when vulnerability mitigated or on track to be fixed
+# 
+IGNORED_FILES = ["..."]
+
+
+# DEFAULT_SEVERITY str [OPTIONAL]
+# Severity to set vulnerabilities, when tool doesn't provide a severity, defaults to na
+# available levels: critical, high, medium, low, none, na
+# 
+DEFAULT_SEVERITY = "..."
+
+
+# EXCLUDE list [OPTIONAL]
+# files or prefix folders to exclude in the scanning process
+# 
+EXCLUDE = ["..."]
+
+
+
+
+install_help:
+======================
+Installation guide for Trufflehog v3
+- Download Trufflehog v3 binary:
+    1. Download the appropriate trufflehog_*_linux_* executable file.
+    2. Rename the downloaded file to "trufflehog" and move it into the executables directory ( /usr/local/bin/trufflehog )
+    3. Make sure you are able to run this command:
+        trufflehog --version
+
+
+more_info:
+======================
+https://github.com/trufflesecurity/trufflehog/
+
+Tips
+===============================
+- trufflehog can scan into different sources like: 'git' repos, 'github' organization, 'gitlab', 'filesystem', 's3' buckets.
+- use EXCLUDE to not run scan in files
+  aka to avoid high entropy ids, or mock passwords in unit test fixtures, (or package-lock.json)
+- use IGNORED_FILES to ignore false positives in files and folders
+- false positives can be individually omitted with post fixing line with "# nosecret" and "// nosecret"
+

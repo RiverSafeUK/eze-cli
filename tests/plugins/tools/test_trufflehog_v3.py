@@ -10,7 +10,7 @@ from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 class TestTruffleHogv3Tool(ToolMetaTestBase):
     ToolMetaClass = TruffleHogv3Tool
-    SNAPSHOT_PREFIX = "trufflehog-v3"
+    SNAPSHOT_PREFIX = "trufflehogv3"
 
     @mock.patch(
         "eze.plugins.tools.trufflehog_v3.get_gitignore_paths",
