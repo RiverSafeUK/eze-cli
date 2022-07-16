@@ -51,6 +51,12 @@ REPORT_FILE = "..."
 USE_GIT_IGNORE = true / false
 
 
+# REGEXES_EXCLUDE_FILE str [OPTIONAL]
+# File with newline separated regexes for files to exclude in the scan.
+# 
+REGEXES_EXCLUDE_FILE = "..."
+
+
 # USE_SOURCE_COPY bool [OPTIONAL]
 # speeds up SAST tools by using copied folder with no binary/dependencies assets
 # for mono-repos can speed up scans from 800s to 30s, by avoiding common dependencies such as node_modules

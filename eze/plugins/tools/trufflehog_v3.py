@@ -1,4 +1,5 @@
 """TruffleHog v3 Python tool class"""
+from distutils.file_util import write_file
 import json
 import re
 import shlex
@@ -103,6 +104,11 @@ Warning: on production might want to set this to False to prevent found Secrets 
             "default": True,
             "help_text": """ignore files specified in .gitignore""",
         },
+        "REGEXES_EXCLUDE_FILE": {
+            "type": str,
+            "default": "",
+            "help_text": """File with newline separated regexes for files to exclude in the scan.""",
+        },
         "USE_SOURCE_COPY": {
             "type": bool,
             "default": True,
@@ -119,7 +125,7 @@ stored: TMP/.eze/cached-workspace""",
             # tool command prefix.
             "BASE_COMMAND": shlex.split("trufflehog git file://. --json"),
             # eze config fields -> flags
-            "FLAGS": {"EXCLUDE": "--exclude-paths "},
+            "FLAGS": {"REGEXES_EXCLUDE_FILE": "--exclude-paths "},
         }
     }
 
@@ -222,17 +228,23 @@ stored: TMP/.eze/cached-workspace""",
         """take raw config dict and normalise values"""
         parsed_config = super()._parse_config(eze_config)
 
+        exclude = parsed_config["EXCLUDE"]
         # ADDITION PARSING: EXCLUDE
         # convert to space separated, clean os specific regex
         if not parsed_config["DISABLE_DEFAULT_IGNORES"]:
-            parsed_config["EXCLUDE"].extend(IGNORED_FOLDERS)
-            # parsed_config["EXCLUDE"].extend(get_gitignore_paths())
+            exclude.extend(IGNORED_FOLDERS)
 
         # ADDITION PARSING: USE_GIT_IGNORE
         # add git ignore onto excludes
         if parsed_config["USE_GIT_IGNORE"]:
             gitignore_paths = get_gitignore_paths()
-            parsed_config["EXCLUDE"].extend(gitignore_paths)
+            exclude.extend(gitignore_paths)
+
+        exclude = list(set(exclude))
+        filename = create_tempfile_path(".trufflehog_v3_exclude")
+        write_file(filename, exclude)
+
+        parsed_config["REGEXES_EXCLUDE_FILE"] = filename
 
         # remove from SOURCE
         parsed_config["SOURCE"] = remove_non_folders(parsed_config["SOURCE"], ["."], "trufflehog")

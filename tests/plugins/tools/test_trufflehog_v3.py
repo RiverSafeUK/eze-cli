@@ -25,6 +25,7 @@ class TestTruffleHogv3Tool(ToolMetaTestBase):
             "REPORT_FILE": create_tempfile_path("tmp-truffleHog-v3-report.json"),
             "INCLUDE_FULL_REASON": True,
             "USE_GIT_IGNORE": True,
+            "REGEXES_EXCLUDE_FILE": create_tempfile_path(".trufflehog_v3_exclude"),
             #
             "EXCLUDE": [  # IDEs and Configs
                 ".gradle",
