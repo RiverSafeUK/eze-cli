@@ -10,7 +10,7 @@ from eze.utils.log import log_debug
 from eze.core.enums import VulnerabilityType, ToolType, SourceType, Vulnerability
 from eze.core.tool import ToolMeta, ScanResult
 from eze.utils.cli.run import run_async_cli_command
-from eze.utils.io.file import create_tempfile_path, write_json
+from eze.utils.io.file import create_tempfile_path, write_json, load_xml
 from eze.utils.io.file_scanner import find_files_by_name
 from eze.utils.language.java import ignore_groovy_errors
 
@@ -85,8 +85,17 @@ Warning: on production might want to set this to False to prevent found Secrets 
         warnings_list: list = []
         pom_files: list = find_files_by_name("^pom.xml$")
 
+        if len(pom_files) > 1:
+            log_debug(f"found {len(pom_files)} maven projects")
+        counter: int = 0
+
         for pom_file in pom_files:
-            log_debug(f"run 'java cyclonedx' on {pom_file}")
+            if len(pom_files) > 1:
+                counter += 1
+                run_status = f"({counter}/{len(pom_files)} projects)"
+                log_debug(f"run 'java spotbugs' on {pom_file} {run_status}")
+            else:
+                log_debug(f"run 'java spotbugs' on {pom_file}")
             maven_project = Path(pom_file).parent
             maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
 
@@ -99,10 +108,8 @@ Warning: on production might want to set this to False to prevent found Secrets 
                 for warning in warnings:
                     warnings_list.append(warning)
 
-            # TODO: refactor into load_xml util?
-            spotbugs_xml_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
-            with open(spotbugs_xml_fullpath) as xml_file:
-                spotbugs_report = xmltodict.parse(xml_file.read(), force_list={"BugInstance", "BugPattern"})
+            spotbugs_xml_filepath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
+            spotbugs_report = load_xml(spotbugs_xml_filepath, {"BugInstance", "BugPattern"})
 
             write_json(self.config["REPORT_FILE"], spotbugs_report)
             [spotbugs_vulnerabilities_list] = self.parse_report(spotbugs_report)

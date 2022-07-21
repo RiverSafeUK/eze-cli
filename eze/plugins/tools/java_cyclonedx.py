@@ -86,28 +86,39 @@ You can add org.cyclonedx:cyclonedx-maven-plugin to customise your SBOM output
         sboms: dict = {}
         pom_files: list = get_maven_projects()
 
+        if len(pom_files) > 1:
+            log_debug(f"found {len(pom_files)} maven projects")
+        counter: int = 0
         for pom_file in pom_files:
-            log_debug(f"run 'java cyclonedx' on {pom_file}")
-            maven_project = Path(pom_file).parent
-            maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
+            try:
+                if len(pom_files) > 1:
+                    counter += 1
+                    run_status = f"({counter}/{len(pom_files)} projects)"
+                    log_debug(f"run 'java cyclonedx' on {pom_file} {run_status}")
+                else:
+                    log_debug(f"run 'java cyclonedx' on {pom_file}")
+                maven_project = Path(pom_file).parent
+                maven_project_fullpath = Path.joinpath(Path.cwd(), maven_project)
 
-            completed_process = await run_async_cli_command(
-                self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
-            )
-            # TODO: AB#1047: add option to SCA test dependencies: INCLUDE_TEST -DincludeTestScope=true
-            # TODO: AB#1048: EZE CLI: mark java-cyclonedx transitive packages
-            # "properties"."transitive" not "dependency" as too complex to calculate
-            # mvn dependency:tree -DoutputType=dot  -Dverbose
-            # https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html
-            bom_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
-            cyclonedx_bom = load_json(str(bom_fullpath))
+                completed_process = await run_async_cli_command(
+                    self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config, self.TOOL_NAME, cwd=maven_project_fullpath
+                )
+                # TODO: AB#1047: add option to SCA test dependencies: INCLUDE_TEST -DincludeTestScope=true
+                # TODO: AB#1048: EZE CLI: mark java-cyclonedx transitive packages
+                # "properties"."transitive" not "dependency" as too complex to calculate
+                # mvn dependency:tree -DoutputType=dot  -Dverbose
+                # https://maven.apache.org/plugins/maven-dependency-plugin/tree-mojo.html
+                bom_fullpath = Path.joinpath(maven_project_fullpath, self.config["MVN_REPORT_FILE"])
+                cyclonedx_bom = load_json(str(bom_fullpath))
 
-            write_json(self.config["REPORT_FILE"], cyclonedx_bom)
-            sboms[pom_file] = cyclonedx_bom
-            if completed_process.stderr:
-                tool_warnings = ignore_groovy_errors(completed_process.stderr)
-                for tool_warning in tool_warnings:
-                    warnings_list.append(tool_warning)
+                write_json(self.config["REPORT_FILE"], cyclonedx_bom)
+                sboms[pom_file] = cyclonedx_bom
+                if completed_process.stderr:
+                    tool_warnings = ignore_groovy_errors(completed_process.stderr)
+                    for tool_warning in tool_warnings:
+                        warnings_list.append(tool_warning)
+            except Exception as err:
+                warnings_list.append(err)
 
         report = self.parse_report(sboms)
         # add all warnings

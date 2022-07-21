@@ -116,6 +116,11 @@ available levels: critical, high, medium, low, none, na""",
         return cls.TOOL_TYPE
 
     @classmethod
+    def tool_type(cls) -> str:
+        """Returns tool type"""
+        return cls.TOOL_TYPE
+
+    @classmethod
     def source_support(cls) -> str:
         """Returns the sources supported by tool"""
         return cls.SOURCE_SUPPORT
@@ -177,7 +182,9 @@ class ToolManager:
             plugin_tools = plugin.get_tools()
             self._add_tools(plugin_tools)
 
-    async def run_tool(self, tool_name: str, scan_type: str = None, run_type: str = None) -> ScanResult:
+    async def run_tool(
+        self, tool_name: str, scan_type: str = None, run_type: str = None, prefix: str = ""
+    ) -> ScanResult:
         """
         Runs a instance of a tool, populated with it's configuration
 
@@ -185,7 +192,7 @@ class ToolManager:
         """
         tic = time.perf_counter()
         [tool_name, run_type] = extract_embedded_run_type(tool_name, run_type)
-        tool_instance = self.get_tool(tool_name, scan_type, run_type)
+        tool_instance: ToolMeta = self.get_tool(tool_name, scan_type, run_type)
         tool_instance.prepare_folder()
         try:
             process = {"scan_result": None}
@@ -197,7 +204,7 @@ class ToolManager:
                     status_message(what + " (" + str(math.ceil(toc - tic)) + " secs)")
                     await asyncio.sleep(delay)
 
-            run_counter_task = asyncio.create_task(run_counter(f"running tool '{tool_name}'"))
+            run_counter_task = asyncio.create_task(run_counter(f"{prefix} running tool '{tool_name}'"))
 
             async def run_process():
                 try:
@@ -300,7 +307,7 @@ Looks like {tool_name} is not installed
 
         tool_config = self._get_tool_config(tool_name, scan_type, run_type)
         tool_class = self.get_tool_class(tool_name)
-        tool_instance = tool_class(tool_config)
+        tool_instance: ToolMeta = tool_class(tool_config)
         return tool_instance
 
     def print_tools_list(

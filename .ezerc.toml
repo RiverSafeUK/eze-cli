@@ -109,3 +109,27 @@ reporters = ["console","bom","json","sarif","markdown", "html"]
 
 [scan.ci]
 reporters = ["console", "bom", "json", "sarif", "markdown", "eze", "html"]
+
+[s3.test]
+BUCKET_NAME = "dummy-bucket"
+            OBJECT_KEY = "dummy-file.json"
+
+[s3.test]
+BUCKET_NAME = "None"
+            OBJECT_KEY = "None.json"
+
+[s3.test]
+BUCKET_NAME = "dummy-bucket"
+            OBJECT_KEY = "dummy-file.json"
+
+[s3.test]
+BUCKET_NAME = "None"
+            OBJECT_KEY = "None.json"
+
+[s3.test]
+BUCKET_NAME = "dummy-bucket"
+            OBJECT_KEY = "dummy-file.json"
+
+[s3.test]
+BUCKET_NAME = "None"
+            OBJECT_KEY = "None.json"

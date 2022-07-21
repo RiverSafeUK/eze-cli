@@ -88,6 +88,29 @@ line3""",
     assert output == expected_output
 
 
+def test_generate_markdown_list__std_multiline_with_empty_case():
+    # Given
+    test_input = [
+        "hello ",
+        """ line1
+
+    line2
+    
+
+line3""",
+        " world ",
+    ]
+    expected_output = """* hello
+* line1
+  line2
+  line3
+* world"""
+    # When
+    output = generate_markdown_list(test_input)
+    # Then
+    assert output == expected_output
+
+
 def test_pretty_print_table__empty():
     # Given
     mocked_print_output = mock_print()

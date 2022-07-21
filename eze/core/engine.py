@@ -69,8 +69,10 @@ class EzeCore:
         """starting scanning for vulnerabilities"""
         results = []
         tool_manager = ToolManager.get_instance()
+        counter: int = 0
         for tool_name in tools:
-            scan_result = await tool_manager.run_tool(tool_name, scan_type)
+            counter += 1
+            scan_result = await tool_manager.run_tool(tool_name, scan_type, None, f"{counter}/{len(tools)}) ")
             results.append(scan_result)
 
         return results

@@ -122,12 +122,13 @@ RUN npm install -g @cyclonedx/bom@${CYCLONEDX_NODE_VERSION} --only=production \
     && npm prune --production
 
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep==${SEMGREP_VERSION} bandit==${BANDIT_VERSION} piprot==${PIPROT_VERSION} cyclonedx-bom==${CYCLONEDX_PYTHON_VERSION} \
+RUN pip3 install --no-cache-dir bandit==${BANDIT_VERSION} piprot==${PIPROT_VERSION} cyclonedx-bom==${CYCLONEDX_PYTHON_VERSION} \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
     && rm `which cyclonedx-bom` \
-    # BUGFIX: prep for moving to pipx
-    && pip3 install --no-cache-dir --ignore-installed  truffleHog3==${TRUFFLEHOG3_VERSION}
+    # BUGFIX: prep for moving to pipx or multi-docker
+    && pip3 install --no-cache-dir --ignore-installed truffleHog3==${TRUFFLEHOG3_VERSION} \
+    && pip3 install --no-cache-dir --ignore-installed semgrep==${SEMGREP_VERSION}
 
 
 # Install Anchore tools (grype / syft)

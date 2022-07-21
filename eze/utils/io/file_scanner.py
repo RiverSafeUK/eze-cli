@@ -200,6 +200,9 @@ def get_folder_list() -> list:
     return __c.discovered_folders
 
 
+DEBUG_PRINT_FREQUENCY: int = 100
+
+
 def cache_workspace_into_tmp() -> Path:
     """get list of folders aka backend\\function\\ezemcdbcrud\\src\\"""
     workspace_folder = create_tempfile_folder("cached-workspace")
@@ -209,9 +212,13 @@ def cache_workspace_into_tmp() -> Path:
     log_debug(f"clear '{workspace_folder}'")
     shutil.rmtree(workspace_folder)
     files = get_file_list()
+    counter: int = 0
     for file in files:
         dest_file = os.path.join(workspace_folder, file)
-        log_debug(f"copying to '{dest_file}'")
+
+        counter += 1
+        if len(files) > 1 and counter % DEBUG_PRINT_FREQUENCY == 1:
+            log_debug(f"copying to '{dest_file}' ({counter}/{len(files)})")
         os.makedirs(Path(dest_file).parent, exist_ok=True)
         copy_file(file, dest_file)
     __c.cached_workspace = True
