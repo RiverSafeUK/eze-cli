@@ -10,7 +10,5 @@ Options:
   -u, --url TEXT          Specify the url of the remote repository to run scan.
                           ex https://user:pass@github.com/repo-url  [required]
   -b, --branch TEXT       Specify the branch name to run scan against, aka
-                          'main'
-  -s, --s3-bucket TEXT    Specify the s3 bucket where to upload the file
-  -f, --s3-file TEXT      Specify the filename
+                          'main'  [required]
   --help                  Show this message and exit.

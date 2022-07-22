@@ -108,7 +108,7 @@ PRINT_SUMMARY_ONLY = false
 # SCAN CONFIG
 # ========================================
 [scan]
-tools = ["trufflehog","semgrep","python-safety","python-piprot","python-cyclonedx","python-bandit","kics"]
+tools = ["trufflehog","semgrep","python-piprot","python-cyclonedx","python-bandit","kics"]
 reporters = ["console","bom","json","sarif","markdown", "html"]
 
 [scan.ci]
