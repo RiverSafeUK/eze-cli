@@ -42,7 +42,14 @@ ENV \
     # kics env, add kics / dotnet-CycloneDx into PATH
     PATH="${PATH}:/app/bin" \
     # TOOL VERSIONS
-    TRUFFLEHOG3_VERSION="3.0.4"
+    TRUFFLEHOG3_VERSION="3.0.5" \
+    BANDIT_VERSION="1.7.4" \
+    SEMGREP_VERSION="0.100.0" \
+    PIPROT_VERSION="0.9.11" \
+    TRIVY_VERSION="0.18.2" \
+    CYCLONEDX_TOOLS_VERSION="0.22.0" \
+    CYCLONEDX_PYTHON_VERSION="3.0.0" \
+    CYCLONEDX_NODE_VERSION="3.4.1"
 
 RUN set -o pipefail \
     # Update apt-get packages
@@ -72,10 +79,12 @@ RUN npm install -g @cyclonedx/bom --only=production
 
 #
 # install pip tools
-RUN pip3 install --no-cache-dir semgrep truffleHog3==${TRUFFLEHOG3_VERSION} bandit piprot safety cyclonedx-bom \
+RUN pip3 install --no-cache-dir semgrep==${SEMGREP_VERSION} bandit==${BANDIT_VERSION} piprot==${PIPROT_VERSION} cyclonedx-bom==${CYCLONEDX_PYTHON_VERSION} \
     # BUGFIX: AB-887: WORKAROUND: cyclonedx-bom exe used by python/cyclonedx-bom and node/cyclonedx-bom
     # deleting python/cyclonedx-bom as we use it's cyclonedx-py exe
-    && rm `which cyclonedx-bom`
+    && rm `which cyclonedx-bom` \
+    # BUGFIX: prep for moving to pipx
+    && pip3 install --no-cache-dir --ignore-installed  truffleHog3==${TRUFFLEHOG3_VERSION}
 
 #
 # install dotnet/C# tools
