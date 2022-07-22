@@ -240,7 +240,7 @@ stored: TMP/.eze/cached-workspace""",
             gitignore_paths = get_gitignore_paths()
             gitignore_paths = [re.sub("\\*", "[^/]+", line) for line in gitignore_paths]
             gitignore_paths = [re.sub("\\*\\*", ".*", line) for line in gitignore_paths]
-            gitignore_paths = [re.sub("$", "\\$", line) for line in gitignore_paths]
+            gitignore_paths = [re.sub("\\$", "\\$", line) for line in gitignore_paths]
             # TODO: handle '!' pattern, is to include?
             exclude.extend(gitignore_paths)
 

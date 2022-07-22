@@ -14,7 +14,7 @@ class TestTruffleHogv3Tool(ToolMetaTestBase):
 
     @mock.patch(
         "eze.plugins.tools.trufflehog_v3.get_gitignore_paths",
-        mock.MagicMock(return_value=["file-to-ignore1", "file-to-ignore2"]),
+        mock.MagicMock(return_value=["file-to-ignore1", "file-to-ignore2", "file-to-ignore-with-regex$"]),
     )
     def test_creation__no_config(self):
         # Given
@@ -51,8 +51,9 @@ class TestTruffleHogv3Tool(ToolMetaTestBase):
                 "venv",
                 "dist",
                 "sdist",
-                "file-to-ignore1\\$",
-                "file-to-ignore2\\$",
+                "file-to-ignore1",
+                "file-to-ignore2",
+                "file-to-ignore-with-regex\\$",
             ],
             "ADDITIONAL_ARGUMENTS": "",
             "IGNORED_FILES": None,
