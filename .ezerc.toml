@@ -1,4 +1,3 @@
-
 # auto generated .ezerc.toml
 # recreate with "docker run -t --rm -v DIRECTORY:/data riversafe/eze-cli housekeeping create-local-config'"
 
@@ -45,6 +44,11 @@ DISABLE_DEFAULT_IGNORES = false
 PRINT_TIMING_INFO = false
 EXCLUDE = []
 REPORT_FILE = ".eze/raw/_semgrep-report.json"
+
+[python-safety]
+# Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-safety"
+REPORT_FILE = ".eze/raw/_python-safety-report.json"
+IGNORE_BELOW_SEVERITY = "medium"
 
 [python-piprot]
 # Full List of Fields and Tool Help available "docker run riversafe/eze-cli tools help python-piprot"
@@ -104,7 +108,7 @@ PRINT_SUMMARY_ONLY = false
 # SCAN CONFIG
 # ========================================
 [scan]
-tools = ["trufflehog","semgrep","python-piprot","python-cyclonedx","python-bandit","kics"]
+tools = ["trufflehog","semgrep","python-safety","python-piprot","python-cyclonedx","python-bandit","kics"]
 reporters = ["console","bom","json","sarif","markdown", "html"]
 
 [scan.ci]
