@@ -162,7 +162,7 @@ COPY --from=kics_docker_image /app/bin/kics /app/bin/kics
 COPY --from=kics_docker_image /app/bin/assets/queries /app/bin/assets/queries
 COPY --from=kics_docker_image /app/bin/assets/libraries/* /app/bin/assets/libraries/
 
-# Add trufflehog binaries from official image
+# Add trufflehog-v3 binaries from official image
 COPY --from=trufflehog_docker_image /usr/bin/trufflehog /app/bin/trufflehog 
 RUN  chown -R ezeuser:ezeuser /app/bin/trufflehog  && chmod 755 /app/bin/trufflehog
 
