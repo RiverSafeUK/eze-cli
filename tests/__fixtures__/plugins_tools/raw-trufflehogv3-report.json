@@ -1,0 +1,47 @@
+[
+    {
+        "SourceMetadata": {
+            "Data": {
+                "Git": {
+                    "commit": "unstaged",
+                    "file": "keys.py",
+                    "email": "unstaged",
+                    "timestamp": "2022-04-30 10:20:45.997263 +0000 UTC m=+1.142231901",
+                    "line": 2
+                }
+            }
+        },
+        "SourceID": 0,
+        "SourceType": 16,
+        "SourceName": "trufflehog - git",
+        "DetectorType": 17,
+        "Verified": true,
+        "Raw": "aHR0cHM6Ly9hZG1pbjphZG1pbkB0aGUtaW50ZXJuZXQuaGVyb2t1YXBwLmNvbS9iYXNpY19hdXRo",
+        "Redacted": "https://*****:*****@the-internet.herokuapp.com/basic_auth",
+        "ExtraData": null,
+        "StructuredData": null
+    },
+    {
+        "SourceMetadata": {
+            "Data": {
+                "Git": {
+                    "commit": "unstaged",
+                    "file": "insecure/src/super-insecure-lib.py",
+                    "email": "unstaged",
+                    "timestamp": "2022-07-15 23:30:49.243049 +0000 UTC m=+1.530618301",
+                    "line": 5
+                }
+            }
+        },
+        "SourceID": 0,
+        "SourceType": 16,
+        "SourceName": "trufflehog - git",
+        "DetectorType": 17,
+        "DetectorName": "URI",
+        "Verified": false,
+        "Raw": "aHR0cHM6Ly9hZG1pbjpnb2RAaGFja2Vycy5jb20=",
+        "Redacted": "https://admin:***@hackers.com",
+        "ExtraData": null,
+        "StructuredData": null
+    }
+]

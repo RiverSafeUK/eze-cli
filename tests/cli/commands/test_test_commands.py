@@ -1,10 +1,8 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
 import os
-
 import pytest
 from unittest import mock
 from click.testing import CliRunner
-
 from eze.cli.commands.test_commands import (
     test_remote_command as remote_test_command,
     test_online_command as online_test_command,
@@ -65,48 +63,11 @@ class TestTestCommands:
     @mock.patch("eze.cli.commands.test_commands.EzeCore.run_scan", mock.AsyncMock(side_effect=run_fake_scan))
     @mock.patch("eze.cli.commands.test_commands.EzeCore.auto_build_ezerc", mock.AsyncMock(return_value=None))
     @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
-    def test_tool_run__with_no_rebuild_remote_test(self, snapshot):
+    def test_tool_run__with_no_rebuild(self, snapshot):
         # Given
         # When
         runner = CliRunner()
-        result = runner.invoke(
-            remote_test_command,
-            [
-                "--url",
-                "https://google.com",
-                "--branch",
-                "main",
-                "--s3-bucket",
-                "dummy-bucket",
-                "--s3-file",
-                "dummy-file",
-            ],
-        )
-        # Then
-        assert result.exception is None
-        snapshot.snapshot_dir = get_snapshot_directory()
-        snapshot.assert_match(result.output, "cli_test_commands/test_run_tool.txt")
-        assert result.exit_code == 0
-
-    @pytest.mark.asyncio
-    @mock.patch("eze.cli.commands.test_commands.os.path.join", mock.MagicMock(return_value=os.getcwd()))
-    @mock.patch("eze.cli.commands.test_commands.git.Repo.clone_from", mock.MagicMock(return_value=None))
-    @mock.patch("eze.cli.commands.test_commands.EzeCore.run_scan", mock.AsyncMock(side_effect=run_fake_scan))
-    @mock.patch("eze.cli.commands.test_commands.EzeCore.auto_build_ezerc", mock.AsyncMock(return_value=None))
-    @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
-    def test_tool_run__with_no_rebuild_remote_test_no_bucket(self, snapshot):
-        # Given
-        # When
-        runner = CliRunner()
-        result = runner.invoke(
-            remote_test_command,
-            [
-                "--url",
-                "https://google.com",
-                "--branch",
-                "main",
-            ],
-        )
+        result = runner.invoke(remote_test_command, ["--url", "https://google.com", "--branch", "main"])
         # Then
         assert result.exception is None
         snapshot.snapshot_dir = get_snapshot_directory()
