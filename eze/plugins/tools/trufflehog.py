@@ -99,6 +99,7 @@ see https://github.com/feeltheajf/truffleHog3/blob/master/examples/trufflehog.ya
             "default": os.path.normpath(
                 os.path.dirname(os.path.abspath(__file__)) + "/../../data/trufflehog_rules.yml"
             ),
+            "default_help_value": "<eze-install>/data/trufflehog_rules.yml",
             "help_text": """Rules yaml file with patterns to identify insecure code, by default we have a custom rule file.
 see https://github.com/feeltheajf/trufflehog3/blob/b7b4e4177002ea6db198ab63073d0bf044169108/trufflehog3/static/rules.yml""",
         },

@@ -87,6 +87,7 @@ ENV \
     TRIVY_VERSION="0.18.2" \
     CYCLONEDX_TOOLS_VERSION="0.22.0" \
     CYCLONEDX_PYTHON_VERSION="3.0.0" \
+    CYCLONEDX_DOTNET_VERSION="2.3.0" \
     CYCLONEDX_NODE_VERSION="3.4.1"
 
 # Setup Common Cache
@@ -161,7 +162,7 @@ COPY --from=trufflehog_docker_image /usr/bin/trufflehog /app/bin/trufflehog
 RUN  chown -R ezeuser:ezeuser /app/bin/trufflehog  && chmod 755 /app/bin/trufflehog
 
 # install dotnet/C# tools
-RUN dotnet tool install --tool-path /app/bin CycloneDX --version 2.3.0 \
+RUN dotnet tool install --tool-path /app/bin CycloneDX --version ${CYCLONEDX_DOTNET_VERSION} \
     && chmod 755 /app/bin/dotnet-CycloneDX \
     && chmod -R 755 /app/bin/.store/cyclonedx/
 
