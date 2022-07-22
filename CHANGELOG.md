@@ -1,5 +1,10 @@
 # Eze Changelog
 
+## 0.16.2 - June 2022
+Improvements:
+- ab-1070: removing python safety and java dependency check, as functionality now provided by eze + OSV lookups
+- ab-1073: updating dependencies
+
 ## 0.16.1 - 3rd March 2022
 Improvements:
 - ab-misc: better handling for corrupted cyclonedx json
