@@ -238,6 +238,10 @@ stored: TMP/.eze/cached-workspace""",
         # add git ignore onto excludes
         if parsed_config["USE_GIT_IGNORE"]:
             gitignore_paths = get_gitignore_paths()
+            gitignore_paths = [re.sub("\\*", "[^/]+", line) for line in gitignore_paths]
+            gitignore_paths = [re.sub("\\*\\*", ".*", line) for line in gitignore_paths]
+            gitignore_paths = [re.sub("$", "\\$", line) for line in gitignore_paths]
+            # TODO: handle '!' pattern, is to include?
             exclude.extend(gitignore_paths)
 
         exclude = list(set(exclude))
