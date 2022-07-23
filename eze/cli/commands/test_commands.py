@@ -99,12 +99,11 @@ def run_eze_scan_on_git_remote_repo(
     state.config = EzeConfig.refresh_ezerc_config()
     EzeCore.auto_build_ezerc()
 
-    if s3_bucket == "":
+    if s3_bucket is None:
         eze_core = EzeCore.get_instance()
         asyncio.run(eze_core.run_scan(scan_type, ["console", "eze"]))
 
     else:
-
         config_file = EzeConfig.get_local_config_filename()
         with open(config_file, "a", encoding="utf-8") as toml:
             toml.write(
@@ -112,7 +111,7 @@ def run_eze_scan_on_git_remote_repo(
                     f"""
     [s3.test]
     BUCKET_NAME = "{s3_bucket}"
-                OBJECT_KEY = "{s3_file}.json"
+    OBJECT_KEY = "{s3_file}.json"
              """
                 )
             )
