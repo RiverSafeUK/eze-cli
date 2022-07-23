@@ -4,8 +4,8 @@ import pytest
 from unittest import mock
 from click.testing import CliRunner
 from eze.cli.commands.test_commands import (
-    test_remote_command as remote_test_command,
-    test_online_command as online_test_command,
+    run_eze_scan_on_git_remote_repo,
+    call_remote_scan_endpoint,
     test_command as normal_test_command,
 )
 from tests.__fixtures__.fixture_helper import get_snapshot_directory
@@ -30,26 +30,26 @@ class TestTestCommands:
         snapshot.assert_match(result.output, "cli_test_commands/normal_base_help.txt")
 
     @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
-    def test__test_online_help(self, snapshot):
+    def test__call_remote_scan_endpoint_help(self, snapshot):
         """Test that the help message appears ok with explicit --help flag"""
         runner = CliRunner()
-        result = runner.invoke(online_test_command, ["--help"])
+        result = runner.invoke(call_remote_scan_endpoint, ["--help"])
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/online_base_help.txt")
 
     @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
-    def test__test_remote_help(self, snapshot):
+    def test__run_eze_scan_on_git_remote_repo_help(self, snapshot):
         """Test that the help message appears ok with explicit --help flag"""
         runner = CliRunner()
-        result = runner.invoke(remote_test_command, ["--help"])
+        result = runner.invoke(run_eze_scan_on_git_remote_repo, ["--help"])
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/remote_base_help.txt")
 
     @mock.patch("eze.cli.commands.test_commands.EzeConfig.refresh_ezerc_config", mock.MagicMock(return_value=None))
-    def test__test_remote_base(self, snapshot):
+    def test__run_eze_scan_on_git_remote_repo_base(self, snapshot):
         """Test that the help message appears ok"""
         runner = CliRunner()
-        result = runner.invoke(remote_test_command, [])
+        result = runner.invoke(run_eze_scan_on_git_remote_repo, [])
         assert result.exit_code == 2
         snapshot.snapshot_dir = get_snapshot_directory()
         snapshot.assert_match(result.output, "cli_test_commands/remote.txt")
@@ -67,7 +67,7 @@ class TestTestCommands:
         # Given
         # When
         runner = CliRunner()
-        result = runner.invoke(remote_test_command, ["--url", "https://google.com", "--branch", "main"])
+        result = runner.invoke(run_eze_scan_on_git_remote_repo, ["--url", "https://google.com", "--branch", "main"])
         # Then
         assert result.exception is None
         snapshot.snapshot_dir = get_snapshot_directory()

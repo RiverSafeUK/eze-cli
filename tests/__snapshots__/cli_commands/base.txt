@@ -11,6 +11,6 @@ Commands:
   projects      List code projects found in the directory
   reporters     container for reporter commands
   test          Eze run scan
-  test-online   Eze run scan remotely on a server
-  test-remote   Eze run scan against git repo, and report back to...
+  test-online   Makes a call to the api to run eze scan remotely on a server
+  test-remote   Pull a remote repository from git and run eze scan, report...
   tools         container for tool commands
