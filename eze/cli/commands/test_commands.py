@@ -93,7 +93,7 @@ def run_eze_scan_on_git_remote_repo(
         # TODO: migrate all git helper functions into eze.utils.git
         repo = git.Repo.clone_from(url, temp_dir, branch=branch)
     except git.exc.GitCommandError as error:
-        raise click.ClickException("""on cloning process, remote branch not found""")
+        raise click.ClickException(f"""on cloning remote branch '{branch}' process, {error.stderr}""")
     os.chdir(temp_dir)
     # rescan for new .ezerc.toml inside downloaded repo
     state.config = EzeConfig.refresh_ezerc_config()
