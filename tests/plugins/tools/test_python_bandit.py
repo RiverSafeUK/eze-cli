@@ -1,13 +1,10 @@
 # pylint: disable=missing-module-docstring,missing-class-docstring,missing-function-docstring,line-too-long
-import os
-from pathlib import Path
 from unittest import mock
 
 import pytest
 
 from eze.plugins.tools.python_bandit import BanditTool
 from eze.utils.io.file import create_tempfile_path
-from eze.utils.error import EzeConfigError
 from tests.plugins.tools.tool_helper import ToolMetaTestBase
 
 
@@ -79,12 +76,16 @@ class TestBanditTool(ToolMetaTestBase):
     @mock.patch("eze.utils.cli.run.async_subprocess_run")
     @mock.patch("eze.utils.cli.run.is_windows_os", mock.MagicMock(return_value=True))
     @mock.patch("eze.plugins.tools.python_bandit.cache_workspace_into_tmp", mock.MagicMock(return_value=None))
+    @mock.patch(
+        "eze.plugins.tools.python_bandit.create_absolute_path",
+        mock.MagicMock(return_value="foo_report.json"),
+    )
     @pytest.mark.asyncio
     async def test_run_scan__cli_command__std(self, mock_async_subprocess_run):
         # Given
         input_config = {
             "SOURCE": "src",
-            "REPORT_FILE": "foo_report.json",
+            "REPORT_FILE": create_tempfile_path("foo_report.json"),
             "USE_SOURCE_COPY": False,
         }
         expected_cmd = "bandit -f json -o foo_report.json -r src"

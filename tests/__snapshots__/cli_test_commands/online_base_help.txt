@@ -1,6 +1,6 @@
 Usage: test-online [OPTIONS]
 
-  Eze run scan remotely on a server
+  Makes a call to the api to run eze scan remotely on a server
 
 Options:
   --debug / --no-debug    Enables or disables debug mode

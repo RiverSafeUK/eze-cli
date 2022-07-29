@@ -58,7 +58,7 @@ cli-install:
 cli: cli-build cli-install
 
 # build and install eze package and docker image
-docker: cli-build cli-install
+docker: cli-build
 	docker build --tag eze-cli .
 
 # clean up docker images, remove all unused images

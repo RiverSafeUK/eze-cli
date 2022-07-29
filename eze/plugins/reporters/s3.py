@@ -5,6 +5,7 @@ from datetime import datetime
 
 import boto3
 from botocore.exceptions import ClientError
+from botocore.client import Config
 from pydash import py_
 
 from eze.core.reporter import ReporterMeta
@@ -58,8 +59,15 @@ https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html
     def upload_object(self, value: any):
         """Method for uploading json files into s3 bucket"""
         pretty_json = pretty_print_json(value)
-
-        client = boto3.client("s3")
+        region_name = os.environ.get("AWS_REGION", "eu-west-1")
+        client = boto3.client(
+            "s3",
+            region_name=region_name,
+            aws_access_key_id=os.environ.get("AWS_ACCESS_KEY"),
+            aws_secret_access_key=os.environ.get("AWS_SECRET_KEY"),
+            config=Config(signature_version="s3v4"),
+            endpoint_url=f"https://s3.{region_name}.amazonaws.com",
+        )
         bucket = self.config["BUCKET_NAME"]
         key = self.config["OBJECT_KEY"]
         try:

@@ -114,10 +114,10 @@ stored: TMP/.eze/cached-workspace""",
         # make REPORT_FILE absolute in-case cwd changes
         scan_config["REPORT_FILE"] = create_absolute_path(scan_config["REPORT_FILE"])
         cwd = cache_workspace_into_tmp() if scan_config["USE_SOURCE_COPY"] else None
-        command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], self.config)
+        command_str = build_cli_command(self.TOOL_CLI_CONFIG["CMD_CONFIG"], scan_config)
         await run_async_cmd(command_str, cwd=cwd)
 
-        parsed_json = load_json(self.config["REPORT_FILE"])
+        parsed_json = load_json(scan_config["REPORT_FILE"])
         report = self.parse_report(parsed_json)
         return report
 
